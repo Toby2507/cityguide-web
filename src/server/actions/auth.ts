@@ -35,8 +35,3 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
   }
   redirect(paths.home());
 };
-
-export const getUser = async () => {
-  const user = cookies().get('city-guide-user');
-  return user;
-};

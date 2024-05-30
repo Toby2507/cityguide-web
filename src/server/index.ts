@@ -1,3 +1,3 @@
 // Queries
-export * from './queries/social-auth';
-export * from './actions/auth';
+export { logout, getUser } from './queries/auth';
+export { loginUser } from './actions/auth';

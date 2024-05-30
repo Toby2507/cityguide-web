@@ -1,4 +1,4 @@
-import { signInWithGoogle } from '@/server';
+// import { signInWithGoogle } from '@/server';
 import { paths } from '@/utils';
 import { Button } from '@nextui-org/react';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ const SocialAuth = () => {
       <div className="flex items-center gap-4">
         {/* <Link href={`${process.env.NEXT_PUBLIC_SERVER_URL}/user/login/google`}> */}
         <Button
-          onClick={signInWithGoogle}
+          // onClick={signInWithGoogle}
           className="w-12 h-12 bg-white shadow-lg"
           radius="full"
           isIconOnly
