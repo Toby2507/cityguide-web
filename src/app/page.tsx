@@ -1,16 +1,33 @@
-import { Header, StaySearchBar, TopOffers, TrendingDestinations } from '@/containers';
+import {
+  Destinations,
+  DiscoverHome,
+  Footer,
+  Header,
+  StayCategories,
+  StaySearchBar,
+  SubscribeBox,
+  TopOffers,
+  TrendingDestinations,
+} from '@/containers';
 
 const HomePage = () => {
   return (
     <>
       <Header />
-      <main className="container mx-auto px-10 flex flex-col gap-14 pb-10 max-w-7xl">
-        <div className="relative flex items-center gap-2 bg-accentLightBlue px-3 py-2 rounded-xl -mt-8 mx-auto w-full">
+      <main className="flex flex-col gap-36">
+        <div className="container mx-auto px-10 flex flex-col gap-20 max-w-7xl">
           <StaySearchBar />
+          <TopOffers />
+          <TrendingDestinations />
         </div>
-        <TopOffers />
-        <TrendingDestinations />
+        <DiscoverHome />
+        <div className="container mx-auto px-10 flex flex-col gap-20 max-w-7xl">
+          <StayCategories />
+          <Destinations />
+        </div>
+        <SubscribeBox />
       </main>
+      <Footer />
     </>
   );
 };
