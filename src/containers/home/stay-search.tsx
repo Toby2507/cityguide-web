@@ -13,12 +13,12 @@ import { MdOutlineLocationSearching } from 'react-icons/md';
 
 const StaySearchBar = () => {
   return (
-    <>
+    <div className="relative flex items-center gap-2 bg-accentLightBlue px-3 py-2 rounded-xl shadow-xl -mt-8 mx-auto w-full">
       <Input
         className="flex-1 h-full"
-        placeholder="Set destination"
+        label="Set destination"
         startContent={<MdOutlineLocationSearching />}
-        size="lg"
+        size="md"
         radius="sm"
       />
       <DateRangePicker className="flex-1" label="Set check in/check out date" radius="sm" visibleMonths={2} />
@@ -40,7 +40,7 @@ const StaySearchBar = () => {
       <Button size="lg" color="primary" radius="sm">
         Search
       </Button>
-    </>
+    </div>
   );
 };
 
