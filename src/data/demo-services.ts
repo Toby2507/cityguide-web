@@ -1,4 +1,4 @@
-import { IOffers } from '@/utils/interfaces';
+import { IOffers } from '@/types';
 import offer1 from '@images/offer1.png';
 import offer2 from '@images/offer2.png';
 import service1 from '@images/demoservice1.png';
