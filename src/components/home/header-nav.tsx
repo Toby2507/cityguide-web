@@ -1,9 +1,15 @@
+import { getUser } from '@/server';
+import { IUserDetails } from '@/types';
 import { paths } from '@/utils';
-import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react';
+import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem, User } from '@nextui-org/react';
 import Link from 'next/link';
 import { MdOutlineContactSupport } from 'react-icons/md';
 
-const HeaderNav = () => {
+const HeaderNav = async () => {
+  let cookie = await getUser();
+  let user: IUserDetails | null = null;
+  if (cookie) user = JSON.parse(cookie.value);
+  console.log(user);
   return (
     <Navbar position="static" className="bg-primary" maxWidth="full">
       <NavbarBrand>
@@ -28,22 +34,26 @@ const HeaderNav = () => {
         </NavbarItem>
         <NavbarItem>
           <NavbarContent justify="end">
-            {/* {!!user ? (
-                <User name={'hello'} />
-              ) : (
-                <> */}
-            <Link href={paths.login()}>
-              <Button className="bg-white text-primary font-semibold" radius="sm" variant="solid">
-                Log in
-              </Button>
-            </Link>
-            <Link href={paths.register()}>
-              <Button className="bg-secondary text-primary font-semibold" radius="sm" variant="solid">
-                Register
-              </Button>
-            </Link>
-            {/* </>
-              )} */}
+            {!!user ? (
+              <User
+                name={user.fullName ?? 'Toby Salau'}
+                description={<Link href={paths.profile()}>View Profile</Link>}
+                avatarProps={{ src: user.imgUrl }}
+              />
+            ) : (
+              <>
+                <Link href={paths.login()}>
+                  <Button className="bg-white text-primary font-semibold" radius="sm" variant="solid">
+                    Log in
+                  </Button>
+                </Link>
+                <Link href={paths.register()}>
+                  <Button className="bg-secondary text-primary font-semibold" radius="sm" variant="solid">
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
           </NavbarContent>
         </NavbarItem>
       </NavbarContent>
