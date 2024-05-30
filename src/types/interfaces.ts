@@ -1,7 +1,5 @@
 import { StaticImageData } from 'next/image';
 
-export type Roles = 'admin' | 'user';
-
 // Forms
 export interface IFormLoginUser {
   errors: {

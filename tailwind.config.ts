@@ -2,12 +2,7 @@ import { nextui } from '@nextui-org/react';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}', './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       backgroundImage: {
@@ -15,12 +10,14 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        brandBlue: '#0075FF',
         accentBlue: '#89C0FF',
         accentLightBlue: '#AED4FF',
-        accentGold: '#FFC107',
+        bgLightBlue: '#C4DFFF',
+        brandBlue: '#0075FF',
         accentGray: '#898888',
         accentGray2: '#9A9A9A',
+        bgGray: '#F2F2F2',
+        accentGold: '#FFC107',
       },
       flexBasis: {
         'card-3': 'calc((100% / 3) - (40 / 3))px',
@@ -31,6 +28,14 @@ const config: Config = {
   plugins: [
     nextui({
       addCommonColors: true,
+      layout: {
+        fontSize: {
+          large: '3rem',
+        },
+        lineHeight: {
+          large: '3.5rem',
+        },
+      },
       themes: {
         light: {
           colors: {

@@ -2,7 +2,7 @@
 
 import { signIn } from '@/auth';
 import { fetchBaseQuery, loginUserSchema, paths } from '@/utils';
-import { IFormLoginUser } from '@interfaces';
+import { IFormLoginUser } from '@/types';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -10,13 +10,11 @@ export const signInWithGoogle = async () => signIn('google');
 export const signInWithFacebook = async () => signIn('facebook');
 
 export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<IFormLoginUser> => {
-  // Validate the form data
   const data = loginUserSchema.safeParse({
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   });
   if (!data.success) return { errors: data.error.flatten().fieldErrors };
-  // Try to login the user
   try {
     const res = await fetchBaseQuery('user/login', {
       method: 'POST',
@@ -35,6 +33,10 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
   }
-  // Redirect the user to the home page
   redirect(paths.home());
+};
+
+export const getUser = async () => {
+  const user = cookies().get('city-guide-user');
+  return user;
 };
