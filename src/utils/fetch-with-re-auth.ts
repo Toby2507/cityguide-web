@@ -7,7 +7,7 @@ import { paths } from '.';
 const baseQuery = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export const fetchBaseQuery = async (url: string, options: RequestInit = {}): Promise<Response> => {
-  const token = cookies().get('token');
+  const token = cookies().get('token')?.value;
   if (token) options.headers = { ...options.headers, Authorization: `Bearer ${token}` };
   options.headers = {
     ...options.headers,

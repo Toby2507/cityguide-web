@@ -20,6 +20,13 @@ export interface IFormCreateUser {
   };
 }
 
+export interface IFormVerifyOtp {
+  errors: {
+    otp?: string[];
+    _form?: string[];
+  };
+}
+
 // Stored Details
 export interface IUserDetails {
   id: string;

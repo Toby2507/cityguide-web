@@ -10,7 +10,14 @@ interface ISubmitForm {
 const SubmitForm = ({ children }: ISubmitForm) => {
   const { pending } = useFormStatus();
   return (
-    <Button className="text-sm font-semibold" color="primary" isLoading={pending} radius="full" size="lg" type="submit">
+    <Button
+      className="text-sm font-semibold w-full"
+      color="primary"
+      isLoading={pending}
+      radius="full"
+      size="lg"
+      type="submit"
+    >
       {children}
     </Button>
   );

@@ -10,9 +10,14 @@ import SocialAuth from './social-auth';
 
 const UserSignupForm = () => {
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
-  const [{ errors }, action] = useFormState(createUser, { errors: {} });
+  const [typingFields, setTypingFields] = useState<string[]>([]);
+  let [{ errors }, action] = useFormState(createUser, { errors: {} });
+  const setTyping = (val: string) => {
+    if (!typingFields.includes(val)) setTypingFields([...typingFields, val]);
+  };
+  const isTyping = (val: string) => typingFields.includes(val);
   return (
-    <form action={action}>
+    <form action={action} onSubmit={() => setTypingFields([])}>
       <div className="flex flex-col gap-4">
         <Input
           name="firstName"
@@ -20,7 +25,8 @@ const UserSignupForm = () => {
           labelPlacement="outside"
           placeholder=" "
           radius="full"
-          isInvalid={!!errors.firstName}
+          onValueChange={() => setTyping('first')}
+          isInvalid={!isTyping('first') && !!errors.firstName}
           errorMessage={errors.firstName}
           className="text-accentGray"
         />
@@ -30,7 +36,8 @@ const UserSignupForm = () => {
           labelPlacement="outside"
           placeholder=" "
           radius="full"
-          isInvalid={!!errors.lastName}
+          onValueChange={() => setTyping('last')}
+          isInvalid={!isTyping('last') && !!errors.lastName}
           errorMessage={errors.lastName}
           className="text-accentGray"
         />
@@ -41,7 +48,8 @@ const UserSignupForm = () => {
           placeholder=" "
           radius="full"
           type="email"
-          isInvalid={!!errors.email}
+          onValueChange={() => setTyping('email')}
+          isInvalid={!isTyping('email') && !!errors.email}
           errorMessage={errors.email}
           className="text-accentGray"
         />
@@ -52,7 +60,8 @@ const UserSignupForm = () => {
           placeholder=" "
           radius="full"
           type="tel"
-          isInvalid={!!errors.phoneNumber}
+          onValueChange={() => setTyping('phone')}
+          isInvalid={!isTyping('phone') && !!errors.phoneNumber}
           errorMessage={errors.phoneNumber}
           className="text-accentGray"
         />
@@ -72,7 +81,8 @@ const UserSignupForm = () => {
           type={isPassVisible ? 'text' : 'password'}
           placeholder=" "
           radius="full"
-          isInvalid={!!errors.password}
+          onValueChange={() => setTyping('password')}
+          isInvalid={!isTyping('password') && !!errors.password}
           errorMessage={errors.password}
           className="text-accentGray"
         />
@@ -81,7 +91,11 @@ const UserSignupForm = () => {
             Remember me
           </Checkbox>
         </div>
-        {errors?._form ? <p className="text-red-400 bg-red-200 py-2">{errors._form}</p> : null}
+        {errors?._form ? (
+          <p className="text-red-400 text-center bg-red-50 py-2 px-4 rounded-xl border border-red-400 text-xs">
+            {errors._form}
+          </p>
+        ) : null}
         <SubmitForm>Log In</SubmitForm>
       </div>
       <Spacer y={8} />

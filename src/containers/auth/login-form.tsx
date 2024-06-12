@@ -54,7 +54,11 @@ const LoginForm = () => {
             <p className="text-primary text-sm font-semibold">Forgot Password?</p>
           </Link>
         </div>
-        {errors?._form ? <p className="text-red-400 bg-red-200 py-2">{errors._form}</p> : null}
+        {errors?._form ? (
+          <p className="text-red-400 text-center bg-red-50 py-2 px-4 rounded-xl border border-red-400 text-xs">
+            {errors._form}
+          </p>
+        ) : null}
         <SubmitForm>Log In</SubmitForm>
       </div>
       <Spacer y={8} />
