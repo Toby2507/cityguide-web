@@ -9,6 +9,17 @@ export interface IFormLoginUser {
   };
 }
 
+export interface IFormCreateUser {
+  errors: {
+    firstName?: string[];
+    lastName?: string[];
+    phoneNumber?: string[];
+    email?: string[];
+    password?: string[];
+    _form?: string[];
+  };
+}
+
 // Stored Details
 export interface IUserDetails {
   id: string;
