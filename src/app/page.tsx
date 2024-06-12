@@ -2,7 +2,7 @@ import {
   Destinations,
   DiscoverHome,
   Footer,
-  Header,
+  HomeHeader,
   StayCategories,
   StaySearchBar,
   SubscribeBox,
@@ -13,7 +13,7 @@ import {
 const HomePage = () => {
   return (
     <>
-      <Header />
+      <HomeHeader />
       <main className="flex flex-col gap-36">
         <div className="container mx-auto px-10 flex flex-col gap-20 max-w-7xl">
           <StaySearchBar />
