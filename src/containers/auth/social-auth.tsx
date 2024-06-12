@@ -5,10 +5,14 @@ import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 import { MdFacebook } from 'react-icons/md';
 
-const SocialAuth = () => {
+interface ISocialAuth {
+  isSignUp?: boolean;
+}
+
+const SocialAuth = ({ isSignUp = false }: ISocialAuth) => {
   return (
     <div className="flex flex-col items-center gap-2">
-      <p className="text-accentGray text-xs font-medium">Or sign in with social account</p>
+      <p className="text-accentGray text-xs font-medium">Or sign {isSignUp ? 'up' : 'in'} with social account</p>
       <div className="flex items-center gap-4">
         {/* <Link href={`${process.env.NEXT_PUBLIC_SERVER_URL}/user/login/google`}> */}
         <Button

@@ -22,7 +22,6 @@ const LoginForm = () => {
           labelPlacement="outside"
           placeholder=" "
           radius="full"
-          size="lg"
           isInvalid={!!errors.email}
           errorMessage={errors.email}
           className="text-accentGray"
@@ -43,7 +42,6 @@ const LoginForm = () => {
           type={isVisible ? 'text' : 'password'}
           placeholder=" "
           radius="full"
-          size="lg"
           isInvalid={!!errors.password}
           errorMessage={errors.password}
           className="text-accentGray"
