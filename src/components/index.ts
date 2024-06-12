@@ -1,5 +1,6 @@
 // Common
 export { default as HeaderNav } from './common/header-nav';
+export { default as ServiceNav } from './common/service-nav';
 // Home
 export { default as Hero } from './home/hero';
 export { default as OfferCard } from './home/offer-card';
