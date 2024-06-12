@@ -1,3 +1,3 @@
 // Queries
 export { logout, getUser } from './queries/auth';
-export { loginUser } from './actions/auth';
+export { loginUser, createUser } from './actions/auth';
