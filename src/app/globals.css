@@ -5,3 +5,19 @@
 label {
   @apply !text-accentGray text-xs font-semibold;
 }
+
+.map_infocard__body {
+  align-items: center;
+  display: flex;
+  gap: 2;
+  padding: 4px;
+}
+
+.map_infocard__title {
+  font-size: 20px;
+  font-family: bold;
+}
+
+.map_infocard__content {
+  font-size: 14px;
+}

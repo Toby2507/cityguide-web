@@ -96,7 +96,7 @@ const UserSignupForm = () => {
             {errors._form}
           </p>
         ) : null}
-        <SubmitForm>Log In</SubmitForm>
+        <SubmitForm>Sign Up</SubmitForm>
       </div>
       <Spacer y={8} />
       <SocialAuth isSignUp />
