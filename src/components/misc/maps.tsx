@@ -3,7 +3,20 @@
 import { IAddress, LatLng } from '@/types';
 import { addressFormatter } from '@/utils';
 import { Library } from '@googlemaps/js-api-loader';
-import { Input } from '@nextui-org/react';
+import {
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  Textarea,
+} from '@nextui-org/react';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
 
@@ -16,13 +29,15 @@ const buildMapInfoCard = (title: string, body: string) => {
 };
 interface IMap {
   center: LatLng;
+  prevAddr: IAddress | null;
+  setAddr: (addr: IAddress) => void;
 }
 
-const Map = ({ center }: IMap) => {
+const Map = ({ center, prevAddr, setAddr }: IMap) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const placesRef = useRef<HTMLInputElement>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [address, setAddress] = useState<IAddress | null>(null);
+  const [address, setAddress] = useState<IAddress | null>(prevAddr);
   const [autoComplete, setAutoComplete] = useState<google.maps.places.Autocomplete | null>(null);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
@@ -61,16 +76,51 @@ const Map = ({ center }: IMap) => {
         const placeResult = autoComplete.getPlace();
         const formattedPlace = addressFormatter(placeResult);
         setAddress(formattedPlace);
+        setAddr(formattedPlace);
         if (placeResult.geometry?.location)
           setMarker(placeResult.geometry.location, placeResult.name!, placeResult.formatted_address!);
       });
       return () => acListen.remove();
     }
-  }, [autoComplete, map]);
+  }, [autoComplete, map, setAddr]);
   return (
-    <div className="h-80 w-screen">
-      <Input ref={placesRef} />
-      {isLoaded ? <div className="w-full h-full rounded-xl" ref={mapRef} /> : null}
+    <div ref={mapRef} className="flex flex-col gap-4 h-[50vh] w-full">
+      <Input
+        className="bg-white rounded-2xl shadow-2xl focus:outline-none"
+        variant="bordered"
+        ref={placesRef}
+        radius="lg"
+      />
+      {isLoaded ? <div className="w-full h-full rounded-xl border border-gray-200" ref={mapRef} /> : null}
+      <Textarea className="flex-1 h-full" label="Extra details" />
+      <div className="flex flex-wrap items-center gap-4 px-4 py-2 bg-[#f4f4f5] rounded-xl">
+        <div className="flex flex-col items-center">
+          <p className="text-sm text-black/60 font-medium">{address?.name ?? 'NA'}</p>
+          <h6 className="text-accentGray text-xs font-bold">Name</h6>
+        </div>
+        <div className="flex flex-col items-center">
+          <p className="text-sm text-black/60 font-medium">{address?.city ?? 'NA'}</p>
+          <h6 className="text-accentGray text-xs font-bold">City</h6>
+        </div>
+        <div className="flex flex-col items-center">
+          <p className="text-sm text-black/60 font-medium">{address?.state ?? 'NA'}</p>
+          <h6 className="text-accentGray text-xs font-bold">State</h6>
+        </div>
+        <div className="flex flex-col items-center">
+          <p className="text-sm text-black/60 font-medium">{address?.country ?? 'NA'}</p>
+          <h6 className="text-accentGray text-xs font-bold">Country</h6>
+        </div>
+        <div className="flex flex-col items-center">
+          <p className="text-sm text-black/60 font-medium">
+            {address?.geoLocation.lat ? `${address.geoLocation.lat}, ${address.geoLocation.lng}` : 'NA'}
+          </p>
+          <h6 className="text-accentGray text-xs font-bold">Geolocation</h6>
+        </div>
+        <div className="flex flex-col items-center">
+          <p className="text-sm text-black/60 font-medium">{address?.fullAddress ?? 'NA'}</p>
+          <h6 className="text-accentGray text-xs font-bold">Full Address</h6>
+        </div>
+      </div>
     </div>
   );
 };

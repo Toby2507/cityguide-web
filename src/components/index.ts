@@ -8,5 +8,5 @@ export { default as PlaceCard } from './home/place-card';
 export { default as SectionHeader } from './home/section-header';
 // Misc
 export { default as HeaderAuth } from './misc/header-auth';
-export { default as SubmitForm } from './misc/submit-form';
 export { default as Map } from './misc/maps';
+export { default as SubmitForm } from './misc/submit-form';
