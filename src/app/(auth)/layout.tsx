@@ -8,8 +8,8 @@ interface ILayout {
 
 const Layout = ({ children }: Readonly<ILayout>) => {
   return (
-    <div className="grid grid-cols-2 max-h-screen">
-      <div className="flex flex-col gap-14 p-20">
+    <div className="grid grid-cols-2 max-h-screen overflow-y-hidden">
+      <div className="flex flex-col gap-14 p-20 h-screen overflow-y-auto">
         <Link href="/">
           <h1 className="text-4xl font-bold text-primary cursor-pointer">CityGuideX</h1>
         </Link>

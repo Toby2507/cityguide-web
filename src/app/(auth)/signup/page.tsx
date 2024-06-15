@@ -10,7 +10,7 @@ const SignUpPage = () => {
   const [type, setType] = useState<string>('user');
   return (
     <div>
-      <h2 className="text-xl text-black font-bold pb-2">Log In to your account</h2>
+      <h2 className="text-xl text-black font-bold pb-2">Create an account</h2>
       <p className="text-sm text-accentGray font-medium pb-6">
         Already have an account?
         <Link className="text-primary font-bold hover:underline" href={paths.login()}>
