@@ -5,6 +5,7 @@ export interface IUserDetails {
   id: string;
   fullName: string;
   imgUrl: string;
+  type: 'establishment' | 'user';
 }
 
 // External Data

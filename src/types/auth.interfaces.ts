@@ -20,6 +20,7 @@ export interface IFormCreateUser {
 export interface IFormCreateEstablishment {
   errors: {
     name?: string[];
+    description?: string[];
     address?: string[];
     phoneNumber?: string[];
     email?: string[];
