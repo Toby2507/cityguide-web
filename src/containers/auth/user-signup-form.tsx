@@ -26,6 +26,7 @@ const UserSignupForm = () => {
           placeholder=" "
           radius="full"
           onValueChange={() => setTyping('first')}
+          isRequired
           isInvalid={!isTyping('first') && !!errors.firstName}
           errorMessage={errors.firstName}
           className="text-accentGray"
@@ -37,6 +38,7 @@ const UserSignupForm = () => {
           placeholder=" "
           radius="full"
           onValueChange={() => setTyping('last')}
+          isRequired
           isInvalid={!isTyping('last') && !!errors.lastName}
           errorMessage={errors.lastName}
           className="text-accentGray"
@@ -49,6 +51,7 @@ const UserSignupForm = () => {
           radius="full"
           type="email"
           onValueChange={() => setTyping('email')}
+          isRequired
           isInvalid={!isTyping('email') && !!errors.email}
           errorMessage={errors.email}
           className="text-accentGray"
@@ -82,6 +85,7 @@ const UserSignupForm = () => {
           placeholder=" "
           radius="full"
           onValueChange={() => setTyping('password')}
+          isRequired
           isInvalid={!isTyping('password') && !!errors.password}
           errorMessage={errors.password}
           className="text-accentGray"
