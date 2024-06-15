@@ -1,8 +1,16 @@
 'use server';
 
 import { signIn } from '@/auth';
-import { createUserSchema, fetchBaseQuery, fetchWithReAuth, loginUserSchema, paths, verifyOtpSchema } from '@/utils';
-import { IFormCreateUser, IFormLoginUser, IFormVerifyOtp } from '@/types';
+import { IAddress, IFormCreateEstablishment, IFormCreateUser, IFormLoginUser, IFormVerifyOtp } from '@/types';
+import {
+  createEstablishmentSchema,
+  createUserSchema,
+  fetchBaseQuery,
+  fetchWithReAuth,
+  loginUserSchema,
+  paths,
+  verifyOtpSchema,
+} from '@/utils';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -17,7 +25,6 @@ export const createUser = async (_: IFormCreateUser, formData: FormData): Promis
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   });
-  console.log(data);
   if (!data.success) return { errors: data.error.flatten().fieldErrors };
   try {
     const res = await fetchBaseQuery('user/signup', {
@@ -31,9 +38,46 @@ export const createUser = async (_: IFormCreateUser, formData: FormData): Promis
       fullName: `${response.user.firstName} ${response.user.lastName}`,
       imgUrl: response.user.imgUrl,
       id: response.user._id,
+      type: 'user',
     });
     cookies().set('token', response.accessToken);
     cookies().set('city-guide-user', JSON.stringify(user));
+  } catch (err: unknown) {
+    if (err instanceof Error) return { errors: { _form: [err.message] } };
+    else return { errors: { _form: ['Something went wrong...'] } };
+  }
+  redirect(paths.otp(data.data.email));
+};
+
+export const createEstablishment = async (
+  address: IAddress,
+  _: IFormCreateEstablishment,
+  formData: FormData
+): Promise<IFormCreateEstablishment> => {
+  const data = createEstablishmentSchema.safeParse({
+    name: formData.get('name') as string,
+    description: formData.get('description') as string,
+    address,
+    phoneNumber: formData.get('phoneNumber') as string,
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
+  });
+  if (!data.success) return { errors: data.error.flatten().fieldErrors };
+  try {
+    const res = await fetchBaseQuery('establishment/signup', {
+      method: 'POST',
+      body: JSON.stringify(data.data),
+    });
+    if (res.status === 409) return { errors: { _form: ['Email already exists'] } };
+    const response = await res.json();
+    const establishment = JSON.stringify({
+      fullName: response.establishment.name,
+      imgUrl: response.establishment.imgUrl,
+      id: response.establishment._id,
+      type: 'establishment',
+    });
+    cookies().set('token', response.accessToken);
+    cookies().set('city-guide-user', JSON.stringify(establishment));
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
