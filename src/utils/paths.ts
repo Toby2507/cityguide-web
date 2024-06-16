@@ -7,7 +7,7 @@ const path = {
   profile: () => '#',
   userLicense: () => '#',
   offers: (id: string) => '#',
-  details: (id: string) => '#',
+  stayDetail: (id: string) => `/stay/${id}`,
 };
 
 export default path;

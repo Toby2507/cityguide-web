@@ -10,3 +10,9 @@ export enum Stays {
   Resort = 'resort',
   Bnb = 'bnb',
 }
+
+export enum Parking {
+  FREE = 'Free',
+  PAID = 'Paid',
+  NO = 'No',
+}

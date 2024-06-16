@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 label {
   @apply !text-accentGray text-xs font-semibold;
 }

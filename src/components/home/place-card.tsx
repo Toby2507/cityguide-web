@@ -22,7 +22,7 @@ const PlaceCard = ({ id, name, description, imgUrl }: IOffers) => {
           <h3 className="text-xl font-bold">{name}</h3>
           <p className="text-xs font-normal">{description}</p>
         </div>
-        <Link href={paths.details(id)}>
+        <Link href={paths.stayDetail(id)}>
           <p className="text-xs text-primary font-semibold hover:underline">See more {' >'}</p>
         </Link>
       </CardFooter>

@@ -4,6 +4,12 @@ export { default as LoginForm } from './auth/login-form';
 export { default as OtpForm } from './auth/otp-fom';
 export { default as SocialAuth } from './auth/social-auth';
 export { default as UserSignupForm } from './auth/user-signup-form';
+// Common
+export { default as Header } from './common/header';
+// Detail
+export { default as StayDetailAmenities } from './detail/stay-detail-amenities';
+export { default as StayDetailAvailability } from './detail/stay-detail-availability';
+export { default as StayDetailOverview } from './detail/stay-detail-overview';
 // Home
 export { default as Destinations } from './home/destinations';
 export { default as DiscoverHome } from './home/discover-home';

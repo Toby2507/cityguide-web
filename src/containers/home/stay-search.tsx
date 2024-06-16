@@ -13,7 +13,7 @@ import { MdOutlineLocationSearching } from 'react-icons/md';
 
 const StaySearchBar = () => {
   return (
-    <div className="relative flex items-center gap-2 bg-accentLightBlue px-3 py-2 rounded-xl shadow-xl -mt-8 mx-auto w-full">
+    <div className="relative flex items-center gap-2 bg-accentLightBlue px-3 py-2 rounded-xl shadow-xl -mt-9 mx-auto w-full">
       <Input
         className="flex-1 h-full"
         label="Set destination"
