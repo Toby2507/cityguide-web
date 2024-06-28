@@ -16,3 +16,9 @@ export enum Parking {
   PAID = 'Paid',
   NO = 'No',
 }
+
+export enum PropertyType {
+  STAY = 'Stay',
+  RESTAURANT = 'Restaurant',
+  NIGHTLIFE = 'NightLife',
+}
