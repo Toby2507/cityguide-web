@@ -1,10 +1,23 @@
 'use client';
 
+import { StayDetailTableCell } from '@/components';
 import { IAccommodation, Parking } from '@/types';
-import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, User } from '@nextui-org/react';
-import Link from 'next/link';
-import { useCallback } from 'react';
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from '@nextui-org/react';
+import { useCallback, useMemo, useState } from 'react';
 import { FaUserAlt } from 'react-icons/fa';
+import { IoCheckmark } from 'react-icons/io5';
 
 const accomodations: IAccommodation[] = [
   {
@@ -66,51 +79,6 @@ const columns = [
 ];
 
 const StayDetailAvailability = () => {
-  const renderCell = useCallback((user: IAccommodation, columnKey: string) => {
-    switch (columnKey) {
-      case 'name':
-        return (
-          <div className="flex flex-col gap-2">
-            <h4 className="text-xl text-primary font-semibold">{user.name}</h4>
-            <ul className="flex flex-col gap-1">
-              {user.rooms.map((room, idx) => (
-                <li key={idx}>
-                  <span className="font-bold">{room.name}: </span>
-                  <span className="font-medium">
-                    {room.beds.map((bed) => `${bed.count} ${bed.type} bed`).join(', ')}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      case 'maxGuests':
-        return (
-          <div className="flex items-center gap-1">
-            <FaUserAlt />
-            {user.maxGuests < 5 ? (
-              Array(user.maxGuests - 1)
-                .fill(0)
-                .map((_, idx) => <FaUserAlt key={idx} />)
-            ) : (
-              <p className="text-bold text-sm capitalize">x{user.maxGuests - 1}</p>
-            )}
-          </div>
-        );
-      case 'price':
-        return <p className="font-semibold">${user.price}</p>;
-      case 'available':
-        return <p className="font-semibold">{user.available}</p>;
-      case 'actions':
-        return (
-          <Button color="primary" className="px-12 font-semibold" radius="full">
-            Reserve
-          </Button>
-        );
-      default:
-        return null;
-    }
-  }, []);
   return (
     <section className="flex flex-col gap-4 pb-10" id="availability">
       <header className="flex flex-col gap-2">
@@ -119,24 +87,20 @@ const StayDetailAvailability = () => {
           Prices and availability for your stay
         </p>
       </header>
-      <Table
-        isStriped
-        removeWrapper
-        aria-label="Accommodation availability"
-        classNames={{
-          td: 'justify-self-start bg-red',
-          th: 'bg-primary text-white text-sm py-4',
-        }}
-      >
-        <TableHeader className="bg-primary" columns={columns}>
-          {(columns) => <TableColumn key={columns.key}>{columns.label}</TableColumn>}
+      <Table isStriped removeWrapper aria-label="Accommodation availability">
+        <TableHeader columns={columns}>
+          {(columns) => (
+            <TableColumn className="bg-primary text-white text-sm py-4" key={columns.key}>
+              {columns.label}
+            </TableColumn>
+          )}
         </TableHeader>
         <TableBody items={accomodations}>
           {(item) => (
             <TableRow key={item.id}>
               {columns.map(({ key }) => (
-                <TableCell key={key} className="p-2">
-                  {renderCell(item, key)}
+                <TableCell key={key} className="justify-self-start bg-red align-top p-4">
+                  <StayDetailTableCell columnKey={key} user={item} />
                 </TableCell>
               ))}
             </TableRow>
