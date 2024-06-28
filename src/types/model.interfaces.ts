@@ -1,5 +1,5 @@
 import { LatLng } from './common.interfaces';
-import { Parking } from './enums';
+import { Parking, PropertyType } from './enums';
 
 export interface IAddress {
   name: string;
@@ -33,4 +33,17 @@ export interface IAccommodation {
   available: number;
   amenities?: string[];
   price: number;
+}
+
+export interface IReservation {
+  property: string;
+  propertyType: PropertyType;
+  checkInDay: string;
+  checkInTime: string;
+  checkOutDay: string;
+  checkOutTime: string;
+  roomId?: string;
+  reservationCount: number;
+  noOfGuests: { adults: number; children: number };
+  price?: number;
 }
