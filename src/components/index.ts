@@ -5,6 +5,7 @@ export { default as ServiceNav } from './common/service-nav';
 export { default as StayDetailImages } from './detail/stay-detail-images';
 export { default as StayDetailInfo } from './detail/stay-detail-info';
 export { default as StayDetailNav } from './detail/stay-detail-nav';
+export { default as StayDetailTableCell } from './detail/stay-detail-table-cell';
 // Home
 export { default as Hero } from './home/hero';
 export { default as OfferCard } from './home/offer-card';
