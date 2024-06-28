@@ -14,7 +14,7 @@ const HomePage = () => {
   return (
     <>
       <HomeHeader />
-      <main className="flex flex-col gap-36">
+      <main className="flex flex-col gap-36 bg-white">
         <div className="container mx-auto px-10 flex flex-col gap-20 max-w-7xl">
           <StaySearchBar />
           <TopOffers />
