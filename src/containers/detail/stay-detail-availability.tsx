@@ -2,22 +2,7 @@
 
 import { StayDetailTableCell } from '@/components';
 import { IAccommodation, Parking } from '@/types';
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from '@nextui-org/react';
-import { useCallback, useMemo, useState } from 'react';
-import { FaUserAlt } from 'react-icons/fa';
-import { IoCheckmark } from 'react-icons/io5';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 
 const accomodations: IAccommodation[] = [
   {
