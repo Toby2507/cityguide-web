@@ -7,18 +7,18 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } f
 import Link from 'next/link';
 
 interface IHeaderAuth {
-  user: IUserDetails | null;
+  user: IUserDetails;
 }
 
 const HeaderAuth = ({ user }: IHeaderAuth) => {
   return (
     <>
-      {!!user ? (
+      {user?.id ? (
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <User
               as="button"
-              name={user.fullName ?? 'Toby Salau'}
+              name={user.fullName}
               description={<Link href={paths.profile()}>View Profile</Link>}
               avatarProps={{ isBordered: true, src: user.imgUrl }}
             />
