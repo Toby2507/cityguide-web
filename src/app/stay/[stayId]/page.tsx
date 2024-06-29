@@ -5,6 +5,7 @@ import {
   StayDetailAmenities,
   StayDetailAvailability,
   StayDetailOverview,
+  StayDetailRules,
   StaySearchBar,
   SubscribeBox,
 } from '@/containers';
@@ -26,6 +27,7 @@ const StayDetailPage = ({ params: { stayId } }: IStayDetailPage) => {
           <StayDetailOverview />
           <StayDetailAmenities />
           <StayDetailAvailability />
+          <StayDetailRules />
         </div>
         <SubscribeBox />
       </main>
