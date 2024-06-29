@@ -10,6 +10,7 @@ export { default as Header } from './common/header';
 export { default as StayDetailAmenities } from './detail/stay-detail-amenities';
 export { default as StayDetailAvailability } from './detail/stay-detail-availability';
 export { default as StayDetailOverview } from './detail/stay-detail-overview';
+export { default as StayDetailRules } from './detail/stay-detail-rules';
 // Home
 export { default as Destinations } from './home/destinations';
 export { default as DiscoverHome } from './home/discover-home';
