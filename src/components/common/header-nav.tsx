@@ -1,5 +1,4 @@
 import { getUser } from '@/server';
-import { IUserDetails } from '@/types';
 import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react';
 import Link from 'next/link';
 import { MdOutlineContactSupport } from 'react-icons/md';
@@ -7,7 +6,6 @@ import HeaderAuth from '../misc/header-auth';
 
 const HeaderNav = async () => {
   const cookie = await getUser();
-  let user = cookie?.value ? (JSON.parse(cookie?.value) as IUserDetails) : null;
   return (
     <Navbar position="static" className="bg-primary" maxWidth="full">
       <NavbarBrand>
@@ -32,7 +30,7 @@ const HeaderNav = async () => {
         </NavbarItem>
         <NavbarItem>
           <NavbarContent justify="end">
-            <HeaderAuth user={user} />
+            <HeaderAuth user={cookie} />
           </NavbarContent>
         </NavbarItem>
       </NavbarContent>
