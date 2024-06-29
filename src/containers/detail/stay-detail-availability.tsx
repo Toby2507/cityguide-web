@@ -72,7 +72,7 @@ const StayDetailAvailability = () => {
           Prices and availability for your stay
         </p>
       </header>
-      <Table isStriped removeWrapper aria-label="Accommodation availability">
+      <Table isStriped isHeaderSticky removeWrapper aria-label="Accommodation availability">
         <TableHeader columns={columns}>
           {(columns) => (
             <TableColumn className="bg-primary text-white text-sm py-4" key={columns.key}>
