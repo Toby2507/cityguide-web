@@ -11,8 +11,8 @@ import {
   paths,
   verifyOtpSchema,
 } from '@/utils';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { setCookies } from '../queries/auth';
 
 export const signInWithGoogle = async () => signIn('google');
 export const signInWithFacebook = async () => signIn('facebook');
@@ -33,15 +33,7 @@ export const createUser = async (_: IFormCreateUser, formData: FormData): Promis
     });
     if (res.status === 409) return { errors: { _form: ['Email already exists'] } };
     const response = await res.json();
-    console.log(response);
-    const user = JSON.stringify({
-      fullName: `${response.user.firstName} ${response.user.lastName}`,
-      imgUrl: response.user.imgUrl,
-      id: response.user._id,
-      type: 'user',
-    });
-    cookies().set('token', response.accessToken);
-    cookies().set('city-guide-user', JSON.stringify(user));
+    setCookies(response, 'user');
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
@@ -70,14 +62,7 @@ export const createEstablishment = async (
     });
     if (res.status === 409) return { errors: { _form: ['Email already exists'] } };
     const response = await res.json();
-    const establishment = JSON.stringify({
-      fullName: response.establishment.name,
-      imgUrl: response.establishment.imgUrl,
-      id: response.establishment._id,
-      type: 'establishment',
-    });
-    cookies().set('token', response.accessToken);
-    cookies().set('city-guide-user', JSON.stringify(establishment));
+    setCookies(response, 'establishment');
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
@@ -98,13 +83,7 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
     });
     if (res.status === 401) return { errors: { _form: ['Invalid email or password'] } };
     const response = await res.json();
-    const user = JSON.stringify({
-      fullName: `${response.user.firstName} ${response.user.lastName}`,
-      imgUrl: response.user.imgUrl,
-      id: response.user._id,
-    });
-    cookies().set('token', response.accessToken);
-    cookies().set('city-guide-user', JSON.stringify(user));
+    setCookies(response, 'user');
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
