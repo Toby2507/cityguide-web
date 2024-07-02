@@ -1,3 +1,4 @@
+export * from './admin-core';
 export * from './amenities';
 export * from './demo-locations';
 export * from './demo-services';
