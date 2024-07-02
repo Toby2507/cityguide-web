@@ -1,3 +1,6 @@
+// Admin
+export { default as AdminDashboard } from './admin/dashboard';
+export { default as AdminSidebar } from './admin/sidebar';
 // Auth
 export { default as EstablishmentSignupForm } from './auth/establishment-signup-form';
 export { default as LoginForm } from './auth/login-form';
