@@ -1,3 +1,6 @@
+// Admin
+export { default as AdminHeader } from './admin/header';
+export { default as MetricCard } from './admin/dashboard/metric-card';
 // Common
 export { default as HeaderNav } from './common/header-nav';
 export { default as ServiceNav } from './common/service-nav';
