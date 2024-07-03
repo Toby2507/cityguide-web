@@ -22,3 +22,9 @@ export enum PropertyType {
   RESTAURANT = 'Restaurant',
   NIGHTLIFE = 'NightLife',
 }
+
+export enum EngagementType {
+  NEW = 'New Reservation',
+  CANCELLED = 'Cancelled Reservation',
+  REVIEW = 'Review',
+}

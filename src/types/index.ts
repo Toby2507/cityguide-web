@@ -1,3 +1,4 @@
+export * from './admin.interfaces';
 export * from './auth.interfaces';
 export * from './common.interfaces';
 export * from './enums';
