@@ -11,7 +11,7 @@ const Layout = ({ children }: Readonly<ILayout>) => {
       <AdminSidebar />
       <div className="flex-1 flex flex-col">
         <AdminHeader />
-        <main className="px-8 pt-8 pb-4">{children}</main>
+        <main className="px-8 pt-8 pb-4 overflow-y-auto">{children}</main>
       </div>
     </div>
   );
