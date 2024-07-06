@@ -1,12 +1,12 @@
+import { EngagementType, IEngagement } from '@/types';
 import { BiSupport } from 'react-icons/bi';
 import { BsBarChartLine, BsListCheck } from 'react-icons/bs';
 import { CiCreditCard1 } from 'react-icons/ci';
 import { GoHome } from 'react-icons/go';
-import { IoBedOutline, IoLogOutOutline, IoRestaurantOutline, IoSettingsOutline } from 'react-icons/io5';
-import { MdOutlineRateReview, MdPendingActions, MdFreeCancellation } from 'react-icons/md';
 import { HiMiniSquare3Stack3D } from 'react-icons/hi2';
-import { PiWine, PiStackPlusFill } from 'react-icons/pi';
-import { EngagementType, IEngagement } from '@/types';
+import { IoBedOutline, IoLogOutOutline, IoRestaurantOutline, IoSettingsOutline } from 'react-icons/io5';
+import { MdFreeCancellation, MdOutlineRateReview, MdPendingActions } from 'react-icons/md';
+import { PiStackPlusFill, PiWine } from 'react-icons/pi';
 
 export const adminNav = [
   { title: 'Dashboard', href: '/admin', Icon: GoHome },
@@ -77,45 +77,63 @@ export const engagements: IEngagement[] = [
 
 export const chartData = [
   {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
+    name: 'Jan',
+    Reservations: 250,
+    'Cancelled Reservations': 120,
   },
   {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
+    name: 'Feb',
+    Reservations: 50,
+    'Cancelled Reservations': 12,
   },
   {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
+    name: 'Mar',
+    Reservations: 20,
+    'Cancelled Reservations': 25,
   },
   {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
+    name: 'Apr',
+    Reservations: 150,
+    'Cancelled Reservations': 50,
   },
   {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
+    name: 'May',
+    Reservations: 300,
+    'Cancelled Reservations': 150,
   },
   {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
+    name: 'Jun',
+    Reservations: 200,
+    'Cancelled Reservations': 30,
   },
   {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
+    name: 'Jul',
+    Reservations: 112,
+    'Cancelled Reservations': 120,
+  },
+  {
+    name: 'Aug',
+    Reservations: 50,
+    'Cancelled Reservations': 20,
+  },
+  {
+    name: 'Sep',
+    Reservations: 25,
+    'Cancelled Reservations': 30,
+  },
+  {
+    name: 'Oct',
+    Reservations: 250,
+    'Cancelled Reservations': 90,
+  },
+  {
+    name: 'Nov',
+    Reservations: 450,
+    'Cancelled Reservations': 200,
+  },
+  {
+    name: 'Dec',
+    Reservations: 250,
+    'Cancelled Reservations': 110,
   },
 ];
