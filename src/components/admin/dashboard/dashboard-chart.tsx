@@ -1,28 +1,43 @@
 'use client';
 
 import { chartData } from '@/data';
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const DashboardChart = () => {
   return (
-    <ResponsiveContainer width="100%" minHeight={350}>
+    <ResponsiveContainer width="100%" minHeight={324} height="100%">
       <AreaChart width={730} height={250} data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+            <stop offset="5%" stopColor="#e42424" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#e42424" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+            <stop offset="5%" stopColor="#0075ff" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#0075ff" stopOpacity={0} />
           </linearGradient>
         </defs>
         <XAxis dataKey="name" />
         <YAxis />
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip />
-        <Area type="monotone" dataKey="uv" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
-        <Area type="monotone" dataKey="pv" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" />
+        <Legend iconType="square" iconSize={10} />
+        <Area
+          type="monotone"
+          dataKey="Reservations"
+          stroke="#0075ff"
+          strokeOpacity={0.33}
+          fillOpacity={0.22}
+          fill="url(#colorPv)"
+        />
+        <Area
+          type="monotone"
+          dataKey="Cancelled Reservations"
+          stroke="#e42424"
+          strokeOpacity={0.33}
+          fillOpacity={0.22}
+          fill="url(#colorUv)"
+        />
       </AreaChart>
     </ResponsiveContainer>
   );
