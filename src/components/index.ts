@@ -2,6 +2,8 @@
 export { default as DashboardChart } from './admin/dashboard/dashboard-chart';
 export { default as EngagementCard } from './admin/dashboard/engagement-card';
 export { default as MetricCard } from './admin/dashboard/metric-card';
+export { default as StayCard } from './admin/dashboard/stay-card';
+export { default as ReservationCell } from './admin/dashboard/reservation-cell';
 export { default as AdminHeader } from './admin/header';
 // Common
 export { default as HeaderNav } from './common/header-nav';
