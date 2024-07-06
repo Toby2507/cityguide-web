@@ -1,5 +1,7 @@
 // Admin
-export { default as AdminDashboard } from './admin/dashboard';
+export { default as AdminDashboard } from './admin/home/dashboard';
+export { default as AdminProperties } from './admin/home/properties';
+export { default as AdminReservation } from './admin/home/reservation';
 export { default as AdminSidebar } from './admin/sidebar';
 // Auth
 export { default as EstablishmentSignupForm } from './auth/establishment-signup-form';
