@@ -26,16 +26,16 @@ const DashboardChart = () => {
           type="monotone"
           dataKey="Reservations"
           stroke="#0075ff"
-          strokeOpacity={0.33}
-          fillOpacity={0.22}
+          strokeOpacity={0.15}
+          fillOpacity={0.55}
           fill="url(#colorPv)"
         />
         <Area
           type="monotone"
           dataKey="Cancelled Reservations"
           stroke="#e42424"
-          strokeOpacity={0.33}
-          fillOpacity={0.22}
+          strokeOpacity={0.15}
+          fillOpacity={0.55}
           fill="url(#colorUv)"
         />
       </AreaChart>
