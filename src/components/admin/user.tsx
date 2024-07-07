@@ -2,29 +2,18 @@
 
 import { logout } from '@/server';
 import { IUserDetails } from '@/types';
-import { paths } from '@/utils';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, User } from '@nextui-org/react';
-import React from 'react';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from '@nextui-org/react';
 
 interface IHeaderAuth {
-  user: IUserDetails;
+  user: IUserDetails | null;
 }
 
 const AdminUser = ({ user }: IHeaderAuth) => {
-  if (!user?.id) return null;
+  if (!user) return null;
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
-        <User
-          as="button"
-          name={user.fullName}
-          description={
-            <Link href={paths.profile()}>
-              <p className="text-xs text-primary underline">View Profile</p>
-            </Link>
-          }
-          avatarProps={{ color: 'primary', isBordered: true, src: user.imgUrl }}
-        />
+        <User as="button" name={user.fullName} avatarProps={{ color: 'primary', isBordered: true, src: user.imgUrl }} />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
         <DropdownItem key="profile" className="h-14 gap-2">
