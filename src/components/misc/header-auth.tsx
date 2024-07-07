@@ -7,13 +7,13 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } f
 import Link from 'next/link';
 
 interface IHeaderAuth {
-  user: IUserDetails;
+  user: IUserDetails | null;
 }
 
 const HeaderAuth = ({ user }: IHeaderAuth) => {
   return (
     <>
-      {user?.id ? (
+      {user ? (
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <User
