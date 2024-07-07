@@ -1,4 +1,4 @@
-import { number, object, string } from 'zod';
+import { boolean, coerce, number, object, string } from 'zod';
 
 export const createUserSchema = object({
   firstName: string({ required_error: 'First name is required' }).min(3, 'First name requires atleast 3 characters'),
@@ -11,6 +11,8 @@ export const createUserSchema = object({
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,24}$/,
     '8 to 24 characters. Must include uppercase and lowercase letters, a number and a special character. Allowed special characters: ! @ # $ % ^ & *'
   ),
+  dateOfBirth: coerce.date({ required_error: 'Date of birth is required' }).optional(),
+  isPartner: boolean({ invalid_type_error: 'isPartner should be a boolean' }).optional(),
 });
 
 export const createEstablishmentSchema = object({
@@ -46,6 +48,14 @@ export const createEstablishmentSchema = object({
 export const loginUserSchema = object({
   email: string({ required_error: 'Email is required' }).email('Invalid email'),
   password: string({ required_error: 'Password is required' }).min(8, 'Password should be atleast 8 characters'),
+});
+
+export const upgradeUserSchema = object({
+  phoneNumber: string().regex(
+    /^(?:(?:\+|0{1,2})[- )(?]*\d{0,3}[- )(?]*\d{3}[- )(?]*\d{3}[- )(?]*\d{4})$/,
+    'Invalid phone number'
+  ),
+  dateOfBirth: coerce.date({ required_error: 'Date of birth is required' }),
 });
 
 export const verifyOtpSchema = object({
