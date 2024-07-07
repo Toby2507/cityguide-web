@@ -1,10 +1,16 @@
 import { getUser } from '@/server';
+import { paths } from '@/utils';
 import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react';
 import Link from 'next/link';
 import { MdOutlineContactSupport } from 'react-icons/md';
 import HeaderAuth from '../misc/header-auth';
 
-const HeaderNav = async () => {
+interface IHeaderNav {
+  noList?: boolean;
+  noAuth?: boolean;
+}
+
+const HeaderNav = async ({ noList, noAuth }: IHeaderNav) => {
   const cookie = await getUser();
   return (
     <Navbar position="static" className="bg-primary" maxWidth="full">
@@ -21,18 +27,28 @@ const HeaderNav = async () => {
             </Link>
           </Button>
         </NavbarItem>
-        <NavbarItem>
-          <Button variant="light" radius="sm">
-            <Link href="#" className="font-semibold text-sm text-white">
-              List Property
-            </Link>
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <NavbarContent justify="end">
-            <HeaderAuth user={cookie} />
-          </NavbarContent>
-        </NavbarItem>
+        {!noList ? (
+          <NavbarItem>
+            <Button variant="light" radius="sm">
+              {cookie?.isPartner ? (
+                <Link href={paths.admin()} className="font-semibold text-sm text-white">
+                  Manage Properties
+                </Link>
+              ) : (
+                <Link href={paths.listProperty()} className="font-semibold text-sm text-white">
+                  List Property
+                </Link>
+              )}
+            </Button>
+          </NavbarItem>
+        ) : null}
+        {!noAuth ? (
+          <NavbarItem>
+            <NavbarContent justify="end">
+              <HeaderAuth user={cookie} />
+            </NavbarContent>
+          </NavbarItem>
+        ) : null}
       </NavbarContent>
     </Navbar>
   );
