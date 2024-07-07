@@ -3,18 +3,18 @@
 import { SubmitForm } from '@/components';
 import { loginUser } from '@/server';
 import { paths } from '@/utils';
-import { Checkbox, Input, Spacer } from '@nextui-org/react';
+import { Checkbox, Input } from '@nextui-org/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
-import SocialAuth from './social-auth';
+import FormFooter from './form-footer';
 
 const LoginForm = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [{ errors }, action] = useFormState(loginUser, { errors: {} });
   return (
-    <form action={action}>
+    <form action={action} className="flex flex-col gap-8">
       <div className="flex flex-col gap-4">
         <Input
           name="email"
@@ -63,8 +63,7 @@ const LoginForm = () => {
         ) : null}
         <SubmitForm>Log In</SubmitForm>
       </div>
-      <Spacer y={8} />
-      <SocialAuth />
+      <FormFooter />
     </form>
   );
 };
