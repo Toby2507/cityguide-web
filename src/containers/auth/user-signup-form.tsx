@@ -2,22 +2,27 @@
 
 import { SubmitForm } from '@/components';
 import { createUser } from '@/server';
-import { Checkbox, Input, Spacer } from '@nextui-org/react';
+import { Checkbox, DatePicker, Input } from '@nextui-org/react';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
-import SocialAuth from './social-auth';
+import FormFooter from './form-footer';
 
-const UserSignupForm = () => {
+interface IUserSignupForm {
+  isPartnering?: boolean;
+}
+
+const UserSignupForm = ({ isPartnering = false }: IUserSignupForm) => {
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
   const [typingFields, setTypingFields] = useState<string[]>([]);
-  let [{ errors }, action] = useFormState(createUser, { errors: {} });
+  let [{ errors }, action] = useFormState(createUser.bind(null, isPartnering), { errors: {} });
+
   const setTyping = (val: string) => {
     if (!typingFields.includes(val)) setTypingFields([...typingFields, val]);
   };
   const isTyping = (val: string) => typingFields.includes(val);
   return (
-    <form action={action} onSubmit={() => setTypingFields([])}>
+    <form action={action} className="flex flex-col gap-8" onSubmit={() => setTypingFields([])}>
       <div className="flex flex-col gap-4">
         <Input
           name="firstName"
@@ -56,18 +61,31 @@ const UserSignupForm = () => {
           errorMessage={errors.email}
           className="text-accentGray"
         />
-        <Input
-          name="phoneNumber"
-          label="Phone Number"
-          labelPlacement="outside"
-          placeholder=" "
-          radius="full"
-          type="tel"
-          onValueChange={() => setTyping('phone')}
-          isInvalid={!isTyping('phone') && !!errors.phoneNumber}
-          errorMessage={errors.phoneNumber}
-          className="text-accentGray"
-        />
+        <div className="flex items-center gap-4">
+          <Input
+            name="phoneNumber"
+            label="Phone Number"
+            labelPlacement="outside"
+            placeholder=" "
+            radius="full"
+            type="tel"
+            onValueChange={() => setTyping('phone')}
+            isInvalid={!isTyping('phone') && !!errors.phoneNumber}
+            isRequired={isPartnering}
+            errorMessage={errors.phoneNumber}
+            className="text-accentGray"
+          />
+          {isPartnering ? (
+            <DatePicker
+              name="dob"
+              label="Birth Date"
+              labelPlacement="outside"
+              radius="full"
+              isRequired
+              showMonthAndYearPickers
+            />
+          ) : null}
+        </div>
         <Input
           name="password"
           label="Password"
@@ -102,8 +120,7 @@ const UserSignupForm = () => {
         ) : null}
         <SubmitForm>Sign Up</SubmitForm>
       </div>
-      <Spacer y={8} />
-      <SocialAuth isSignUp />
+      <FormFooter isSignUp />
     </form>
   );
 };
