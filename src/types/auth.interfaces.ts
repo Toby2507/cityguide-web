@@ -6,6 +6,14 @@ export interface IFormLoginUser {
   };
 }
 
+export interface IFormUpgradeUser {
+  errors: {
+    phoneNumber?: string[];
+    dateOfBirth?: string[];
+    _form?: string[];
+  };
+}
+
 export interface IFormCreateUser {
   errors: {
     firstName?: string[];
@@ -13,6 +21,8 @@ export interface IFormCreateUser {
     phoneNumber?: string[];
     email?: string[];
     password?: string[];
+    dateOfBirth?: string[];
+    isPartner?: string[];
     _form?: string[];
   };
 }
