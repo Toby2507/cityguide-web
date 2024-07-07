@@ -1,7 +1,14 @@
 'use server';
 
 import { signIn } from '@/auth';
-import { IAddress, IFormCreateEstablishment, IFormCreateUser, IFormLoginUser, IFormVerifyOtp } from '@/types';
+import {
+  IAddress,
+  IFormCreateEstablishment,
+  IFormCreateUser,
+  IFormLoginUser,
+  IFormUpgradeUser,
+  IFormVerifyOtp,
+} from '@/types';
 import {
   createEstablishmentSchema,
   createUserSchema,
@@ -9,21 +16,28 @@ import {
   fetchWithReAuth,
   loginUserSchema,
   paths,
+  upgradeUserSchema,
   verifyOtpSchema,
 } from '@/utils';
 import { redirect } from 'next/navigation';
-import { setCookies } from '../queries/auth';
+import { setCookies, upgradeToPartner } from '../queries/auth';
 
 export const signInWithGoogle = async () => signIn('google');
 export const signInWithFacebook = async () => signIn('facebook');
 
-export const createUser = async (_: IFormCreateUser, formData: FormData): Promise<IFormCreateUser> => {
+export const createUser = async (
+  isPartnering: boolean,
+  _: IFormCreateUser,
+  formData: FormData
+): Promise<IFormCreateUser> => {
   const data = createUserSchema.safeParse({
     firstName: formData.get('firstName') as string,
     lastName: formData.get('lastName') as string,
     phoneNumber: formData.get('phoneNumber') as string,
     email: formData.get('email') as string,
     password: formData.get('password') as string,
+    dateOfBirth: formData.get('dob'),
+    isPartner: isPartnering,
   });
   if (!data.success) return { errors: data.error.flatten().fieldErrors };
   try {
@@ -89,6 +103,25 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
     else return { errors: { _form: ['Something went wrong...'] } };
   }
   redirect(paths.home());
+};
+
+export const upgradeUser = async (_: IFormUpgradeUser, formData: FormData): Promise<IFormUpgradeUser> => {
+  const data = upgradeUserSchema.safeParse({
+    phoneNumber: formData.get('phoneNumber') as string,
+    dateOfBirth: formData.get('dob')?.toString(),
+  });
+  if (!data.success) return { errors: data.error.flatten().fieldErrors };
+  try {
+    await fetchWithReAuth('user/upgrade-to-partner', {
+      method: 'PATCH',
+      body: JSON.stringify(data.data),
+    });
+    upgradeToPartner();
+  } catch (err: unknown) {
+    if (err instanceof Error) return { errors: { _form: [err.message] } };
+    else return { errors: { _form: ['Something went wrong...'] } };
+  }
+  redirect(paths.admin());
 };
 
 export const verifyOtp = async (otp: string, _: IFormVerifyOtp, formData: FormData): Promise<IFormVerifyOtp> => {
