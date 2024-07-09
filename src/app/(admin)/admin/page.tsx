@@ -1,10 +1,9 @@
-import { AdminDashboard, AdminProperties, AdminReservation } from '@/containers';
+import { AdminDashboard, AdminReservation } from '@/containers';
 
-const AdminDashboardPage = () => {
+const AdminDashboardPage = async () => {
   return (
     <div className="flex flex-col gap-6 pb-20">
       <AdminDashboard />
-      <AdminProperties />
       <AdminReservation />
     </div>
   );
