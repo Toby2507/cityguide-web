@@ -1,7 +1,18 @@
 import { DashboardChart, EngagementCard, MetricCard } from '@/components';
 import { engagements, metrics } from '@/data';
+import { getReservationAnalytics } from '@/server';
+import { IReservationStats } from '@/types';
+import dayjs from 'dayjs';
 
-const AdminDashboard = () => {
+const data = {
+  from: dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
+  to: dayjs().format('YYYY-MM-DD'),
+  interval: 'daily' as const,
+};
+
+const AdminDashboard = async () => {
+  const reservationAnalytics: IReservationStats[] = await getReservationAnalytics(data);
+  console.log(reservationAnalytics);
   const tMetrics = metrics.map((metric) => {
     switch (metric.id) {
       case 'properties':
