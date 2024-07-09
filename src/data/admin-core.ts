@@ -2,14 +2,14 @@ import { EngagementType, IEngagement } from '@/types';
 import { BiSupport } from 'react-icons/bi';
 import { BsBarChartLine, BsListCheck } from 'react-icons/bs';
 import { CiCreditCard1 } from 'react-icons/ci';
-import { GoHome } from 'react-icons/go';
 import { HiMiniSquare3Stack3D } from 'react-icons/hi2';
 import { IoBedOutline, IoLogOutOutline, IoRestaurantOutline, IoSettingsOutline } from 'react-icons/io5';
 import { MdFreeCancellation, MdOutlineRateReview, MdPendingActions } from 'react-icons/md';
 import { PiStackPlusFill, PiWine } from 'react-icons/pi';
+import { RiDashboard2Line } from 'react-icons/ri';
 
 export const adminNav = [
-  { title: 'Dashboard', href: '/admin', Icon: GoHome },
+  { title: 'Dashboard', href: '/admin', Icon: RiDashboard2Line },
   { title: 'Stays', href: '/admin', Icon: IoBedOutline },
   { title: 'Restaurants', href: '/admin', Icon: IoRestaurantOutline },
   { title: 'Night Life', href: '/admin', Icon: PiWine },
