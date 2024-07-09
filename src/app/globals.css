@@ -25,3 +25,7 @@ label {
 .map_infocard__content {
   font-size: 14px;
 }
+
+.adminmain::-webkit-scrollbar {
+  display: none;
+}
