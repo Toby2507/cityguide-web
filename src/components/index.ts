@@ -15,12 +15,14 @@ export { default as StayDetailImages } from './detail/stay-detail-images';
 export { default as StayDetailInfo } from './detail/stay-detail-info';
 export { default as StayDetailNav } from './detail/stay-detail-nav';
 export { default as StayDetailTableCell } from './detail/stay-detail-table-cell';
+export { default as ListPropertyTestimonials } from './listproperty/testimonials';
 // Home
 export { default as Hero } from './home/hero';
 export { default as OfferCard } from './home/offer-card';
 export { default as PlaceCard } from './home/place-card';
 export { default as SectionHeader } from './home/section-header';
 // List Propery
+export { default as ListPropertyManage } from './listproperty/manage';
 export { default as ListProperyQuality } from './listproperty/quality';
 export { default as ListPropertyReach } from './listproperty/reach';
 export { default as ListPropertyRetain } from './listproperty/retain';
