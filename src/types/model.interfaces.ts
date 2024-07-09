@@ -220,3 +220,9 @@ export interface IReservation {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IReservationStats {
+  _id: string;
+  status: Status;
+  updatedAt: string;
+}
