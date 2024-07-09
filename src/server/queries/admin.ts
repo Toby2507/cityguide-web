@@ -1,6 +1,6 @@
 'use server';
 
-import { PropertyType } from '@/types';
+import { IReservationStats, PropertyType } from '@/types';
 import { fetchBaseQuery } from '@/utils';
 
 interface IGetResAnalytics {
@@ -11,15 +11,15 @@ interface IGetResAnalytics {
   interval: 'daily' | 'weekly' | 'monthly';
 }
 
-export const getReservationAnalytics = async (data: IGetResAnalytics) => {
+export const getReservationAnalytics = async (data: IGetResAnalytics): Promise<IReservationStats[]> => {
   try {
     const res = await fetchBaseQuery('reservation/analytics', {
       method: 'POST',
       body: JSON.stringify(data),
     });
     const response = await res.json();
-    return response.analytics;
+    return response.analytics as IReservationStats[];
   } catch (err: unknown) {
-    console.log(err);
+    return [];
   }
 };
