@@ -75,65 +75,13 @@ export const engagements: IEngagement[] = [
   },
 ];
 
-export const chartData = [
-  {
-    name: 'Jan',
-    Reservations: 250,
-    'Cancelled Reservations': 120,
-  },
-  {
-    name: 'Feb',
-    Reservations: 50,
-    'Cancelled Reservations': 12,
-  },
-  {
-    name: 'Mar',
-    Reservations: 20,
-    'Cancelled Reservations': 25,
-  },
-  {
-    name: 'Apr',
-    Reservations: 150,
-    'Cancelled Reservations': 50,
-  },
-  {
-    name: 'May',
-    Reservations: 300,
-    'Cancelled Reservations': 150,
-  },
-  {
-    name: 'Jun',
-    Reservations: 200,
-    'Cancelled Reservations': 30,
-  },
-  {
-    name: 'Jul',
-    Reservations: 112,
-    'Cancelled Reservations': 120,
-  },
-  {
-    name: 'Aug',
-    Reservations: 50,
-    'Cancelled Reservations': 20,
-  },
-  {
-    name: 'Sep',
-    Reservations: 25,
-    'Cancelled Reservations': 30,
-  },
-  {
-    name: 'Oct',
-    Reservations: 250,
-    'Cancelled Reservations': 90,
-  },
-  {
-    name: 'Nov',
-    Reservations: 450,
-    'Cancelled Reservations': 200,
-  },
-  {
-    name: 'Dec',
-    Reservations: 250,
-    'Cancelled Reservations': 110,
-  },
+export const dateFilters = [
+  { key: '6 day', label: 'Last 7 days' },
+  { key: '1 month', label: 'Last 30 days' },
+  { key: '2 month', label: 'Last 3 months' },
+  { key: '5 month', label: 'Last 6 month' },
+  { key: '11 month', label: 'Last 1 year' },
+  { key: 'custom', label: 'Custom date' },
 ];
+
+export const intervals = ['daily', 'weekly', 'monthly'];
