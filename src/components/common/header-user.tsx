@@ -4,16 +4,19 @@ import { logout } from '@/server';
 import { IUserDetails } from '@/types';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from '@nextui-org/react';
 
-interface IHeaderAuth {
-  user: IUserDetails | null;
+interface IHeaderUser {
+  user: IUserDetails;
 }
 
-const AdminUser = ({ user }: IHeaderAuth) => {
-  if (!user) return null;
+const HeaderUser = ({ user }: IHeaderUser) => {
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
-        <User as="button" name={user.fullName} avatarProps={{ color: 'primary', isBordered: true, src: user.imgUrl }} />
+        <User
+          as="button"
+          name={<p className="text-white text-sm font-semibold">{user.fullName}</p>}
+          avatarProps={{ isBordered: true, src: user.imgUrl }}
+        />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
         <DropdownItem key="profile" className="h-14 gap-2">
@@ -34,4 +37,4 @@ const AdminUser = ({ user }: IHeaderAuth) => {
   );
 };
 
-export default AdminUser;
+export default HeaderUser;

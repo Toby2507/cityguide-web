@@ -9,6 +9,7 @@ export { default as AdminHeader } from './admin/header';
 export { default as SignUpTab } from './auth/signup-tab';
 // Common
 export { default as HeaderNav } from './common/header-nav';
+export { default as HeaderUser } from './common/header-user';
 export { default as ServiceNav } from './common/service-nav';
 // Detail
 export { default as StayDetailImages } from './detail/stay-detail-images';
