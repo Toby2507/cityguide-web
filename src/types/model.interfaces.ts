@@ -222,7 +222,7 @@ export interface IReservation {
 }
 
 export interface IReservationStats {
-  _id: string;
-  status: Status;
-  updatedAt: string;
+  name: string;
+  Reservations: number;
+  'Cancelled Reservations': string;
 }
