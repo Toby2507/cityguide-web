@@ -2,7 +2,6 @@
 
 import { IUserDetails } from '@/types';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 export const getUser = async () => {
   const fullName = cookies().get('city-guide-username')?.value!;
@@ -36,7 +35,6 @@ const _logout = async () => {
   cookies().delete('city-guide-userid');
   cookies().delete('city-guide-partner');
   cookies().delete('token');
-  redirect('/');
 };
 
 export const logout = async () => _logout();
