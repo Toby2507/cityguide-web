@@ -78,6 +78,10 @@ const AdminReservation = () => {
     const end = start + rowsPerPage;
     return filteredItems.slice(start, end);
   }, [page, rowsPerPage, filteredItems]);
+  const isFiltering = useMemo(
+    () => searchValue || statusFilter !== 'all' || reserveDateFilter || checkDateFilter,
+    [searchValue, statusFilter, reserveDateFilter, checkDateFilter]
+  );
 
   const onRowsPerPageChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     setRowsPerPage(+e.target.value);
@@ -160,15 +164,17 @@ const AdminReservation = () => {
                 <option value="15">15</option>
               </select>
             </label>
-            <Button
-              aria-label="Clear Filters"
-              className="text-xs text-accentGray font-light gap-1"
-              startContent={<IoCloseCircle className="text-danger text-2xl" />}
-              onClick={clearFilters}
-              variant="light"
-            >
-              Clear Filters
-            </Button>
+            {isFiltering ? (
+              <Button
+                aria-label="Clear Filters"
+                className="text-xs text-accentGray font-light gap-1"
+                startContent={<IoCloseCircle className="text-danger text-2xl" />}
+                onClick={clearFilters}
+                variant="light"
+              >
+                Clear Filters
+              </Button>
+            ) : null}
           </div>
         </div>
       </div>
@@ -178,6 +184,7 @@ const AdminReservation = () => {
     statusFilter,
     checkDateFilter,
     reserveDateFilter,
+    isFiltering,
     onClear,
     clearFilters,
     onRowsPerPageChange,
@@ -207,7 +214,7 @@ const AdminReservation = () => {
       >
         <TableHeader columns={columns}>
           {(columns) => (
-            <TableColumn className="bg-bgGray text-accentGray text-sm text-center py-4" key={columns.key}>
+            <TableColumn className="bg-primary text-white text-sm text-center py-4" key={columns.key}>
               {columns.label}
             </TableColumn>
           )}
