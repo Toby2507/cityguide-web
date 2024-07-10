@@ -1,9 +1,15 @@
+'use client';
+
 import { adminNav } from '@/data';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { RxCaretRight } from 'react-icons/rx';
 
+const [mainNav, footNav] = [adminNav.slice(0, -2), adminNav.slice(-2)];
+
 const AdminSidebar = () => {
-  const [mainNav, footNav] = [adminNav.slice(0, -2), adminNav.slice(-2)];
+  const route = usePathname();
+  console.log({ route });
   return (
     <aside className="border-r border-default pt-20 w-64">
       <nav className="flex flex-col gap-14 h-full">
