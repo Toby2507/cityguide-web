@@ -1,4 +1,5 @@
 // Admin
+export { default as AdminBreadcrumbs } from './admin/breadcrumbs';
 export { default as DashboardChart } from './admin/dashboard/dashboard-chart';
 export { default as EngagementCard } from './admin/dashboard/engagement-card';
 export { default as MetricCard } from './admin/dashboard/metric-card';
