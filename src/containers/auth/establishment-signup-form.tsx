@@ -30,8 +30,8 @@ const EstablishmentSignupForm = () => {
           radius="full"
           isRequired
           onValueChange={() => setTyping('name')}
-          isInvalid={!isTyping('name') && !!errors.name}
-          errorMessage={errors.name}
+          isInvalid={!isTyping('name') && !!errors?.name}
+          errorMessage={errors?.name}
           className="text-accentGray"
         />
         <Input
@@ -41,8 +41,8 @@ const EstablishmentSignupForm = () => {
           placeholder=" "
           radius="full"
           onValueChange={() => setTyping('last')}
-          isInvalid={!isTyping('last') && !!errors.description}
-          errorMessage={errors.description}
+          isInvalid={!isTyping('last') && !!errors?.description}
+          errorMessage={errors?.description}
           className="text-accentGray"
         />
         <Input
@@ -54,8 +54,8 @@ const EstablishmentSignupForm = () => {
           type="email"
           onValueChange={() => setTyping('email')}
           isRequired
-          isInvalid={!isTyping('email') && !!errors.email}
-          errorMessage={errors.email}
+          isInvalid={!isTyping('email') && !!errors?.email}
+          errorMessage={errors?.email}
           className="text-accentGray"
         />
         <Input
@@ -67,8 +67,8 @@ const EstablishmentSignupForm = () => {
           type="tel"
           onValueChange={() => setTyping('phone')}
           isRequired
-          isInvalid={!isTyping('phone') && !!errors.phoneNumber}
-          errorMessage={errors.phoneNumber}
+          isInvalid={!isTyping('phone') && !!errors?.phoneNumber}
+          errorMessage={errors?.phoneNumber}
           className="text-accentGray"
         />
         <Popover>
@@ -84,8 +84,8 @@ const EstablishmentSignupForm = () => {
               isReadOnly
               isRequired
               value={address?.fullAddress}
-              isInvalid={!isTyping('phone') && !!errors.address}
-              errorMessage={errors.address}
+              isInvalid={!isTyping('phone') && !!errors?.address}
+              errorMessage={errors?.address}
               className="text-accentGray cursor-pointer"
             />
           </PopoverTrigger>
@@ -118,8 +118,8 @@ const EstablishmentSignupForm = () => {
           radius="full"
           onValueChange={() => setTyping('password')}
           isRequired
-          isInvalid={!isTyping('password') && !!errors.password}
-          errorMessage={errors.password}
+          isInvalid={!isTyping('password') && !!errors?.password}
+          errorMessage={errors?.password}
           className="text-accentGray"
         />
         <div className="flex items-center justify-between gap-4">

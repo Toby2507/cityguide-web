@@ -32,8 +32,8 @@ const UserSignupForm = ({ isPartnering = false }: IUserSignupForm) => {
           radius="full"
           onValueChange={() => setTyping('first')}
           isRequired
-          isInvalid={!isTyping('first') && !!errors.firstName}
-          errorMessage={errors.firstName}
+          isInvalid={!isTyping('first') && !!errors?.firstName}
+          errorMessage={errors?.firstName}
           className="text-accentGray"
         />
         <Input
@@ -45,7 +45,7 @@ const UserSignupForm = ({ isPartnering = false }: IUserSignupForm) => {
           onValueChange={() => setTyping('last')}
           isRequired
           isInvalid={!isTyping('last') && !!errors.lastName}
-          errorMessage={errors.lastName}
+          errorMessage={errors?.lastName}
           className="text-accentGray"
         />
         <Input
@@ -57,8 +57,8 @@ const UserSignupForm = ({ isPartnering = false }: IUserSignupForm) => {
           type="email"
           onValueChange={() => setTyping('email')}
           isRequired
-          isInvalid={!isTyping('email') && !!errors.email}
-          errorMessage={errors.email}
+          isInvalid={!isTyping('email') && !!errors?.email}
+          errorMessage={errors?.email}
           className="text-accentGray"
         />
         <div className="flex items-center gap-4">
@@ -70,9 +70,9 @@ const UserSignupForm = ({ isPartnering = false }: IUserSignupForm) => {
             radius="full"
             type="tel"
             onValueChange={() => setTyping('phone')}
-            isInvalid={!isTyping('phone') && !!errors.phoneNumber}
+            isInvalid={!isTyping('phone') && !!errors?.phoneNumber}
             isRequired={isPartnering}
-            errorMessage={errors.phoneNumber}
+            errorMessage={errors?.phoneNumber}
             className="text-accentGray"
           />
           {isPartnering ? (
@@ -104,8 +104,8 @@ const UserSignupForm = ({ isPartnering = false }: IUserSignupForm) => {
           radius="full"
           onValueChange={() => setTyping('password')}
           isRequired
-          isInvalid={!isTyping('password') && !!errors.password}
-          errorMessage={errors.password}
+          isInvalid={!isTyping('password') && !!errors?.password}
+          errorMessage={errors?.password}
           className="text-accentGray"
         />
         <div className="flex items-center justify-between gap-4">
