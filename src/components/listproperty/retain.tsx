@@ -2,11 +2,6 @@ import { Image } from '@nextui-org/react';
 import retainImg from '@images/listing-retain.png';
 import { HiOutlineCheckCircle } from 'react-icons/hi2';
 
-const info = [
-  'For additional peace of mind, in the event of damage up to €/$/£500, we will facilitate damage payment requests on your behalf.',
-  'Get up to €/£/$1,000,000 in insurance against liability claims from visitors and neighbours for each reservation.',
-];
-
 const ListPropertyRetain = () => {
   return (
     <section id="reach" className="bg-bgGray py-16">
