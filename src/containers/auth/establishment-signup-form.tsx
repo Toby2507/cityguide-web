@@ -1,7 +1,7 @@
 'use client';
 
 import { Map, SubmitForm } from '@/components';
-import { createEstablishment, createUser } from '@/server';
+import { createEstablishment } from '@/server';
 import { IAddress } from '@/types';
 import { Checkbox, Input, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { useState } from 'react';
