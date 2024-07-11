@@ -4,22 +4,21 @@ import { BsBarChartLine, BsListCheck } from 'react-icons/bs';
 import { CiCreditCard1 } from 'react-icons/ci';
 import { HiMiniSquare3Stack3D } from 'react-icons/hi2';
 import { IoBedOutline, IoLogOutOutline, IoRestaurantOutline, IoSettingsOutline } from 'react-icons/io5';
-import { MdFreeCancellation, MdOutlineRateReview, MdPendingActions } from 'react-icons/md';
+import { MdFreeCancellation, MdPendingActions } from 'react-icons/md';
 import { PiStackPlusFill, PiWine } from 'react-icons/pi';
 import { RiDashboard2Line } from 'react-icons/ri';
 
 export const adminNav = [
   { title: 'Dashboard', href: '/admin', Icon: RiDashboard2Line },
-  { title: 'Stays', href: '/admin', Icon: IoBedOutline },
-  { title: 'Restaurants', href: '/admin', Icon: IoRestaurantOutline },
-  { title: 'Night Life', href: '/admin', Icon: PiWine },
-  { title: 'Reservations', href: '/admin', Icon: BsListCheck },
-  { title: 'Reviews', href: '/admin', Icon: MdOutlineRateReview },
-  { title: 'Payments', href: '/admin', Icon: CiCreditCard1 },
-  { title: 'Reports', href: '/admin', Icon: BsBarChartLine },
-  { title: 'Support', href: '/admin', Icon: BiSupport },
-  { title: 'Settings', href: '/admin', Icon: IoSettingsOutline },
-  { title: 'Logout', href: '/admin', Icon: IoLogOutOutline },
+  { title: 'Stays', href: '/admin/stay', Icon: IoBedOutline },
+  { title: 'Restaurants', href: '/admin/#', Icon: IoRestaurantOutline },
+  { title: 'Night Life', href: '/admin/#', Icon: PiWine },
+  { title: 'Reservations', href: '/admin/#', Icon: BsListCheck },
+  { title: 'Payments', href: '/admin/#', Icon: CiCreditCard1 },
+  { title: 'Reports', href: '/admin/#', Icon: BsBarChartLine },
+  { title: 'Support', href: '/admin/#', Icon: BiSupport },
+  { title: 'Settings', href: '/admin/#', Icon: IoSettingsOutline },
+  { title: 'Logout', href: '/admin/#', Icon: IoLogOutOutline },
 ];
 
 export const metrics = [
