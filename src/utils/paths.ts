@@ -10,7 +10,9 @@ const path = {
   userLicense: () => '#',
   offers: (id: string) => '#',
   stayDetail: (id: string) => `/stay/${id}`,
+  // Admin paths
   admin: () => '/admin',
+  createStay: () => '/admin/stay/create',
 };
 
 export default path;
