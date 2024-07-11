@@ -95,12 +95,10 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
       method: 'POST',
       body: JSON.stringify(data.data),
     });
-    console.log(res);
     if (res.status === 401) return { errors: { _form: ['Invalid email or password'] } };
     const response = await res.json();
     setCookies(response, 'user');
   } catch (err: unknown) {
-    console.log(err);
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
   }
