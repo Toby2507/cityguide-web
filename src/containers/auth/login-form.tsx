@@ -23,8 +23,8 @@ const LoginForm = () => {
           placeholder=" "
           radius="full"
           isRequired
-          isInvalid={!!errors?.email}
-          errorMessage={errors?.email}
+          isInvalid={!!errors.email}
+          errorMessage={errors.email}
           className="text-accentGray"
         />
         <Input
@@ -44,8 +44,8 @@ const LoginForm = () => {
           placeholder=" "
           radius="full"
           isRequired
-          isInvalid={!!errors?.password}
-          errorMessage={errors?.password}
+          isInvalid={!!errors.password}
+          errorMessage={errors.password}
           className="text-accentGray"
         />
         <div className="flex items-center justify-between gap-4">

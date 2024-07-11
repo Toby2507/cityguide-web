@@ -19,9 +19,9 @@ const UpgradeToPartnerForm = () => {
           placeholder=" "
           radius="full"
           type="tel"
-          isInvalid={!!errors?.phoneNumber}
+          isInvalid={!!errors.phoneNumber}
           isRequired
-          errorMessage={errors?.phoneNumber}
+          errorMessage={errors.phoneNumber}
           className="text-accentGray"
         />
         <DatePicker
