@@ -1,4 +1,4 @@
-import { AdminHeader } from '@/components';
+import { AdminBreadcrumbs, AdminHeader } from '@/components';
 import { AdminSidebar } from '@/containers';
 import { getUser } from '@/server';
 import { redirect } from 'next/navigation';
@@ -15,7 +15,10 @@ const Layout = async ({ children }: Readonly<ILayout>) => {
       <AdminHeader />
       <div className="flex">
         <AdminSidebar />
-        <main className="px-8 pt-24 pb-4 h-screen overflow-y-auto w-full adminmain">{children}</main>
+        <main className="flex flex-col gap-2 px-8 pt-24 pb-4 h-screen overflow-y-auto w-full adminmain">
+          <AdminBreadcrumbs />
+          {children}
+        </main>
       </div>
     </div>
   );
