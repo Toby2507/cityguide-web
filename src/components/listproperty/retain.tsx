@@ -1,6 +1,7 @@
 import { Image } from '@nextui-org/react';
 import retainImg from '@images/listing-retain.png';
 import { HiOutlineCheckCircle } from 'react-icons/hi2';
+import { retain } from '@/data';
 
 const ListPropertyRetain = () => {
   return (
@@ -10,7 +11,7 @@ const ListPropertyRetain = () => {
           <div className="flex flex-col gap-6">
             <h2 className="text-large font-bold">Get quaility bookings</h2>
             <div className="flex flex-col gap-6">
-              {info.map((q, i) => (
+              {retain.map((q, i) => (
                 <div key={i} className="flex items-start gap-4">
                   <HiOutlineCheckCircle className="relative text-2xl top-[2px]" />
                   <p className="flex-1 text-lg font-normal">{q}</p>
