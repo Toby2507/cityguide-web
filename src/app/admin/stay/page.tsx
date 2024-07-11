@@ -1,5 +1,11 @@
+import { AdminProperties } from '@/containers';
+
 const AdminStayDetailPage = () => {
-  return <div>AdminStayDetailPage</div>;
+  return (
+    <div className="flex flex-col gap-4">
+      <AdminProperties />
+    </div>
+  );
 };
 
 export default AdminStayDetailPage;
