@@ -19,12 +19,6 @@ import dayjs, { ManipulateType } from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
 import { IoChevronDownOutline } from 'react-icons/io5';
 
-const data = {
-  from: dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
-  to: dayjs().format('YYYY-MM-DD'),
-  interval: 'daily' as const,
-};
-
 const AdminDashboard = () => {
   const [interval, setInterval] = useState<Selection>(new Set(['daily']));
   const [dateFilter, setDateFilter] = useState<Selection>(new Set(['6 day']));
