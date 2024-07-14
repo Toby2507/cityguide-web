@@ -1,5 +1,6 @@
 'use server';
 
+import { logout } from '@/server';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { paths } from '.';
@@ -7,7 +8,7 @@ import { paths } from '.';
 const baseQuery = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export const fetchBaseQuery = async (url: string, options: RequestInit = {}): Promise<Response> => {
-  const token = cookies().get('token')?.value;
+  const token = cookies().get('access-token')?.value;
   if (token) options.headers = { ...options.headers, Authorization: `Bearer ${token}` };
   options.headers = {
     ...options.headers,
@@ -19,17 +20,19 @@ export const fetchBaseQuery = async (url: string, options: RequestInit = {}): Pr
 };
 
 export const fetchWithReAuth = async (url: string, options: RequestInit = {}): Promise<Response> => {
-  // Make the request
   const res = await fetchBaseQuery(url, options);
-  // If the error is 401, try to re-authenticate
   if (res.status === 401 || res.statusText === 'Unauthorized') {
-    const refreshRes = await fetchBaseQuery('account/refreshaccess');
+    const refreshToken = cookies().get('refresh-token')?.value;
+    const refreshRes = await fetchBaseQuery('account/refreshaccess', {
+      method: 'POST',
+      body: JSON.stringify({ refreshToken }),
+    });
     if (refreshRes.ok) {
       const { accessToken } = await refreshRes.json();
-      cookies().set('token', accessToken);
+      cookies().set('access-token', accessToken);
       return fetchBaseQuery(url, options);
     } else {
-      cookies().delete('token');
+      logout();
       redirect(paths.login());
     }
   }
