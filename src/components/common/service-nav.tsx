@@ -6,7 +6,7 @@ import { RiShareCircleLine } from 'react-icons/ri';
 const services = [
   { name: 'Stays', icon: <IoBedOutline /> },
   { name: 'Restaurants', icon: <IoRestaurantOutline /> },
-  { name: 'Night Clubs', icon: <PiWine /> },
+  { name: 'Night Life', icon: <PiWine /> },
   { name: 'Airtime Topup', icon: <RiShareCircleLine /> },
 ];
 
