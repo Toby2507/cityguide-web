@@ -16,7 +16,8 @@ export const getUser = async () => {
 };
 
 export const setCookies = (res: any, type: 'user' | 'establishment') => {
-  cookies().set('token', res.accessToken);
+  cookies().set('access-token', res.accessToken);
+  cookies().set('refresh-token', res.refreshToken);
   cookies().set(
     'city-guide-username',
     type === 'user' ? `${res.user.firstName} ${res.user.lastName}` : res.establishment.name
@@ -27,14 +28,18 @@ export const setCookies = (res: any, type: 'user' | 'establishment') => {
   cookies().set('city-guide-type', type);
 };
 
-export const upgradeToPartner = () => cookies().set('city-guide-partner', 'true');
+export const upgradeToPartner = (res: any) => {
+  cookies().set('access-token', res.accessToken);
+  cookies().set('city-guide-partner', 'true');
+};
 
 const _logout = async () => {
   cookies().delete('city-guide-username');
   cookies().delete('city-guide-userimg');
   cookies().delete('city-guide-userid');
   cookies().delete('city-guide-partner');
-  cookies().delete('token');
+  cookies().delete('access-token');
+  cookies().delete('refresh-token');
 };
 
 export const logout = async () => _logout();
