@@ -112,11 +112,13 @@ export const upgradeUser = async (_: IFormUpgradeUser, formData: FormData): Prom
   });
   if (!data.success) return { errors: data.error.flatten().fieldErrors };
   try {
-    await fetchWithReAuth('user/upgrade-to-partner', {
+    const res = await fetchWithReAuth('user/upgrade-to-partner', {
       method: 'PATCH',
       body: JSON.stringify(data.data),
     });
-    upgradeToPartner();
+    if (!res.ok) return { errors: { _form: [res.statusText] } };
+    const response = await res.json();
+    upgradeToPartner(response);
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
