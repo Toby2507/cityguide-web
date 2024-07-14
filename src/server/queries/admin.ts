@@ -1,7 +1,7 @@
 'use server';
 
 import { IReservationStats, PropertyType } from '@/types';
-import { fetchBaseQuery } from '@/utils';
+import { fetchWithReAuth } from '@/utils';
 
 interface IGetResAnalytics {
   property?: string;
@@ -13,7 +13,7 @@ interface IGetResAnalytics {
 
 export const getReservationAnalytics = async (data: IGetResAnalytics): Promise<IReservationStats[]> => {
   try {
-    const res = await fetchBaseQuery('reservation/analytics', {
+    const res = await fetchWithReAuth('reservation/analytics', {
       method: 'POST',
       body: JSON.stringify(data),
     });
