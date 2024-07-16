@@ -3,20 +3,7 @@
 import { IAddress, LatLng } from '@/types';
 import { addressFormatter } from '@/utils';
 import { Library } from '@googlemaps/js-api-loader';
-import {
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-  Textarea,
-} from '@nextui-org/react';
+import { Input, Textarea } from '@nextui-org/react';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
 
@@ -30,10 +17,11 @@ const buildMapInfoCard = (title: string, body: string) => {
 interface IMap {
   center: LatLng;
   prevAddr: IAddress | null;
+  customClass?: string;
   setAddr: (addr: IAddress) => void;
 }
 
-const Map = ({ center, prevAddr, setAddr }: IMap) => {
+const Map = ({ center, prevAddr, customClass, setAddr }: IMap) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const placesRef = useRef<HTMLInputElement>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -84,7 +72,7 @@ const Map = ({ center, prevAddr, setAddr }: IMap) => {
     }
   }, [autoComplete, map, setAddr]);
   return (
-    <div ref={mapRef} className="flex flex-col gap-4 h-[50vh] w-full">
+    <div ref={mapRef} className={`flex flex-col gap-4 h-[50vh] w-full ${customClass || ''}`}>
       <Input
         className="bg-white rounded-2xl shadow-2xl focus:outline-none"
         variant="bordered"
