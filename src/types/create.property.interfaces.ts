@@ -5,15 +5,15 @@ export interface ICreateStay {
   type: StayType;
   name: string;
   summary: string;
-  // extraInfo?: {
-  //   host?: {
-  //     name: string;
-  //     info: string;
-  //   };
-  //   property?: string;
-  //   neighborhood?: string;
-  // };
-  // address: IAddress;
+  extraInfo?: {
+    host?: {
+      name: string;
+      info: string;
+    };
+    property?: string;
+    neighborhood?: string;
+  };
+  address: IAddress;
   avatar: string;
   images?: string[];
   amenities: string[];
@@ -25,7 +25,7 @@ export interface ICreateStay {
     pets: boolean;
     parties: boolean;
   };
-  // accommodation: IAccommodation[];
+  accommodation: IAccommodation[];
   maxDays: MaxDays;
   language: string[];
 }
