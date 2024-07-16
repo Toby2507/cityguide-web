@@ -12,6 +12,7 @@ const CreateStayPage = () => {
       {step === 1 ? <CreateStayStep1 control={control} setStep={setStep} /> : null}
       {step === 2 ? <CreateStayStep2 control={control} setStep={setStep} /> : null}
       {step === 3 ? <CreateStayStep3 control={control} trigger={trigger} watch={watch} setStep={setStep} /> : null}
+      {step === 4 ? <CreateStayStep4 control={control} watch={watch} setStep={setStep} /> : null}
     </form>
   );
 };

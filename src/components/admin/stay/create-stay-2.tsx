@@ -16,7 +16,7 @@ const CreateStayStep2 = ({ control, setStep }: ICreateStay) => {
   } = useController({ control, name: 'address' });
   const handleNext = () => {
     const isValid = createStaySchema.shape.address.safeParse(value);
-    if (!isValid.success) return toast.error('Please select a valid address');
+    // if (!isValid.success) return toast.error('Please select a valid address');
     setStep(3);
   };
   return (
