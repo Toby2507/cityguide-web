@@ -17,7 +17,7 @@ export interface ICreateStay {
   avatar: string;
   images?: string[];
   amenities: string[];
-  hotelRating: Rating;
+  hotelRating?: Rating;
   rules: {
     checkIn: string;
     checkOut: string;
