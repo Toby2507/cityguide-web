@@ -52,7 +52,10 @@ const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
           )}
           name="name"
           rules={{
-            validate: (val) => createStaySchema.shape.name.safeParse(val).success || 'Please enter a valid name',
+            validate: (val) => {
+              const isValid = createStaySchema.shape.name.safeParse(val);
+              return isValid.success || isValid.error.flatten().formErrors.join(', ');
+            },
           }}
         />
         <Controller
@@ -74,7 +77,10 @@ const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
           )}
           name="summary"
           rules={{
-            validate: (val) => createStaySchema.shape.summary.safeParse(val).success || 'Please enter a valid summary',
+            validate: (val) => {
+              const isValid = createStaySchema.shape.summary.safeParse(val);
+              return isValid.success || isValid.error.flatten().formErrors.join(', ');
+            },
           }}
         />
         <Controller
@@ -95,8 +101,10 @@ const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
           )}
           name="language"
           rules={{
-            validate: (val) =>
-              createStaySchema.shape.language.safeParse(val).success || 'Please enter a valid language',
+            validate: (val) => {
+              const isValid = createStaySchema.shape.language.safeParse(val);
+              return isValid.success || isValid.error.flatten().formErrors.join(', ');
+            },
           }}
         />
         {watch('type') === StayType.HOTEL ? (
