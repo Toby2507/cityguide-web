@@ -1,7 +1,7 @@
 'use client';
 
 import { Rating, StayType } from '@/types';
-import { createStaySchema } from '@/utils';
+import { createStaySchema, onEnter } from '@/utils';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Control, Controller, FieldValues, UseFormSetFocus, UseFormTrigger, UseFormWatch } from 'react-hook-form';
@@ -51,7 +51,7 @@ const CreateStayStep3 = ({ control, trigger, watch, setFocus, setStep }: ICreate
               isRequired
               value={value}
               onChange={onChange}
-              onKeyDown={(e) => e.key === 'Enter' && setFocus('summary')}
+              onKeyDown={(e) => onEnter(e, () => setFocus('summary'))}
               isInvalid={!!error}
               errorMessage={error?.message}
               ref={ref}
@@ -78,7 +78,7 @@ const CreateStayStep3 = ({ control, trigger, watch, setFocus, setStep }: ICreate
               isRequired
               value={value}
               onChange={onChange}
-              onKeyDown={(e) => e.key === 'Enter' && setFocus('language')}
+              onKeyDown={(e) => onEnter(e, () => setFocus('language'))}
               isInvalid={!!error}
               errorMessage={error?.message}
               ref={ref}
@@ -104,7 +104,7 @@ const CreateStayStep3 = ({ control, trigger, watch, setFocus, setStep }: ICreate
               radius="full"
               isRequired
               onChange={(e) => onChange(e.target.value.split(',').map((i) => i.trim()))}
-              onKeyDown={(e) => e.key === 'Enter' && watch('type') !== StayType.HOTEL && handleNext()}
+              onKeyDown={(e) => onEnter(e, () => watch('type') !== StayType.HOTEL && handleNext())}
               isInvalid={!!error}
               errorMessage={error?.message}
               ref={ref}
