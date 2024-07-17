@@ -3,24 +3,16 @@
 import { createStaySchema, onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useEffect } from 'react';
-import { Control, Controller, FieldValues, UseFormSetFocus, UseFormWatch } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { Control, Controller, FieldValues, UseFormSetFocus } from 'react-hook-form';
 import CreateStayButtons from './create-stay-btns';
 
 interface ICreateStay {
   control: Control<FieldValues, any>;
-  watch: UseFormWatch<FieldValues>;
   setFocus: UseFormSetFocus<FieldValues>;
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateStayStep4 = ({ control, watch, setFocus, setStep }: ICreateStay) => {
-  const handleNext = async () => {
-    const isValid = await createStaySchema.shape.extraInfo.safeParseAsync(watch('extraInfo'));
-    if (isValid.success) return toast.error('Please fill in the required fields');
-    setStep(5);
-  };
-
+const CreateStayStep4 = ({ control, setFocus, setStep }: ICreateStay) => {
   useEffect(() => {
     setFocus('extraInfo.host.name');
   }, [setFocus]);
@@ -45,8 +37,6 @@ const CreateStayStep4 = ({ control, watch, setFocus, setStep }: ICreateStay) => 
               value={value}
               onChange={onChange}
               onKeyDown={(e) => onEnter(e, () => setFocus('extraInfo.host.info'))}
-              isInvalid={!!error}
-              errorMessage={error?.message}
               ref={ref}
               className="text-accentGray"
             />
@@ -71,8 +61,6 @@ const CreateStayStep4 = ({ control, watch, setFocus, setStep }: ICreateStay) => 
               value={value}
               onChange={onChange}
               onKeyDown={(e) => onEnter(e, () => setFocus('extraInfo.property'))}
-              isInvalid={!!error}
-              errorMessage={error?.message}
               ref={ref}
               className="text-accentGray"
             />
@@ -97,8 +85,6 @@ const CreateStayStep4 = ({ control, watch, setFocus, setStep }: ICreateStay) => 
               value={value}
               onChange={onChange}
               onKeyDown={(e) => onEnter(e, () => setFocus('extraInfo.neighborhood'))}
-              isInvalid={!!error}
-              errorMessage={error?.message}
               ref={ref}
               className="text-accentGray"
             />
@@ -122,9 +108,7 @@ const CreateStayStep4 = ({ control, watch, setFocus, setStep }: ICreateStay) => 
               radius="full"
               value={value}
               onChange={onChange}
-              onKeyDown={(e) => onEnter(e, handleNext)}
-              isInvalid={!!error}
-              errorMessage={error?.message}
+              onKeyDown={(e) => onEnter(e, () => setStep(5))}
               ref={ref}
               className="text-accentGray"
             />
@@ -138,7 +122,7 @@ const CreateStayStep4 = ({ control, watch, setFocus, setStep }: ICreateStay) => 
           }}
         />
       </div>
-      <CreateStayButtons previous={() => setStep(3)} next={handleNext} />
+      <CreateStayButtons isLoading={false} previous={() => setStep(3)} next={() => setStep(5)} />
     </div>
   );
 };

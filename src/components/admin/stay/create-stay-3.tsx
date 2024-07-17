@@ -3,7 +3,7 @@
 import { Rating, StayType } from '@/types';
 import { createStaySchema, onEnter } from '@/utils';
 import { Button, Input, Textarea } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, UseFormSetFocus, UseFormTrigger, UseFormWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoStar, IoStarOutline } from 'react-icons/io5';
@@ -18,12 +18,17 @@ interface ICreateStay {
 }
 
 const CreateStayStep3 = ({ control, trigger, watch, setFocus, setStep }: ICreateStay) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleNext = async () => {
+    setIsLoading(true);
     const [isValidS, isValidT] = await Promise.all([
       createStaySchema.shape.hotelRating.safeParseAsync(watch('hotelRating')),
       trigger(['name', 'summary', 'language']),
     ]);
-    if (!isValidS.success || !isValidT) return toast.error('Please fill in the required fields');
+    setIsLoading(false);
+    if (!isValidS.success || !isValidT)
+      return toast.error(isValidS.error?.flatten().formErrors.join(', ') || 'Please fill in the required fields');
     setStep(4);
   };
 
@@ -156,7 +161,7 @@ const CreateStayStep3 = ({ control, trigger, watch, setFocus, setStep }: ICreate
           />
         ) : null}
       </div>
-      <CreateStayButtons previous={() => setStep(2)} next={handleNext} />
+      <CreateStayButtons isLoading={isLoading} previous={() => setStep(2)} next={handleNext} />
     </div>
   );
 };

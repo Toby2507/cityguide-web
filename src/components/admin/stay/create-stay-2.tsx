@@ -1,9 +1,10 @@
+'use client';
+
 import { Map } from '@/components';
-import { Dispatch, SetStateAction } from 'react';
+import { createStaySchema } from '@/utils';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Control, FieldValues, useController } from 'react-hook-form';
 import CreateStayButtons from './create-stay-btns';
-import { createStaySchema } from '@/utils';
-import toast from 'react-hot-toast';
 
 interface ICreateStay {
   control: Control<FieldValues, any>;
@@ -14,8 +15,11 @@ const CreateStayStep2 = ({ control, setStep }: ICreateStay) => {
   const {
     field: { onChange, value },
   } = useController({ control, name: 'address' });
-  const handleNext = () => {
-    const isValid = createStaySchema.shape.address.safeParse(value);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const handleNext = async () => {
+    setIsLoading(true);
+    const isValid = await createStaySchema.shape.address.safeParseAsync(value);
+    setIsLoading(false);
     // if (!isValid.success) return toast.error('Please select a valid address');
     setStep(3);
   };
@@ -33,7 +37,7 @@ const CreateStayStep2 = ({ control, setStep }: ICreateStay) => {
           setAddr={(addr) => onChange(addr)}
         />
       </div>
-      <CreateStayButtons previous={() => setStep(1)} next={handleNext} />
+      <CreateStayButtons isLoading={isLoading} previous={() => setStep(1)} next={handleNext} />
     </div>
   );
 };
