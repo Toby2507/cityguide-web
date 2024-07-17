@@ -1,22 +1,29 @@
-import { createStaySchema } from '@/utils';
+'use client';
+
+import { createStaySchema, onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
-import { Control, Controller, FieldValues, UseFormWatch } from 'react-hook-form';
-import CreateStayButtons from './create-stay-btns';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Control, Controller, FieldValues, UseFormSetFocus, UseFormWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import CreateStayButtons from './create-stay-btns';
 
 interface ICreateStay {
   control: Control<FieldValues, any>;
   watch: UseFormWatch<FieldValues>;
+  setFocus: UseFormSetFocus<FieldValues>;
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateStayStep4 = ({ control, watch, setStep }: ICreateStay) => {
+const CreateStayStep4 = ({ control, watch, setFocus, setStep }: ICreateStay) => {
   const handleNext = async () => {
     const isValid = await createStaySchema.shape.extraInfo.safeParseAsync(watch('extraInfo'));
     if (isValid.success) return toast.error('Please fill in the required fields');
     setStep(5);
   };
+
+  useEffect(() => {
+    setFocus('extraInfo.host.name');
+  }, [setFocus]);
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
       <div className="flex flex-col gap-2">
@@ -28,7 +35,7 @@ const CreateStayStep4 = ({ control, watch, setStep }: ICreateStay) => {
       <div className="flex flex-col gap-4 max-w-3xl py-2 mx-auto w-full">
         <Controller
           control={control}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
             <Input
               name="host_name"
               label="Host Name"
@@ -37,8 +44,10 @@ const CreateStayStep4 = ({ control, watch, setStep }: ICreateStay) => {
               radius="full"
               value={value}
               onChange={onChange}
+              onKeyDown={(e) => onEnter(e, () => setFocus('extraInfo.host.info'))}
               isInvalid={!!error}
               errorMessage={error?.message}
+              ref={ref}
               className="text-accentGray"
             />
           )}
@@ -52,7 +61,7 @@ const CreateStayStep4 = ({ control, watch, setStep }: ICreateStay) => {
         />
         <Controller
           control={control}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
             <Textarea
               name="host_summary"
               label="Host Summary"
@@ -61,8 +70,10 @@ const CreateStayStep4 = ({ control, watch, setStep }: ICreateStay) => {
               radius="full"
               value={value}
               onChange={onChange}
+              onKeyDown={(e) => onEnter(e, () => setFocus('extraInfo.property'))}
               isInvalid={!!error}
               errorMessage={error?.message}
+              ref={ref}
               className="text-accentGray"
             />
           )}
@@ -76,7 +87,7 @@ const CreateStayStep4 = ({ control, watch, setStep }: ICreateStay) => {
         />
         <Controller
           control={control}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
             <Textarea
               name="property_description"
               label="Property Extra Details"
@@ -85,8 +96,10 @@ const CreateStayStep4 = ({ control, watch, setStep }: ICreateStay) => {
               radius="full"
               value={value}
               onChange={onChange}
+              onKeyDown={(e) => onEnter(e, () => setFocus('extraInfo.neighborhood'))}
               isInvalid={!!error}
               errorMessage={error?.message}
+              ref={ref}
               className="text-accentGray"
             />
           )}
@@ -100,7 +113,7 @@ const CreateStayStep4 = ({ control, watch, setStep }: ICreateStay) => {
         />
         <Controller
           control={control}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
             <Textarea
               name="neighborhood_description"
               label="Neighborhood Description"
@@ -109,8 +122,10 @@ const CreateStayStep4 = ({ control, watch, setStep }: ICreateStay) => {
               radius="full"
               value={value}
               onChange={onChange}
+              onKeyDown={(e) => onEnter(e, handleNext)}
               isInvalid={!!error}
               errorMessage={error?.message}
+              ref={ref}
               className="text-accentGray"
             />
           )}
