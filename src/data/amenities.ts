@@ -68,3 +68,5 @@ export const otherAmenities = [
   '24-hour security',
   'Safe',
 ];
+
+export const staticAmenities = new Set([...amenities.map((a) => a.name), ...otherAmenities]);
