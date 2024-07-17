@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  CreateStayStep1,
-  CreateStayStep2,
-  CreateStayStep3,
-  CreateStayStep4,
-  CreateStayStep5,
-  CreateStayStep6,
-} from '@/components';
+import { CreateStayStep1, CreateStayStep2, CreateStayStep3, CreateStayStep4, CreateStayStep5 } from '@/components';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -23,7 +16,6 @@ const CreateStayPage = () => {
       ) : null}
       {step === 4 ? <CreateStayStep4 control={control} setFocus={setFocus} setStep={setStep} /> : null}
       {step === 5 ? <CreateStayStep5 control={control} setStep={setStep} /> : null}
-      {step === 6 ? <CreateStayStep6 /> : null}
     </div>
   );
 };
