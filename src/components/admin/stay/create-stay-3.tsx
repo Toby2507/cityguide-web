@@ -1,8 +1,10 @@
+'use client';
+
 import { Rating, StayType } from '@/types';
 import { createStaySchema } from '@/utils';
 import { Button, Input, Textarea } from '@nextui-org/react';
-import { Dispatch, SetStateAction } from 'react';
-import { Control, Controller, FieldValues, UseFormTrigger, UseFormWatch } from 'react-hook-form';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Control, Controller, FieldValues, UseFormSetFocus, UseFormTrigger, UseFormWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoStar, IoStarOutline } from 'react-icons/io5';
 import CreateStayButtons from './create-stay-btns';
@@ -11,10 +13,11 @@ interface ICreateStay {
   control: Control<FieldValues, any>;
   trigger: UseFormTrigger<FieldValues>;
   watch: UseFormWatch<FieldValues>;
+  setFocus: UseFormSetFocus<FieldValues>;
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
+const CreateStayStep3 = ({ control, trigger, watch, setFocus, setStep }: ICreateStay) => {
   const handleNext = async () => {
     const [isValidS, isValidT] = await Promise.all([
       createStaySchema.shape.hotelRating.safeParseAsync(watch('hotelRating')),
@@ -24,6 +27,9 @@ const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
     setStep(4);
   };
 
+  useEffect(() => {
+    setFocus('name');
+  }, [setFocus]);
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
       <div className="flex flex-col gap-2">
@@ -35,7 +41,7 @@ const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
       <div className="flex flex-col gap-4 max-w-3xl py-2 mx-auto w-full">
         <Controller
           control={control}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
             <Input
               name="name"
               label="Property Name"
@@ -45,8 +51,10 @@ const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
               isRequired
               value={value}
               onChange={onChange}
+              onKeyDown={(e) => e.key === 'Enter' && setFocus('summary')}
               isInvalid={!!error}
               errorMessage={error?.message}
+              ref={ref}
               className="text-accentGray"
             />
           )}
@@ -60,7 +68,7 @@ const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
         />
         <Controller
           control={control}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
             <Textarea
               name="summary"
               label="Property Summary"
@@ -70,8 +78,10 @@ const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
               isRequired
               value={value}
               onChange={onChange}
+              onKeyDown={(e) => e.key === 'Enter' && setFocus('language')}
               isInvalid={!!error}
               errorMessage={error?.message}
+              ref={ref}
               className="text-accentGray"
             />
           )}
@@ -85,7 +95,7 @@ const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
         />
         <Controller
           control={control}
-          render={({ field: { onChange }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref }, fieldState: { error } }) => (
             <Input
               name="language"
               label="Language Spoken (Separate with commas)"
@@ -94,12 +104,15 @@ const CreateStayStep3 = ({ control, trigger, watch, setStep }: ICreateStay) => {
               radius="full"
               isRequired
               onChange={(e) => onChange(e.target.value.split(',').map((i) => i.trim()))}
+              onKeyDown={(e) => e.key === 'Enter' && watch('type') !== StayType.HOTEL && handleNext()}
               isInvalid={!!error}
               errorMessage={error?.message}
+              ref={ref}
               className="text-accentGray"
             />
           )}
           name="language"
+          defaultValue={watch('language')?.join(', ') || ''}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.language.safeParse(val);
