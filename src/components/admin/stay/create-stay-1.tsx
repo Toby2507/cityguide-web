@@ -4,7 +4,6 @@ import { stayTypes } from '@/data';
 import { StayType } from '@/types';
 import { createStaySchema } from '@/utils';
 import { Button } from '@nextui-org/react';
-import { watch } from 'fs';
 import { Dispatch, SetStateAction } from 'react';
 import { Control, FieldValues, useController } from 'react-hook-form';
 
