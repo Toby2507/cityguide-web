@@ -95,7 +95,7 @@ const CreateStayStep3 = ({ control, trigger, watch, setFocus, setStep }: ICreate
         />
         <Controller
           control={control}
-          render={({ field: { onChange, ref }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
             <Input
               name="language"
               label="Language Spoken (Separate with commas)"
@@ -109,10 +109,10 @@ const CreateStayStep3 = ({ control, trigger, watch, setFocus, setStep }: ICreate
               errorMessage={error?.message}
               ref={ref}
               className="text-accentGray"
+              defaultValue={value?.join(', ') || ''}
             />
           )}
           name="language"
-          defaultValue={watch('language')?.join(', ') || ''}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.language.safeParse(val);
