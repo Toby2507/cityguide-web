@@ -23,7 +23,7 @@ const CreateStayPage = () => {
       ) : null}
       {step === 4 ? <CreateStayStep4 control={control} setFocus={setFocus} setStep={setStep} /> : null}
       {step === 5 ? <CreateStayStep5 control={control} setStep={setStep} /> : null}
-      {step === 6 ? <CreateStayStep6 /> : null}
+      {step === 6 ? <CreateStayStep6 control={control} setStep={setStep} /> : null}
     </div>
   );
 };
