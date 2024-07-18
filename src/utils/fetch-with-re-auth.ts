@@ -10,10 +10,6 @@ const baseQuery = process.env.NEXT_PUBLIC_SERVER_URL;
 export const fetchBaseQuery = async (url: string, options: RequestInit = {}): Promise<Response> => {
   const token = cookies().get('access-token')?.value;
   if (token) options.headers = { ...options.headers, Authorization: `Bearer ${token}` };
-  options.headers = {
-    ...options.headers,
-    'Content-Type': 'application/json',
-  };
   options = { ...options, credentials: options.credentials || 'include' };
   const res = await fetch(`${baseQuery}/${url}`, options);
   return res;
