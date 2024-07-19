@@ -7,6 +7,7 @@ import {
   CreateStayStep4,
   CreateStayStep5,
   CreateStayStep6,
+  CreateStayStep7,
 } from '@/components';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -24,6 +25,7 @@ const CreateStayPage = () => {
       {step === 4 ? <CreateStayStep4 control={control} setFocus={setFocus} setStep={setStep} /> : null}
       {step === 5 ? <CreateStayStep5 control={control} setStep={setStep} /> : null}
       {step === 6 ? <CreateStayStep6 control={control} setStep={setStep} /> : null}
+      {step === 7 ? <CreateStayStep7 control={control} trigger={trigger} setStep={setStep} /> : null}
     </div>
   );
 };
