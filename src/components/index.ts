@@ -14,6 +14,7 @@ export { default as CreateStayStep3 } from './admin/stay/create-stay-3';
 export { default as CreateStayStep4 } from './admin/stay/create-stay-4';
 export { default as CreateStayStep5 } from './admin/stay/create-stay-5';
 export { default as CreateStayStep6 } from './admin/stay/create-stay-6';
+export { default as CreateStayStep7 } from './admin/stay/create-stay-7';
 
 // Auth
 export { default as SignUpTab } from './auth/signup-tab';
