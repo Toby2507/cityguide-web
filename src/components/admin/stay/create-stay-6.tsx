@@ -8,6 +8,7 @@ import { useDropzone } from 'react-dropzone';
 import { Control, FieldValues, useController } from 'react-hook-form';
 import { IoClose, IoCloudUploadOutline } from 'react-icons/io5';
 import CreateStayButtons from './create-stay-btns';
+import toast from 'react-hot-toast';
 
 interface ICreateStay {
   control: Control<FieldValues>;
@@ -19,38 +20,48 @@ interface ICustomFile {
 }
 
 const CreateStayStep6 = ({ control, setStep }: ICreateStay) => {
-  const [avatar, setAvatar] = useState<string>('');
+  const {
+    field: { onChange: changeAvatar, value },
+  } = useController({ control, name: 'avatar' });
+  const {
+    field: { onChange: changeImages, value: uploadedImages = [] },
+  } = useController({ control, name: 'images' });
+  const {
+    field: { onChange: setImgIds, value: imgIds = [] },
+  } = useController({ control, name: 'tempImgIds' });
+  const [avatar, setAvatar] = useState<string>(value || '');
   const [images, setImages] = useState<ICustomFile[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const onDrop = useCallback(
     (files: File[]) => {
       let tFiles = files.map((f) => ({ id: `${f.name}-${f.size}-${f.type}`, file: f }));
-      tFiles = tFiles.filter((file) => !images.some((i) => i.id === file.id));
+      tFiles = tFiles.filter((file) => {
+        if (!imgIds.includes(file.id) && !images.some((i) => i.id === file.id)) return true;
+        toast.error('File already exists');
+        return false;
+      });
       if (!avatar) setAvatar(tFiles[0].id);
       setImages((prev) => [...prev, ...tFiles]);
     },
-    [avatar, images]
+    [avatar, images, imgIds]
   );
-  const {
-    field: { onChange: changeAvatar, value },
-  } = useController({ control, name: 'avatar' });
-  const {
-    field: { onChange: changeImages },
-  } = useController({ control, name: 'images' });
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const removeFile = (id: string) => setImages((prev) => prev.filter((file) => file.id !== id));
   const handleUpload = async () => {
     setIsLoading(true);
-    const avatarData = new FormData();
-    const imagesData = new FormData();
-    images.forEach((image) => {
-      if (image.id === avatar) avatarData.append('images', image.file);
-      else imagesData.append('images', image.file);
-    });
-    const imgUrls = await Promise.all([uploadImages(avatarData), uploadImages(imagesData)]);
-    changeAvatar(imgUrls[0][0]);
-    changeImages(imgUrls[1]);
+    if (images.length) {
+      const avatarData = new FormData();
+      const imagesData = new FormData();
+      images.forEach((image) => {
+        if (image.id === avatar) avatarData.append('images', image.file);
+        else imagesData.append('images', image.file);
+      });
+      const imgUrls = await Promise.all([uploadImages(avatarData), uploadImages(imagesData)]);
+      imgUrls[0] && changeAvatar(imgUrls[0][0]);
+      imgUrls[1] && changeImages([...uploadedImages, ...imgUrls[1]]);
+      setImgIds([...imgIds, ...images.map((i) => i.id)]);
+    }
     setIsLoading(false);
     setStep(7);
   };
@@ -65,7 +76,7 @@ const CreateStayStep6 = ({ control, setStep }: ICreateStay) => {
           {...getRootProps()}
           className={`flex flex-col items-center justify-center gap-2 border-2 border-primary border-dashed ${
             isDragActive ? 'bg-secondary/60' : 'bg-bgAccentBlue'
-          } rounded-xl h-[25vh] transition-all duration-300 ease-in-out`}
+          } rounded-xl h-[25vh] transition-all duration-300 ease-in-out pb-4`}
         >
           <IoCloudUploadOutline className="text-6xl text-primary" />
           <input {...getInputProps()} />
@@ -75,14 +86,21 @@ const CreateStayStep6 = ({ control, setStep }: ICreateStay) => {
           </p>
           <span className="text-xs text-accentGray font-light">Maximum size: 10MB</span>
         </div>
-        <p className="text-xs text-center text-accentGray font-light pt-4">
-          Click on any of the selected images to set it as your display image
-        </p>
+        {value ? (
+          <p className="text-xs text-center text-accentGray font-light">
+            {[value, ...uploadedImages].length} image(s) uploaded, Select more to upload
+          </p>
+        ) : null}
+        {images.length && !value ? (
+          <p className="text-xs text-center text-accentGray font-light">
+            Click on any of the selected images to set it as your display image
+          </p>
+        ) : null}
         <div className="grid grid-cols-3 gap-2 items-center">
           {images.map(({ file, id }) => (
             <div
               key={id}
-              onClick={() => setAvatar(id)}
+              onClick={() => !value && setAvatar(id)}
               className={`flex items-center gap-2 p-2 rounded-xl cursor-pointer ${
                 id === avatar ? 'bg-secondary/60' : 'bg-bgAccentBlue'
               }`}
@@ -102,7 +120,12 @@ const CreateStayStep6 = ({ control, setStep }: ICreateStay) => {
         </div>
       </div>
       {images.length || value ? (
-        <CreateStayButtons isLoading={isLoading} nextText="Upload" previous={() => setStep(5)} next={handleUpload} />
+        <CreateStayButtons
+          isLoading={isLoading}
+          nextText={images.length ? 'Upload' : 'Next'}
+          previous={() => setStep(5)}
+          next={handleUpload}
+        />
       ) : null}
     </div>
   );
