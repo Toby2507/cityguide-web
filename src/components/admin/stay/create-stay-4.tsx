@@ -1,6 +1,7 @@
 'use client';
 
-import { createStaySchema, onEnter } from '@/utils';
+import { createStaySchema } from '@/schemas';
+import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Control, Controller, FieldValues, UseFormSetFocus } from 'react-hook-form';

@@ -2,6 +2,13 @@
 
 import { signIn } from '@/auth';
 import {
+  createEstablishmentSchema,
+  createUserSchema,
+  loginUserSchema,
+  upgradeUserSchema,
+  verifyOtpSchema,
+} from '@/schemas';
+import {
   IAddress,
   IFormCreateEstablishment,
   IFormCreateUser,
@@ -9,16 +16,7 @@ import {
   IFormUpgradeUser,
   IFormVerifyOtp,
 } from '@/types';
-import {
-  createEstablishmentSchema,
-  createUserSchema,
-  fetchBaseQuery,
-  fetchWithReAuth,
-  loginUserSchema,
-  paths,
-  upgradeUserSchema,
-  verifyOtpSchema,
-} from '@/utils';
+import { fetchBaseQuery, fetchWithReAuth, paths } from '@/utils';
 import { redirect } from 'next/navigation';
 import { setCookies, upgradeToPartner } from '../queries/auth';
 

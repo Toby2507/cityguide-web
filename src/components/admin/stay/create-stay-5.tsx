@@ -1,7 +1,7 @@
 'use client';
 
 import { staticAmenities } from '@/data';
-import { createStaySchema } from '@/utils';
+import { createStaySchema } from '@/schemas';
 import { Checkbox } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { Control, FieldValues, useController } from 'react-hook-form';

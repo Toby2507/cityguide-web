@@ -1,7 +1,7 @@
 'use client';
 
 import { Map } from '@/components';
-import { createStaySchema } from '@/utils';
+import { createStaySchema } from '@/schemas';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Control, FieldValues, useController } from 'react-hook-form';
 import CreateStayButtons from './create-stay-btns';

@@ -1,7 +1,7 @@
 'use client';
 
+import { createStaySchema } from '@/schemas';
 import { MaxDays } from '@/types';
-import { createStaySchema } from '@/utils';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';

@@ -1,7 +1,8 @@
 'use client';
 
+import { createStaySchema } from '@/schemas';
 import { IBed, IRoom, Parking } from '@/types';
-import { createStaySchema, onEnter } from '@/utils';
+import { onEnter } from '@/utils';
 import { Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';

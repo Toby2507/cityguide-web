@@ -1,7 +1,8 @@
 'use client';
 
+import { createStaySchema } from '@/schemas';
 import { Rating, StayType } from '@/types';
-import { createStaySchema, onEnter } from '@/utils';
+import { onEnter } from '@/utils';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, UseFormSetFocus, UseFormTrigger, UseFormWatch } from 'react-hook-form';

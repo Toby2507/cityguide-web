@@ -1,6 +1,6 @@
 'use client';
 
-import { createStaySchema } from '@/utils';
+import { createStaySchema } from '@/schemas';
 import { Button, Pagination } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import {
@@ -13,9 +13,9 @@ import {
   UseFormWatch,
 } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { IoAdd, IoRemove } from 'react-icons/io5';
 import AccommodationInputs from './accommodation-inputs';
 import CreateStayButtons from './create-stay-btns';
-import { IoAdd, IoRemove } from 'react-icons/io5';
 
 interface ICreateStay {
   control: Control<FieldValues>;
