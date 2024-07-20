@@ -141,6 +141,11 @@ export interface IBed {
   count: number;
 }
 
+export interface IRoom {
+  name: string;
+  beds: IBed[];
+}
+
 export interface IStayRules {
   checkIn: string;
   checkOut: string;
@@ -159,7 +164,7 @@ export interface IAccommodation {
   id: string;
   name: string;
   description?: string;
-  rooms: { name: string; beds: IBed[] }[];
+  rooms: IRoom[];
   maxGuests: number;
   bathrooms: number;
   children: boolean;
