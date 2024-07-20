@@ -2,7 +2,9 @@
 
 import { MaxDays } from '@/types';
 import { createStaySchema } from '@/utils';
+import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
+import dayjs from 'dayjs';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, useController, UseFormTrigger } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -15,13 +17,8 @@ interface ICreateStay {
 }
 
 const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [checkinFrom, setCheckinFrom] = useState<TimeInputValue>();
-  const [checkinTo, setCheckinTo] = useState<TimeInputValue>();
-  const [checkoutFrom, setCheckoutFrom] = useState<TimeInputValue>();
-  const [checkoutTo, setCheckoutTo] = useState<TimeInputValue>();
   const {
-    field: { onChange: setCheckIn },
+    field: { onChange: setCheckIn, value: checkIn },
     fieldState: { error: checkinErr },
   } = useController({
     control,
@@ -34,7 +31,7 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
     },
   });
   const {
-    field: { onChange: setCheckOut },
+    field: { onChange: setCheckOut, value: checkOut },
     fieldState: { error: checkoutErr },
   } = useController({
     control,
@@ -46,6 +43,11 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
       },
     },
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [checkinFrom, setCheckinFrom] = useState<TimeInputValue>();
+  const [checkinTo, setCheckinTo] = useState<TimeInputValue>();
+  const [checkoutFrom, setCheckoutFrom] = useState<TimeInputValue>();
+  const [checkoutTo, setCheckoutTo] = useState<TimeInputValue>();
 
   const handleNext = async () => {
     setIsLoading(true);
@@ -57,9 +59,17 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
 
   useEffect(() => {
     if (checkinFrom && checkinTo)
-      setCheckIn(`${checkinFrom?.hour}:${checkinFrom?.minute}-${checkinTo?.hour}:${checkinTo?.minute}`);
+      setCheckIn(
+        `${String(checkinFrom?.hour).padStart(2, '0')}:${String(checkinFrom?.minute).padStart(2, '0')}-${String(
+          checkinTo?.hour
+        ).padStart(2, '0')}:${String(checkinTo?.minute).padStart(2, '0')}`
+      );
     if (checkoutFrom && checkoutTo)
-      setCheckOut(`${checkoutFrom?.hour}:${checkoutFrom?.minute}-${checkoutTo?.hour}:${checkoutTo?.minute}`);
+      setCheckOut(
+        `${String(checkoutFrom?.hour).padStart(2, '0')}:${String(checkoutFrom?.minute).padStart(2, '0')}-${String(
+          checkoutTo?.hour
+        ).padStart(2, '0')}:${String(checkoutTo?.minute).padStart(2, '0')}`
+      );
   }, [checkinFrom, checkinTo, checkoutFrom, checkoutTo, setCheckIn, setCheckOut]);
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
@@ -78,6 +88,8 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
               value={checkinFrom}
               onChange={setCheckinFrom}
               label="From"
+              hideTimeZone
+              defaultValue={checkIn && parseAbsoluteToLocal(dayjs(`1-1-1 ${checkIn.split('-')[0]}`).toISOString())}
             />
             <TimeInput
               isRequired
@@ -86,6 +98,8 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
               value={checkinTo}
               onChange={setCheckinTo}
               label="Until"
+              hideTimeZone
+              defaultValue={checkIn && parseAbsoluteToLocal(dayjs(`1-1-1 ${checkIn.split('-')[1]}`).toISOString())}
             />
           </div>
         </div>
@@ -99,6 +113,8 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
               value={checkoutFrom}
               onChange={setCheckoutFrom}
               label="From"
+              hideTimeZone
+              defaultValue={checkOut && parseAbsoluteToLocal(dayjs(`1-1-1 ${checkOut.split('-')[0]}`).toISOString())}
             />
             <TimeInput
               isRequired
@@ -107,6 +123,8 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
               value={checkoutTo}
               onChange={setCheckoutTo}
               label="Until"
+              hideTimeZone
+              defaultValue={checkOut && parseAbsoluteToLocal(dayjs(`1-1-1 ${checkOut.split('-')[1]}`).toISOString())}
             />
           </div>
         </div>
@@ -115,7 +133,7 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
             control={control}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <Select
-                value={value ? 'Yes' : 'No'}
+                selectedKeys={value === undefined ? undefined : [value ? 'Yes' : 'No']}
                 onChange={(e) => onChange(e.target.value === 'Yes')}
                 isRequired
                 label="Is Smoking allowed?"
@@ -139,7 +157,7 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
             control={control}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <Select
-                value={value ? 'Yes' : 'No'}
+                selectedKeys={value === undefined ? undefined : [value ? 'Yes' : 'No']}
                 onChange={(e) => onChange(e.target.value === 'Yes')}
                 isRequired
                 label="Are Pets allowed?"
@@ -163,7 +181,7 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
             control={control}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <Select
-                value={value ? 'Yes' : 'No'}
+                selectedKeys={value === undefined ? undefined : [value ? 'Yes' : 'No']}
                 onChange={(e) => onChange(e.target.value === 'Yes')}
                 isRequired
                 label="Are Parties allowed?"
@@ -189,7 +207,7 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
           render={({ field: { onChange, value }, fieldState: { error } }) => (
             <Select
               isRequired
-              value={value?.toString() || ''}
+              selectedKeys={value === undefined ? undefined : [value?.toString()]}
               onChange={(e) => onChange(parseInt(e.target.value))}
               label="Specify the maximum number of nights a guest can book your property at one time"
               defaultSelectedKeys={[MaxDays.DEFAULT]}
@@ -203,6 +221,12 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
             </Select>
           )}
           name="maxDays"
+          rules={{
+            validate: (val) => {
+              const isValid = createStaySchema.shape.maxDays.safeParse(val);
+              return isValid.success || isValid.error.flatten().formErrors.join(', ');
+            },
+          }}
         />
       </div>
       <CreateStayButtons isLoading={isLoading} previous={() => setStep(6)} next={handleNext} />
