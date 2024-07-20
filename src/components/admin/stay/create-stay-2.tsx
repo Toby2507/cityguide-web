@@ -2,16 +2,17 @@
 
 import { Map } from '@/components';
 import { createStaySchema } from '@/schemas';
+import { ICreateStay } from '@/types';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Control, FieldValues, useController } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form';
 import CreateStayButtons from './create-stay-btns';
 
-interface ICreateStay {
-  control: Control<FieldValues, any>;
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateStayStep2 = ({ control, setStep }: ICreateStay) => {
+const CreateStayStep2 = ({ setStep }: Props) => {
+  const { control } = useFormContext<ICreateStay>();
   const {
     field: { onChange, value },
   } = useController({ control, name: 'address' });

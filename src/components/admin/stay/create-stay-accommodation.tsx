@@ -1,32 +1,21 @@
 'use client';
 
 import { createStaySchema } from '@/schemas';
+import { ICreateStay } from '@/types';
 import { Button, Pagination } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useState } from 'react';
-import {
-  Control,
-  FieldValues,
-  useFieldArray,
-  UseFormSetFocus,
-  UseFormSetValue,
-  UseFormTrigger,
-  UseFormWatch,
-} from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoAdd, IoRemove } from 'react-icons/io5';
 import AccommodationInputs from './accommodation-inputs';
 import CreateStayButtons from './create-stay-btns';
 
-interface ICreateStay {
-  control: Control<FieldValues>;
-  watch: UseFormWatch<FieldValues>;
-  trigger: UseFormTrigger<FieldValues>;
-  setFocus: UseFormSetFocus<FieldValues>;
-  setValue: UseFormSetValue<FieldValues>;
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateStayAccommodation = ({ control, watch, trigger, setValue, setFocus, setStep }: ICreateStay) => {
+const CreateStayAccommodation = ({ setStep }: Props) => {
+  const { control, watch, trigger } = useFormContext<ICreateStay>();
   const [accIdx, setAccIdx] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(watch('accommodation')?.length || 1);
@@ -58,14 +47,7 @@ const CreateStayAccommodation = ({ control, watch, trigger, setValue, setFocus, 
         <p className="text-center font-light">Expand your offerings with diverse room types</p>
       </div>
       <div className="flex flex-col gap-4 max-w-3xl py-2 mx-auto w-full">
-        <AccommodationInputs
-          key={accIdx}
-          idx={accIdx}
-          control={control}
-          watch={watch}
-          setFocus={setFocus}
-          setValue={setValue}
-        />
+        <AccommodationInputs key={accIdx} idx={accIdx} />
         <div className="flex items-center justify-between gap-10">
           <Pagination total={total} page={accIdx + 1} onChange={(val) => setAccIdx(val - 1)} />
           <div className="flex items-center gap-2">

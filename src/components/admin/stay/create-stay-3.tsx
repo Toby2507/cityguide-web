@@ -1,24 +1,21 @@
 'use client';
 
 import { createStaySchema } from '@/schemas';
-import { Rating, StayType } from '@/types';
+import { ICreateStay, Rating, StayType } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Control, Controller, FieldValues, UseFormSetFocus, UseFormTrigger, UseFormWatch } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoStar, IoStarOutline } from 'react-icons/io5';
 import CreateStayButtons from './create-stay-btns';
 
-interface ICreateStay {
-  control: Control<FieldValues, any>;
-  trigger: UseFormTrigger<FieldValues>;
-  watch: UseFormWatch<FieldValues>;
-  setFocus: UseFormSetFocus<FieldValues>;
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateStayStep3 = ({ control, trigger, watch, setFocus, setStep }: ICreateStay) => {
+const CreateStayStep3 = ({ setStep }: Props) => {
+  const { control, trigger, watch, setFocus } = useFormContext<ICreateStay>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleNext = async () => {
@@ -136,7 +133,7 @@ const CreateStayStep3 = ({ control, trigger, watch, setFocus, setStep }: ICreate
                   {Object.values(Rating)
                     .filter((i) => Number(i))
                     .map((rating) => {
-                      const isActive = rating <= value;
+                      const isActive = +rating <= (value || 0);
                       return (
                         <Button
                           key={rating}

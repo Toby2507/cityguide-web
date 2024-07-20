@@ -1,19 +1,19 @@
 'use client';
 
 import { createStaySchema } from '@/schemas';
+import { ICreateStay } from '@/types';
 import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useEffect } from 'react';
-import { Control, Controller, FieldValues, UseFormSetFocus } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import CreateStayButtons from './create-stay-btns';
 
-interface ICreateStay {
-  control: Control<FieldValues, any>;
-  setFocus: UseFormSetFocus<FieldValues>;
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateStayStep4 = ({ control, setFocus, setStep }: ICreateStay) => {
+const CreateStayStep4 = ({ setStep }: Props) => {
+  const { control, setFocus } = useFormContext<ICreateStay>();
   useEffect(() => {
     setFocus('extraInfo.host.name');
   }, [setFocus]);

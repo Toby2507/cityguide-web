@@ -2,19 +2,20 @@
 
 import { staticAmenities } from '@/data';
 import { createStaySchema } from '@/schemas';
+import { ICreateStay } from '@/types';
 import { Checkbox } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
-import { Control, FieldValues, useController } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateStayAmenities from './create-stay-amenities';
 import CreateStayButtons from './create-stay-btns';
 
-interface ICreateStay {
-  control: Control<FieldValues, any>;
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateStayStep5 = ({ control, setStep }: ICreateStay) => {
+const CreateStayStep5 = ({ setStep }: Props) => {
+  const { control } = useFormContext<ICreateStay>();
   const {
     field: { onChange, value = [] },
   } = useController({ control, name: 'amenities' });

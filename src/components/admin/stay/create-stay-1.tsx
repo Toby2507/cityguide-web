@@ -2,17 +2,17 @@
 
 import { stayTypes } from '@/data';
 import { createStaySchema } from '@/schemas';
-import { StayType } from '@/types';
+import { ICreateStay, StayType } from '@/types';
 import { Button } from '@nextui-org/react';
 import { Dispatch, SetStateAction } from 'react';
-import { Control, FieldValues, useController } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form';
 
-interface ICreateStay {
-  control: Control<FieldValues, any>;
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateStayStep1 = ({ control, setStep }: ICreateStay) => {
+const CreateStayStep1 = ({ setStep }: Props) => {
+  const { control } = useFormContext<ICreateStay>();
   const {
     field: { onChange },
   } = useController({ control, name: 'type' });

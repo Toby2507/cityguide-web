@@ -5,13 +5,12 @@ import { formatFileSize } from '@/utils';
 import { Button, Image } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Control, FieldValues, useController } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoClose, IoCloudUploadOutline } from 'react-icons/io5';
 import CreateStayButtons from './create-stay-btns';
 
-interface ICreateStay {
-  control: Control<FieldValues>;
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
 }
 interface ICustomFile {
@@ -19,7 +18,8 @@ interface ICustomFile {
   file: File;
 }
 
-const CreateStayStep6 = ({ control, setStep }: ICreateStay) => {
+const CreateStayStep6 = ({ setStep }: Props) => {
+  const { control } = useFormContext();
   const {
     field: { onChange: changeAvatar, value },
   } = useController({ control, name: 'avatar' });

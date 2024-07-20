@@ -1,40 +1,29 @@
 'use client';
 
 import { createStaySchema } from '@/schemas';
-import { IBed, IRoom, Parking } from '@/types';
+import { IBed, ICreateStay, IRoom, Parking } from '@/types';
 import { onEnter } from '@/utils';
 import { Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
-import {
-  Control,
-  Controller,
-  FieldValues,
-  useController,
-  UseFormSetFocus,
-  UseFormSetValue,
-  UseFormWatch,
-} from 'react-hook-form';
+import { Controller, FieldValues, useController, useFormContext, UseFormSetValue } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateStayAmenities from './create-stay-amenities';
 import CreateStayRoomCard from './create-stay-room';
 
 interface IAccommodationInputs {
   idx: number;
-  control: Control<FieldValues>;
-  watch: UseFormWatch<FieldValues>;
-  setFocus: UseFormSetFocus<FieldValues>;
-  setValue: UseFormSetValue<FieldValues>;
 }
 
-const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccommodationInputs) => {
+const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
+  const { control, watch, setFocus, setValue } = useFormContext<ICreateStay>();
   const [roomName, setRoomName] = useState<string>('');
   const {
     field: { onChange, ref, value = [] },
     fieldState: { error },
   } = useController({
     control,
-    name: `accommodation[${idx}].rooms`,
+    name: `accommodation.${idx}.rooms`,
     rules: {
       validate: (val) => {
         const isValid = createStaySchema.shape.accommodation.element.shape.rooms.safeParse(val);
@@ -44,7 +33,7 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
   });
   const {
     field: { onChange: addAmenities, value: amenities = [] },
-  } = useController({ control, name: `accommodation[${idx}].amenities` });
+  } = useController({ control, name: `accommodation.${idx}.amenities` });
 
   const addRoom = () => {
     if (!roomName) return;
@@ -71,12 +60,12 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
     addAmenities(newAmenities);
   };
 
-  const initAvail = watch(`accommodation[${idx}].initialAvailable`);
+  const initAvail = watch(`accommodation.${idx}.initialAvailable`);
   useEffect(() => {
-    if (!watch(`accommodation[${idx}].id`)) setValue(`accommodation[${idx}].id`, nanoid());
+    if (!watch(`accommodation.${idx}.id`)) setValue(`accommodation.${idx}.id`, nanoid());
   }, [setValue, watch, idx]);
   useEffect(() => {
-    if (initAvail) setValue(`accommodation[${idx}].available`, initAvail);
+    if (initAvail) setValue(`accommodation.${idx}.available`, initAvail);
   }, [initAvail, idx, setValue]);
   return (
     <>
@@ -92,14 +81,14 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
             isRequired
             value={value}
             onChange={onChange}
-            onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation[${idx}].description`))}
+            onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation.${idx}.description`))}
             isInvalid={!!error}
             errorMessage={error?.message}
             ref={ref}
             className="text-accentGray"
           />
         )}
-        name={`accommodation[${idx}].name`}
+        name={`accommodation.${idx}.name`}
         rules={{
           validate: (val) => {
             const isValid = createStaySchema.shape.accommodation.element.shape.name.safeParse(val);
@@ -118,14 +107,14 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
             radius="full"
             value={value}
             onChange={onChange}
-            onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation[${idx}].maxGuests`))}
+            onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation.${idx}.maxGuests`))}
             isInvalid={!!error}
             errorMessage={error?.message}
             ref={ref}
             className="text-accentGray"
           />
         )}
-        name={`accommodation[${idx}].description`}
+        name={`accommodation.${idx}.description`}
         rules={{
           validate: (val) => {
             const isValid = createStaySchema.shape.accommodation.element.shape.description.safeParse(val);
@@ -145,14 +134,14 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
               isRequired
               value={value?.toString() || ''}
               onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
-              onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation[${idx}].bathrooms`))}
+              onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation.${idx}.bathrooms`))}
               isInvalid={!!error}
               errorMessage={error?.message}
               ref={ref}
               className="text-accentGray"
             />
           )}
-          name={`accommodation[${idx}].maxGuests`}
+          name={`accommodation.${idx}.maxGuests`}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.accommodation.element.shape.maxGuests.safeParse(val);
@@ -171,14 +160,14 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
               isRequired
               value={value?.toString() || ''}
               onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
-              onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation[${idx}].size`))}
+              onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation.${idx}.size`))}
               isInvalid={!!error}
               errorMessage={error?.message}
               ref={ref}
               className="text-accentGray"
             />
           )}
-          name={`accommodation[${idx}].bathrooms`}
+          name={`accommodation.${idx}.bathrooms`}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.accommodation.element.shape.bathrooms.safeParse(val);
@@ -196,14 +185,14 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
               type="tel"
               value={value?.toString() || ''}
               onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
-              onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation[${idx}].initialAvailable`))}
+              onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation.${idx}.initialAvailable`))}
               isInvalid={!!error}
               errorMessage={error?.message}
               ref={ref}
               className="text-accentGray"
             />
           )}
-          name={`accommodation[${idx}].size`}
+          name={`accommodation.${idx}.size`}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.accommodation.element.shape.size.safeParse(val);
@@ -228,7 +217,7 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
               className="text-accentGray"
             />
           )}
-          name={`accommodation[${idx}].initialAvailable`}
+          name={`accommodation.${idx}.initialAvailable`}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.accommodation.element.shape.initialAvailable.safeParse(val);
@@ -252,7 +241,7 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
               <SelectItem key="No">No</SelectItem>
             </Select>
           )}
-          name={`accommodation[${idx}].children`}
+          name={`accommodation.${idx}.children`}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.accommodation.element.shape.children.safeParse(val);
@@ -276,7 +265,7 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
               <SelectItem key="No">No</SelectItem>
             </Select>
           )}
-          name={`accommodation[${idx}].infants`}
+          name={`accommodation.${idx}.infants`}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.accommodation.element.shape.infants.safeParse(val);
@@ -300,7 +289,7 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
               <SelectItem key="No">No</SelectItem>
             </Select>
           )}
-          name={`accommodation[${idx}].breakfast`}
+          name={`accommodation.${idx}.breakfast`}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.accommodation.element.shape.breakfast.safeParse(val);
@@ -325,7 +314,7 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
               ))}
             </Select>
           )}
-          name={`accommodation[${idx}].parking`}
+          name={`accommodation.${idx}.parking`}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.accommodation.element.shape.parking.safeParse(val);
@@ -379,7 +368,7 @@ const AccommodationInputs = ({ control, idx, watch, setFocus, setValue }: IAccom
             className="text-accentGray"
           />
         )}
-        name={`accommodation[${idx}].price`}
+        name={`accommodation.${idx}.price`}
         rules={{
           validate: (val) => {
             const isValid = createStaySchema.shape.accommodation.element.shape.price.safeParse(val);

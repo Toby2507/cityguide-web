@@ -1,22 +1,21 @@
 'use client';
 
 import { createStaySchema } from '@/schemas';
-import { MaxDays } from '@/types';
+import { ICreateStay, MaxDays } from '@/types';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Control, Controller, FieldValues, useController, UseFormTrigger } from 'react-hook-form';
+import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateStayButtons from './create-stay-btns';
 
-interface ICreateStay {
-  control: Control<FieldValues>;
-  trigger: UseFormTrigger<FieldValues>;
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
+const CreateStayStep7 = ({ setStep }: Props) => {
+  const { control, trigger } = useFormContext<ICreateStay>();
   const {
     field: { onChange: setCheckIn, value: checkIn },
     fieldState: { error: checkinErr },
@@ -89,7 +88,9 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
               onChange={setCheckinFrom}
               label="From"
               hideTimeZone
-              defaultValue={checkIn && parseAbsoluteToLocal(dayjs(`1-1-1 ${checkIn.split('-')[0]}`).toISOString())}
+              defaultValue={
+                checkIn ? parseAbsoluteToLocal(dayjs(`1-1-1 ${checkIn.split('-')[0]}`).toISOString()) : undefined
+              }
             />
             <TimeInput
               isRequired
@@ -99,7 +100,9 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
               onChange={setCheckinTo}
               label="Until"
               hideTimeZone
-              defaultValue={checkIn && parseAbsoluteToLocal(dayjs(`1-1-1 ${checkIn.split('-')[1]}`).toISOString())}
+              defaultValue={
+                checkIn ? parseAbsoluteToLocal(dayjs(`1-1-1 ${checkIn.split('-')[1]}`).toISOString()) : undefined
+              }
             />
           </div>
         </div>
@@ -114,7 +117,9 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
               onChange={setCheckoutFrom}
               label="From"
               hideTimeZone
-              defaultValue={checkOut && parseAbsoluteToLocal(dayjs(`1-1-1 ${checkOut.split('-')[0]}`).toISOString())}
+              defaultValue={
+                checkOut ? parseAbsoluteToLocal(dayjs(`1-1-1 ${checkOut.split('-')[0]}`).toISOString()) : undefined
+              }
             />
             <TimeInput
               isRequired
@@ -124,7 +129,9 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
               onChange={setCheckoutTo}
               label="Until"
               hideTimeZone
-              defaultValue={checkOut && parseAbsoluteToLocal(dayjs(`1-1-1 ${checkOut.split('-')[1]}`).toISOString())}
+              defaultValue={
+                checkOut ? parseAbsoluteToLocal(dayjs(`1-1-1 ${checkOut.split('-')[1]}`).toISOString()) : undefined
+              }
             />
           </div>
         </div>
