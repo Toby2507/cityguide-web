@@ -207,7 +207,7 @@ const CreateStayStep7 = ({ control, trigger, setStep }: ICreateStay) => {
           render={({ field: { onChange, value }, fieldState: { error } }) => (
             <Select
               isRequired
-              selectedKeys={value === undefined ? undefined : [value?.toString()]}
+              selectedKeys={value === undefined ? undefined : [value]}
               onChange={(e) => onChange(parseInt(e.target.value))}
               label="Specify the maximum number of nights a guest can book your property at one time"
               defaultSelectedKeys={[MaxDays.DEFAULT]}
