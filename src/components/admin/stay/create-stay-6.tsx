@@ -6,9 +6,9 @@ import { Button, Image } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Control, FieldValues, useController } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { IoClose, IoCloudUploadOutline } from 'react-icons/io5';
 import CreateStayButtons from './create-stay-btns';
-import toast from 'react-hot-toast';
 
 interface ICreateStay {
   control: Control<FieldValues>;
@@ -57,10 +57,14 @@ const CreateStayStep6 = ({ control, setStep }: ICreateStay) => {
         if (image.id === avatar) avatarData.append('images', image.file);
         else imagesData.append('images', image.file);
       });
-      const imgUrls = await Promise.all([uploadImages(avatarData), uploadImages(imagesData)]);
-      imgUrls[0] && changeAvatar(imgUrls[0][0]);
-      imgUrls[1] && changeImages([...uploadedImages, ...imgUrls[1]]);
-      setImgIds([...imgIds, ...images.map((i) => i.id)]);
+      try {
+        const imgUrls = await Promise.all([uploadImages(avatarData), uploadImages(imagesData)]);
+        imgUrls[0] && changeAvatar(imgUrls[0][0]);
+        imgUrls[1] && changeImages([...uploadedImages, ...imgUrls[1]]);
+        setImgIds([...imgIds, ...images.map((i) => i.id)]);
+      } catch (err) {
+        toast.error('Failed to upload images');
+      }
     }
     setIsLoading(false);
     setStep(7);
