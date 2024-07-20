@@ -1,13 +1,13 @@
 'use client';
 
 import { staticAmenities } from '@/data';
-import { Button, Checkbox, Chip, Input } from '@nextui-org/react';
+import { createStaySchema } from '@/utils';
+import { Checkbox } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { Control, FieldValues, useController } from 'react-hook-form';
-import { IoAdd, IoCloseCircle } from 'react-icons/io5';
-import CreateStayButtons from './create-stay-btns';
-import { createStaySchema } from '@/utils';
 import toast from 'react-hot-toast';
+import CreateStayAmenities from './create-stay-amenities';
+import CreateStayButtons from './create-stay-btns';
 
 interface ICreateStay {
   control: Control<FieldValues, any>;
@@ -16,21 +16,16 @@ interface ICreateStay {
 
 const CreateStayStep5 = ({ control, setStep }: ICreateStay) => {
   const {
-    field: { onChange, value },
+    field: { onChange, value = [] },
   } = useController({ control, name: 'amenities' });
-  const [inputText, setInputText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const custom = useMemo<string[]>(() => value?.filter((v: string) => !staticAmenities.has(v)) || [], [value]);
 
   const setAmenities = (amenity: string) => {
-    let newAmenities = value ? [...value] : [];
+    let newAmenities = [...value];
     if (newAmenities?.includes(amenity)) newAmenities = newAmenities.filter((a) => a !== amenity);
     else newAmenities.push(amenity);
     onChange(newAmenities);
-  };
-  const addAmenity = () => {
-    setAmenities(inputText);
-    setInputText('');
   };
   const handleNext = async () => {
     setIsLoading(true);
@@ -60,36 +55,12 @@ const CreateStayStep5 = ({ control, setStep }: ICreateStay) => {
             </Checkbox>
           ))}
         </div>
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            {custom.map((amenity, i) => (
-              <Chip key={i} endContent={<IoCloseCircle className="text-2xl" />} onClose={() => setAmenities(amenity)}>
-                {amenity}
-              </Chip>
-            ))}
-          </div>
-          <Input
-            label="Other Amenities"
-            radius="full"
-            value={inputText}
-            onValueChange={setInputText}
-            onKeyDown={(e) => e.key === 'Enter' && addAmenity()}
-            className="text-accentGray w-1/2 mx-auto"
-            variant="underlined"
-            endContent={
-              <Button
-                aria-label="Add Amenity"
-                isIconOnly
-                radius="sm"
-                variant="light"
-                color="primary"
-                onClick={addAmenity}
-              >
-                <IoAdd className="text-2xl" />
-              </Button>
-            }
-          />
-        </div>
+        <CreateStayAmenities
+          amenities={custom}
+          customStyle="w-1/2"
+          label="Other Amenities"
+          setAmenities={setAmenities}
+        />
       </div>
       <CreateStayButtons isLoading={isLoading} previous={() => setStep(4)} next={handleNext} />
     </div>
