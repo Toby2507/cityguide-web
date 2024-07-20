@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  CreateStayAccommodation,
   CreateStayStep1,
   CreateStayStep2,
   CreateStayStep3,
@@ -14,7 +15,7 @@ import { useForm } from 'react-hook-form';
 
 const CreateStayPage = () => {
   const [step, setStep] = useState<number>(1);
-  const { control, watch, reset, trigger, setFocus, handleSubmit } = useForm();
+  const { control, watch, reset, trigger, setFocus, setValue, handleSubmit } = useForm();
   return (
     <div>
       {step === 1 ? <CreateStayStep1 control={control} setStep={setStep} /> : null}
@@ -26,6 +27,16 @@ const CreateStayPage = () => {
       {step === 5 ? <CreateStayStep5 control={control} setStep={setStep} /> : null}
       {step === 6 ? <CreateStayStep6 control={control} setStep={setStep} /> : null}
       {step === 7 ? <CreateStayStep7 control={control} trigger={trigger} setStep={setStep} /> : null}
+      {step === 8 ? (
+        <CreateStayAccommodation
+          control={control}
+          watch={watch}
+          trigger={trigger}
+          setFocus={setFocus}
+          setValue={setValue}
+          setStep={setStep}
+        />
+      ) : null}
     </div>
   );
 };
