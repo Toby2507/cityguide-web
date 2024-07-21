@@ -1,63 +1,12 @@
 'use client';
 
 import { StayDetailTableCell } from '@/components';
-import { IAccommodation, IStay, Parking } from '@/types';
+import { IStay } from '@/types';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 
 interface IProps {
   stay: IStay;
 }
-
-const accomodations: IAccommodation[] = [
-  {
-    id: 'accommodation_1',
-    name: 'Cozy Beachfront Cabin',
-    description:
-      'This charming cabin offers stunning ocean views and is just steps from the beach. Perfect for a relaxing getaway.',
-    rooms: [
-      {
-        name: 'Master Bedroom',
-        beds: [{ type: 'King', count: 1 }],
-      },
-      {
-        name: 'Guest Bedroom',
-        beds: [{ type: 'Twin', count: 2 }],
-      },
-    ],
-    maxGuests: 4,
-    bathrooms: 2,
-    children: true,
-    infants: true,
-    breakfast: true,
-    parking: Parking.FREE,
-    size: 120,
-    initialAvailable: 5,
-    available: 5,
-    amenities: ['Wifi', 'Air conditioning', 'Hot tub'],
-    price: 150.0,
-  },
-  {
-    id: 'accommodation_2',
-    name: 'Modern City Apartment',
-    description:
-      'Enjoy the convenience of city living in this stylish apartment. Close to restaurants, shops, and public transportation.',
-    rooms: [
-      {
-        name: 'Studio',
-        beds: [{ type: 'Queen', count: 1 }],
-      },
-    ],
-    maxGuests: 2,
-    bathrooms: 1,
-    children: false,
-    infants: false,
-    breakfast: false,
-    parking: Parking.PAID,
-    initialAvailable: 10,
-    available: 8,
-    price: 100.0,
-  },
-];
 
 const columns = [
   { key: 'name', label: 'Accommodation Detail' },
@@ -84,7 +33,7 @@ const StayDetailAvailability = ({ stay }: IProps) => {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={accomodations}>
+        <TableBody items={stay.accommodation}>
           {(item) => (
             <TableRow key={item.id}>
               {columns.map(({ key }) => (
