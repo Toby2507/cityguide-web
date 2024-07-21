@@ -9,6 +9,7 @@ import {
   StaySearchBar,
   SubscribeBox,
 } from '@/containers';
+import { stays } from '@/data';
 
 interface IStayDetailPage {
   params: {
@@ -24,10 +25,10 @@ const StayDetailPage = ({ params: { stayId } }: IStayDetailPage) => {
         <div className="container mx-auto px-10 flex flex-col gap-6 max-w-7xl">
           <StaySearchBar />
           <StayDetailNav />
-          <StayDetailOverview />
-          <StayDetailAmenities />
-          <StayDetailAvailability />
-          <StayDetailRules />
+          <StayDetailOverview stay={stays[0]} />
+          <StayDetailAmenities stay={stays[0]} />
+          <StayDetailAvailability stay={stays[0]} />
+          <StayDetailRules stay={stays[0]} />
         </div>
         <SubscribeBox />
       </main>
