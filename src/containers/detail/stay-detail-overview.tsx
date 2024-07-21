@@ -1,19 +1,31 @@
 import { StayDetailImages, StayDetailInfo } from '@/components';
+import { IStay } from '@/types';
+import avatar from '@images/detail-avatar.png';
+import img1 from '@images/detail-image-1.png';
+import img2 from '@images/detail-image-2.png';
+import img3 from '@images/detail-image-3.png';
+import img4 from '@images/detail-image-4.png';
+import img5 from '@images/detail-image-5.png';
 import mapBanner from '@images/map-banner.png';
 import { Button, Divider, User } from '@nextui-org/react';
-import Image from 'next/image';
+import NextImage from 'next/image';
 import { IoLocation, IoShareSocialOutline } from 'react-icons/io5';
 import { MdFavoriteBorder } from 'react-icons/md';
 
-const StayDetailOverview = () => {
+const images = [img1.src, img2.src, img3.src, img4.src, img5.src];
+interface IProps {
+  stay: IStay;
+}
+
+const StayDetailOverview = ({ stay }: IProps) => {
   return (
     <section className="flex flex-col gap-4 pb-10" id="overview">
       <header className="flex items-center justify-between gap-10">
         <div className="flex flex-col gap-2">
-          <h1 className="text-4xl font-bold capitalize">Eko hotel & Suites</h1>
+          <h1 className="text-4xl font-bold capitalize">{stay.name}</h1>
           <p className="flex items-center gap-1 text-sm text-accentGray font-medium">
             <IoLocation color="#0075FF" size={20} />
-            Plot 1415 Adetokunbo Ademola Street, Victoria Island, Lagos 106104, Lagos
+            {stay.address.fullAddress}
           </p>
         </div>
         <div className="flex items-center gap-4">
@@ -25,9 +37,9 @@ const StayDetailOverview = () => {
           </Button>
         </div>
       </header>
-      <div className="grid grid-cols-4 gap-3">
-        <StayDetailImages />
-        <aside className="flex flex-col gap-3">
+      <div className="grid grid-cols-8 gap-3">
+        <StayDetailImages images={images} avatar={avatar.src} />
+        <aside className="col-span-2 flex flex-col gap-3">
           <article className="flex flex-col gap-3 px-2 py-3 rounded-lg border">
             <div className="flex items-center justify-end gap-2">
               <div className="flex flex-col items-end">
@@ -46,7 +58,7 @@ const StayDetailOverview = () => {
             </div>
           </article>
           <div className="relative h-full flex items-end justify-center pb-4 rounded-lg">
-            <Image
+            <NextImage
               src={mapBanner}
               alt="map"
               className="absolute top-0 bottom-0 left-0 right-0 w-full h-full rounded-lg object-cover"
@@ -57,7 +69,7 @@ const StayDetailOverview = () => {
           </div>
         </aside>
       </div>
-      <StayDetailInfo />
+      <StayDetailInfo stay={stay} />
     </section>
   );
 };
