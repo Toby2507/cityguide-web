@@ -53,8 +53,8 @@ export const stays: IStay[] = [
     hotelRating: 5,
     rating: 4.9,
     rules: {
-      checkIn: '3:00 PM',
-      checkOut: '11:00 AM',
+      checkIn: '09:00-12:00',
+      checkOut: '17:00-23:00',
       smoking: false,
       pets: true,
       parties: false,
