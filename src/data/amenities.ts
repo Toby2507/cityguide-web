@@ -6,7 +6,7 @@ import { CgGym } from 'react-icons/cg';
 import { RiRestaurantLine } from 'react-icons/ri';
 import { TbDisabled } from 'react-icons/tb';
 
-export const amenities = [
+export const coreAmenities = [
   { name: 'Indoor Swimming Pool', Icon: GrSwim },
   { name: 'Free Parking', Icon: CiParking1 },
   { name: 'Free Wi-Fi', Icon: IoWifi },
@@ -69,4 +69,4 @@ export const otherAmenities = [
   'Safe',
 ];
 
-export const staticAmenities = new Set([...amenities.map((a) => a.name), ...otherAmenities]);
+export const staticAmenities = new Set([...coreAmenities.map((a) => a.name), ...otherAmenities]);
