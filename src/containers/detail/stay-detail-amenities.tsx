@@ -1,9 +1,14 @@
 import { amenities, otherAmenities } from '@/data';
+import { IStay } from '@/types';
 import { Button } from '@nextui-org/react';
 import Link from 'next/link';
 import { IoCheckmark } from 'react-icons/io5';
 
-const StayDetailAmenities = () => {
+interface IProps {
+  stay: IStay;
+}
+
+const StayDetailAmenities = ({ stay }: IProps) => {
   return (
     <section className="flex flex-col gap-4 pb-10" id="amenities">
       <header className="flex items-center justify-between gap-10">

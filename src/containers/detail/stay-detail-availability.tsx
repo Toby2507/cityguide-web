@@ -1,8 +1,12 @@
 'use client';
 
 import { StayDetailTableCell } from '@/components';
-import { IAccommodation, Parking } from '@/types';
+import { IAccommodation, IStay, Parking } from '@/types';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+
+interface IProps {
+  stay: IStay;
+}
 
 const accomodations: IAccommodation[] = [
   {
@@ -63,7 +67,7 @@ const columns = [
   { key: 'actions', label: ' ' },
 ];
 
-const StayDetailAvailability = () => {
+const StayDetailAvailability = ({ stay }: IProps) => {
   return (
     <section className="flex flex-col gap-4 pb-10" id="availability">
       <header className="flex flex-col gap-2">

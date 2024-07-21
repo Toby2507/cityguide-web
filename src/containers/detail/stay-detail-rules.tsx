@@ -1,8 +1,13 @@
 'use client';
 
+import { IStay } from '@/types';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 
-const StayDetailRules = () => {
+interface IProps {
+  stay: IStay;
+}
+
+const StayDetailRules = ({ stay }: IProps) => {
   return (
     <section className="flex flex-col gap-4 pb-10" id="rules">
       <header className="flex flex-col gap-2">
