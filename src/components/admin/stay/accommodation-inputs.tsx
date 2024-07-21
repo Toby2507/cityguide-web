@@ -6,7 +6,7 @@ import { onEnter } from '@/utils';
 import { Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
-import { Controller, FieldValues, useController, useFormContext, UseFormSetValue } from 'react-hook-form';
+import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateStayAmenities from './create-stay-amenities';
 import CreateStayRoomCard from './create-stay-room';
@@ -205,7 +205,7 @@ const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
           render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
             <Input
               name="availabilty"
-              label="No of Available Rooms"
+              label="Availability"
               placeholder=" "
               type="tel"
               isRequired
