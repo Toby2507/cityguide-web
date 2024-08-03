@@ -2,6 +2,7 @@
 
 import {
   CreateStayAccommodation,
+  CreateStayReview,
   CreateStayStep1,
   CreateStayStep2,
   CreateStayStep3,
@@ -27,6 +28,7 @@ const CreateStayPage = () => {
       {step === 6 ? <CreateStayStep6 setStep={setStep} /> : null}
       {step === 7 ? <CreateStayStep7 setStep={setStep} /> : null}
       {step === 8 ? <CreateStayAccommodation setStep={setStep} /> : null}
+      {step === 9 ? <CreateStayReview setStep={setStep} /> : null}
     </FormProvider>
   );
 };
