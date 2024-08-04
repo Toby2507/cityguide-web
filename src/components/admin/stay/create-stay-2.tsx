@@ -3,8 +3,9 @@
 import { Map } from '@/components';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay } from '@/types';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import CreateStayButtons from './create-stay-btns';
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
 }
 
 const CreateStayStep2 = ({ setStep }: Props) => {
-  const { control } = useFormContext<ICreateStay>();
+  const { control, setValue } = useFormContext<ICreateStay>();
   const {
     field: { onChange, value },
   } = useController({ control, name: 'address' });
@@ -21,9 +22,24 @@ const CreateStayStep2 = ({ setStep }: Props) => {
     setIsLoading(true);
     const isValid = await createStaySchema.shape.address.safeParseAsync(value);
     setIsLoading(false);
-    // if (!isValid.success) return toast.error('Please select a valid address');
+    if (!isValid.success) return toast.error('Please select a valid address');
     setStep(3);
   };
+
+  useEffect(() => {
+    setValue('address', {
+      name: 'Main Street Hotel',
+      fullAddress: '123 Main St, New York, NY 10001',
+      locationId: 'abc123',
+      city: 'New York',
+      state: 'NY',
+      country: 'USA',
+      geoLocation: {
+        lat: 40.7128,
+        lng: -74.0059,
+      },
+    });
+  }, [setValue]);
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
       <div className="flex flex-col gap-2">
