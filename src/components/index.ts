@@ -16,6 +16,7 @@ export { default as CreateStayStep5 } from './admin/stay/create-stay-5';
 export { default as CreateStayStep6 } from './admin/stay/create-stay-6';
 export { default as CreateStayStep7 } from './admin/stay/create-stay-7';
 export { default as CreateStayAccommodation } from './admin/stay/create-stay-accommodation';
+export { default as CreateStayReview } from './admin/stay/create-stay-review';
 
 // Auth
 export { default as SignUpTab } from './auth/signup-tab';
