@@ -21,16 +21,17 @@ const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
     .map((_, i) => ({ key: (i + 1).toString(), label: (i + 1).toString() }));
   if (columnKey === 'name')
     return (
-      <div className="flex flex-col gap-2">
-        <h4 className="text-xl text-primary font-semibold">{user.name}</h4>
+      <div className="flex flex-col gap-2 max-w-xs">
+        <h4 className="text-xl text-black font-semibold">{user.name}</h4>
         <ul className="flex flex-col gap-1">
           {user.rooms.map((room, idx) => (
             <li key={idx}>
-              <span className="font-bold">{room.name}: </span>
-              <span className="font-medium">{room.beds.map((bed) => `${bed.count} ${bed.type} bed`).join(', ')}</span>
+              <span className="text-sm font-medium">{room.name}: </span>
+              <span className="text-xs">{room.beds.map((bed) => `${bed.count} ${bed.type} bed`).join(', ')}</span>
             </li>
           ))}
         </ul>
+        <p className="text-sm">{user?.description}</p>
         {user.amenities ? (
           <>
             <div className="h-[1px] bg-default w-full my-1" />
@@ -55,7 +56,7 @@ const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
             .fill(0)
             .map((_, idx) => <FaUserAlt key={idx} />)
         ) : (
-          <p className="text-bold text-sm capitalize">x{user.maxGuests - 1}</p>
+          <p className="text-bold text-sm capitalize">x{user.maxGuests}</p>
         )}
       </div>
     );
