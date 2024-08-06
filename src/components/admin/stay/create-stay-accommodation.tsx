@@ -39,6 +39,7 @@ const CreateStayAccommodation = ({ setStep }: Props) => {
     setIsLoading(false);
     if (!isValidT) return toast.error('Please fill out the required fields');
     if (!isValidS.success) return toast.error('Please fill out the required fields in the other accommodations');
+    setStep(9);
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
