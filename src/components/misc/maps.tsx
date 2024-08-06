@@ -53,18 +53,19 @@ const Map = ({ center, prevAddr, customClass, setAddr }: IMap) => {
         if (!map) return;
         map.setCenter(position);
         const marker = new google.maps.marker.AdvancedMarkerElement({ map, position, title });
-        // const infoCard = new google.maps.InfoWindow({
-        //   position,
-        //   content: buildMapInfoCard(title, name),
-        //   maxWidth: 200,
-        // });
-        // infoCard.open({ map, anchor: marker });
+        const infoCard = new google.maps.InfoWindow({
+          position,
+          content: buildMapInfoCard(title, name),
+          maxWidth: 200,
+        });
+        infoCard.open({ map, anchor: marker });
       };
       const acListen = autoComplete.addListener('place_changed', () => {
         const placeResult = autoComplete.getPlace();
         const formattedPlace = addressFormatter(placeResult);
         setAddress(formattedPlace);
         setAddr(formattedPlace);
+        console.log(placeResult.geometry?.location);
         if (placeResult.geometry?.location)
           setMarker(placeResult.geometry.location, placeResult.name!, placeResult.formatted_address!);
       });
