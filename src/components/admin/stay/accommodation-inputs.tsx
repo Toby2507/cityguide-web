@@ -361,7 +361,7 @@ const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
             type="tel"
             isRequired
             value={value?.toString() || ''}
-            onValueChange={(val) => onChange(+val)}
+            onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
             isInvalid={!!error}
             errorMessage={error?.message}
             ref={ref}
