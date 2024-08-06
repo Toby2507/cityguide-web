@@ -1,7 +1,6 @@
 'use client';
 
 import { ICreateStay, IStay } from '@/types';
-import { formatStay } from '@/utils';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import CreateStayButtons from './create-stay-btns';

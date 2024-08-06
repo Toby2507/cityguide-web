@@ -85,7 +85,7 @@ export interface INightLife {
   address: IAddress;
   rating: Rating;
   avatar: string;
-  images?: string[];
+  images: string[];
   availability: ICustomAvailability[];
   rules: INightLifeRules;
   details: INightLifeDetails;
@@ -122,7 +122,7 @@ export interface IRestaurant {
   address: IAddress;
   rating: Rating;
   avatar: string;
-  images?: string[];
+  images: string[];
   availability: ICustomAvailability[];
   priceRange: PriceRange;
   serviceStyle?: string[];
@@ -189,7 +189,7 @@ export interface IStay {
   address: IAddress;
   rating: number;
   avatar: string;
-  images?: string[];
+  images: string[];
   amenities: string[];
   hotelRating?: Rating;
   rules: IStayRules;

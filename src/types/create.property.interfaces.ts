@@ -15,7 +15,7 @@ export interface ICreateStay {
   };
   address: IAddress;
   avatar: string;
-  images?: string[];
+  images: string[];
   amenities: string[];
   hotelRating?: Rating;
   rules: {
