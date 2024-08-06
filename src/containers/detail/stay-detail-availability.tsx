@@ -25,10 +25,10 @@ const StayDetailAvailability = ({ stay }: IProps) => {
           Prices and availability for your stay
         </p>
       </header>
-      <Table isStriped isHeaderSticky removeWrapper aria-label="Accommodation availability">
+      <Table isStriped removeWrapper aria-label="Accommodation availability">
         <TableHeader columns={columns}>
           {(columns) => (
-            <TableColumn className="bg-primary text-white text-sm py-4" key={columns.key}>
+            <TableColumn className="bg-default text-black text-sm py-4" key={columns.key}>
               {columns.label}
             </TableColumn>
           )}
