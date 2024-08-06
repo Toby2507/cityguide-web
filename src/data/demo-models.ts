@@ -1,5 +1,11 @@
 import { IReservation, IStay, Parking, PropertyType, Status, StayType } from '@/types';
 import stayImg from '@images/admin-stay-1.png';
+import avatar from '@images/detail-avatar.png';
+import img1 from '@images/detail-image-1.png';
+import img2 from '@images/detail-image-2.png';
+import img3 from '@images/detail-image-3.png';
+import img4 from '@images/detail-image-4.png';
+import img5 from '@images/detail-image-5.png';
 
 export const stays: IStay[] = [
   {
@@ -26,12 +32,8 @@ export const stays: IStay[] = [
         lng: -74.0059,
       },
     },
-    avatar: stayImg.src,
-    images: [
-      'https://example.com/hotel_image1.jpg',
-      'https://example.com/hotel_image2.jpg',
-      'https://example.com/hotel_image3.jpg',
-    ],
+    avatar: avatar.src,
+    images: [img1.src, img2.src, img3.src, img4.src, img5.src],
     amenities: [
       'Free Wi-Fi',
       'Air Conditioning',
