@@ -92,11 +92,7 @@ const EstablishmentSignupForm = () => {
           <PopoverContent className="w-full">
             <div className="flex flex-col gap-4 w-full">
               <h2 className="text-3xl font-semibold">Set Business Address</h2>
-              <Map
-                center={{ lat: 6.515758749836156, lng: 3.389845490455627 }}
-                prevAddr={address}
-                setAddr={(addr) => setAddress(addr)}
-              />
+              <Map prevAddr={address} setAddr={(addr) => setAddress(addr)} />
             </div>
           </PopoverContent>
         </Popover>
