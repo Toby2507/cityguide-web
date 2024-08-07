@@ -50,7 +50,7 @@ const CreateStayStep6 = ({ setStep }: Props) => {
   const removeFile = (id: string) => setImages((prev) => prev.filter((file) => file.id !== id));
   const handleUpload = async () => {
     setIsLoading(true);
-    if (images.length) {
+    if (images.length >= 8) {
       const avatarData = new FormData();
       const imagesData = new FormData();
       images.forEach((image) => {
@@ -62,13 +62,14 @@ const CreateStayStep6 = ({ setStep }: Props) => {
         imgUrls[0] && changeAvatar(imgUrls[0][0]);
         imgUrls[1] && changeImages([...uploadedImages, ...imgUrls[1]]);
         setImgIds([...imgIds, ...images.map((i) => i.id)]);
+        setStep(7);
       } catch (err) {
         toast.error('Failed to upload images');
       }
-    }
+    } else toast.error('Atleast 8 Images are needed');
     setIsLoading(false);
-    setStep(7);
   };
+
   return (
     <div className="flex flex-col justify-center gap-4">
       <div className="flex flex-col gap-2">
@@ -88,7 +89,7 @@ const CreateStayStep6 = ({ setStep }: Props) => {
             Drag and drop your files here or click to&nbsp;
             <span className="font-semibold !text-primary cursor-pointer hover:underline">browse</span>
           </p>
-          <span className="text-xs text-accentGray font-light">Maximum size: 10MB</span>
+          <span className="text-xs text-accentGray font-light">Maximum size: 10MB, Minimum of 8 images</span>
         </div>
         {value ? (
           <p className="text-xs text-center text-accentGray font-light">
