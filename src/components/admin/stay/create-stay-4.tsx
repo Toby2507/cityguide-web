@@ -85,7 +85,7 @@ const CreateStayStep4 = ({ setStep }: Props) => {
               radius="full"
               value={value}
               onChange={onChange}
-              onKeyDown={(e) => onEnter(e, () => setFocus('extraInfo.neighborhood'))}
+              onKeyDown={(e) => onEnter(e, () => setFocus('extraInfo.neighborhood.info'))}
               ref={ref}
               className="text-accentGray"
             />
@@ -114,7 +114,7 @@ const CreateStayStep4 = ({ setStep }: Props) => {
               className="text-accentGray"
             />
           )}
-          name="extraInfo.neighborhood"
+          name="extraInfo.neighborhood.info"
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.extraInfo.unwrap().shape.neighborhood.safeParse(val);

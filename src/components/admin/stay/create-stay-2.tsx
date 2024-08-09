@@ -19,10 +19,10 @@ const CreateStayStep2 = ({ setStep }: Props) => {
   } = useController({ control, name: 'address' });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleNext = async () => {
-    setIsLoading(true);
-    const isValid = await createStaySchema.shape.address.safeParseAsync(value);
-    setIsLoading(false);
-    if (!isValid.success) return toast.error('Please select a valid address');
+    // setIsLoading(true);
+    // const isValid = await createStaySchema.shape.address.safeParseAsync(value);
+    // setIsLoading(false);
+    // if (!isValid.success) return toast.error('Please select a valid address');
     setStep(3);
   };
 

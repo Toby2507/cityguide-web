@@ -1,18 +1,11 @@
 import { MaxDays, Rating, StayType } from './enums';
-import { IAccommodation, IAddress } from './model.interfaces';
+import { IAccommodation, IAddress, IExtraInfo } from './model.interfaces';
 
 export interface ICreateStay {
   type: StayType;
   name: string;
   summary: string;
-  extraInfo?: {
-    host?: {
-      name: string;
-      info: string;
-    };
-    property?: string;
-    neighborhood?: string;
-  };
+  extraInfo?: IExtraInfo;
   address: IAddress;
   avatar: string;
   images: string[];

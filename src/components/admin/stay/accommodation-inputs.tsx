@@ -1,19 +1,25 @@
 'use client';
 
 import { createStaySchema } from '@/schemas';
-import { IBed, ICreateStay, IRoom, Parking } from '@/types';
+import { IBreakfastInfo, ICreateStay, IFurniture, IRoom, Parking } from '@/types';
 import { onEnter } from '@/utils';
-import { Input, Select, SelectItem, Textarea } from '@nextui-org/react';
+import { Button, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateStayAmenities from './create-stay-amenities';
 import CreateStayRoomCard from './create-stay-room';
+import { IoAdd } from 'react-icons/io5';
+import AccommodationImages from './accommodation-images';
 
 interface IAccommodationInputs {
   idx: number;
 }
+const defaultBreakfast = {
+  price: 0,
+  options: [],
+};
 
 const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
   const { control, watch, setFocus, setValue } = useFormContext<ICreateStay>();
@@ -39,16 +45,22 @@ const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
     if (!roomName) return;
     if (roomName.length < 3) return toast.error('Room name must be at least 3 characters');
     if (value?.find((v: IRoom) => v.name === roomName)) return toast.error('Room name already exists');
-    onChange([...value, { name: roomName, beds: [] }]);
+    onChange([...value, { name: roomName, furnitures: [] }]);
     setRoomName('');
   };
   const removeRoom = (name: string) => {
     onChange(value.filter((v: IRoom) => v.name !== name));
   };
-  const setBed = (room: string, bed: IBed, isDeleting = false) => {
+  const setFurniture = (room: string, furniture: IFurniture, isDeleting = false) => {
     const updated = value.map((v: IRoom) =>
       v.name === room
-        ? { ...v, beds: [...v.beds.filter((b: IBed) => b.type !== bed.type), ...(isDeleting ? [] : [bed])] }
+        ? {
+            ...v,
+            furnitures: [
+              ...v.furnitures.filter((f: IFurniture) => f.type !== furniture.type),
+              ...(isDeleting ? [] : [furniture]),
+            ],
+          }
         : v
     );
     onChange(updated);
@@ -277,30 +289,6 @@ const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
           control={control}
           render={({ field: { onChange, value }, fieldState: { error } }) => (
             <Select
-              selectedKeys={value === undefined ? undefined : [value ? 'Yes' : 'No']}
-              onChange={(e) => onChange(e.target.value === 'Yes')}
-              isRequired
-              label="Is Breakfast included?"
-              placeholder=" "
-              isInvalid={!!error}
-              errorMessage={error?.message}
-            >
-              <SelectItem key="Yes">Yes</SelectItem>
-              <SelectItem key="No">No</SelectItem>
-            </Select>
-          )}
-          name={`accommodation.${idx}.breakfast`}
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.accommodation.element.shape.breakfast.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
-        />
-        <Controller
-          control={control}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <Select
               isRequired
               selectedKeys={value === undefined ? undefined : [value]}
               onChange={onChange}
@@ -322,7 +310,90 @@ const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
             },
           }}
         />
+        <Controller
+          control={control}
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <Select
+              selectedKeys={value === undefined ? undefined : [!!value ? 'Yes' : 'No']}
+              onChange={(e) => onChange(e.target.value === 'Yes' ? defaultBreakfast : false)}
+              label="Is Breakfast included?"
+              placeholder=" "
+              isInvalid={!!error}
+              errorMessage={error?.message}
+            >
+              <SelectItem key="Yes">Yes</SelectItem>
+              <SelectItem key="No">No</SelectItem>
+            </Select>
+          )}
+          name={`accommodation.${idx}.breakfast`}
+          rules={{
+            validate: (val) => {
+              const isValid = createStaySchema.shape.accommodation.element.shape.breakfast.safeParse(val);
+              return isValid.success || isValid.error.flatten().formErrors.join(', ');
+            },
+          }}
+        />
       </div>
+      {!!watch(`accommodation.${idx}.breakfast`) && (
+        <div className="grid grid-cols-4 items-center gap-2">
+          <Controller
+            control={control}
+            render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+              <Input
+                name="breakfast_price"
+                label="Breakfast price"
+                placeholder=" "
+                type="tel"
+                isRequired
+                value={value?.toString() || ''}
+                onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
+                onKeyDown={(e) => onEnter(e, () => setFocus(`accommodation.${idx}.breakfast.options`))}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                ref={ref}
+                className="text-accentGray"
+              />
+            )}
+            name={`accommodation.${idx}.breakfast.price`}
+            rules={{
+              validate: (val) => {
+                const isValid = createStaySchema.shape.accommodation.element.shape.breakfast
+                  .unwrap()
+                  .shape.price.safeParse(val);
+                return isValid.success || isValid.error.flatten().formErrors.join(', ');
+              },
+            }}
+          />
+          <Controller
+            control={control}
+            render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+              <Input
+                name="breakfast_options"
+                label="Breakfast options (Separate with commas)"
+                labelPlacement="inside"
+                placeholder=" "
+                isRequired
+                onChange={(e) => onChange(e.target.value.split(',').filter((i) => i.trim()))}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                ref={ref}
+                className="text-accentGray col-span-3"
+                defaultValue={value?.join(', ') || ''}
+              />
+            )}
+            name={`accommodation.${idx}.breakfast.options`}
+            rules={{
+              validate: (val) => {
+                const isValid = createStaySchema.shape.accommodation.element.shape.breakfast
+                  .unwrap()
+                  .shape.options.safeParse(val);
+                return isValid.success || isValid.error.flatten().formErrors.join(', ');
+              },
+            }}
+          />
+        </div>
+      )}
+      <AccommodationImages idx={idx} />
       <Input
         name="accommodation_name"
         label="Add Room"
@@ -340,9 +411,9 @@ const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
         className="text-accentGray"
       />
       {value?.length ? (
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-3">
           {value.map((room: IRoom) => (
-            <CreateStayRoomCard key={room.name} room={room} setBed={setBed} removeRoom={removeRoom} />
+            <CreateStayRoomCard key={room.name} room={room} setBed={setFurniture} removeRoom={removeRoom} />
           ))}
         </div>
       ) : null}

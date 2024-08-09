@@ -20,7 +20,9 @@ export const createStaySchema = object({
       ),
     }).optional(),
     property: string().min(10, 'Property description should be atleast 10 characters').optional(),
-    neighborhood: string().min(10, 'Neighborhood description should be atleast 10 characters').optional(),
+    neighborhood: object({
+      info: string().min(10, 'Neighborhood description should be atleast 10 characters').optional(),
+    }).optional(),
   }).optional(),
   address: object(
     {
@@ -47,7 +49,7 @@ export const createStaySchema = object({
   avatar: string({ required_error: 'Avatar is required' }),
   images: string({ required_error: 'Images is required', invalid_type_error: 'Images should be an array' })
     .array()
-    .min(7, 'Atleast 7 images are required'),
+    .min(11, 'Atleast 11 images are required'),
   amenities: string({
     required_error: 'Atleast one amenity is required',
     invalid_type_error: 'Amenities should be an array',
@@ -82,21 +84,30 @@ export const createStaySchema = object({
         'Accommodation name should be atleast 3 characters'
       ),
       description: string().min(10, 'Accommodation description should be atleast 10 characters').optional(),
+      images: string({
+        required_error: 'Accommodation images are required',
+        invalid_type_error: 'Accommodation images should be an array',
+      })
+        .array()
+        .min(4, 'Atleast 4 accommodation images are required'),
       rooms: object(
         {
           name: string({ required_error: 'Room name is required' }).min(3, 'Room name should be atleast 3 characters'),
-          beds: object(
+          furnitures: object(
             {
               type: string({ required_error: 'Bed type is required' }).min(
                 3,
-                'Bed type should be atleast 3 characters'
+                'Furniture type should be atleast 3 characters'
               ),
-              count: number({ required_error: 'Bed count is required' }),
+              count: number({ required_error: 'Furniture count is required' }),
             },
-            { invalid_type_error: 'Accommodation rooms beds should be an array' }
+            {
+              required_error: 'Room furnitures are required',
+              invalid_type_error: 'Room furnitures should be an array',
+            }
           )
             .array()
-            .min(1, 'Atleast one bed is required'),
+            .min(1, 'Atleast one furniture is required'),
         },
         {
           required_error: 'Atleast one room is required',
@@ -121,10 +132,21 @@ export const createStaySchema = object({
         required_error: 'Infants allowed is required',
         invalid_type_error: 'Infants allowed should be a boolean',
       }),
-      breakfast: boolean({
-        required_error: 'Breakfast availability is required',
-        invalid_type_error: 'Breakfast should be a boolean',
-      }),
+      breakfast: object(
+        {
+          price: number({
+            required_error: 'Breakfast price required',
+            invalid_type_error: 'Breakfast price should be a number',
+          }),
+          options: string({
+            required_error: 'Breakfast options is required',
+            invalid_type_error: 'Breakfast options should be an array',
+          })
+            .array()
+            .min(1, 'Atleast 1 Option is required'),
+        },
+        { invalid_type_error: 'Breakfast should be an object' }
+      ).optional(),
       parking: nativeEnum(Parking, {
         required_error: 'Parking availability is required',
         invalid_type_error: 'Parking should be Paid | Free | No',

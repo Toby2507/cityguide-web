@@ -1,19 +1,18 @@
 'use client';
 
-import { IBed, IRoom } from '@/types';
-import { Button, Select, SelectItem } from '@nextui-org/react';
+import { IFurniture, IRoom } from '@/types';
+import { Button, Input, Select, SelectItem } from '@nextui-org/react';
 import { useState } from 'react';
 import { IoIosRemoveCircle } from 'react-icons/io';
 import { IoAdd, IoRemoveCircleOutline } from 'react-icons/io5';
 
 interface ICreateStayRoom {
   room: IRoom;
-  setBed: (room: string, bed: IBed, isDeleting?: boolean) => void;
+  setBed: (room: string, bed: IFurniture, isDeleting?: boolean) => void;
   removeRoom: (name: string) => void;
 }
-const BEDTYPES = ['Crib', 'Single', 'Twin', 'Full', 'Queen', 'King'];
 
-const CreateStayRoomCard = ({ room: { name, beds }, setBed, removeRoom }: ICreateStayRoom) => {
+const CreateStayRoomCard = ({ room: { name, furnitures }, setBed, removeRoom }: ICreateStayRoom) => {
   const [bedType, setBedType] = useState<string>('');
   const [bedCount, setBedCount] = useState<number>(0);
 
@@ -40,10 +39,10 @@ const CreateStayRoomCard = ({ room: { name, beds }, setBed, removeRoom }: ICreat
       </div>
       <div className="flex flex-col gap-2 h-full">
         <div className="flex-1 flex flex-col">
-          {beds.map((bed) => (
-            <div key={bed.type} className="flex items-center justify-between gap-4">
+          {furnitures.map((furniture) => (
+            <div key={furniture.type} className="flex items-center justify-between gap-4">
               <p className="text-xs font-light">
-                {bed.count}x {bed.type} size bed
+                {furniture.count}x {furniture.type}
               </p>
               <Button
                 aria-label="Add Amenity"
@@ -52,7 +51,7 @@ const CreateStayRoomCard = ({ room: { name, beds }, setBed, removeRoom }: ICreat
                 size="sm"
                 variant="light"
                 color="danger"
-                onClick={() => setBed(name, bed, true)}
+                onClick={() => setBed(name, furniture, true)}
               >
                 <IoRemoveCircleOutline className="text-lg" />
               </Button>
@@ -60,20 +59,18 @@ const CreateStayRoomCard = ({ room: { name, beds }, setBed, removeRoom }: ICreat
           ))}
         </div>
         <div className="flex flex-col gap-2">
-          <div className="grid grid-cols-5 gap-1">
-            <Select
-              selectedKeys={[bedType]}
-              onChange={(e) => setBedType(e.target.value)}
-              isRequired
-              size="sm"
-              label="Bed Type"
+          <div className="grid grid-cols-3 gap-1">
+            <Input
+              name="furniture type"
+              label="Furniture type"
+              labelPlacement="inside"
               placeholder=" "
-              className="col-span-3"
-            >
-              {BEDTYPES.map((type) => (
-                <SelectItem key={type}>{type}</SelectItem>
-              ))}
-            </Select>
+              size="sm"
+              value={bedType}
+              isRequired
+              onValueChange={setBedType}
+              className="text-accentGray col-span-2"
+            />
             <Select
               selectedKeys={[bedCount]}
               onChange={(e) => setBedCount(+e.target.value)}
@@ -81,7 +78,7 @@ const CreateStayRoomCard = ({ room: { name, beds }, setBed, removeRoom }: ICreat
               size="sm"
               label="Count"
               placeholder=" "
-              className="col-span-2"
+              className="col-span-1"
             >
               {Array.from({ length: 10 }, (_, i) => i + 1).map((type) => (
                 <SelectItem key={type}>{type.toString()}</SelectItem>
@@ -97,7 +94,7 @@ const CreateStayRoomCard = ({ room: { name, beds }, setBed, removeRoom }: ICreat
             className="font-base"
             onClick={addRoomBed}
           >
-            Add Bed
+            Add Furniture
           </Button>
         </div>
       </div>

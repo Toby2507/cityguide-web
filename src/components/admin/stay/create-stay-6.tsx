@@ -1,23 +1,18 @@
 'use client';
 
-import { uploadImages } from '@/server';
+import { useCustomImageSelect } from '@/hooks';
 import { formatFileSize } from '@/utils';
 import { Button, Image } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { IoClose, IoCloudUploadOutline } from 'react-icons/io5';
 import CreateStayButtons from './create-stay-btns';
+import toast from 'react-hot-toast';
+import { uploadImages } from '@/server';
 
 interface Props {
   setStep: Dispatch<SetStateAction<number>>;
 }
-interface ICustomFile {
-  id: string;
-  file: File;
-}
-
 const CreateStayStep6 = ({ setStep }: Props) => {
   const { control } = useFormContext();
   const {
@@ -29,28 +24,18 @@ const CreateStayStep6 = ({ setStep }: Props) => {
   const {
     field: { onChange: setImgIds, value: imgIds = [] },
   } = useController({ control, name: 'tempImgIds' });
-  const [avatar, setAvatar] = useState<string>(value || '');
-  const [images, setImages] = useState<ICustomFile[]>([]);
+  const { getRootProps, getInputProps, removeFile, setAvatar, isDragActive, avatar, images, invalidImages } =
+    useCustomImageSelect(value, imgIds);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const onDrop = useCallback(
-    (files: File[]) => {
-      let tFiles = files.map((f) => ({ id: `${f.name}-${f.size}-${f.type}`, file: f }));
-      tFiles = tFiles.filter((file) => {
-        if (!imgIds.includes(file.id) && !images.some((i) => i.id === file.id)) return true;
-        toast.error('File already exists');
-        return false;
-      });
-      if (!avatar) setAvatar(tFiles[0].id);
-      setImages((prev) => [...prev, ...tFiles]);
-    },
-    [avatar, images, imgIds]
-  );
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const removeFile = (id: string) => setImages((prev) => prev.filter((file) => file.id !== id));
   const handleUpload = async () => {
     setIsLoading(true);
-    if (images.length >= 8) {
+    try {
+      if (!images.length) return toast.error('Please select an image to be uploaded');
+      if ([...uploadedImages, ...images].length < 1) return toast.error('Atleast 12 Images are required');
+      if (!avatar) return toast.error('Please select an avatar');
+      if (invalidImages.length)
+        return toast.error(`${invalidImages.length} image(s) does not meet the minimum quality`);
       const avatarData = new FormData();
       const imagesData = new FormData();
       images.forEach((image) => {
@@ -66,8 +51,10 @@ const CreateStayStep6 = ({ setStep }: Props) => {
       } catch (err) {
         toast.error('Failed to upload images');
       }
-    } else toast.error('Atleast 8 Images are needed');
-    setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+    setStep(7);
   };
 
   return (
@@ -89,7 +76,9 @@ const CreateStayStep6 = ({ setStep }: Props) => {
             Drag and drop your files here or click to&nbsp;
             <span className="font-semibold !text-primary cursor-pointer hover:underline">browse</span>
           </p>
-          <span className="text-xs text-accentGray font-light">Maximum size: 10MB, Minimum of 8 images</span>
+          <span className="text-xs text-accentGray font-light">
+            Maximum size: 10MB, Minimum quality: 480p, Minimum of 12 images
+          </span>
         </div>
         {value ? (
           <p className="text-xs text-center text-accentGray font-light">
@@ -107,12 +96,12 @@ const CreateStayStep6 = ({ setStep }: Props) => {
               key={id}
               onClick={() => !value && setAvatar(id)}
               className={`flex items-center gap-2 p-2 rounded-xl cursor-pointer ${
-                id === avatar ? 'bg-secondary/60' : 'bg-bgAccentBlue'
+                invalidImages.includes(id) ? 'bg-red-50' : id === avatar ? 'bg-secondary/60' : 'bg-bgAccentBlue'
               }`}
             >
-              <figure className="h-14 w-14">
-                <Image src={URL.createObjectURL(file)} alt={file.name} />
-              </figure>
+              <div className="grid place-items-center h-14 object-cover w-14">
+                <Image src={URL.createObjectURL(file)} alt={file.name} className="w-14 h-14 object-cover" />
+              </div>
               <div className="flex-1 flex flex-col">
                 <p className="text-sm font-medium">{file.name}</p>
                 <p className="text-xs text-accentGray">{formatFileSize(file.size)}</p>

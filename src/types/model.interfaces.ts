@@ -136,14 +136,28 @@ export interface IRestaurant {
 }
 
 // Stays
-export interface IBed {
+export interface IFurniture {
   type: string;
   count: number;
 }
 
+export interface IBreakfastInfo {
+  price: number;
+  options: string[];
+}
+
 export interface IRoom {
   name: string;
-  beds: IBed[];
+  furnitures: IFurniture[];
+}
+
+export interface IExtraInfo {
+  host?: { name: string; info: string };
+  property?: string;
+  neighborhood?: {
+    info?: string;
+    locations?: { name: string; distance: string }[];
+  };
 }
 
 export interface IStayRules {
@@ -154,22 +168,17 @@ export interface IStayRules {
   parties: boolean;
 }
 
-export interface IExtraInfo {
-  host?: { name: string; info: string };
-  property?: string;
-  neighbourhood?: string;
-}
-
 export interface IAccommodation {
   id: string;
   name: string;
   description?: string;
+  images: string[];
   rooms: IRoom[];
   maxGuests: number;
   bathrooms: number;
   children: boolean;
   infants: boolean;
-  breakfast: boolean;
+  breakfast?: IBreakfastInfo;
   parking: Parking;
   size?: number;
   initialAvailable: number;
