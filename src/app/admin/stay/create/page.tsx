@@ -12,12 +12,18 @@ import {
   CreateStayStep7,
 } from '@/components';
 import { ICreateStay } from '@/types';
-import { useState } from 'react';
+import { Pagination } from '@nextui-org/react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 const CreateStayPage = () => {
   const [step, setStep] = useState<number>(1);
+  const [topStep, setTopStep] = useState(1);
   const methods = useForm<ICreateStay>();
+
+  useEffect(() => {
+    setTopStep((prev) => Math.max(prev, step));
+  }, [step]);
   return (
     <FormProvider {...methods}>
       {step === 1 ? <CreateStayStep1 setStep={setStep} /> : null}
@@ -29,6 +35,10 @@ const CreateStayPage = () => {
       {step === 7 ? <CreateStayStep7 setStep={setStep} /> : null}
       {step === 8 ? <CreateStayAccommodation setStep={setStep} /> : null}
       {step === 9 ? <CreateStayReview setStep={setStep} /> : null}
+      <div className="absolute bottom-10 flex flex-col gap-2">
+        <p className="text-xs">Go to step</p>
+        <Pagination total={topStep} page={step} onChange={(val) => setStep(val)} />
+      </div>
     </FormProvider>
   );
 };
