@@ -1,12 +1,13 @@
 'use client';
 
+import { StayDetailAmenities, StayDetailAvailability, StayDetailOverview, StayDetailRules } from '@/containers';
+import { createStay } from '@/server';
 import { ICreateStay, IStay } from '@/types';
+import { paths } from '@/utils';
+import { Button, CircularProgress, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
+import Link from 'next/link';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import CreateStayButtons from './create-stay-btns';
-import { StayDetailAmenities, StayDetailAvailability, StayDetailOverview, StayDetailRules } from '@/containers';
-import { Button, CircularProgress, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
-import { createStay } from '@/server';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 
 interface IProps {
@@ -39,27 +40,21 @@ const CreateStayReview = ({ setStep }: IProps) => {
         <ModalContent>
           {(onClose) =>
             isLoading ? (
-              <div className="flex flex-col gap-4">
-                <CircularProgress color="primary" className="text-7xl" aria-label="Publishing property..." />
+              <div className="flex flex-col items-center gap-4 py-10">
+                <CircularProgress size="lg" color="primary" className="text-7xl" aria-label="Publishing property..." />
                 <p className="text-lg text-accentGray font-medium">Publishing Property...</p>
               </div>
             ) : (
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col items-center gap-4 px-4 py-10">
                 <IoCheckmarkCircleOutline className="text-7xl" />
                 <p className="text-lg font-medium">
                   Property Successfully <span className="text-primary">Published!</span>
                 </p>
-                <Button
-                  className="text-sm font-semibold w-fit"
-                  color="primary"
-                  radius="full"
-                  variant="solid"
-                  onClick={() => {
-                    onClose();
-                  }}
-                >
-                  Dashboard
-                </Button>
+                <Link href={paths.stays()}>
+                  <Button className="text-sm px-14 font-semibold w-fit" color="primary" radius="full" variant="flat">
+                    Dashboard
+                  </Button>
+                </Link>
               </div>
             )
           }
