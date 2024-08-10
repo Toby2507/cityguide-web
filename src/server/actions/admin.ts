@@ -1,7 +1,7 @@
 'use server';
 
 import { ICreateStay } from '@/types';
-import { fetchWithReAuth } from '@/utils';
+import { fetchWithReAuth, formatStayBody } from '@/utils';
 
 export const uploadImages = async (body: FormData) => {
   const res = await fetchWithReAuth('account/upload', { method: 'POST', body }, true);
@@ -10,7 +10,6 @@ export const uploadImages = async (body: FormData) => {
 };
 
 export const createStay = async (body: ICreateStay) => {
-  const res = await fetchWithReAuth('stay/create', { method: 'POST', body: JSON.stringify(body) });
-  console.log(res);
-  const stay = await res.json();
+  const data = formatStayBody(body);
+  await fetchWithReAuth('property/stay', { method: 'POST', body: JSON.stringify(data) });
 };
