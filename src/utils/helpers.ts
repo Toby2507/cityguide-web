@@ -1,4 +1,4 @@
-import { IAddress } from '@/types';
+import { IAddress, ICreateStay } from '@/types';
 import { KeyboardEvent } from 'react';
 import toast from 'react-hot-toast';
 
@@ -42,74 +42,23 @@ export const formatFileSize = (size: number) => {
   return parseFloat((size / Math.pow(k, i)).toFixed(0)) + ' ' + sizes[i];
 };
 
-// const checkAspectRatio = (w: number, h: number) => {
-//   const ar = w / h;
-//   const commons = [1, 4 / 3, 3 / 2, 16 / 9, 1.85, 2.35];
-//   return commons.some((c) => Math.abs(ar - c) / c <= 0.05);
-// };
-// const calcBpp = (s: number, w: number, h: number, format: string) => {
-//   const bpp = s / (w * h);
-//   console.log(bpp);
-//   if (['jpeg', 'jpg'].includes(format)) {
-//     if (bpp >= 1) return 20;
-//     if (bpp >= 0.5) return 10;
-//   } else if (format === 'png') {
-//     if (bpp >= 1.5) return 20;
-//     if (bpp >= 0.75) return 10;
-//   } else if (format === 'bmp') {
-//     if (bpp >= 2) return 20;
-//     if (bpp >= 1) return 10;
-//   } else {
-//     if (bpp >= 1.5) return 20;
-//     if (bpp >= 0.75) return 10;
-//   }
-//   return 0;
-// };
-// export const assessImgQuality = async (file: File) => {
-//   const { width, height } = await createImageBitmap(file);
-//   const size = file.size;
-//   const format = file.type.split('/')[1];
-//   const targetSize = 640;
-//   let quality = 0;
-
-//   if (width >= targetSize && height >= targetSize) quality += 40;
-//   else quality += [width, height].some((d) => d >= targetSize) ? 20 : 10;
-
-//   const ppi = Math.sqrt(width ** 2 + height ** 2) / 9;
-//   if (ppi >= 300) quality += 30;
-//   else if (ppi >= 150) quality += 15;
-
-//   quality += calcBpp(size, width, height, format);
-//   quality += checkAspectRatio(width, height) ? 10 : 0;
-
-//   return { width, height, size, quality };
-// };
-
-export const fileToImageData = (file: File): Promise<ImageData> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-          reject(toast.error('Could not get image data'));
-          return;
-        }
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        const imageData = ctx.getImageData(0, 0, img.width, img.height);
-        resolve(imageData);
-      };
-      img.onerror = () => {
-        reject(toast.error('Could not load image'));
-      };
-      img.src = e.target?.result as string;
-    };
-    reader.onerror = () => {
-      reject(toast.error('Could not reader file'));
-    };
-    reader.readAsDataURL(file);
-  });
+export const formatStayBody = (body: ICreateStay) => {
+  const stay: ICreateStay = {
+    type: body.type,
+    address: body.address,
+    summary: body.summary,
+    name: body.name,
+    avatar: body.avatar,
+    images: body.images,
+    amenities: body.amenities,
+    rules: body.rules,
+    accommodation: body.accommodation,
+    maxDays: body.maxDays,
+    language: body.language,
+  };
+  if (body.hotelRating) stay.hotelRating = body.hotelRating;
+  const extras = body.extraInfo;
+  if ((extras?.host?.info && extras.host.name) || extras?.property || extras?.neighborhood?.info)
+    stay.extraInfo = body.extraInfo;
+  return stay;
+};

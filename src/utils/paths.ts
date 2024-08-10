@@ -12,6 +12,7 @@ const path = {
   stayDetail: (id: string) => `/stay/${id}`,
   // Admin paths
   admin: () => '/admin',
+  stays: () => '/admin/stay',
   createStay: () => '/admin/stay/create',
 };
 
