@@ -31,9 +31,8 @@ const CreateStayStep6 = ({ setStep }: Props) => {
   const handleUpload = async () => {
     setIsLoading(true);
     try {
-      if (!images.length) return toast.error('Please select an image to be uploaded');
-      if ([...uploadedImages, ...images].length < 1) return toast.error('Atleast 12 Images are required');
       if (!avatar) return toast.error('Please select an avatar');
+      if ([...uploadedImages, ...images].length < 11) return toast.error('Atleast 12 Images are required');
       if (invalidImages.length)
         return toast.error(`${invalidImages.length} image(s) does not meet the minimum quality`);
       const avatarData = new FormData();
