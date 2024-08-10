@@ -5,7 +5,11 @@ import { IAccommodation } from '@/types';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import { useState } from 'react';
 import { FaUserAlt } from 'react-icons/fa';
-import { IoCheckmark } from 'react-icons/io5';
+import { FaChildren } from 'react-icons/fa6';
+import { IoCheckmark, IoFastFoodOutline } from 'react-icons/io5';
+import { LuBaby, LuParkingCircle } from 'react-icons/lu';
+import { PiBathtub } from 'react-icons/pi';
+import { TbMeterSquare } from 'react-icons/tb';
 
 interface IStayDetailTableBody {
   columnKey: string;
@@ -15,6 +19,19 @@ interface IStayDetailTableBody {
 const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
   const [quantity, setQuantity] = useState<string>('0');
   const { reservations } = useReservationStore();
+
+  const accommodationDetails = [
+    { title: 'bathrooms', value: `${user.bathrooms} bathrooms`, Icon: PiBathtub },
+    { title: 'children', value: user.children ? 'Children allowed' : 'Children not allowed', Icon: FaChildren },
+    { title: 'infants', value: user.infants ? 'Infants allowed' : 'Infants not allowed', Icon: LuBaby },
+    { title: 'parking', value: `${user.parking} parking`, Icon: LuParkingCircle },
+    { title: 'size', value: `${user.size} m²`, Icon: TbMeterSquare },
+    {
+      title: 'breakfast',
+      value: !!user.breakfast ? (user.breakfast.price ? 'Paid' : 'Free') : 'No',
+      Icon: IoFastFoodOutline,
+    },
+  ];
 
   const quantities = Array(user.maxGuests)
     .fill(0)
@@ -27,23 +44,30 @@ const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
           {user.rooms.map((room, idx) => (
             <li key={idx}>
               <span className="text-sm font-medium">{room.name}: </span>
-              <span className="text-xs">{room.beds.map((bed) => `${bed.count} ${bed.type} bed`).join(', ')}</span>
+              <span className="text-xs">{room.furnitures.map((bed) => `${bed.count} ${bed.type} bed`).join(', ')}</span>
             </li>
           ))}
         </ul>
+        <hr />
         <p className="text-sm">{user?.description}</p>
-        {user.amenities ? (
-          <>
-            <div className="h-[1px] bg-default w-full my-1" />
-            <div className="flex flex-wrap items-center gap-2">
-              {user.amenities?.map((amenity, idx) => (
-                <div key={idx} className="flex items-center gap-1">
-                  <IoCheckmark color="#0075FF" size={20} />
-                  <p className="text-sm font-medium">{amenity}</p>
-                </div>
-              ))}
+        <hr />
+        <div className="flex flex-wrap items-center gap-2">
+          {accommodationDetails.map(({ title, value, Icon }) => (
+            <div key={title} className="flex items-center gap-1">
+              <Icon color="text-default" size={20} />
+              <p className="text-sm font-medium">{value}</p>
             </div>
-          </>
+          ))}
+        </div>
+        {user.amenities ? (
+          <div className="flex flex-wrap items-center gap-2">
+            {user.amenities?.map((amenity, idx) => (
+              <div key={idx} className="flex items-center gap-1">
+                <IoCheckmark color="text-default" size={20} />
+                <p className="text-sm font-medium">{amenity}</p>
+              </div>
+            ))}
+          </div>
         ) : null}
       </div>
     );
