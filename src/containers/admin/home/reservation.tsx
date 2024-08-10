@@ -169,7 +169,7 @@ const AdminReservation = () => {
                 aria-label="Clear Filters"
                 className="text-xs text-accentGray font-light gap-1"
                 startContent={<IoCloseCircle className="text-danger text-2xl" />}
-                onClick={clearFilters}
+                onPress={clearFilters}
                 variant="light"
               >
                 Clear Filters

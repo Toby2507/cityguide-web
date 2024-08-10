@@ -58,7 +58,7 @@ const CreateStayAccommodation = ({ setStep }: Props) => {
               radius="full"
               size="sm"
               variant="flat"
-              onClick={addAccommodation}
+              onPress={addAccommodation}
               isLoading={isLoading}
               startContent={<IoAdd className="text-lg" />}
             >
@@ -71,7 +71,7 @@ const CreateStayAccommodation = ({ setStep }: Props) => {
                 radius="full"
                 size="sm"
                 variant="flat"
-                onClick={removeAccommodation}
+                onPress={removeAccommodation}
                 isLoading={isLoading}
                 startContent={<IoRemove className="text-lg" />}
               >

@@ -46,7 +46,7 @@ const CreateStayStep1 = ({ setStep }: Props) => {
             <Button
               className="text-xs font-semibold rounded-full w-full"
               color="primary"
-              onClick={() => handleList(key)}
+              onPress={() => handleList(key)}
             >
               List your property
             </Button>

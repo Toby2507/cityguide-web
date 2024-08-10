@@ -1,17 +1,16 @@
 'use client';
 
 import { createStaySchema } from '@/schemas';
-import { IBreakfastInfo, ICreateStay, IFurniture, IRoom, Parking } from '@/types';
+import { ICreateStay, IFurniture, IRoom, Parking } from '@/types';
 import { onEnter } from '@/utils';
-import { Button, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
+import { Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import AccommodationImages from './accommodation-images';
 import CreateStayAmenities from './create-stay-amenities';
 import CreateStayRoomCard from './create-stay-room';
-import { IoAdd } from 'react-icons/io5';
-import AccommodationImages from './accommodation-images';
 
 interface IAccommodationInputs {
   idx: number;

@@ -10,7 +10,7 @@ interface ICreateStayButtons {
 const CreateStayButtons = ({ isLoading, nextText, next, previous }: ICreateStayButtons) => {
   return (
     <div className="flex items-center justify-center gap-4">
-      <Button className="text-sm font-semibold px-14" color="primary" radius="full" variant="flat" onClick={previous}>
+      <Button className="text-sm font-semibold px-14" color="primary" radius="full" variant="flat" onPress={previous}>
         Previous
       </Button>
       <Button
@@ -18,7 +18,7 @@ const CreateStayButtons = ({ isLoading, nextText, next, previous }: ICreateStayB
         color="primary"
         radius="full"
         variant="solid"
-        onClick={next}
+        onPress={next}
         isLoading={isLoading}
       >
         {nextText || 'Next'}

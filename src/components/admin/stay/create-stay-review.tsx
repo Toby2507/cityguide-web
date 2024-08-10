@@ -79,7 +79,7 @@ const CreateStayReview = ({ setStep }: IProps) => {
           color="primary"
           radius="full"
           variant="solid"
-          onClick={handleSubmit(onSubmit)}
+          onPress={() => handleSubmit(onSubmit)()}
         >
           Publish
         </Button>
@@ -88,7 +88,7 @@ const CreateStayReview = ({ setStep }: IProps) => {
           color="primary"
           radius="full"
           variant="flat"
-          onClick={() => setStep(8)}
+          onPress={() => setStep(8)}
         >
           No I need to make a change
         </Button>

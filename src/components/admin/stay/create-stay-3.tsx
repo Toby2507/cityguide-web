@@ -141,7 +141,7 @@ const CreateStayStep3 = ({ setStep }: Props) => {
                           isIconOnly
                           radius="sm"
                           variant="light"
-                          onClick={() => onChange(rating)}
+                          onPress={() => onChange(rating)}
                         >
                           {isActive ? (
                             <IoStar className="text-5xl text-accentGold" />

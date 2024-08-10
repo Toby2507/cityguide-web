@@ -32,7 +32,7 @@ const CreateStayRoomCard = ({ room: { name, furnitures }, setBed, removeRoom }: 
           size="sm"
           variant="light"
           color="danger"
-          onClick={() => removeRoom(name)}
+          onPress={() => removeRoom(name)}
         >
           <IoIosRemoveCircle className="text-lg" />
         </Button>
@@ -51,7 +51,7 @@ const CreateStayRoomCard = ({ room: { name, furnitures }, setBed, removeRoom }: 
                 size="sm"
                 variant="light"
                 color="danger"
-                onClick={() => setBed(name, furniture, true)}
+                onPress={() => setBed(name, furniture, true)}
               >
                 <IoRemoveCircleOutline className="text-lg" />
               </Button>
@@ -92,7 +92,7 @@ const CreateStayRoomCard = ({ room: { name, furnitures }, setBed, removeRoom }: 
             color="primary"
             endContent={<IoAdd className="text-lg" />}
             className="font-base"
-            onClick={addRoomBed}
+            onPress={addRoomBed}
           >
             Add Furniture
           </Button>

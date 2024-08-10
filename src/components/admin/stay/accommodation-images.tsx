@@ -126,7 +126,7 @@ const AccommodationImages = ({ idx }: Props) => {
                         isIconOnly
                         radius="sm"
                         variant="light"
-                        onClick={() => removeFile(id)}
+                        onPress={() => removeFile(id)}
                       >
                         <IoClose className="text-3xl text-accentRed" />
                       </Button>

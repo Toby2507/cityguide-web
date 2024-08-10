@@ -105,7 +105,7 @@ const CreateStayStep6 = ({ setStep }: Props) => {
                 <p className="text-sm font-medium">{file.name}</p>
                 <p className="text-xs text-accentGray">{formatFileSize(file.size)}</p>
               </div>
-              <Button aria-label="Add Amenity" isIconOnly radius="sm" variant="light" onClick={() => removeFile(id)}>
+              <Button aria-label="Add Amenity" isIconOnly radius="sm" variant="light" onPress={() => removeFile(id)}>
                 <IoClose className="text-3xl text-accentRed" />
               </Button>
             </div>

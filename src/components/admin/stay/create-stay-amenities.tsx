@@ -38,7 +38,7 @@ const CreateStayAmenities = ({ amenities, label, customStyle, setAmenities }: IC
         className={`text-accentGray mx-auto ${customStyle}`}
         variant="underlined"
         endContent={
-          <Button aria-label="Add Amenity" isIconOnly radius="sm" variant="light" color="primary" onClick={addAmenity}>
+          <Button aria-label="Add Amenity" isIconOnly radius="sm" variant="light" color="primary" onPress={addAmenity}>
             <IoAdd className="text-2xl" />
           </Button>
         }
