@@ -1,13 +1,13 @@
 'use client';
 
+import CustomStars from '../../common/custom-stars';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay, Rating, StayType } from '@/types';
 import { onEnter } from '@/utils';
-import { Button, Input, Textarea } from '@nextui-org/react';
+import { Input, Textarea } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { IoStar, IoStarOutline } from 'react-icons/io5';
 import CreateStayButtons from './create-stay-btns';
 
 interface Props {
@@ -130,27 +130,7 @@ const CreateStayStep3 = ({ setStep }: Props) => {
               <div className="flex flex-col gap-2">
                 <h4 className="text-accentGray text-sm font-semibold">Hotel Rating</h4>
                 <div className="flex items-center gap-4">
-                  {Object.values(Rating)
-                    .filter((i) => Number(i))
-                    .map((rating) => {
-                      const isActive = +rating <= (value || 0);
-                      return (
-                        <Button
-                          key={rating}
-                          aria-label={`rating-${rating}`}
-                          isIconOnly
-                          radius="sm"
-                          variant="light"
-                          onPress={() => onChange(rating)}
-                        >
-                          {isActive ? (
-                            <IoStar className="text-5xl text-accentGold" />
-                          ) : (
-                            <IoStarOutline className="text-5xl text-accentGold" />
-                          )}
-                        </Button>
-                      );
-                    })}
+                  <CustomStars value={value} onChange={onChange} />
                 </div>
               </div>
             )}
