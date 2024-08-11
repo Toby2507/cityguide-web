@@ -20,7 +20,7 @@ const AdminStayListPage = async () => {
           </Link>
         </div>
         <div className="grid items-center px-2 py-6 gap-10 min-w-0 max-w-full">
-          {stays.map((stay) => (
+          {stays?.map((stay) => (
             <StayCard key={stay._id} {...stay} />
           ))}
         </div>

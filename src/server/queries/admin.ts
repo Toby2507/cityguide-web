@@ -1,7 +1,7 @@
 'use server';
 
 import { IReservationStats, IStay, PropertyType } from '@/types';
-import { fetchWithReAuth } from '@/utils';
+import { fetchBaseQuery, fetchWithReAuth } from '@/utils';
 
 interface IGetResAnalytics {
   property?: string;
@@ -22,6 +22,12 @@ export const getReservationAnalytics = async (data: IGetResAnalytics): Promise<I
   } catch (err: unknown) {
     return [];
   }
+};
+
+export const getTrendingStays = async () => {
+  const res = await fetchBaseQuery('property/stay/trending', { method: 'GET' });
+  const stays = await res.json();
+  return stays.properties as IStay[];
 };
 
 export const getPartnerStays = async () => {
