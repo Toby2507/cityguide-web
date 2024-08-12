@@ -7,9 +7,14 @@ interface IProps {
 }
 const StayDetailInfo = ({ stay: { amenities, summary } }: IProps) => {
   const parking = amenities?.find((amenity) => amenity.toLowerCase().includes('parking'));
+  const summaries = summary.split('\n').filter(Boolean);
   return (
     <div className="grid grid-cols-4 items-center gap-4">
-      <p className="col-span-3">{summary}</p>
+      <div className="col-span-3 flex flex-col gap-2">
+        {summaries.slice(0, 3).map((text, idx) => (
+          <p key={idx}>{text}</p>
+        ))}
+      </div>
       <aside className="flex flex-col gap-2 h-full">
         <div className="flex items-center border rounded-lg">
           <div className="flex flex-col p-2">
