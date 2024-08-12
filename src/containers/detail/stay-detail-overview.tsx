@@ -31,7 +31,7 @@ const StayDetailOverview = ({ stay }: IProps) => {
         </div>
       </header>
       <div className="grid grid-cols-8 gap-3">
-        <StayDetailImages images={stay?.images} avatar={stay.avatar} />
+        <StayDetailImages {...stay} />
         <aside className="col-span-2 flex flex-col gap-3">
           <article className="flex flex-col gap-3 px-2 py-3 rounded-lg border">
             <div className="flex items-center justify-end gap-2">
