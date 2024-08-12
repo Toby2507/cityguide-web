@@ -12,6 +12,6 @@ export const uploadImages = async (body: FormData) => {
 
 export const createStay = async (body: ICreateStay) => {
   const data = formatStayBody(body);
-  await fetchWithReAuth('property/stay', { method: 'POST', body: JSON.stringify(data) });
+  await fetchWithReAuth('property/stay/create', { method: 'POST', body: JSON.stringify(data) });
   revalidatePath(paths.stays());
 };

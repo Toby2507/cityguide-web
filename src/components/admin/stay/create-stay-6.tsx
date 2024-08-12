@@ -1,7 +1,7 @@
 'use client';
 
 import { useCustomImageSelect } from '@/hooks';
-import { formatFileSize } from '@/utils';
+import { createUploadDatas, formatFileSize } from '@/utils';
 import { Button, Image } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
@@ -31,20 +31,29 @@ const CreateStayStep6 = ({ setStep }: Props) => {
   const handleUpload = async () => {
     setIsLoading(true);
     try {
+      const isValidImgsLength = uploadedImages.length ? [...uploadedImages, ...images].length < 11 : images.length < 12;
       if (!avatar) return toast.error('Please select an avatar');
-      if ([...uploadedImages, ...images].length < 11) return toast.error('Atleast 12 Images are required');
+      if (isValidImgsLength) return toast.error('Atleast 12 Images are required');
       if (invalidImages.length)
         return toast.error(`${invalidImages.length} image(s) does not meet the minimum quality`);
       const avatarData = new FormData();
-      const imagesData = new FormData();
+      const imgs: File[] = [];
       images.forEach((image) => {
         if (image.id === avatar) avatarData.append('images', image.file);
-        else imagesData.append('images', image.file);
+        else imgs.push(image.file);
       });
+      const imagesData = createUploadDatas(imgs);
       try {
-        const imgUrls = await Promise.all([uploadImages(avatarData), uploadImages(imagesData)]);
-        imgUrls[0] && changeAvatar(imgUrls[0][0]);
-        imgUrls[1] && changeImages([...uploadedImages, ...imgUrls[1]]);
+        const [avatarUrl, ...imagesUrls] = await Promise.all([
+          uploadImages(avatarData),
+          ...imagesData.map((data) => uploadImages(data)),
+        ]);
+        avatarUrl && changeAvatar(avatarUrl[0]);
+        if (imagesUrls.every(Boolean)) {
+          const imgUrls: string[] = [];
+          imagesUrls.forEach((img) => imgUrls.push(...img));
+          changeImages([...uploadedImages, ...imgUrls]);
+        }
         setImgIds([...imgIds, ...images.map((i) => i.id)]);
         setStep(7);
       } catch (err) {

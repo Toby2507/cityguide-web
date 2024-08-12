@@ -62,3 +62,14 @@ export const formatStayBody = (body: ICreateStay) => {
     stay.extraInfo = body.extraInfo;
   return stay;
 };
+
+export const createUploadDatas = (imgs: File[]) => {
+  const formDatas: FormData[] = [];
+  for (let i = 0; i < imgs.length; i += 5) {
+    const formData = new FormData();
+    const imgBatch = imgs.slice(i, i + 5);
+    imgBatch.forEach((img) => formData.append('images', img));
+    formDatas.push(formData);
+  }
+  return formDatas;
+};

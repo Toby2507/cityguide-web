@@ -1,7 +1,7 @@
 import { useCustomImageSelect } from '@/hooks';
 import { createStaySchema } from '@/schemas';
 import { uploadImages } from '@/server';
-import { formatFileSize } from '@/utils';
+import { createUploadDatas, formatFileSize } from '@/utils';
 import { Button, Image, Modal, ModalBody, ModalContent, ModalFooter, useDisclosure } from '@nextui-org/react';
 import { useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
@@ -42,10 +42,11 @@ const AccommodationImages = ({ idx }: Props) => {
       if ([...value, ...images].length < 4) return toast.error('Atleast 4 images are needed for each accommodation');
       if (invalidImages.length)
         return toast.error(`${invalidImages.length} image(s) does not meet the minimum quality`);
-      const imagesData = new FormData();
-      images.forEach((image) => imagesData.append('images', image.file));
+      const imagesData = createUploadDatas(images.map((img) => img.file));
       try {
-        const imgUrls = await uploadImages(imagesData);
+        const imageUrls = await Promise.all(imagesData.map((img) => uploadImages(img)));
+        const imgUrls: string[] = [];
+        imageUrls.forEach((img) => imgUrls.push(...img));
         onChange([...value, ...imgUrls]);
         setAccIds([...accIds, ...images.map((i) => i.id)]);
         clearImages();
