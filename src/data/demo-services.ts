@@ -1,12 +1,6 @@
 import { IOffers } from '@/types';
 import offer1 from '@images/offer1.png';
 import offer2 from '@images/offer2.png';
-import service1 from '@images/demoservice1.png';
-import service2 from '@images/demoservice2.png';
-import service3 from '@images/demoservice7.png';
-import service4 from '@images/demoservice8.png';
-import service5 from '@images/demoservice9.png';
-import service6 from '@images/demoservice10.png';
 
 export const offers: IOffers[] = [
   {
