@@ -24,12 +24,6 @@ export const getReservationAnalytics = async (data: IGetResAnalytics): Promise<I
   }
 };
 
-export const getTrendingStays = async () => {
-  const res = await fetchBaseQuery('property/stay/trending', { method: 'GET' });
-  const stays = await res.json();
-  return stays.properties as IStay[];
-};
-
 export const getPartnerStays = async () => {
   const res = await fetchWithReAuth('property/stay/admin', { method: 'GET' });
   const stays = await res.json();
