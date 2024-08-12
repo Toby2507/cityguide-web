@@ -9,7 +9,7 @@ import {
   StaySearchBar,
   SubscribeBox,
 } from '@/containers';
-import { stays } from '@/data';
+import { getStayById } from '@/server';
 
 interface IStayDetailPage {
   params: {
@@ -17,7 +17,9 @@ interface IStayDetailPage {
   };
 }
 
-const StayDetailPage = ({ params: { stayId } }: IStayDetailPage) => {
+const StayDetailPage = async ({ params: { stayId } }: IStayDetailPage) => {
+  const stay = await getStayById(stayId);
+  if (!stay) return null;
   return (
     <>
       <Header />
@@ -25,10 +27,10 @@ const StayDetailPage = ({ params: { stayId } }: IStayDetailPage) => {
         <div className="container mx-auto px-10 flex flex-col gap-6 max-w-7xl">
           <StaySearchBar />
           <StayDetailNav />
-          <StayDetailOverview stay={stays[0]} />
-          <StayDetailAmenities stay={stays[0]} />
-          <StayDetailAvailability stay={stays[0]} />
-          <StayDetailRules stay={stays[0]} />
+          <StayDetailOverview stay={stay} />
+          <StayDetailAmenities stay={stay} />
+          <StayDetailAvailability stay={stay} />
+          <StayDetailRules stay={stay} />
         </div>
         <SubscribeBox />
       </main>
