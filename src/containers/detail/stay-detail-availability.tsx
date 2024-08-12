@@ -25,10 +25,10 @@ const StayDetailAvailability = ({ stay }: IProps) => {
           Prices and availability for your stay
         </p>
       </header>
-      <Table isStriped removeWrapper aria-label="Accommodation availability">
+      <Table isStriped removeWrapper aria-label="Accommodation availability" className="border-collapse">
         <TableHeader columns={columns}>
           {(columns) => (
-            <TableColumn className="bg-default text-black text-sm py-4" key={columns.key}>
+            <TableColumn className="bg-default text-black text-sm py-4 border" key={columns.key}>
               {columns.label}
             </TableColumn>
           )}
@@ -37,7 +37,7 @@ const StayDetailAvailability = ({ stay }: IProps) => {
           {(item) => (
             <TableRow key={item.id}>
               {columns.map(({ key }) => (
-                <TableCell key={key} className="justify-self-start bg-red align-top p-4">
+                <TableCell key={key} className="justify-self-start bg-red align-top p-4 border">
                   <StayDetailTableCell columnKey={key} user={item} />
                 </TableCell>
               ))}
