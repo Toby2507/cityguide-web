@@ -20,7 +20,7 @@ const PlaceCard = ({ _id, name, summary, avatar }: IStay) => {
       <CardFooter className="flex flex-col items-start justify-between border border-accentGray2/50 px-6 pb-6">
         <div className="flex flex-col gap-1">
           <h3 className="text-xl font-bold">{name}</h3>
-          <p className="text-xs font-normal">{summary.split('\n')[0]}</p>
+          <p className="text-xs font-normal">{summary.split('\n')[0].substring(0, 350)}...</p>
         </div>
         <Link href={paths.stayDetail(_id)}>
           <p className="text-xs text-primary font-semibold hover:underline">See more {' >'}</p>
