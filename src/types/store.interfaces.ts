@@ -1,13 +1,14 @@
+import { ICreateReservation } from './create.model.interfaces';
 import { PropertyType } from './enums';
-import { IReservation } from './model.interfaces';
+import { IReservationAccommodation } from './model.interfaces';
 
 // Reservation
 export interface IReservationState {
-  reservations: IReservation[];
+  reservation: Partial<ICreateReservation> | null;
 }
 
 export interface IReservationStore extends IReservationState {
-  addReservation: (reservation: IReservation) => void;
-  updateReservation: (id: string, type: PropertyType, reserve: Partial<IReservation>) => void;
-  removeReservation: (id: string, roomId?: string) => void;
+  setReservation: (reservation: Partial<ICreateReservation>) => void;
+  updateAccommodations: (accommodation: IReservationAccommodation) => void;
+  updateRequests: (request: string) => void;
 }

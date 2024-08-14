@@ -210,7 +210,7 @@ export interface IPartner {
 export interface IStay {
   _id: string;
   partner: string | IPartner;
-  partnerType: string;
+  partnerType: EntityType;
   type: StayType;
   name: string;
   summary: string;
@@ -230,12 +230,17 @@ export interface IStay {
 }
 
 // Reservations
+export interface IReservationAccommodation {
+  accommodationId: string;
+  reservationCount: number;
+  noOfGuests: IGuests;
+}
 export interface IReservation {
   _id: string;
   property: string;
   propertyType: PropertyType;
   user: string | IUser;
-  partner: any;
+  partner: string;
   partnerType: EntityType;
   isAgent?: boolean;
   guestFullName?: string;
@@ -246,7 +251,7 @@ export interface IReservation {
   checkInTime: string;
   checkOutDay: string;
   checkOutTime: string;
-  roomId?: string;
+  accommodations?: IReservationAccommodation[];
   reservationCount: number;
   noOfGuests: IGuests;
   price?: number;

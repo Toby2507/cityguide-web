@@ -1,36 +1,34 @@
-import { IReservationStore, PropertyType } from '@/types';
+import { IGuests, IReservationStore, PropertyType } from '@/types';
 import { createStore } from 'zustand';
 
 export const createReservationStore = () => {
   return createStore<IReservationStore>()((set, get) => ({
-    reservations: [],
-    addReservation: (reservation) => {
-      const reservations = get().reservations;
-      if (reservation.propertyType === PropertyType.STAY) {
-        const res = reservations.find(
-          (res) => res.property === reservation.property && res.roomId === reservation.roomId
-        );
-        if (res) return;
-      } else {
-        if (reservations.find((res) => res.property === reservation.property)) return;
-      }
-      set({ reservations: [...reservations, reservation] });
+    reservation: null,
+    setReservation(reservation) {
+      return set((state) => {
+        if (!state.reservation || reservation.property !== state.reservation.property) return { reservation };
+        return { reservation: { ...state.reservation, ...reservation } };
+      });
     },
-    updateReservation: (id, type, reserve) => {
-      const reservations = get().reservations;
-      const reservation =
-        type === PropertyType.STAY
-          ? reservations.find((res) => res.property === id && res.roomId === reserve.roomId)
-          : reservations.find((res) => res.property === id);
-      if (reservation) {
-        Object.assign(reservation, reserve);
-        set({ reservations });
-      }
+    updateAccommodations(accommodation) {
+      const reservation = get().reservation;
+      if (!reservation?.property && reservation?.propertyType !== PropertyType.STAY) return;
+      const accs = reservation.accommodations || [];
+      const accommodations = accs
+        .filter((a) => a.accommodationId !== accommodation.accommodationId)
+        .concat(accommodation.reservationCount ? [accommodation] : []);
+      const reservationCount = accommodations.reduce((acc, curr) => acc + curr.reservationCount, 0);
+      const noOfGuests: IGuests = {
+        adults: accommodations.reduce((acc, curr) => acc + curr.noOfGuests.adults, 0),
+        children: accommodations.reduce((acc, curr) => acc + curr.noOfGuests.children, 0),
+      };
+      return set({ reservation: { ...reservation, accommodations, reservationCount, noOfGuests } });
     },
-    removeReservation: (id, roomId) => {
-      let reservations = get().reservations;
-      reservations = reservations.filter((res) => res.property === id && res.roomId === roomId);
-      set({ reservations });
+    updateRequests(request) {
+      const reservation = get().reservation;
+      if (!reservation?.property) return;
+      const requests = Array.from(new Set([...(reservation.requests || []), request]));
+      return set({ reservation: { ...reservation, requests } });
     },
   }));
 };
