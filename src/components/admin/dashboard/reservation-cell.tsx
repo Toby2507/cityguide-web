@@ -1,4 +1,4 @@
-import { IReservation } from '@/types';
+import { IPartner, IReservation } from '@/types';
 import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
@@ -10,6 +10,7 @@ interface IReservationCell {
 
 const ReservationCell = ({ columnKey, reservation }: IReservationCell) => {
   const guestText = [];
+  const user = reservation.user as IPartner;
   if (reservation.noOfGuests.adults)
     guestText.push(`${reservation.noOfGuests.adults} Adult${reservation.noOfGuests.adults > 1 ? 's' : ''}`);
   if (reservation.noOfGuests.children)
@@ -23,12 +24,12 @@ const ReservationCell = ({ columnKey, reservation }: IReservationCell) => {
   if (columnKey === 'user')
     return (
       <User
-        name={`${reservation.user.firstName} ${reservation.user.lastName}`}
-        description={reservation.user.email}
-        avatarProps={{ src: reservation.user.imgUrl || '', alt: reservation.user.firstName }}
+        name={`${user.firstName} ${user.lastName}`}
+        description={user.email}
+        avatarProps={{ src: user.imgUrl || '', alt: user.firstName }}
       />
     );
-  if (columnKey === 'phone') return <p className="text-xs font-semibold">{reservation.user.phoneNumber}</p>;
+  if (columnKey === 'phone') return <p className="text-xs font-semibold">{user.phoneNumber}</p>;
   if (columnKey === 'guest') return <p className="text-xs font-semibold">{guestText.join(' x ')}</p>;
   if (columnKey === 'rooms') return <p className="text-xs text-center font-semibold">{reservation.reservationCount}</p>;
   if (columnKey === 'check')

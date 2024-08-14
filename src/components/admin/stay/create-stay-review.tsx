@@ -2,7 +2,7 @@
 
 import { StayDetailAmenities, StayDetailAvailability, StayDetailOverview, StayDetailRules } from '@/containers';
 import { createStay } from '@/server';
-import { ICreateStay, IStay } from '@/types';
+import { EntityType, ICreateStay, IStay } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ const CreateStayReview = ({ setStep }: IProps) => {
     partner: 'partner id',
     createdAt: '2024-06-04T08:50:15.956Z',
     updatedAt: '2024-06-04T08:50:15.956Z',
-    partnerType: 'ESTABLISHMENT',
+    partnerType: EntityType.ESTABLISHMENT,
     rating: 4.9,
   };
 
