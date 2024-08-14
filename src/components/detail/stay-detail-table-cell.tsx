@@ -2,8 +2,9 @@
 
 import { useReservationStore } from '@/providers';
 import { IAccommodation, IGuests, StayType } from '@/types';
-import { numberToCurrency } from '@/utils';
+import { numberToCurrency, paths } from '@/utils';
 import { Button, ButtonGroup, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { BsDot } from 'react-icons/bs';
 import { FaUserAlt } from 'react-icons/fa';
@@ -22,6 +23,7 @@ interface IStayDetailTableBody {
 const GUEST: IGuests = { adults: 1, children: 0 };
 
 const StayDetailTableCell = ({ columnKey, user, showAction, type }: IStayDetailTableBody) => {
+  const { push } = useRouter();
   const { reservation, updateAccommodations } = useReservationStore();
   const quantity = useMemo(
     () => reservation?.accommodations?.find((a) => a.accommodationId === user.id)?.reservationCount || 0,
@@ -195,6 +197,12 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type }: IStayDetailT
             ) : null}
           </>
         ) : null}
+        {user.available <= 5 ? (
+          <div className="flex gap-2 pt-6">
+            <BsDot className="text-danger" size={16} />
+            <p className="flex-1 text-xs text-danger font-medium">Only {user.available} left on our site</p>
+          </div>
+        ) : null}
       </div>
     );
   if (columnKey === 'actions' && showAction)
@@ -214,6 +222,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type }: IStayDetailT
             color="primary"
             className="px-12 font-semibold"
             radius="sm"
+            onPress={() => push(paths.reserveStay(reservation?.property!))}
           >
             Reserve
           </Button>
@@ -229,12 +238,6 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type }: IStayDetailT
               </p>
             </li>
           ))}
-          {user.available <= 5 ? (
-            <li className="flex gap-2 pt-3">
-              <BsDot className="text-danger" size={16} />
-              <p className="flex-1 text-xs text-danger font-medium">Only {user.available} left on our site</p>
-            </li>
-          ) : null}
         </ul>
       </div>
     );

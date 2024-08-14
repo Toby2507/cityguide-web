@@ -14,7 +14,7 @@ const HeaderUser = ({ user }: IHeaderUser) => {
       <DropdownTrigger>
         <User
           as="button"
-          name={<p className="text-white text-sm font-semibold">{user.fullName}</p>}
+          name={<p className="text-white text-sm font-semibold pl-2">{user.fullName}</p>}
           avatarProps={{ isBordered: true, src: user.imgUrl }}
         />
       </DropdownTrigger>
