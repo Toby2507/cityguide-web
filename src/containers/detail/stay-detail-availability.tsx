@@ -20,6 +20,14 @@ const columns = [
 
 const StayDetailAvailability = ({ stay }: IProps) => {
   const { setReservation } = useReservationStore();
+  const firstStayId = stay.accommodation[0].id;
+  const lastStayId = stay.accommodation[stay.accommodation.length - 1].id;
+
+  const actionClass = (id: string) => {
+    if (id === firstStayId && stay.accommodation.length > 1) return 'border-b-0';
+    if (id === lastStayId && stay.accommodation.length !== 1) return 'border-t-0';
+    if (![firstStayId, lastStayId].includes(id)) return 'border-y-0';
+  };
 
   useEffect(() => {
     const reservation = {
@@ -50,8 +58,13 @@ const StayDetailAvailability = ({ stay }: IProps) => {
           {(item) => (
             <TableRow key={item.id}>
               {columns.map(({ key }) => (
-                <TableCell key={key} className="justify-self-start bg-red align-top p-4 border">
-                  <StayDetailTableCell columnKey={key} user={item} />
+                <TableCell
+                  key={key}
+                  className={`justify-self-start bg-red align-top p-4 border ${
+                    key === 'actions' ? actionClass(item.id) : ''
+                  }`}
+                >
+                  <StayDetailTableCell columnKey={key} user={item} showAction={item.id === firstStayId} />
                 </TableCell>
               ))}
             </TableRow>

@@ -15,10 +15,11 @@ import { TbMeterSquare } from 'react-icons/tb';
 interface IStayDetailTableBody {
   columnKey: string;
   user: IAccommodation;
+  showAction: boolean;
 }
 const GUEST: IGuests = { adults: 1, children: 0 };
 
-const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
+const StayDetailTableCell = ({ columnKey, user, showAction }: IStayDetailTableBody) => {
   const { reservation, updateAccommodations } = useReservationStore();
   const quantity = useMemo(
     () => reservation?.accommodations?.find((a) => a.accommodationId === user.id)?.reservationCount || 0,
@@ -43,7 +44,7 @@ const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
       Icon: IoFastFoodOutline,
     },
   ];
-  const quantities = Array(user.maxGuests + 1)
+  const quantities = Array(user.available + 1)
     .fill(0)
     .map((_, i) => ({ key: i.toString(), label: i ? `${i} (${numberToCurrency(i * user.price)})` : i.toString() }));
   const adultList = Array(user.maxGuests - noOfGuests.children)
@@ -54,7 +55,7 @@ const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
     .map((_, i) => ({ key: i.toString(), label: i.toString() }));
 
   const changeQuantity = (reservationCount: number) => {
-    updateAccommodations({ accommodationId: user.id, reservationCount, noOfGuests });
+    updateAccommodations({ accommodationId: user.id, reservationCount, noOfGuests }, user.price);
   };
   const changeNoOfGuests = ({ adults, children }: Partial<IGuests>) => {
     updateAccommodations({
@@ -117,10 +118,10 @@ const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
   if (columnKey === 'price') return <p className="font-semibold">{numberToCurrency(user.price)}</p>;
   if (columnKey === 'options')
     return (
-      <div className="flex flex-col gap-1 w-52">
+      <div className="flex flex-col gap-1 w-40">
         <ButtonGroup className="w-full" size="sm" variant="flat">
           <Button className="text-xs font-medium w-full">
-            No of rooms reserved: <span className="font-bold">{quantity}</span>
+            No of rooms: <span className="font-bold">{quantity}</span>
           </Button>
           <Dropdown>
             <DropdownTrigger>
@@ -137,58 +138,64 @@ const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
             </DropdownMenu>
           </Dropdown>
         </ButtonGroup>
-        <ButtonGroup className="w-full" size="sm" variant="flat">
-          <Button className="text-xs font-medium w-full">
-            No of adult guests: <span className="font-bold">{noOfGuests.adults}</span>
-          </Button>
-          <Dropdown>
-            <DropdownTrigger>
-              <Button isIconOnly>
-                <IoCaretDownOutline />
+        {quantity ? (
+          <>
+            <ButtonGroup className="w-full" size="sm" variant="flat">
+              <Button className="text-xs font-medium w-full">
+                Adult guests: <span className="font-bold">{noOfGuests.adults}</span>
               </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="quantity to be booked" items={adultList}>
-              {(item) => (
-                <DropdownItem key={item.key} onPress={() => changeNoOfGuests({ adults: +item.key })}>
-                  {item.label}
-                </DropdownItem>
-              )}
-            </DropdownMenu>
-          </Dropdown>
-        </ButtonGroup>
-        <ButtonGroup className="w-full" size="sm" variant="flat">
-          <Button className="text-xs font-medium w-full">
-            No of child guests: <span className="font-bold">{noOfGuests.children}</span>
-          </Button>
-          <Dropdown>
-            <DropdownTrigger>
-              <Button isIconOnly>
-                <IoCaretDownOutline />
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="quantity to be booked" items={childrenList}>
-              {(item) => (
-                <DropdownItem key={item.key} onPress={() => changeNoOfGuests({ children: +item.key })}>
-                  {item.label}
-                </DropdownItem>
-              )}
-            </DropdownMenu>
-          </Dropdown>
-        </ButtonGroup>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly>
+                    <IoCaretDownOutline />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="quantity to be booked" items={adultList}>
+                  {(item) => (
+                    <DropdownItem key={item.key} onPress={() => changeNoOfGuests({ adults: +item.key })}>
+                      {item.label}
+                    </DropdownItem>
+                  )}
+                </DropdownMenu>
+              </Dropdown>
+            </ButtonGroup>
+            {user.children || user.infants ? (
+              <ButtonGroup className="w-full" size="sm" variant="flat">
+                <Button className="text-xs font-medium w-full">
+                  Child guests: <span className="font-bold">{noOfGuests.children}</span>
+                </Button>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button isIconOnly>
+                      <IoCaretDownOutline />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="quantity to be booked" items={childrenList}>
+                    {(item) => (
+                      <DropdownItem key={item.key} onPress={() => changeNoOfGuests({ children: +item.key })}>
+                        {item.label}
+                      </DropdownItem>
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
+              </ButtonGroup>
+            ) : null}
+          </>
+        ) : null}
       </div>
     );
-  if (columnKey === 'actions')
+  if (columnKey === 'actions' && showAction)
     return (
-      <div className="flex flex-col gap-2">
-        {quantity && (
-          <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-3 w-48">
+        {reservation?.reservationCount ? (
+          <div className="flex flex-col">
             <p className="text-sm">
-              <span className="font-bold">{quantity}</span> apartments for
+              <span className="font-bold">{reservation.reservationCount}</span> apartments for
             </p>
-            <p className="text-2xl font-semibold">{numberToCurrency(user.price * quantity)}</p>
+            <p className="text-2xl font-semibold">{numberToCurrency(reservation.price || 0)}</p>
           </div>
-        )}
-        <Button color="primary" className="px-12 font-semibold" radius="lg">
+        ) : null}
+        <Button color="primary" className="px-12 font-semibold" radius="sm">
           Reserve
         </Button>
       </div>

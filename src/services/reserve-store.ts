@@ -10,7 +10,7 @@ export const createReservationStore = () => {
         return { reservation: { ...state.reservation, ...reservation } };
       });
     },
-    updateAccommodations(accommodation) {
+    updateAccommodations(accommodation, unitPrice) {
       const reservation = get().reservation;
       if (!reservation?.property && reservation?.propertyType !== PropertyType.STAY) return;
       const accs = reservation.accommodations || [];
@@ -22,7 +22,15 @@ export const createReservationStore = () => {
         adults: accommodations.reduce((acc, curr) => acc + curr.noOfGuests.adults, 0),
         children: accommodations.reduce((acc, curr) => acc + curr.noOfGuests.children, 0),
       };
-      return set({ reservation: { ...reservation, accommodations, reservationCount, noOfGuests } });
+      let price = reservation.price || 0;
+      if (unitPrice) {
+        const previousCount =
+          reservation.accommodations?.find((a) => a.accommodationId === accommodation.accommodationId)
+            ?.reservationCount || 0;
+        price -= previousCount * unitPrice;
+        price += accommodation.reservationCount * unitPrice;
+      }
+      return set({ reservation: { ...reservation, accommodations, reservationCount, noOfGuests, price } });
     },
     updateRequests(request) {
       const reservation = get().reservation;

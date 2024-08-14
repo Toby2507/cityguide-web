@@ -1,5 +1,4 @@
 import { ICreateReservation } from './create.model.interfaces';
-import { PropertyType } from './enums';
 import { IReservationAccommodation } from './model.interfaces';
 
 // Reservation
@@ -9,6 +8,6 @@ export interface IReservationState {
 
 export interface IReservationStore extends IReservationState {
   setReservation: (reservation: Partial<ICreateReservation>) => void;
-  updateAccommodations: (accommodation: IReservationAccommodation) => void;
+  updateAccommodations: (accommodation: IReservationAccommodation, unitPrice?: number) => void;
   updateRequests: (request: string) => void;
 }
