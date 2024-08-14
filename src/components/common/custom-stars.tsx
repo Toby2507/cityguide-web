@@ -5,9 +5,10 @@ import { IoStar, IoStarOutline } from 'react-icons/io5';
 interface Props {
   value?: Rating;
   onChange?: (val: string | Rating) => void;
+  size?: number;
 }
 
-const CustomStars = ({ value, onChange }: Props) => {
+const CustomStars = ({ value, size, onChange }: Props) => {
   const rateArray = Object.values(Rating).filter((i) => Number(i));
   return (
     <div className={`flex items-center ${onChange ? 'gap-4' : 'gap-1'}`}>
@@ -33,9 +34,9 @@ const CustomStars = ({ value, onChange }: Props) => {
             ) : (
               <>
                 {isActive ? (
-                  <IoStar className="text-xl text-accentGold" />
+                  <IoStar size={size || 20} className="text-xl text-accentGold" />
                 ) : (
-                  <IoStarOutline className="text-xl text-accentGold" />
+                  <IoStarOutline size={size || 20} className="text-xl text-accentGold" />
                 )}
               </>
             )}
