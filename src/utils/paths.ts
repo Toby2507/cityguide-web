@@ -10,6 +10,7 @@ const path = {
   userLicense: () => '#',
   offers: (id: string) => '#',
   stayDetail: (id: string) => `/stay/${id}`,
+  reserveStay: (id: string) => `/reservation/stay/${id}`,
   // Admin paths
   admin: () => '/admin',
   stays: () => '/admin/stay',
