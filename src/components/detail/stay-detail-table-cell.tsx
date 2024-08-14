@@ -1,10 +1,11 @@
 'use client';
 
 import { useReservationStore } from '@/providers';
-import { IAccommodation, IGuests } from '@/types';
+import { IAccommodation, IGuests, StayType } from '@/types';
 import { numberToCurrency } from '@/utils';
 import { Button, ButtonGroup, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import { useMemo } from 'react';
+import { BsDot } from 'react-icons/bs';
 import { FaUserAlt } from 'react-icons/fa';
 import { FaChildren } from 'react-icons/fa6';
 import { IoCaretDownOutline, IoCheckmark, IoFastFoodOutline } from 'react-icons/io5';
@@ -16,10 +17,11 @@ interface IStayDetailTableBody {
   columnKey: string;
   user: IAccommodation;
   showAction: boolean;
+  type: StayType;
 }
 const GUEST: IGuests = { adults: 1, children: 0 };
 
-const StayDetailTableCell = ({ columnKey, user, showAction }: IStayDetailTableBody) => {
+const StayDetailTableCell = ({ columnKey, user, showAction, type }: IStayDetailTableBody) => {
   const { reservation, updateAccommodations } = useReservationStore();
   const quantity = useMemo(
     () => reservation?.accommodations?.find((a) => a.accommodationId === user.id)?.reservationCount || 0,
@@ -29,6 +31,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction }: IStayDetailTableBo
     () => reservation?.accommodations?.find((a) => a.accommodationId === user.id)?.noOfGuests || GUEST,
     [reservation, user.id]
   );
+  const prepayment = [StayType.APARTMENT, StayType.BnB].includes(type);
 
   const accommodationDetails = [
     { title: 'bathrooms', value: `${user.bathrooms} bathrooms`, Icon: PiBathtub },
@@ -43,6 +46,15 @@ const StayDetailTableCell = ({ columnKey, user, showAction }: IStayDetailTableBo
         : 'No breakfast',
       Icon: IoFastFoodOutline,
     },
+  ];
+  const reservationInfo = [
+    { id: 'cancellation', title: 'Free Cancellation', description: '' },
+    ...(!prepayment
+      ? [
+          { id: 'confirmation', title: 'Confirmation is immediate', description: '' },
+          { id: 'prepayment', title: 'No Prepayment needed', description: 'pay at the property' },
+        ]
+      : []),
   ];
   const quantities = Array(user.available + 1)
     .fill(0)
@@ -85,7 +97,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction }: IStayDetailTableBo
         <div className="flex flex-wrap items-center gap-2">
           {accommodationDetails.map(({ title, value, Icon }) => (
             <div key={title} className="flex items-center gap-1">
-              <Icon color="text-default" size={16} />
+              <Icon size={16} />
               <p className="text-xs font-medium">{value}</p>
             </div>
           ))}
@@ -94,7 +106,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction }: IStayDetailTableBo
           <div className="flex flex-wrap items-center gap-2 pt-2">
             {user.amenities?.map((amenity, idx) => (
               <div key={idx} className="flex items-center gap-1">
-                <IoCheckmark color="text-default" size={16} />
+                <IoCheckmark size={16} />
                 <p className="text-xs font-medium">{amenity}</p>
               </div>
             ))}
@@ -140,6 +152,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction }: IStayDetailTableBo
         </ButtonGroup>
         {quantity ? (
           <>
+            <p className="text-xs font-medium pl-2 pt-1">Per Room</p>
             <ButtonGroup className="w-full" size="sm" variant="flat">
               <Button className="text-xs font-medium w-full">
                 Adult guests: <span className="font-bold">{noOfGuests.adults}</span>
@@ -186,18 +199,43 @@ const StayDetailTableCell = ({ columnKey, user, showAction }: IStayDetailTableBo
     );
   if (columnKey === 'actions' && showAction)
     return (
-      <div className="flex flex-col gap-3 w-48">
+      <div className="flex flex-col gap-6 w-48">
         {reservation?.reservationCount ? (
           <div className="flex flex-col">
             <p className="text-sm">
-              <span className="font-bold">{reservation.reservationCount}</span> apartments for
+              <span className="font-bold">{reservation.reservationCount}</span> accommodation(s) for
             </p>
             <p className="text-2xl font-semibold">{numberToCurrency(reservation.price || 0)}</p>
           </div>
         ) : null}
-        <Button color="primary" className="px-12 font-semibold" radius="sm">
-          Reserve
-        </Button>
+        <div className="flex flex-col gap-1">
+          <Button
+            isDisabled={!reservation?.reservationCount}
+            color="primary"
+            className="px-12 font-semibold"
+            radius="sm"
+          >
+            Reserve
+          </Button>
+          {reservation?.reservationCount ? <p className="text-xs">Continue reservation at the next step</p> : null}
+        </div>
+        <ul className="flex flex-col gap-2">
+          {reservationInfo.map(({ id, title, description }) => (
+            <li key={id} className="flex gap-2">
+              <IoCheckmark size={16} />
+              <p className="flex-1 text-xs font-medium">
+                <span className="font-semibold">{title}</span>
+                {description ? <span className="font-light"> - {description}</span> : null}
+              </p>
+            </li>
+          ))}
+          {user.available <= 5 ? (
+            <li className="flex gap-2 pt-3">
+              <BsDot className="text-danger" size={16} />
+              <p className="flex-1 text-xs text-danger font-medium">Only {user.available} left on our site</p>
+            </li>
+          ) : null}
+        </ul>
       </div>
     );
   if (!columnKey) return null;

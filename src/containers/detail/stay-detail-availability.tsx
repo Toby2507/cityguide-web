@@ -64,7 +64,12 @@ const StayDetailAvailability = ({ stay }: IProps) => {
                     key === 'actions' ? actionClass(item.id) : ''
                   }`}
                 >
-                  <StayDetailTableCell columnKey={key} user={item} showAction={item.id === firstStayId} />
+                  <StayDetailTableCell
+                    columnKey={key}
+                    user={item}
+                    showAction={item.id === firstStayId}
+                    type={stay.type}
+                  />
                 </TableCell>
               ))}
             </TableRow>
