@@ -2,7 +2,7 @@
 
 import { ReservationCell } from '@/components';
 import { reservations } from '@/data';
-import { Status } from '@/types';
+import { IPartner, Status } from '@/types';
 import {
   Button,
   DatePicker,
@@ -56,7 +56,9 @@ const AdminReservation = () => {
     let filteredRes = [...reservations];
     if (isSearching) {
       filteredRes = filteredRes.filter((res) =>
-        `${res.user.firstName} ${res.user.lastName}`.toLowerCase().includes(searchValue.toLowerCase())
+        `${(res.user as IPartner).firstName} ${(res.user as IPartner).lastName}`
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
       );
     }
     if (statusFilter !== 'all' && Array.from(statusFilter).length !== Object.entries(Status).length)
