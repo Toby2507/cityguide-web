@@ -29,3 +29,6 @@ export { default as TrendingDestinations } from './home/trending-destination';
 export { default as ListPropertyHeader } from './listproperty/header';
 // Misc
 export { default as Footer } from './misc/footer';
+// Reservation
+export { default as StayDetailReservation } from './reservation/stay-detail';
+export { default as UserDetailReservation } from './reservation/user-detail';
