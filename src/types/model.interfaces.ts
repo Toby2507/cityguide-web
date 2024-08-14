@@ -1,6 +1,7 @@
 import { LatLng } from './common.interfaces';
 import {
   DayOfWeek,
+  EntityType,
   MaxDays,
   NightLifeType,
   Parking,
@@ -15,6 +16,15 @@ import {
 export interface ISocialLink {
   name: string;
   handle: string;
+}
+
+export interface IUser {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  imgUrl: string | null;
 }
 
 export interface IContact {
@@ -187,9 +197,19 @@ export interface IAccommodation {
   price: number;
 }
 
+export interface IPartner {
+  _id: string;
+  firstName?: string;
+  lastName?: string;
+  name?: string;
+  phoneNumber: string;
+  email: string;
+  imgUrl?: string;
+}
+
 export interface IStay {
   _id: string;
-  partner: string;
+  partner: string | IPartner;
   partnerType: string;
   type: StayType;
   name: string;
@@ -213,22 +233,21 @@ export interface IStay {
 export interface IReservation {
   _id: string;
   property: string;
-  user: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phoneNumber: string;
-    imgUrl: string | null;
-  };
   propertyType: PropertyType;
+  user: string | IUser;
+  partner: any;
+  partnerType: EntityType;
+  isAgent?: boolean;
+  guestFullName?: string;
+  guestEmail?: string;
+  requests?: string[];
+  status: Status;
   checkInDay: string;
   checkInTime: string;
   checkOutDay: string;
   checkOutTime: string;
   roomId?: string;
   reservationCount: number;
-  status: Status;
   noOfGuests: IGuests;
   price?: number;
   createdAt: string;

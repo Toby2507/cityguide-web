@@ -1,3 +1,8 @@
+export enum EntityType {
+  USER = 'User',
+  ESTABLISHMENT = 'Establishment',
+}
+
 export enum Roles {
   Admin = 'admin',
   User = 'user',
