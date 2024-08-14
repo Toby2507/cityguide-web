@@ -1,13 +1,13 @@
 'use client';
 
 import { useReservationStore } from '@/providers';
-import { IAccommodation } from '@/types';
+import { IAccommodation, IGuests } from '@/types';
 import { numberToCurrency } from '@/utils';
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
-import { useState } from 'react';
+import { Button, ButtonGroup, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
+import { useMemo } from 'react';
 import { FaUserAlt } from 'react-icons/fa';
 import { FaChildren } from 'react-icons/fa6';
-import { IoCheckmark, IoFastFoodOutline } from 'react-icons/io5';
+import { IoCaretDownOutline, IoCheckmark, IoFastFoodOutline } from 'react-icons/io5';
 import { LuBaby, LuParkingCircle } from 'react-icons/lu';
 import { PiBathtub } from 'react-icons/pi';
 import { TbMeterSquare } from 'react-icons/tb';
@@ -16,10 +16,18 @@ interface IStayDetailTableBody {
   columnKey: string;
   user: IAccommodation;
 }
+const GUEST: IGuests = { adults: 1, children: 0 };
 
 const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
-  const [quantity, setQuantity] = useState<string>('0');
-  const { reservations } = useReservationStore();
+  const { reservation, updateAccommodations } = useReservationStore();
+  const quantity = useMemo(
+    () => reservation?.accommodations?.find((a) => a.accommodationId === user.id)?.reservationCount || 0,
+    [reservation, user.id]
+  );
+  const noOfGuests = useMemo(
+    () => reservation?.accommodations?.find((a) => a.accommodationId === user.id)?.noOfGuests || GUEST,
+    [reservation, user.id]
+  );
 
   const accommodationDetails = [
     { title: 'bathrooms', value: `${user.bathrooms} bathrooms`, Icon: PiBathtub },
@@ -35,10 +43,29 @@ const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
       Icon: IoFastFoodOutline,
     },
   ];
-
-  const quantities = Array(user.maxGuests)
+  const quantities = Array(user.maxGuests + 1)
+    .fill(0)
+    .map((_, i) => ({ key: i.toString(), label: i ? `${i} (${numberToCurrency(i * user.price)})` : i.toString() }));
+  const adultList = Array(user.maxGuests - noOfGuests.children)
     .fill(0)
     .map((_, i) => ({ key: (i + 1).toString(), label: (i + 1).toString() }));
+  const childrenList = Array(user.maxGuests + 1 - noOfGuests.adults)
+    .fill(0)
+    .map((_, i) => ({ key: i.toString(), label: i.toString() }));
+
+  const changeQuantity = (reservationCount: number) => {
+    updateAccommodations({ accommodationId: user.id, reservationCount, noOfGuests });
+  };
+  const changeNoOfGuests = ({ adults, children }: Partial<IGuests>) => {
+    updateAccommodations({
+      accommodationId: user.id,
+      reservationCount: quantity,
+      noOfGuests: {
+        adults: adults || noOfGuests.adults,
+        children: children !== undefined ? children : noOfGuests.children,
+      },
+    });
+  };
   if (columnKey === 'name')
     return (
       <div className="flex flex-col gap-2">
@@ -88,28 +115,83 @@ const StayDetailTableCell = ({ columnKey, user }: IStayDetailTableBody) => {
       </div>
     );
   if (columnKey === 'price') return <p className="font-semibold">{numberToCurrency(user.price)}</p>;
-  if (columnKey === 'available')
+  if (columnKey === 'options')
     return (
-      <Dropdown>
-        <DropdownTrigger>
-          <Button className="w-9/12 mx-auto" color="default" variant="bordered" size="sm" radius="lg">
-            {quantity}
+      <div className="flex flex-col gap-1 w-52">
+        <ButtonGroup className="w-full" size="sm" variant="flat">
+          <Button className="text-xs font-medium w-full">
+            No of rooms reserved: <span className="font-bold">{quantity}</span>
           </Button>
-        </DropdownTrigger>
-        <DropdownMenu aria-label="quantity to be booked" items={quantities}>
-          {(item) => (
-            <DropdownItem key={item.key} onPress={() => setQuantity(item.key)}>
-              {item.label}
-            </DropdownItem>
-          )}
-        </DropdownMenu>
-      </Dropdown>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button isIconOnly>
+                <IoCaretDownOutline />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="quantity to be booked" items={quantities}>
+              {(item) => (
+                <DropdownItem key={item.key} onPress={() => changeQuantity(+item.key)}>
+                  {item.label}
+                </DropdownItem>
+              )}
+            </DropdownMenu>
+          </Dropdown>
+        </ButtonGroup>
+        <ButtonGroup className="w-full" size="sm" variant="flat">
+          <Button className="text-xs font-medium w-full">
+            No of adult guests: <span className="font-bold">{noOfGuests.adults}</span>
+          </Button>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button isIconOnly>
+                <IoCaretDownOutline />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="quantity to be booked" items={adultList}>
+              {(item) => (
+                <DropdownItem key={item.key} onPress={() => changeNoOfGuests({ adults: +item.key })}>
+                  {item.label}
+                </DropdownItem>
+              )}
+            </DropdownMenu>
+          </Dropdown>
+        </ButtonGroup>
+        <ButtonGroup className="w-full" size="sm" variant="flat">
+          <Button className="text-xs font-medium w-full">
+            No of child guests: <span className="font-bold">{noOfGuests.children}</span>
+          </Button>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button isIconOnly>
+                <IoCaretDownOutline />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="quantity to be booked" items={childrenList}>
+              {(item) => (
+                <DropdownItem key={item.key} onPress={() => changeNoOfGuests({ children: +item.key })}>
+                  {item.label}
+                </DropdownItem>
+              )}
+            </DropdownMenu>
+          </Dropdown>
+        </ButtonGroup>
+      </div>
     );
   if (columnKey === 'actions')
     return (
-      <Button color="primary" className="px-12 font-semibold" radius="full">
-        Reserve
-      </Button>
+      <div className="flex flex-col gap-2">
+        {quantity && (
+          <div className="flex flex-col gap-1">
+            <p className="text-sm">
+              <span className="font-bold">{quantity}</span> apartments for
+            </p>
+            <p className="text-2xl font-semibold">{numberToCurrency(user.price * quantity)}</p>
+          </div>
+        )}
+        <Button color="primary" className="px-12 font-semibold" radius="lg">
+          Reserve
+        </Button>
+      </div>
     );
   if (!columnKey) return null;
 };
