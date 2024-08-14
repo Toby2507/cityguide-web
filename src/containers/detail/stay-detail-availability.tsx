@@ -1,8 +1,10 @@
 'use client';
 
 import { StayDetailTableCell } from '@/components';
-import { IStay } from '@/types';
+import { useReservationStore } from '@/providers';
+import { IStay, PropertyType } from '@/types';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { useEffect } from 'react';
 
 interface IProps {
   stay: IStay;
@@ -12,11 +14,22 @@ const columns = [
   { key: 'name', label: 'Accommodation Detail' },
   { key: 'maxGuests', label: 'Max Number of Guest' },
   { key: 'price', label: "Today's Price" },
-  { key: 'available', label: 'Quantity to be booked' },
+  { key: 'options', label: 'Options' },
   { key: 'actions', label: ' ' },
 ];
 
 const StayDetailAvailability = ({ stay }: IProps) => {
+  const { setReservation } = useReservationStore();
+
+  useEffect(() => {
+    const reservation = {
+      property: stay._id,
+      propertyType: PropertyType.STAY,
+      partner: typeof stay.partner === 'string' ? stay.partner : stay.partner._id,
+      partnerType: stay.partnerType,
+    };
+    setReservation(reservation);
+  }, [stay, setReservation]);
   return (
     <section className="flex flex-col gap-4 pb-10" id="availability">
       <header className="flex flex-col gap-2">
