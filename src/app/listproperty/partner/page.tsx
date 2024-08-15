@@ -1,6 +1,7 @@
 import { HeaderNav } from '@/components';
 import { UpgradeToPartnerForm, UserSignupForm } from '@/containers';
 import { getUser } from '@/server';
+import { paths } from '@/utils';
 
 const ListPropertyRegister = async () => {
   const user = await getUser();
@@ -18,7 +19,7 @@ const ListPropertyRegister = async () => {
             Create an account to list and manage your property.
           </p>
         </div>
-        {!!user ? <UpgradeToPartnerForm /> : <UserSignupForm isPartnering />}
+        {!!user ? <UpgradeToPartnerForm /> : <UserSignupForm isPartnering referer={paths.admin()} />}
       </main>
     </div>
   );

@@ -7,7 +7,8 @@ import { useFormState } from 'react-dom';
 import FormFooter from './form-footer';
 
 const UpgradeToPartnerForm = () => {
-  let [{ errors }, action] = useFormState(upgradeUser, { errors: {} });
+  let [data, action] = useFormState(upgradeUser, { errors: {} });
+  const errors = data?.errors || {};
 
   return (
     <form action={action} className="flex flex-col gap-8">
