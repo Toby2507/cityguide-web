@@ -42,7 +42,7 @@ const ReserveStayPage = async ({ params: { stayId } }: Props) => {
             <StayDetailReservation {...stay} />
           </div>
           <div className="col-span-7">
-            <UserDetailReservation user={user} />
+            <UserDetailReservation stay={stay} user={user} />
           </div>
         </div>
       </main>
