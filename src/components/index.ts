@@ -50,3 +50,6 @@ export { default as ListPropertyRetain } from './listproperty/retain';
 export { default as HeaderAuth } from './misc/header-auth';
 export { default as Map } from './misc/maps';
 export { default as SubmitForm } from './misc/submit-form';
+
+// Reservation
+export { default as UserDetailReservationAccommodation } from './reservations/user-detail-accommodation';
