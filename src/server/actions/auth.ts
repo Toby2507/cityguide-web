@@ -17,7 +17,7 @@ import {
   IFormVerifyOtp,
 } from '@/types';
 import { fetchBaseQuery, fetchWithReAuth, paths } from '@/utils';
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 import { setCookies, upgradeToPartner } from '../queries/auth';
 
 export const signInWithGoogle = async () => signIn('google');
@@ -103,7 +103,7 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
     else return { errors: { _form: ['Something went wrong...'] } };
   }
   const redirectUrl = (formData.get('redirectUrl') as string) || paths.home();
-  redirect(redirectUrl);
+  redirect(redirectUrl, RedirectType.replace);
 };
 
 export const upgradeUser = async (_: IFormUpgradeUser, formData: FormData): Promise<IFormUpgradeUser> => {
@@ -135,5 +135,5 @@ export const verifyOtp = async (otp: string, _: IFormVerifyOtp, formData: FormDa
   if (res.status === 404) return { errors: { _form: ['Account not found'] } };
   if (res.status === 500) return { errors: { _form: ['Something went wrong...Try again later'] } };
   const redirectUrl = (formData.get('redirectUrl') as string) || paths.home();
-  redirect(redirectUrl);
+  redirect(redirectUrl, RedirectType.replace);
 };
