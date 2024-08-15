@@ -40,4 +40,5 @@ export interface ICreateReservation {
   guestFullName?: string;
   guestEmail?: string;
   requests?: string[];
+  specialRequest?: string;
 }
