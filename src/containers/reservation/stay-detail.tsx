@@ -119,7 +119,7 @@ const StayDetailReservation = ({ type, hotelRating, name, address, rating, accom
         <h3 className="text-lg font-bold tracking-wide px-3">Your price summary</h3>
         <div className="flex flex-col gap-2 px-3">
           {accommodations.map((a) => (
-            <div className="flex items-center justify-between gap-4">
+            <div key={a?.name} className="flex items-center justify-between gap-4">
               <p className="text-xs font-medium">{a?.name}</p>
               <p className="text-sm font-semibold">{numberToCurrency((a?.quantity || 0) * (a?.unitPrice || 0))}</p>
             </div>
