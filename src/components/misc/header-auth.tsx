@@ -4,8 +4,8 @@ import { IUserDetails } from '@/types';
 import { paths } from '@/utils';
 import { Button } from '@nextui-org/react';
 import Link from 'next/link';
-import HeaderUser from '../common/header-user';
 import { usePathname } from 'next/navigation';
+import HeaderUser from '../common/header-user';
 
 interface IHeaderAuth {
   user: IUserDetails | null;

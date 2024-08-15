@@ -9,6 +9,7 @@ import {
   verifyOtpSchema,
 } from '@/schemas';
 import {
+  EntityType,
   IAddress,
   IFormCreateEstablishment,
   IFormCreateUser,
@@ -45,7 +46,7 @@ export const createUser = async (
     });
     if (res.status === 409) return { errors: { _form: ['Email already exists'] } };
     const response = await res.json();
-    setCookies(response, 'user');
+    setCookies(response, EntityType.USER);
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
@@ -75,7 +76,7 @@ export const createEstablishment = async (
     });
     if (res.status === 409) return { errors: { _form: ['Email already exists'] } };
     const response = await res.json();
-    setCookies(response, 'establishment');
+    setCookies(response, EntityType.ESTABLISHMENT);
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
@@ -97,7 +98,8 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
     });
     if (res.status === 401) return { errors: { _form: ['Invalid email or password'] } };
     const response = await res.json();
-    setCookies(response, 'user');
+    console.log(response);
+    setCookies(response, EntityType.USER);
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };

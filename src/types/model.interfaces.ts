@@ -18,15 +18,6 @@ export interface ISocialLink {
   handle: string;
 }
 
-export interface IUser {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  imgUrl: string | null;
-}
-
 export interface IContact {
   email: string;
   phone?: string;
@@ -230,6 +221,14 @@ export interface IStay {
 }
 
 // Reservations
+export interface IReservationUser {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  imgUrl: string | null;
+}
 export interface IReservationAccommodation {
   accommodationId: string;
   reservationCount: number;
@@ -239,7 +238,7 @@ export interface IReservation {
   _id: string;
   property: string;
   propertyType: PropertyType;
-  user: string | IUser;
+  user: string | IReservationUser;
   partner: string;
   partnerType: EntityType;
   isAgent?: boolean;

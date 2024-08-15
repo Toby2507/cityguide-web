@@ -6,7 +6,7 @@ import { FaBell } from 'react-icons/fa';
 import HeaderUser from '../common/header-user';
 
 const AdminHeader = async () => {
-  const cookie = await getUser();
+  const user = await getUser();
   return (
     <Navbar position="static" className="absolute px-6 shadow-lg bg-primary z-50" maxWidth="full">
       <NavbarContent justify="start">
@@ -44,7 +44,7 @@ const AdminHeader = async () => {
             </Link>
           </Button>
         </NavbarItem>
-        <HeaderUser user={cookie!} />
+        <HeaderUser user={user!} />
       </NavbarContent>
     </Navbar>
   );

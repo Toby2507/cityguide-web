@@ -1,7 +1,7 @@
 'use server';
 
 import { IStay } from '@/types';
-import { fetchBaseQuery, fetchWithReAuth } from '@/utils';
+import { fetchBaseQuery } from '@/utils';
 import toast from 'react-hot-toast';
 
 export const getTrendingStays = async () => {

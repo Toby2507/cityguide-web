@@ -1,4 +1,4 @@
-import { getUser } from '@/server';
+import { getUser } from '@/server/queries/auth';
 import { paths } from '@/utils';
 import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ interface IHeaderNav {
 }
 
 const HeaderNav = async ({ noList, noAuth }: IHeaderNav) => {
-  const cookie = await getUser();
+  const user = await getUser();
   return (
     <Navbar position="static" className="bg-primary" maxWidth="full">
       <NavbarBrand>
@@ -30,7 +30,7 @@ const HeaderNav = async ({ noList, noAuth }: IHeaderNav) => {
         {!noList ? (
           <NavbarItem>
             <Button variant="light" radius="sm">
-              {cookie?.isPartner ? (
+              {user?.isPartner ? (
                 <Link href={paths.admin()} className="font-semibold text-sm text-white">
                   Manage Properties
                 </Link>
@@ -45,7 +45,7 @@ const HeaderNav = async ({ noList, noAuth }: IHeaderNav) => {
         {!noAuth ? (
           <NavbarItem>
             <NavbarContent justify="end">
-              <HeaderAuth user={cookie} />
+              <HeaderAuth user={user} />
             </NavbarContent>
           </NavbarItem>
         ) : null}

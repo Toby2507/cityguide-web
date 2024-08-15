@@ -8,8 +8,8 @@ interface ILayout {
 }
 
 const Layout = async ({ children }: Readonly<ILayout>) => {
-  const cookie = await getUser();
-  if (!cookie) redirect('/');
+  const user = await getUser();
+  if (!user || !user.isPartner) redirect('/');
   return (
     <div className="flex flex-col bg-white max-h-screen">
       <AdminHeader />

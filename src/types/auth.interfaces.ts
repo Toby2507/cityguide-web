@@ -45,3 +45,20 @@ export interface IFormVerifyOtp {
     _form?: string[];
   };
 }
+
+export interface IUser {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  phoneNumber: string;
+  email: string;
+  emailIsVerified: boolean;
+  imgUrl: string | null;
+  favouriteProperties: string[];
+  isSocial: boolean;
+  isPartner: boolean;
+  cancellationPolicy: boolean;
+  createdAt: string;
+  updatedAt: string;
+}

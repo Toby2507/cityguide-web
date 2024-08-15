@@ -21,14 +21,9 @@ const HeaderUser = ({ user }: IHeaderUser) => {
       <DropdownMenu aria-label="Profile Actions" variant="flat">
         <DropdownItem key="profile" className="h-14 gap-2">
           <p className="font-semibold">Signed in as</p>
-          <p className="font-semibold">zoey@example.com</p>
+          <p className="font-semibold">{user.email}</p>
         </DropdownItem>
         <DropdownItem key="settings">My Settings</DropdownItem>
-        <DropdownItem key="team_settings">Team Settings</DropdownItem>
-        <DropdownItem key="analytics">Analytics</DropdownItem>
-        <DropdownItem key="system">System</DropdownItem>
-        <DropdownItem key="configurations">Configurations</DropdownItem>
-        <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
         <DropdownItem onClick={() => logout()} key="logout" color="danger">
           Log Out
         </DropdownItem>

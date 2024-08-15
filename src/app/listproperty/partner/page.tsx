@@ -4,7 +4,7 @@ import { getUser } from '@/server';
 import { paths } from '@/utils';
 
 const ListPropertyRegister = async () => {
-  const user = await getUser();
+  const user = getUser();
   return (
     <div className="bg-white min-h-screen">
       <div className="bg-primary">
