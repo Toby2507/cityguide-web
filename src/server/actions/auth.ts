@@ -98,7 +98,6 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
     });
     if (res.status === 401) return { errors: { _form: ['Invalid email or password'] } };
     const response = await res.json();
-    console.log(response);
     setCookies(response, EntityType.USER);
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
