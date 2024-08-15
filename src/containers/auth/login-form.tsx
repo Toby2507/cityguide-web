@@ -10,11 +10,21 @@ import { useFormState } from 'react-dom';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 import FormFooter from './form-footer';
 
-const LoginForm = () => {
+interface Props {
+  referer: string;
+}
+
+const LoginForm = ({ referer }: Props) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [{ errors }, action] = useFormState(loginUser, { errors: {} });
+  const [data, action] = useFormState(loginUser, { errors: {} });
+  const errors = data?.errors || {};
+
+  const handleSubmit = (payload: FormData) => {
+    payload.append('redirectUrl', referer);
+    return action(payload);
+  };
   return (
-    <form action={action} className="flex flex-col gap-8">
+    <form action={handleSubmit} className="flex flex-col gap-8">
       <div className="flex flex-col gap-4">
         <Input
           name="email"
@@ -23,8 +33,8 @@ const LoginForm = () => {
           placeholder=" "
           radius="full"
           isRequired
-          isInvalid={!!errors.email}
-          errorMessage={errors.email}
+          isInvalid={!!errors?.email}
+          errorMessage={errors?.email}
           className="text-accentGray"
         />
         <Input
@@ -44,8 +54,8 @@ const LoginForm = () => {
           placeholder=" "
           radius="full"
           isRequired
-          isInvalid={!!errors.password}
-          errorMessage={errors.password}
+          isInvalid={!!errors?.password}
+          errorMessage={errors?.password}
           className="text-accentGray"
         />
         <div className="flex items-center justify-between gap-4">

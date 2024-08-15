@@ -50,7 +50,8 @@ export const createUser = async (
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
   }
-  redirect(paths.otp(data.data.email));
+  const redirectUrl = formData.get('redirectUrl') as string;
+  redirect(paths.otp(data.data.email, redirectUrl));
 };
 
 export const createEstablishment = async (
@@ -79,7 +80,8 @@ export const createEstablishment = async (
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
   }
-  redirect(paths.otp(data.data.email));
+  const redirectUrl = formData.get('redirectUrl') as string;
+  redirect(paths.otp(data.data.email, redirectUrl));
 };
 
 export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<IFormLoginUser> => {
@@ -100,7 +102,8 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
   }
-  redirect(paths.home());
+  const redirectUrl = (formData.get('redirectUrl') as string) || paths.home();
+  redirect(redirectUrl);
 };
 
 export const upgradeUser = async (_: IFormUpgradeUser, formData: FormData): Promise<IFormUpgradeUser> => {
@@ -131,5 +134,6 @@ export const verifyOtp = async (otp: string, _: IFormVerifyOtp, formData: FormDa
   if (res.status === 400) return { errors: { _form: ['Invalid OTP'] } };
   if (res.status === 404) return { errors: { _form: ['Account not found'] } };
   if (res.status === 500) return { errors: { _form: ['Something went wrong...Try again later'] } };
-  redirect(paths.home());
+  const redirectUrl = (formData.get('redirectUrl') as string) || paths.home();
+  redirect(redirectUrl);
 };

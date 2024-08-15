@@ -8,21 +8,27 @@ import { useFormState } from 'react-dom';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 import FormFooter from './form-footer';
 
-interface IUserSignupForm {
+interface Props {
   isPartnering?: boolean;
+  referer: string;
 }
 
-const UserSignupForm = ({ isPartnering = false }: IUserSignupForm) => {
+const UserSignupForm = ({ referer, isPartnering = false }: Props) => {
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
   const [typingFields, setTypingFields] = useState<string[]>([]);
-  const [{ errors }, action] = useFormState(createUser.bind(null, isPartnering), { errors: {} });
+  const [data, action] = useFormState(createUser.bind(null, isPartnering), { errors: {} });
+  const errors = data?.errors || [];
 
+  const handleSubmit = (payload: FormData) => {
+    payload.append('redirectUrl', referer);
+    return action(payload);
+  };
   const setTyping = (val: string) => {
     if (!typingFields.includes(val)) setTypingFields([...typingFields, val]);
   };
   const isTyping = (val: string) => typingFields.includes(val);
   return (
-    <form action={action} className="flex flex-col gap-8" onSubmit={() => setTypingFields([])}>
+    <form action={handleSubmit} className="flex flex-col gap-8" onSubmit={() => setTypingFields([])}>
       <div className="flex flex-col gap-4">
         <Input
           name="firstName"

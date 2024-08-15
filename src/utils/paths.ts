@@ -1,10 +1,10 @@
 const path = {
   home: () => '/',
-  login: () => '/login',
-  register: () => '/signup',
+  login: (referer?: string) => `/login${referer ? `/${referer}` : ''}`,
+  register: (referer?: string) => `/signup${referer ? `/${referer}` : ''}`,
   listProperty: () => '/listproperty',
   partner: () => '/listproperty/partner',
-  otp: (email: string) => `/otp/${email}`,
+  otp: (email: string, referer?: string) => `/otp/${email}${referer ? `/${referer}` : ''}`,
   forgotPassword: () => '#',
   profile: () => '#',
   userLicense: () => '#',

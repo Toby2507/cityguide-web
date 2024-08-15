@@ -3,16 +3,26 @@
 import { Map, SubmitForm } from '@/components';
 import { createEstablishment } from '@/server';
 import { IAddress } from '@/types';
-import { Checkbox, Input, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
+import { Checkbox, Input, Popover, PopoverContent, PopoverTrigger, Textarea } from '@nextui-org/react';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { IoEye, IoEyeOff, IoLocation } from 'react-icons/io5';
 
-const EstablishmentSignupForm = () => {
+interface Props {
+  referer: string;
+}
+
+const EstablishmentSignupForm = ({ referer }: Props) => {
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
   const [typingFields, setTypingFields] = useState<string[]>([]);
   const [address, setAddress] = useState<IAddress | null>(null);
-  const [{ errors }, action] = useFormState(createEstablishment.bind(null, address!), { errors: {} });
+  const [data, action] = useFormState(createEstablishment.bind(null, address!), { errors: {} });
+  const errors = data?.errors || [];
+
+  const handleSubmit = (payload: FormData) => {
+    payload.append('redirectUrl', referer);
+    return action(payload);
+  };
 
   const setTyping = (val: string) => {
     if (!typingFields.includes(val)) setTypingFields([...typingFields, val]);
@@ -20,7 +30,7 @@ const EstablishmentSignupForm = () => {
   const isTyping = (val: string) => typingFields.includes(val);
 
   return (
-    <form action={action} onSubmit={() => setTypingFields([])}>
+    <form action={handleSubmit} onSubmit={() => setTypingFields([])}>
       <div className="flex flex-col gap-4">
         <Input
           name="name"
@@ -34,7 +44,7 @@ const EstablishmentSignupForm = () => {
           errorMessage={errors.name}
           className="text-accentGray"
         />
-        <Input
+        <Textarea
           name="description"
           label="Description"
           labelPlacement="outside"
@@ -44,6 +54,7 @@ const EstablishmentSignupForm = () => {
           isInvalid={!isTyping('last') && !!errors.description}
           errorMessage={errors.description}
           className="text-accentGray"
+          minRows={1}
         />
         <Input
           name="email"

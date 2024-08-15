@@ -4,11 +4,13 @@ import { OtpForm } from '@/containers';
 interface IOtpPage {
   params: {
     email: string;
+    referer?: string[];
   };
 }
 
-const OtpPage = ({ params: { email } }: IOtpPage) => {
+const OtpPage = ({ params: { email, referer } }: IOtpPage) => {
   const [domain, rest] = email.split('%40');
+  const refererPath = `/${referer?.length ? referer?.join('/') : ''}`;
   const hiddenEmail = `${domain.slice(0, 2)}${'*'.repeat(domain.slice(2).length)}@${rest}`;
   return (
     <div className="bg-white min-h-screen">
@@ -24,7 +26,7 @@ const OtpPage = ({ params: { email } }: IOtpPage) => {
             Enter OTP code sent to <span className="text-primary">{hiddenEmail}</span>
           </p>
         </div>
-        <OtpForm />
+        <OtpForm referer={refererPath} />
       </main>
     </div>
   );

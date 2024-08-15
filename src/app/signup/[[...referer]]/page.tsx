@@ -2,7 +2,14 @@ import { HeaderNav, SignUpTab } from '@/components';
 import { paths } from '@/utils';
 import Link from 'next/link';
 
-const SignUpPage = () => {
+interface Props {
+  params: {
+    referer?: string[];
+  };
+}
+
+const SignUpPage = ({ params: { referer } }: Props) => {
+  const refererPath = `/${referer?.length ? referer?.join('/') : ''}`;
   return (
     <div className="bg-white min-h-screen">
       <div className="bg-primary">
@@ -21,7 +28,7 @@ const SignUpPage = () => {
             </Link>
           </p>
         </div>
-        <SignUpTab />
+        <SignUpTab referer={refererPath} />
       </main>
     </div>
   );

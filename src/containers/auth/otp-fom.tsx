@@ -6,12 +6,21 @@ import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { StatefulPinInput } from 'react-input-pin-code';
 
-const OtpForm = () => {
-  const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']);
-  const [{ errors }, action] = useFormState(verifyOtp.bind(null, otp.join('')), { errors: {} });
+interface Props {
+  referer: string;
+}
 
+const OtpForm = ({ referer }: Props) => {
+  const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']);
+  const [data, action] = useFormState(verifyOtp.bind(null, otp.join('')), { errors: {} });
+  const errors = data?.errors || [];
+
+  const handleSubmit = (payload: FormData) => {
+    payload.append('redirectUrl', referer);
+    return action(payload);
+  };
   return (
-    <form action={action} className="flex items-center flex-col gap-12 pt-8">
+    <form action={handleSubmit} className="flex items-center flex-col gap-12 pt-8">
       <StatefulPinInput
         length={6}
         autoFocus

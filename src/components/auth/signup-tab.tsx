@@ -4,7 +4,11 @@ import { EstablishmentSignupForm, UserSignupForm } from '@/containers';
 import { Tab, Tabs } from '@nextui-org/react';
 import { useState } from 'react';
 
-const SignUpTab = () => {
+interface Props {
+  referer: string;
+}
+
+const SignUpTab = ({ referer }: Props) => {
   const [type, setType] = useState<string>('user');
 
   return (
@@ -18,10 +22,10 @@ const SignUpTab = () => {
       radius="full"
     >
       <Tab key="user" title="Sign Up as a User">
-        <UserSignupForm />
+        <UserSignupForm referer={referer} />
       </Tab>
       <Tab key="establishment" title="Sign Up as an Establishment">
-        <EstablishmentSignupForm />
+        <EstablishmentSignupForm referer={referer} />
       </Tab>
     </Tabs>
   );

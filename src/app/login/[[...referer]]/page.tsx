@@ -3,7 +3,14 @@ import { LoginForm } from '@/containers';
 import { paths } from '@/utils';
 import Link from 'next/link';
 
-const LoginPage = () => {
+interface Props {
+  params: {
+    referer?: string[];
+  };
+}
+
+const LoginPage = ({ params: { referer } }: Props) => {
+  const refererPath = `/${referer?.length ? referer?.join('/') : ''}`;
   return (
     <div className="bg-white min-h-screen">
       <div className="bg-primary">
@@ -22,7 +29,7 @@ const LoginPage = () => {
             </Link>
           </p>
         </div>
-        <LoginForm />
+        <LoginForm referer={refererPath} />
       </main>
     </div>
   );
