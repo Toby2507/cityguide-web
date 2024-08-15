@@ -1,6 +1,6 @@
 import { HeaderNav } from '@/components';
-import { Footer, StayDetailReservation, SubscribeBox, UserDetailReservation } from '@/containers';
-import { getStayById } from '@/server';
+import { Footer, StayDetailReservation, UserDetailReservation } from '@/containers';
+import { getStayById, getUser } from '@/server';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import { PiNumberCircleThreeBold, PiNumberCircleTwoBold } from 'react-icons/pi';
 
@@ -12,6 +12,7 @@ interface Props {
 
 const ReserveStayPage = async ({ params: { stayId } }: Props) => {
   const stay = await getStayById(stayId);
+  const user = await getUser();
   if (!stay) return null;
   return (
     <div className="bg-white min-h-screen">
@@ -41,11 +42,10 @@ const ReserveStayPage = async ({ params: { stayId } }: Props) => {
             <StayDetailReservation {...stay} />
           </div>
           <div className="col-span-7">
-            <UserDetailReservation />
+            <UserDetailReservation user={user} />
           </div>
         </div>
       </main>
-      <SubscribeBox />
       <Footer />
     </div>
   );
