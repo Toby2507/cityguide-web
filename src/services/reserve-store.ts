@@ -9,7 +9,12 @@ export const createReservationStore = () => {
         reservation: null,
         setReservation(reservation) {
           return set((state) => {
-            if (!state.reservation || reservation.property !== state.reservation.property) return { reservation };
+            if (
+              !state.reservation ||
+              !reservation ||
+              (reservation.property && reservation.property !== state.reservation.property)
+            )
+              return { reservation };
             return { reservation: { ...state.reservation, ...reservation } };
           });
         },
@@ -34,12 +39,6 @@ export const createReservationStore = () => {
             price += accommodation.reservationCount * unitPrice;
           }
           return set({ reservation: { ...reservation, accommodations, reservationCount, noOfGuests, price } });
-        },
-        updateRequests(request) {
-          const reservation = get().reservation;
-          if (!reservation?.property) return;
-          const requests = Array.from(new Set([...(reservation.requests || []), request]));
-          return set({ reservation: { ...reservation, requests } });
         },
       }),
       {
