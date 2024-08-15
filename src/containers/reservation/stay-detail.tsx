@@ -3,15 +3,15 @@
 import { CustomStars } from '@/components';
 import { useReservationStore } from '@/providers';
 import { IStay } from '@/types';
-import { numberToCurrency } from '@/utils';
+import { numberToCurrency, paths } from '@/utils';
 import { Button, Chip } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { BsExclamationCircle } from 'react-icons/bs';
 import { IoCaretDownOutline, IoCaretUpOutline, IoCheckmark } from 'react-icons/io5';
 
-const StayDetailReservation = ({ type, hotelRating, name, address, rating, accommodation, amenities }: IStay) => {
-  const { back } = useRouter();
+const StayDetailReservation = ({ type, hotelRating, name, address, rating, accommodation, amenities, _id }: IStay) => {
+  const { push } = useRouter();
   const { reservation } = useReservationStore();
   const [showAccs, setShowAccs] = useState<boolean>(false);
   const accommodations =
@@ -105,7 +105,7 @@ const StayDetailReservation = ({ type, hotelRating, name, address, rating, accom
           <Button
             className="font-semibold text-primary mt-2 w-fit"
             color="secondary"
-            onPress={back}
+            onPress={() => push(paths.stayDetail(_id))}
             radius="sm"
             size="sm"
             variant="light"
