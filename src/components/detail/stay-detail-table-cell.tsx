@@ -137,7 +137,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type }: IStayDetailT
           <Button className="text-xs font-medium w-full">
             No of rooms: <span className="font-bold">{quantity}</span>
           </Button>
-          <Dropdown>
+          <Dropdown classNames={{ content: '!max-h-96 !justify-start overflow-auto' }} placement="bottom-end">
             <DropdownTrigger>
               <Button isIconOnly>
                 <IoCaretDownOutline />
@@ -159,7 +159,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type }: IStayDetailT
               <Button className="text-xs font-medium w-full">
                 Adult guests: <span className="font-bold">{noOfGuests.adults}</span>
               </Button>
-              <Dropdown>
+              <Dropdown classNames={{ content: '!max-h-96 !justify-start overflow-auto' }} placement="bottom-end">
                 <DropdownTrigger>
                   <Button isIconOnly>
                     <IoCaretDownOutline />
@@ -179,7 +179,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type }: IStayDetailT
                 <Button className="text-xs font-medium w-full">
                   Child guests: <span className="font-bold">{noOfGuests.children}</span>
                 </Button>
-                <Dropdown>
+                <Dropdown classNames={{ content: '!max-h-96 !justify-start overflow-auto' }} placement="bottom-end">
                   <DropdownTrigger>
                     <Button isIconOnly>
                       <IoCaretDownOutline />
