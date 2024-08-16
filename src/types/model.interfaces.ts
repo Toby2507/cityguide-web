@@ -188,6 +188,11 @@ export interface IAccommodation {
   price: number;
 }
 
+export interface ICancellation {
+  daysFromReservation: number;
+  percentRefundable: number;
+}
+
 export interface IPartner {
   _id: string;
   firstName?: string;
@@ -196,6 +201,7 @@ export interface IPartner {
   phoneNumber: string;
   email: string;
   imgUrl?: string;
+  cancellationPolicy: ICancellation | null;
 }
 
 export interface IStay {
