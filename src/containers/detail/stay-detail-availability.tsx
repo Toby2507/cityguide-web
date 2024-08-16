@@ -1,10 +1,11 @@
 'use client';
 
 import { StayDetailTableCell } from '@/components';
-import { useReservationStore } from '@/providers';
-import { IStay, PropertyType } from '@/types';
+import { useReservationStore, useSearchStore } from '@/providers';
+import { IAccommodation, IStay, PropertyType } from '@/types';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import StaySearchBar from '../home/stay-search';
 
 interface IProps {
   stay: IStay;
@@ -20,13 +21,26 @@ const columns = [
 
 const StayDetailAvailability = ({ stay }: IProps) => {
   const { setReservation } = useReservationStore();
-  const firstStayId = stay.accommodation[0].id;
-  const lastStayId = stay.accommodation[stay.accommodation.length - 1].id;
+  const { noOfGuests, reservationCount } = useSearchStore();
+  const [tableKey, setTableKey] = useState<number>(0);
+  const [accommodations, setAccommodations] = useState<IAccommodation[]>(stay.accommodation);
+  const firstStayId = accommodations.length ? accommodations[0].id : '';
+  const lastStayId = accommodations.length ? accommodations[accommodations.length - 1].id : '';
 
   const actionClass = (id: string) => {
-    if (id === firstStayId && stay.accommodation.length > 1) return 'border-b-0';
-    if (id === lastStayId && stay.accommodation.length !== 1) return 'border-t-0';
+    if (id === firstStayId && accommodations.length > 1) return 'border-b-0';
+    if (id === lastStayId && accommodations.length !== 1) return 'border-t-0';
     if (![firstStayId, lastStayId].includes(id)) return 'border-y-0';
+  };
+  const handleSearch = () => {
+    const acc = stay.accommodation.filter(
+      (a) =>
+        reservationCount <= a.available &&
+        noOfGuests.adults + noOfGuests.children <= a.maxGuests &&
+        !(noOfGuests.children && !a.children && !a.infants)
+    );
+    setAccommodations(acc.filter(Boolean));
+    setTableKey((prev) => prev + 1);
   };
 
   useEffect(() => {
@@ -38,6 +52,10 @@ const StayDetailAvailability = ({ stay }: IProps) => {
     };
     setReservation(reservation);
   }, [stay, setReservation]);
+  useEffect(() => {
+    handleSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <section className="flex flex-col gap-4 pb-10" id="availability">
       <header className="flex flex-col gap-2">
@@ -46,7 +64,8 @@ const StayDetailAvailability = ({ stay }: IProps) => {
           Prices and availability for your stay
         </p>
       </header>
-      <Table isStriped removeWrapper aria-label="Accommodation availability" className="border-collapse">
+      <StaySearchBar extraClass="mt-1 w-10/12" noLocation search={handleSearch} />
+      <Table key={tableKey} isStriped removeWrapper aria-label="Accommodation availability" className="border-collapse">
         <TableHeader columns={columns}>
           {(columns) => (
             <TableColumn className="bg-default text-black text-sm py-4 border" key={columns.key}>
@@ -54,7 +73,10 @@ const StayDetailAvailability = ({ stay }: IProps) => {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={stay.accommodation}>
+        <TableBody
+          items={accommodations}
+          emptyContent={'No accommodation matches your requirements. Change your search criteria'}
+        >
           {(item) => (
             <TableRow key={item.id}>
               {columns.map(({ key }) => (
