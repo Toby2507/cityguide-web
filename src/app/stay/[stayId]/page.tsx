@@ -6,7 +6,6 @@ import {
   StayDetailAvailability,
   StayDetailOverview,
   StayDetailRules,
-  StaySearchBar,
   SubscribeBox,
 } from '@/containers';
 import { getStayById } from '@/server';
@@ -25,7 +24,6 @@ const StayDetailPage = async ({ params: { stayId } }: IStayDetailPage) => {
       <Header />
       <main className="flex flex-col gap-20 bg-white">
         <div className="container mx-auto px-10 flex flex-col gap-6 max-w-7xl">
-          <StaySearchBar />
           <StayDetailNav />
           <StayDetailOverview stay={stay} />
           <StayDetailAmenities stay={stay} />
