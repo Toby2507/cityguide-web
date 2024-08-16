@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchStore } from '@/providers';
+import { getSearchResult } from '@/server';
 import { addressFormatter } from '@/utils';
 import { Library } from '@googlemaps/js-api-loader';
 import { CalendarDate, getLocalTimeZone, parseDate, today } from '@internationalized/date';
@@ -14,10 +15,13 @@ import { PiMinusThin, PiPlusThin } from 'react-icons/pi';
 
 interface Props {
   noLocation?: boolean;
+  extraClass?: string;
+  search?: Function;
+  isMain?: boolean;
 }
 
 const LIBS: Library[] = ['places', 'core'];
-const StaySearchBar = ({ noLocation }: Props) => {
+const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
   const { setState, checkInDay, checkOutDay, location, noOfGuests, reservationCount } = useSearchStore();
   const placesRef = useRef<HTMLInputElement>(null);
   const [autoComplete, setAutoComplete] = useState<google.maps.places.Autocomplete | null>(null);
@@ -59,7 +63,7 @@ const StaySearchBar = ({ noLocation }: Props) => {
     }
   }, [autoComplete, noLocation, setState]);
   return (
-    <div className="relative flex items-center gap-1 bg-accentLightBlue p-1 rounded-xl shadow-xl -mt-9 mx-auto w-full">
+    <div className={`relative flex items-center gap-1 bg-accentLightBlue p-1 rounded-xl shadow-xl ${extraClass}`}>
       {!noLocation ? (
         <Input
           className="flex-1 h-full"
@@ -82,7 +86,7 @@ const StaySearchBar = ({ noLocation }: Props) => {
         minValue={today(getLocalTimeZone())}
       />
       <div className="flex-1 py-[6px] bg-[#F4F4F4] rounded-lg w-full hover:bg-[#E4E4E4]">
-        <Popover className="flex-1" placement="bottom-end" radius="sm">
+        <Popover className="flex-1" placement="bottom-end" radius="sm" triggerScaleOnOpen={false}>
           <PopoverTrigger className="flex-1 px-3 w-full">
             <div className="flex flex-col cursor-pointer w-full">
               <p className="text-xs text-accentGray2 font-semibold">Reservation info</p>
@@ -177,9 +181,17 @@ const StaySearchBar = ({ noLocation }: Props) => {
           </PopoverContent>
         </Popover>
       </div>
-      <Button className="font-semibold" size="lg" color="primary" radius="sm">
-        Search
-      </Button>
+      {!!search ? (
+        <Button
+          className="font-semibold"
+          size="lg"
+          color="primary"
+          onPress={() => (isMain ? getSearchResult() : search())}
+          radius="sm"
+        >
+          Search
+        </Button>
+      ) : null}
     </div>
   );
 };
