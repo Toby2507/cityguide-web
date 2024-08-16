@@ -1,17 +1,33 @@
 'use client';
 
 import { CustomStars } from '@/components';
-import { useReservationStore } from '@/providers';
-import { IStay } from '@/types';
+import { useReservationStore, useSearchStore } from '@/providers';
+import { IPartner, IStay } from '@/types';
 import { numberToCurrency, paths } from '@/utils';
 import { Button, Chip } from '@nextui-org/react';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { BsExclamationCircle } from 'react-icons/bs';
 import { IoCaretDownOutline, IoCaretUpOutline, IoCheckmark } from 'react-icons/io5';
+import { PiCheckCircleFill } from 'react-icons/pi';
 
-const StayDetailReservation = ({ type, hotelRating, name, address, rating, accommodation, amenities, _id }: IStay) => {
+dayjs.extend(relativeTime);
+const StayDetailReservation = ({
+  type,
+  hotelRating,
+  name,
+  address,
+  rating,
+  accommodation,
+  amenities,
+  _id,
+  partner,
+  rules: { checkIn, checkOut },
+}: IStay) => {
   const { push } = useRouter();
+  const { checkInDay, checkOutDay } = useSearchStore();
   const { reservation } = useReservationStore();
   const [showAccs, setShowAccs] = useState<boolean>(false);
   const accommodations =
@@ -24,6 +40,8 @@ const StayDetailReservation = ({ type, hotelRating, name, address, rating, accom
       .filter(Boolean) || [];
   const validAddr =
     address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
+  const cancellation = (partner as IPartner).cancellationPolicy;
+  const cancellationDeadline = cancellation && dayjs(checkInDay).subtract(cancellation.daysFromReservation, 'd');
   return (
     <section className="flex flex-col gap-2">
       {/* Propery Details */}
@@ -59,27 +77,33 @@ const StayDetailReservation = ({ type, hotelRating, name, address, rating, accom
         <h3 className="text-lg font-bold tracking-wide">Your booking details</h3>
         <div className="grid grid-cols-2">
           <div className="flex flex-col gap-1">
-            <p className="text-xs font-medium pr-4">Check-in</p>
-            <div className="flex flex-col border-r-2 pr-4">
-              <p className="text-base font-semibold">Thu, Jun 20, 2024</p>
-              <p className="text-xs text-accentGray">From 12:00 AM</p>
+            <p className="text-xs font-medium pr-3">Check-in</p>
+            <div className="flex flex-col border-r-2 pr-3">
+              <p className="text-base font-semibold">{dayjs(checkInDay).format('ddd, MMM DD, YYYY')}</p>
+              <p className="text-xs text-accentGray">
+                From {dayjs(`2000-01-01 ${reservation?.checkInTime || checkIn.split('-')[0]}`).format('hh:mm A')}
+              </p>
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <p className="text-xs font-medium pl-4">Check-out</p>
-            <div className="flex flex-col border-l pl-4">
-              <p className="text-base font-semibold">Thu, Jun 23, 2024</p>
-              <p className="text-xs text-accentGray">Until 12:00 PM</p>
+            <p className="text-xs font-medium pl-3">Check-out</p>
+            <div className="flex flex-col border-l pl-3">
+              <p className="text-base font-semibold">{dayjs(checkOutDay).format('ddd, MMM DD, YYYY')}</p>
+              <p className="text-xs text-accentGray">
+                Until {dayjs(`2000-01-01 ${reservation?.checkOutTime || checkOut.split('-')[1]}`).format('hh:mm A')}
+              </p>
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <BsExclamationCircle className="text-danger" size={24} />
-          <p className="text-sm text-danger font-medium">Just 3 days away</p>
-        </div>
+        {dayjs(checkInDay).diff(dayjs(), 'd') <= 3 ? (
+          <div className="flex items-center gap-2">
+            <BsExclamationCircle className="text-danger" size={24} />
+            <p className="text-sm text-danger font-medium">Just {dayjs(checkInDay).fromNow(true)} away</p>
+          </div>
+        ) : null}
         <div className="flex flex-col">
           <p className="text-xs">Total length of stay:</p>
-          <p className="text-sm font-semibold">3 nights</p>
+          <p className="text-sm font-semibold">{dayjs(checkOutDay).diff(checkInDay, 'd')} night(s)</p>
         </div>
         <div className="border-b-2 w-full" />
         <div className="flex flex-col">
@@ -134,14 +158,37 @@ const StayDetailReservation = ({ type, hotelRating, name, address, rating, accom
       <article className="flex flex-col gap-4 border-2 rounded-xl p-3">
         <h3 className="text-lg font-bold tracking-wide">How much will it cost to cancel?</h3>
         <div className="flex flex-col gap-1">
-          <div className="flex justify-between gap-4">
-            <p className="text-xs">If you cancel before Thu, Jun 20, 2024, you will pay</p>
-            <p className="text-sm font-semibold">{numberToCurrency(0)}</p>
-          </div>
-          <div className="flex justify-between gap-4">
-            <p className="text-xs">If you cancel after Thu, Jun 20, 2024, you will pay</p>
-            <p className="text-sm font-semibold">{numberToCurrency(reservation?.price || 0)}</p>
-          </div>
+          {cancellation ? (
+            <div className="flex flex-col gap-2">
+              {cancellationDeadline?.isBefore(dayjs(), 'd') ? null : cancellationDeadline?.isSame(dayjs(), 'd') ? (
+                <div className="flex items-center gap-2">
+                  <PiCheckCircleFill className="text-green-600" size={20} />
+                  <p className="text-xs text-green-600">Free cancellation till the end of the day today</p>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <PiCheckCircleFill className="text-green-600" size={20} />
+                  <p className="text-xs text-green-600">
+                    Free cancellation till the end of the day {cancellationDeadline?.format('ddd, MMM DD, YYYY')}
+                  </p>
+                </div>
+              )}
+              <div className="flex justify-between gap-4">
+                <p className="text-xs">
+                  If you cancel
+                  {dayjs(checkInDay).diff(dayjs(), 'd') >= cancellation.daysFromReservation
+                    ? ` after ${cancellationDeadline?.format('ddd, MMM DD, YYYY')}`
+                    : ''}
+                  , you will pay
+                </p>
+                <p className="text-sm font-semibold">
+                  {numberToCurrency((reservation?.price || 0) * (1 - cancellation.percentRefundable))}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <p className="text-xs text-green-600">Free cancellation at any time</p>
+          )}
         </div>
       </article>
     </section>
