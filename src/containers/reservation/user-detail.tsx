@@ -1,10 +1,11 @@
 'use client';
 
 import { UserDetailReservationAccommodation } from '@/components';
-import { useReservationStore } from '@/providers';
-import { IStay, IUserDetails } from '@/types';
+import { useReservationStore, useSearchStore } from '@/providers';
+import { IPartner, IStay, IUserDetails, StayType } from '@/types';
 import { paths } from '@/utils';
 import {
+  Button,
   Checkbox,
   CheckboxGroup,
   Input,
@@ -17,10 +18,13 @@ import {
 } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useMemo } from 'react';
+import toast from 'react-hot-toast';
 import { IoCarSportOutline } from 'react-icons/io5';
 import { LiaShuttleVanSolid } from 'react-icons/lia';
 import { PiCheckCircle, PiTaxi, PiUserLight } from 'react-icons/pi';
+import { SlArrowRight } from 'react-icons/sl';
 
 interface Props {
   user: IUserDetails | null;
@@ -46,8 +50,10 @@ const generateTimeRange = (from: string, to: string) => {
   return times;
 };
 
-const UserDetailReservation = ({ stay: { accommodation, rules }, user }: Props) => {
+const UserDetailReservation = ({ stay: { accommodation, rules, type, partner }, user }: Props) => {
   const pathname = usePathname();
+  const { push } = useRouter();
+  const { checkInDay, checkOutDay } = useSearchStore();
   const { reservation, setReservation } = useReservationStore();
   const userDetails = [
     { name: 'First Name', value: user?.fullName.split(' ')[0] },
@@ -55,11 +61,28 @@ const UserDetailReservation = ({ stay: { accommodation, rules }, user }: Props) 
     { name: 'Email Address', value: user?.email },
     { name: 'Phone Number', value: user?.phoneNumber },
   ];
-  const goodToKnow = [
-    'Stay flexible: You can cancel for free before June 27, 2024',
-    "You'll get the entire accommodation to your self",
-    "No payment needed today, You'll pay at the property",
-  ];
+  const cancellation = (partner as IPartner).cancellationPolicy;
+  const cancellationDeadline = cancellation && dayjs(checkInDay).subtract(cancellation.daysFromReservation - 1, 'd');
+  const goodToKnow = useMemo(
+    () => [
+      ...(!cancellation
+        ? ['Stay flexible: You can cancel for free anytime']
+        : dayjs(cancellationDeadline).isBefore(dayjs())
+        ? []
+        : [
+            `Stay flexible: You can cancel for free before ${
+              dayjs(cancellationDeadline).isSame(dayjs())
+                ? 'today'
+                : dayjs(cancellationDeadline).format('ddd, MMM DD, YYYY')
+            }`,
+          ]),
+      "You'll get the entire accommodation to your self",
+      ...(![StayType.APARTMENT, StayType.BnB].includes(type)
+        ? ["No payment needed today, You'll pay at the property"]
+        : []),
+    ],
+    [cancellation, cancellationDeadline, type]
+  );
   const accommodations =
     reservation?.accommodations
       ?.map((a) => {
@@ -72,6 +95,12 @@ const UserDetailReservation = ({ stay: { accommodation, rules }, user }: Props) 
   const [checkOutFrom, checkOutTo] = rules.checkOut.split('-');
   const [inTimes, outTimes] = [generateTimeRange(checkInFrom, checkInTo), generateTimeRange(checkOutFrom, checkOutTo)];
 
+  const goToFinal = () => {
+    if (!reservation?.checkInTime) return toast.error('Please select your estimated check-in time');
+    if (!reservation?.checkOutTime) return toast.error('Please select your estimated check-out time');
+    setReservation({ checkInDay, checkOutDay });
+    push('complete');
+  };
   return (
     <section className="flex flex-col gap-2">
       <article className="flex flex-col gap-3 border-2 rounded-xl px-6 py-4">
@@ -264,6 +293,16 @@ const UserDetailReservation = ({ stay: { accommodation, rules }, user }: Props) 
           </Select>
         </div>
       </article>
+      <Button
+        className="self-end mt-2 w-fit"
+        color="primary"
+        endContent={<SlArrowRight />}
+        onPress={goToFinal}
+        radius="sm"
+        size="lg"
+      >
+        Next: Final details
+      </Button>
     </section>
   );
 };
