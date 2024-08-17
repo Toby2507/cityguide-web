@@ -4,6 +4,7 @@ import {
   Header,
   StayDetailAmenities,
   StayDetailAvailability,
+  StayDetailInfoReview,
   StayDetailOverview,
   StayDetailRules,
   SubscribeBox,
@@ -28,6 +29,7 @@ const StayDetailPage = async ({ params: { stayId } }: IStayDetailPage) => {
           <StayDetailOverview stay={stay} />
           <StayDetailAmenities stay={stay} />
           <StayDetailAvailability stay={stay} />
+          <StayDetailInfoReview stay={stay} />
           <StayDetailRules stay={stay} />
         </div>
         <SubscribeBox />

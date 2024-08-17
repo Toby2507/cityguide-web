@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from 
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { BsExclamationCircleFill } from 'react-icons/bs';
+import { GiPartyPopper } from 'react-icons/gi';
 import { IoCard, IoLogIn, IoLogOut } from 'react-icons/io5';
 import { MdOutlineFamilyRestroom, MdOutlinePets } from 'react-icons/md';
 
@@ -79,7 +80,16 @@ const StayDetailRules = ({ stay: { rules, accommodation } }: IProps) => {
               <MdOutlinePets className="text-lg" />
               Pets
             </TableCell>
-            <TableCell className="py-4 text-accentGray w-9/12">Pets are not allowed</TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">Pets are{!rules.pets ? ' not' : ''} allowed</TableCell>
+          </TableRow>
+          <TableRow className="border-b border-default">
+            <TableCell className="flex items-center gap-2 py-4 font-medium">
+              <GiPartyPopper className="text-lg" />
+              Parties
+            </TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">
+              Parties are{!rules.parties ? ' not' : ''} allowed
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="flex items-center gap-2 py-4 font-medium">

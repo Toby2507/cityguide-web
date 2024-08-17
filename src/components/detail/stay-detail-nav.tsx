@@ -18,7 +18,10 @@ const StayDetailNav = () => {
           <Link href="#amenities">Amenities</Link>
         </Button>
         <Button className="flex-1 border-b border-default" variant="light" radius="none">
-          <Link href="#availability">Apartment Info & Price</Link>
+          <Link href="#availability">Availability</Link>
+        </Button>
+        <Button className="flex-1 border-b border-default" variant="light" radius="none">
+          <Link href="#inforeview">Info & Review</Link>
         </Button>
         <Button className="flex-1 border-b border-default" variant="light" radius="none">
           <Link href="#rules">House Rules</Link>

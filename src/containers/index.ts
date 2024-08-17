@@ -14,6 +14,7 @@ export { default as Header } from './common/header';
 // Detail
 export { default as StayDetailAmenities } from './detail/stay-detail-amenities';
 export { default as StayDetailAvailability } from './detail/stay-detail-availability';
+export { default as StayDetailInfoReview } from './detail/stay-detail-info-review';
 export { default as StayDetailOverview } from './detail/stay-detail-overview';
 export { default as StayDetailRules } from './detail/stay-detail-rules';
 // Home
