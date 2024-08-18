@@ -40,7 +40,7 @@ export interface ICreateRestaurant {
   address: IAddress;
   avatar: string;
   images: string[];
-  availability: ICustomAvailability[];
+  availability: (ICustomAvailability | null)[];
   priceRange: PriceRange;
   serviceStyle?: string[];
   cuisine?: string[];
