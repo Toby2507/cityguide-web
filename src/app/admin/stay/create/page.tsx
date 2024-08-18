@@ -18,7 +18,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 const CreateStayPage = () => {
   const [step, setStep] = useState<number>(1);
-  const [topStep, setTopStep] = useState(1);
+  const [topStep, setTopStep] = useState<number>(1);
   const methods = useForm<ICreateStay>();
 
   useEffect(() => {
