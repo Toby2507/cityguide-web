@@ -16,7 +16,7 @@ interface Props {
 
 const CreateRestaurantStep6 = ({ setStep }: Props) => {
   const { control, getValues, setValue, trigger, watch } = useFormContext<ICreateRestaurant>();
-  const avails = (getValues('availability') || []).map((a, i) => (a ? i : null)).filter((p) => p !== null);
+  const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
