@@ -43,13 +43,13 @@ export const createRestaurantSchema = object({
         required_error: 'Day is required',
         invalid_type_error: 'Day should be a day of the week in full and capitalized',
       }),
-      from: string({ required_error: 'From time is required' }),
-      to: string({ required_error: 'To time is required' }),
+      from: string({ required_error: 'Open time is required for each open days' }),
+      to: string({ required_error: 'Close time is required for each open days' }),
     },
-    { required_error: 'Availability is required', invalid_type_error: 'Availability is should be an array' }
+    { required_error: 'Availability is required', invalid_type_error: 'Availability should be an object' }
   )
     .array()
-    .min(1, 'Atleast one availability is required'),
+    .min(1, 'Restaurant should be open atleast 1 day a week'),
   priceRange: nativeEnum(PriceRange, {
     required_error: 'Price range is required',
     invalid_type_error: 'Price range should be Budget-friendly | Mid-range | Fine-dining',
