@@ -15,7 +15,7 @@ interface Props {
 }
 
 const CreateRestaurantStep6 = ({ setStep }: Props) => {
-  const { control, getValues, setValue, trigger, watch } = useFormContext<ICreateRestaurant>();
+  const { control, getValues, setValue, watch } = useFormContext<ICreateRestaurant>();
   const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -56,19 +56,21 @@ const CreateRestaurantStep6 = ({ setStep }: Props) => {
     setIsLoading(false);
     if (!isValidS.success) {
       const errors = isValidS.error.flatten();
-      toast.error(errors.formErrors.join(', ') || Object.values(errors.fieldErrors).join(', '));
+      return toast.error(errors.formErrors.join(', ') || Object.values(errors.fieldErrors).join(', '));
     }
+    setStep(7);
   };
 
   useEffect(() => {
     !getValues('availability') && setValue('availability', [null, null, null, null, null, null, null]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
       <div className="flex flex-col gap-2">
         <h1 className="text-4xl text-center font-semibold">Set Restaurant Details</h1>
         <p className="text-center font-light">
-          Set the stage for a delightful dining experience! Clearly outline your restaurant's details
+          Set the stage for a delightful dining experience! Clearly outline your restaurant&apos;s details
         </p>
       </div>
       <div className="flex flex-col gap-6 max-w-3xl py-2 mx-auto w-full">
