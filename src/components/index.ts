@@ -4,6 +4,7 @@ export { default as AdminHeader } from './admin/header';
 // // Common
 export { default as CreateAmenities } from './admin/common/create-amenities';
 export { default as CreateNavButtons } from './admin/common/create-nav-buttons';
+export { default as CreatePropertyImageUpload } from './admin/common/create-property-image-upload';
 // // Dashboard
 export { default as DashboardChart } from './admin/dashboard/dashboard-chart';
 export { default as EngagementCard } from './admin/dashboard/engagement-card';
@@ -26,6 +27,7 @@ export { default as CreateRestaurantStep1 } from './admin/restaurant/create-rest
 export { default as CreateRestaurantStep2 } from './admin/restaurant/create-restaurant-2';
 export { default as CreateRestaurantStep3 } from './admin/restaurant/create-restaurant-3';
 export { default as CreateRestaurantStep4 } from './admin/restaurant/create-restaurant-4';
+export { default as CreateRestaurantStep6 } from './admin/restaurant/create-restaurant-6';
 
 // Auth
 export { default as LoginTab } from './auth/login-tab';

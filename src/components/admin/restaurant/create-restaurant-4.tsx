@@ -33,6 +33,7 @@ const CreateRestaurantStep4 = ({ setStep }: Props) => {
     const isValid = await createRestaurantSchema.shape.details.shape.amenities.safeParseAsync(value);
     setisLoading(false);
     if (!isValid.success) return toast.error(isValid.error.flatten().formErrors.join(', '));
+    setStep(5);
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
