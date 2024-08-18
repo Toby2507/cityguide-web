@@ -1,6 +1,6 @@
 'use client';
 
-import { CreateRestaurantStep1 } from '@/components';
+import { CreateRestaurantStep1, CreateRestaurantStep2 } from '@/components';
 import { ICreateRestaurant } from '@/types';
 import { Pagination } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
@@ -17,6 +17,7 @@ const CreateRestaurantPage = () => {
   return (
     <FormProvider {...methods}>
       {step === 1 ? <CreateRestaurantStep1 setStep={setStep} /> : null}
+      {step === 2 ? <CreateRestaurantStep2 setStep={setStep} /> : null}
       <div className="absolute bottom-10 flex flex-col gap-2">
         <p className="text-xs">Go to step</p>
         <Pagination total={topStep} page={step} onChange={(val) => setStep(val)} />
