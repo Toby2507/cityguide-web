@@ -7,6 +7,7 @@ import {
   CreateRestaurantStep3,
   CreateRestaurantStep4,
   CreateRestaurantStep6,
+  CreateRestaurantStep7,
 } from '@/components';
 import { ICreateRestaurant } from '@/types';
 import { Pagination } from '@nextui-org/react';
@@ -29,6 +30,7 @@ const CreateRestaurantPage = () => {
       {step === 4 ? <CreateRestaurantStep4 setStep={setStep} /> : null}
       {step === 5 ? <CreatePropertyImageUpload name="Restaurant" nextStep={6} setStep={setStep} /> : null}
       {step === 6 ? <CreateRestaurantStep6 setStep={setStep} /> : null}
+      {step === 7 ? <CreateRestaurantStep7 setStep={setStep} /> : null}
       <div className="absolute bottom-10 flex flex-col gap-2">
         <p className="text-xs">Go to step</p>
         <Pagination total={topStep} page={step} onChange={(val) => setStep(val)} />

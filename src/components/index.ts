@@ -28,6 +28,7 @@ export { default as CreateRestaurantStep2 } from './admin/restaurant/create-rest
 export { default as CreateRestaurantStep3 } from './admin/restaurant/create-restaurant-3';
 export { default as CreateRestaurantStep4 } from './admin/restaurant/create-restaurant-4';
 export { default as CreateRestaurantStep6 } from './admin/restaurant/create-restaurant-6';
+export { default as CreateRestaurantStep7 } from './admin/restaurant/create-restaurant-7';
 
 // Auth
 export { default as LoginTab } from './auth/login-tab';
