@@ -19,6 +19,7 @@ export { default as CreateStayAccommodation } from './admin/stay/create-stay-acc
 export { default as CreateStayReview } from './admin/stay/create-stay-review';
 
 // Auth
+export { default as LoginTab } from './auth/login-tab';
 export { default as SignUpTab } from './auth/signup-tab';
 
 // Common
