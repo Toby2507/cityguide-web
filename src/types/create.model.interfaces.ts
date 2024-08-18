@@ -1,5 +1,15 @@
-import { EntityType, MaxDays, PropertyType, Rating, StayType } from './enums';
-import { IAccommodation, IAddress, IExtraInfo, IGuests, IReservationAccommodation } from './model.interfaces';
+import { EntityType, MaxDays, PriceRange, PropertyType, Rating, StayType } from './enums';
+import {
+  IAccommodation,
+  IAddress,
+  IContact,
+  ICustomAvailability,
+  IExtraInfo,
+  IGuests,
+  IMenu,
+  IReservationAccommodation,
+  IRestaurantDetails,
+} from './model.interfaces';
 
 export interface ICreateStay {
   type: StayType;
@@ -21,6 +31,24 @@ export interface ICreateStay {
   accommodation: IAccommodation[];
   maxDays: MaxDays;
   language: string[];
+}
+
+export interface ICreateRestaurant {
+  name: string;
+  summary: string;
+  description?: string;
+  address: IAddress;
+  rating: Rating;
+  avatar: string;
+  images: string[];
+  availability: ICustomAvailability[];
+  priceRange: PriceRange;
+  serviceStyle?: string[];
+  cuisine?: string[];
+  dietaryProvisions?: string[];
+  menu: IMenu[];
+  details: IRestaurantDetails;
+  contact: IContact;
 }
 
 export interface ICreateReservation {

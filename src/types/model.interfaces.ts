@@ -51,6 +51,17 @@ export interface IAvailability {
   custom: ICustomAvailability[];
 }
 
+export interface IPartner {
+  _id: string;
+  firstName?: string;
+  lastName?: string;
+  name?: string;
+  phoneNumber: string;
+  email: string;
+  imgUrl?: string;
+  cancellationPolicy: ICancellation | null;
+}
+
 // NightLife
 export interface IEvent {
   id: string;
@@ -116,7 +127,6 @@ export interface IRestaurantDetails {
 
 export interface IRestaurant {
   _id: string;
-  establishment: string;
   name: string;
   summary: string;
   description?: string;
@@ -134,6 +144,7 @@ export interface IRestaurant {
   contact: IContact;
   createdAt: Date;
   updatedAt: Date;
+  partner: string | IPartner;
 }
 
 // Stays
@@ -191,17 +202,6 @@ export interface IAccommodation {
 export interface ICancellation {
   daysFromReservation: number;
   percentRefundable: number;
-}
-
-export interface IPartner {
-  _id: string;
-  firstName?: string;
-  lastName?: string;
-  name?: string;
-  phoneNumber: string;
-  email: string;
-  imgUrl?: string;
-  cancellationPolicy: ICancellation | null;
 }
 
 export interface IStay {
