@@ -91,19 +91,21 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
     password: formData.get('password') as string,
   });
   if (!data.success) return { errors: data.error.flatten().fieldErrors };
+  const type = formData.get('type') as EntityType;
   try {
-    const res = await fetchBaseQuery('user/login', {
+    const res = await fetchBaseQuery(type === EntityType.USER ? 'user/login' : 'establishment/login', {
       method: 'POST',
       body: JSON.stringify(data.data),
     });
     if (res.status === 401) return { errors: { _form: ['Invalid email or password'] } };
     const response = await res.json();
-    setCookies(response, EntityType.USER);
+    setCookies(response, type);
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
   }
-  const redirectUrl = (formData.get('redirectUrl') as string) || paths.home();
+  const redirectUrl =
+    type === EntityType.ESTABLISHMENT ? paths.admin() : (formData.get('redirectUrl') as string) || paths.home();
   redirect(redirectUrl, RedirectType.replace);
 };
 

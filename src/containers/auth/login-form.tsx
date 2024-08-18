@@ -2,6 +2,7 @@
 
 import { SubmitForm } from '@/components';
 import { loginUser } from '@/server';
+import { EntityType } from '@/types';
 import { paths } from '@/utils';
 import { Checkbox, Input } from '@nextui-org/react';
 import Link from 'next/link';
@@ -12,15 +13,17 @@ import FormFooter from './form-footer';
 
 interface Props {
   referer: string;
+  type: EntityType;
 }
 
-const LoginForm = ({ referer }: Props) => {
+const LoginForm = ({ referer, type }: Props) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [data, action] = useFormState(loginUser, { errors: {} });
   const errors = data?.errors || {};
 
   const handleSubmit = (payload: FormData) => {
     payload.append('redirectUrl', referer);
+    payload.append('type', type);
     return action(payload);
   };
   return (
