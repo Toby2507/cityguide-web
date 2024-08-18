@@ -101,8 +101,14 @@ export const createRestaurantSchema = object({
       phone: string().min(11, 'Invalid phone number').optional(),
       socialMedia: object(
         {
-          name: string({ required_error: 'Social media name is required' }),
-          handle: string({ required_error: 'Social media handle is required' }),
+          name: string({ required_error: 'Social media name is required' }).min(
+            3,
+            'Platform name should be atleast 3 characters'
+          ),
+          handle: string({ required_error: 'Social media handle is required' }).min(
+            1,
+            'Handle name should be atleast 1 character'
+          ),
         },
         { required_error: 'Social media is required', invalid_type_error: 'Social media should be an array' }
       )
