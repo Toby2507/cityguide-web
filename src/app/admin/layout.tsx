@@ -14,7 +14,7 @@ const Layout = async ({ children }: Readonly<ILayout>) => {
     <div className="flex flex-col bg-white max-h-screen">
       <AdminHeader />
       <div className="flex">
-        <AdminSidebar />
+        <AdminSidebar type={user.type} />
         <main className="flex flex-col gap-2 px-8 pt-24 pb-4 h-screen overflow-y-auto w-full adminmain">
           <AdminBreadcrumbs />
           {children}
