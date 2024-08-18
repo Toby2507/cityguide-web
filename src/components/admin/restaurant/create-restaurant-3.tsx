@@ -1,12 +1,12 @@
 'use client';
 
+import { CreateNavButtons } from '@/components';
 import { createRestaurantSchema } from '@/schemas';
 import { ICreateRestaurant } from '@/types';
 import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import CreateStayButtons from '../stay/create-stay-btns';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -90,7 +90,7 @@ const CreateRestaurantStep3 = ({ setStep }: Props) => {
             },
           }}
         />
-        <CreateStayButtons isLoading={isLoading} previous={() => setStep(1)} next={handleNext} />
+        <CreateNavButtons isLoading={isLoading} previous={() => setStep(1)} next={handleNext} />
       </div>
     </div>
   );

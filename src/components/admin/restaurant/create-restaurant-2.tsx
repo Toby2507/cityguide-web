@@ -1,11 +1,10 @@
 'use client';
 
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import CreateStayButtons from '../stay/create-stay-btns';
-import { Map } from '@/components';
-import { useController, useFormContext } from 'react-hook-form';
-import { ICreateRestaurant } from '@/types';
+import { CreateNavButtons, Map } from '@/components';
 import { createRestaurantSchema } from '@/schemas';
+import { ICreateRestaurant } from '@/types';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -35,7 +34,7 @@ const CreateRestaurantStep2 = ({ setStep }: Props) => {
       <div className="w-10/12 mx-auto">
         <Map prevAddr={value} customClass="h-[65vh]" setAddr={(addr) => onChange(addr)} />
       </div>
-      <CreateStayButtons isLoading={isLoading} previous={() => setStep(1)} next={handleNext} />
+      <CreateNavButtons isLoading={isLoading} previous={() => setStep(1)} next={handleNext} />
     </div>
   );
 };

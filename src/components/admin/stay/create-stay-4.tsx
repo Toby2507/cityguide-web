@@ -28,7 +28,7 @@ const CreateStayStep4 = ({ setStep }: Props) => {
       <div className="flex flex-col gap-4 max-w-3xl py-2 mx-auto w-full">
         <Controller
           control={control}
-          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value } }) => (
             <Input
               name="host_name"
               label="Host Name"
@@ -52,7 +52,7 @@ const CreateStayStep4 = ({ setStep }: Props) => {
         />
         <Controller
           control={control}
-          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value } }) => (
             <Textarea
               name="host_summary"
               label="Host Summary"
@@ -76,7 +76,7 @@ const CreateStayStep4 = ({ setStep }: Props) => {
         />
         <Controller
           control={control}
-          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value } }) => (
             <Textarea
               name="property_description"
               label="Property Extra Details"
@@ -100,7 +100,7 @@ const CreateStayStep4 = ({ setStep }: Props) => {
         />
         <Controller
           control={control}
-          render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+          render={({ field: { onChange, ref, value } }) => (
             <Textarea
               name="neighborhood_description"
               label="Neighborhood Description"
