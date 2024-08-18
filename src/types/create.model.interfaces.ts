@@ -38,7 +38,6 @@ export interface ICreateRestaurant {
   summary: string;
   description?: string;
   address: IAddress;
-  rating: Rating;
   avatar: string;
   images: string[];
   availability: ICustomAvailability[];

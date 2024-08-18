@@ -21,6 +21,7 @@ export { default as CreateStayReview } from './admin/stay/create-stay-review';
 // // Restaurant
 export { default as CreateRestaurantStep1 } from './admin/restaurant/create-restaurant-1';
 export { default as CreateRestaurantStep2 } from './admin/restaurant/create-restaurant-2';
+export { default as CreateRestaurantStep3 } from './admin/restaurant/create-restaurant-3';
 
 // Auth
 export { default as LoginTab } from './auth/login-tab';
