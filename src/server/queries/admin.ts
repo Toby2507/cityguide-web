@@ -1,6 +1,6 @@
 'use server';
 
-import { IReservationStats, IStay, PropertyType } from '@/types';
+import { IReservationStats, IRestaurant, IStay, PropertyType } from '@/types';
 import { fetchBaseQuery, fetchWithReAuth } from '@/utils';
 
 interface IGetResAnalytics {
@@ -28,4 +28,10 @@ export const getPartnerStays = async () => {
   const res = await fetchWithReAuth('property/stay/admin', { method: 'GET' });
   const stays = await res.json();
   return stays.properties as IStay[];
+};
+
+export const getPartnerRestaurants = async () => {
+  const res = await fetchWithReAuth('property/restaurant/admin', { method: 'GET' });
+  const restaurants = await res.json();
+  return restaurants.properties as IRestaurant[];
 };
