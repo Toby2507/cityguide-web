@@ -3,28 +3,30 @@
 import { onEnter } from '@/utils';
 import { Button, Chip, Input } from '@nextui-org/react';
 import { useState } from 'react';
+import { FieldError } from 'react-hook-form';
 import { IoAdd, IoCloseCircle } from 'react-icons/io5';
 
 interface Props {
-  amenities: string[];
+  arr: string[];
   label: string;
   customStyle?: string;
-  setAmenities: (amenity: string) => void;
+  error?: FieldError;
+  addToArray: (item: string) => void;
 }
 
-const CreateAmenities = ({ amenities, label, customStyle, setAmenities }: Props) => {
+const StringArrayInputs = ({ arr, label, customStyle, error, addToArray }: Props) => {
   const [inputText, setInputText] = useState('');
 
   const addAmenity = () => {
-    setAmenities(inputText);
+    addToArray(inputText);
     setInputText('');
   };
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col">
       <div className="flex flex-wrap items-center justify-center gap-4">
-        {amenities.map((amenity, i) => (
-          <Chip key={i} endContent={<IoCloseCircle className="text-2xl" />} onClose={() => setAmenities(amenity)}>
-            {amenity}
+        {arr.map((item, i) => (
+          <Chip key={i} endContent={<IoCloseCircle className="text-2xl" />} onClose={() => addToArray(item)}>
+            {item}
           </Chip>
         ))}
       </div>
@@ -33,6 +35,8 @@ const CreateAmenities = ({ amenities, label, customStyle, setAmenities }: Props)
         placeholder=" "
         radius="full"
         value={inputText}
+        isInvalid={!!error}
+        errorMessage={error?.message}
         onValueChange={setInputText}
         onKeyDown={(e) => onEnter(e, addAmenity)}
         className={`text-accentGray mx-auto ${customStyle}`}
@@ -47,4 +51,4 @@ const CreateAmenities = ({ amenities, label, customStyle, setAmenities }: Props)
   );
 };
 
-export default CreateAmenities;
+export default StringArrayInputs;

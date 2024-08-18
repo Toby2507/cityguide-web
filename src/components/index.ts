@@ -2,9 +2,9 @@
 export { default as AdminBreadcrumbs } from './admin/breadcrumbs';
 export { default as AdminHeader } from './admin/header';
 // // Common
-export { default as CreateAmenities } from './admin/common/create-amenities';
 export { default as CreateNavButtons } from './admin/common/create-nav-buttons';
 export { default as CreatePropertyImageUpload } from './admin/common/create-property-image-upload';
+export { default as StringArrayInput } from './admin/common/string-array-input';
 // // Dashboard
 export { default as DashboardChart } from './admin/dashboard/dashboard-chart';
 export { default as EngagementCard } from './admin/dashboard/engagement-card';

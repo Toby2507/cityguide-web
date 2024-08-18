@@ -1,5 +1,6 @@
 'use client';
 
+import { CreateNavButtons, StringArrayInput } from '@/components';
 import { restaurantAmenities } from '@/data';
 import { createRestaurantSchema } from '@/schemas';
 import { ICreateRestaurant } from '@/types';
@@ -7,8 +8,6 @@ import { Checkbox } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import CreateAmenities from '../common/create-amenities';
-import CreateNavButtons from '../common/create-nav-buttons';
 
 interface Props {
   setStep: Dispatch<SetStateAction<number>>;
@@ -56,7 +55,7 @@ const CreateRestaurantStep4 = ({ setStep }: Props) => {
             </Checkbox>
           ))}
         </div>
-        <CreateAmenities amenities={custom} customStyle="w-1/2" label="Other Amenities" setAmenities={setAmenities} />
+        <StringArrayInput arr={custom} customStyle="w-1/2" label="Other Amenities" addToArray={setAmenities} />
       </div>
       <CreateNavButtons isLoading={isLoading} previous={() => setStep(3)} next={handleNext} />
     </div>

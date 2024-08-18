@@ -31,39 +31,39 @@ const CreatePropertyImageUpload = ({ name, nextStep, setStep }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleUpload = async () => {
-    setIsLoading(true);
-    try {
-      const isValidImgsLength = uploadedImages.length ? [...uploadedImages, ...images].length < 11 : images.length < 12;
-      if (!avatar) return toast.error('Please select an avatar');
-      if (isValidImgsLength) return toast.error('Atleast 12 Images are required');
-      if (invalidImages.length)
-        return toast.error(`${invalidImages.length} image(s) does not meet the minimum quality`);
-      const avatarData = new FormData();
-      const imgs: File[] = [];
-      images.forEach((image) => {
-        if (image.id === avatar) avatarData.append('images', image.file);
-        else imgs.push(image.file);
-      });
-      const imagesData = createUploadDatas(imgs);
-      try {
-        const [avatarUrl, ...imagesUrls] = await Promise.all([
-          uploadImages(avatarData),
-          ...imagesData.map((data) => uploadImages(data)),
-        ]);
-        avatarUrl && changeAvatar(avatarUrl[0]);
-        if (imagesUrls.every(Boolean)) {
-          const imgUrls: string[] = [];
-          imagesUrls.forEach((img) => imgUrls.push(...img));
-          changeImages([...uploadedImages, ...imgUrls]);
-        }
-        setImgIds([...imgIds, ...images.map((i) => i.id)]);
-        setStep(7);
-      } catch (err) {
-        toast.error('Failed to upload images');
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    // setIsLoading(true);
+    // try {
+    //   const isValidImgsLength = uploadedImages.length ? [...uploadedImages, ...images].length < 11 : images.length < 12;
+    //   if (!avatar) return toast.error('Please select an avatar');
+    //   if (isValidImgsLength) return toast.error('Atleast 12 Images are required');
+    //   if (invalidImages.length)
+    //     return toast.error(`${invalidImages.length} image(s) does not meet the minimum quality`);
+    //   const avatarData = new FormData();
+    //   const imgs: File[] = [];
+    //   images.forEach((image) => {
+    //     if (image.id === avatar) avatarData.append('images', image.file);
+    //     else imgs.push(image.file);
+    //   });
+    //   const imagesData = createUploadDatas(imgs);
+    //   try {
+    //     const [avatarUrl, ...imagesUrls] = await Promise.all([
+    //       uploadImages(avatarData),
+    //       ...imagesData.map((data) => uploadImages(data)),
+    //     ]);
+    //     avatarUrl && changeAvatar(avatarUrl[0]);
+    //     if (imagesUrls.every(Boolean)) {
+    //       const imgUrls: string[] = [];
+    //       imagesUrls.forEach((img) => imgUrls.push(...img));
+    //       changeImages([...uploadedImages, ...imgUrls]);
+    //     }
+    //     setImgIds([...imgIds, ...images.map((i) => i.id)]);
+    //     setStep(7);
+    //   } catch (err) {
+    //     toast.error('Failed to upload images');
+    //   }
+    // } finally {
+    //   setIsLoading(false);
+    // }
     setStep(nextStep);
   };
 
@@ -125,14 +125,20 @@ const CreatePropertyImageUpload = ({ name, nextStep, setStep }: Props) => {
           ))}
         </div>
       </div>
-      {images.length || value ? (
-        <CreateNavButtons
-          isLoading={isLoading}
-          nextText={images.length ? 'Upload' : 'Next'}
-          previous={() => setStep(5)}
-          next={handleUpload}
-        />
-      ) : null}
+      <CreateNavButtons
+        isLoading={isLoading}
+        nextText={images.length ? 'Upload' : 'Next'}
+        previous={() => setStep(nextStep - 2)}
+        next={handleUpload}
+      />
+      {/* {images.length || value ? (
+      <CreateNavButtons
+        isLoading={isLoading}
+        nextText={images.length ? 'Upload' : 'Next'}
+        previous={() => setStep(nextStep - 2)}
+        next={handleUpload}
+      />
+      ) : null} */}
     </div>
   );
 };
