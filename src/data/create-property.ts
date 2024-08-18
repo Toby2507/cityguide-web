@@ -1,4 +1,4 @@
-import { StayType } from '@/types';
+import { PriceRange, StayType } from '@/types';
 import { FaHotel, FaUmbrellaBeach } from 'react-icons/fa';
 import { GiBunkBeds } from 'react-icons/gi';
 import { IoBed, IoHome } from 'react-icons/io5';
@@ -40,5 +40,23 @@ export const stayTypes = [
     name: 'Others',
     desc: "Unique or unconventional accommodations that don't fit traditional categories, such as treehouses, boats, or glamping sites.",
     Icon: MdOutlineApartment,
+  },
+];
+
+export const priceRanges = [
+  {
+    key: PriceRange.BUDGET,
+    name: 'Budget-friendly',
+    desc: 'Affordable options that offer good value for money, typically with basic amenities and services.',
+  },
+  {
+    key: PriceRange.MODERATE,
+    name: 'Mid-range',
+    desc: 'Comfortable accommodations or dining options with a balance between quality and price.',
+  },
+  {
+    key: PriceRange.FINE,
+    name: 'Fine-dining',
+    desc: 'Premium options that offer luxury experiences with high-end amenities, services, and gourmet dining.',
   },
 ];

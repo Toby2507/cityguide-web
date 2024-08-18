@@ -11,7 +11,7 @@ import { RiDashboard2Line } from 'react-icons/ri';
 export const adminNav = [
   { title: 'Dashboard', href: '/admin', Icon: RiDashboard2Line },
   { title: 'Stays', href: '/admin/stay', Icon: IoBedOutline },
-  { title: 'Restaurants', href: '/admin/#', Icon: IoRestaurantOutline },
+  { title: 'Restaurants', href: '/admin/restaurant', Icon: IoRestaurantOutline },
   { title: 'Night Life', href: '/admin/#', Icon: PiWine },
   { title: 'Reservations', href: '/admin/#', Icon: BsListCheck },
   { title: 'Payments', href: '/admin/#', Icon: CiCreditCard1 },
