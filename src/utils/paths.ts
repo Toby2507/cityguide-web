@@ -15,6 +15,7 @@ const path = {
   admin: () => '/admin',
   stays: () => '/admin/stay',
   createStay: () => '/admin/stay/create',
+  createRestaurant: () => '/admin/restaurant/create',
 };
 
 export default path;
