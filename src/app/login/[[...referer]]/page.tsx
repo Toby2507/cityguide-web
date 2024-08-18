@@ -1,5 +1,4 @@
-import { HeaderNav } from '@/components';
-import { LoginForm } from '@/containers';
+import { HeaderNav, LoginTab } from '@/components';
 import { paths } from '@/utils';
 import Link from 'next/link';
 
@@ -29,7 +28,7 @@ const LoginPage = ({ params: { referer } }: Props) => {
             </Link>
           </p>
         </div>
-        <LoginForm referer={refererPath} />
+        <LoginTab referer={refererPath} />
       </main>
     </div>
   );
