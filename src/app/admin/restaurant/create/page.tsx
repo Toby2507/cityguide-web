@@ -2,6 +2,7 @@
 
 import {
   CreatePropertyImageUpload,
+  CreateRestaurantReview,
   CreateRestaurantStep1,
   CreateRestaurantStep2,
   CreateRestaurantStep3,
@@ -33,9 +34,10 @@ const CreateRestaurantPage = () => {
       {step === 6 ? <CreateRestaurantStep6 setStep={setStep} /> : null}
       {step === 7 ? <CreateRestaurantStep7 setStep={setStep} /> : null}
       {step === 8 ? <CreateRestaurantStep8 setStep={setStep} /> : null}
+      {step === 9 ? <CreateRestaurantReview setStep={setStep} /> : null}
       <div className="absolute bottom-10 flex flex-col gap-2">
         <p className="text-xs">Go to step</p>
-        <Pagination total={topStep} page={step} onChange={(val) => setStep(val)} />
+        <Pagination className="z-50" total={topStep} page={step} onChange={(val) => setStep(val)} />
       </div>
     </FormProvider>
   );
