@@ -39,6 +39,7 @@ const CreateRestaurantStep8 = ({ setStep }: Props) => {
     setIsLoading(false);
     if (!isValidT) return toast.error('Please fill all the required fields');
     if (!isValidS.success) return toast.error('Please fill all the required fields in all menu items');
+    setStep(9);
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

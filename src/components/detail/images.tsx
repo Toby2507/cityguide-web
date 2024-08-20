@@ -1,10 +1,18 @@
 'use client';
 
-import { IStay } from '@/types';
+import { IAccommodation, Rating } from '@/types';
 import { Button, Image, useDisclosure } from '@nextui-org/react';
 import ImageModal from '../common/image-modal';
 
-const StayDetailImages = ({ images, avatar, name, hotelRating, accommodation }: IStay) => {
+interface Props {
+  images: string[];
+  avatar: string;
+  name: string;
+  hotelRating?: Rating;
+  accommodation?: IAccommodation[];
+}
+
+const DetailImages = ({ images, avatar, name, hotelRating, accommodation }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -80,4 +88,4 @@ const StayDetailImages = ({ images, avatar, name, hotelRating, accommodation }: 
   );
 };
 
-export default StayDetailImages;
+export default DetailImages;

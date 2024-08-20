@@ -1,6 +1,6 @@
 'use client';
 
-import { StayDetailAmenities, StayDetailAvailability, StayDetailOverview, StayDetailRules } from '@/containers';
+import { DetailPageAmenities, DetailPageOverview, StayDetailAvailability, StayDetailRules } from '@/containers';
 import { createStay } from '@/server';
 import { EntityType, ICreateStay, IStay } from '@/types';
 import { paths } from '@/utils';
@@ -68,8 +68,8 @@ const CreateStayReview = ({ setStep }: IProps) => {
         </p>
       </div>
       <div className="flex flex-col gap-4 max-w-7xl py-2 mx-auto w-full">
-        <StayDetailOverview stay={stay} />
-        <StayDetailAmenities stay={stay} />
+        <DetailPageOverview {...stay} />
+        <DetailPageAmenities {...stay} />
         <StayDetailAvailability stay={stay} />
         <StayDetailRules stay={stay} />
       </div>

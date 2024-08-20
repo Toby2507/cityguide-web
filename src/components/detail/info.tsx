@@ -1,11 +1,11 @@
-import { IStay } from '@/types';
 import { CiParking1 } from 'react-icons/ci';
 import { IoLocationOutline } from 'react-icons/io5';
 
-interface IProps {
-  stay: IStay;
+interface Props {
+  amenities: string[];
+  summary: string;
 }
-const StayDetailInfo = ({ stay: { amenities, summary } }: IProps) => {
+const StayDetailInfo = ({ amenities, summary }: Props) => {
   const parking = amenities?.find((amenity) => amenity.toLowerCase().includes('parking'));
   const summaries = summary.split('\n').filter(Boolean);
   return (

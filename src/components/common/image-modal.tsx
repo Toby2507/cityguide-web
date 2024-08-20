@@ -12,7 +12,7 @@ interface Props {
   name: string;
   images: string[];
   avatar: string;
-  accommodation: IAccommodation[];
+  accommodation?: IAccommodation[];
   hotelRating?: Rating;
   onOpenChange: () => void;
 }
@@ -23,7 +23,7 @@ const ImageModal = ({ isOpen, onOpenChange, name, hotelRating, avatar, images, a
   const [activeImage, setActiveImage] = useState<number>(0);
   const tabs = [
     { name: 'General', avatar, images: [avatar, ...images] },
-    ...(accommodation.map((a) => ({ name: a.name, avatar: a.images[0], images: a.images })) || []),
+    ...(accommodation?.map((a) => ({ name: a.name, avatar: a.images[0], images: a.images })) || []),
   ];
   const currentImages = tabs.find((t) => t.name === activeTab)?.images!;
 

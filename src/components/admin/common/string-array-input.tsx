@@ -10,12 +10,13 @@ interface Props {
   arr: string[];
   prevState: string[];
   label: string;
+  placeholder?: string;
   customStyle?: string;
   error?: FieldError;
   setState: (...event: any[]) => void;
 }
 
-const StringArrayInputs = ({ arr, label, customStyle, error, prevState, setState }: Props) => {
+const StringArrayInputs = ({ arr, label, customStyle, error, placeholder, prevState, setState }: Props) => {
   const [inputText, setInputText] = useState('');
 
   const addAmenity = () => {
@@ -40,7 +41,7 @@ const StringArrayInputs = ({ arr, label, customStyle, error, prevState, setState
       </div>
       <Input
         label={label}
-        placeholder=" "
+        placeholder={placeholder || ' '}
         radius="full"
         value={inputText}
         isInvalid={!!error}

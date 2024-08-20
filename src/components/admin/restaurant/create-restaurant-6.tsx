@@ -64,7 +64,9 @@ const CreateRestaurantStep6 = ({ setStep }: Props) => {
       </div>
       <div className="flex flex-col gap-6 max-w-3xl py-2 mx-auto w-full">
         <div className="flex flex-col gap-2">
-          <h6 className="text-lg font-medium">Availability</h6>
+          <h6 className="text-lg font-medium">
+            Availability <span className="text-sm text-danger">*</span>
+          </h6>
           <div className="grid grid-cols-2 gap-4">
             {Object.values(DayOfWeek).map((item, i) => {
               const [from, to] = getValues([`availability.${i}.from`, `availability.${i}.to`]);
@@ -110,13 +112,21 @@ const CreateRestaurantStep6 = ({ setStep }: Props) => {
         <StringArrayInput
           arr={serviceStyle || []}
           label="Service Style"
+          placeholder="e.g. Fast-food, Drive-through"
           prevState={serviceStyle || []}
           setState={setServiceStyle}
         />
-        <StringArrayInput arr={cuisines || []} label="Cuisines" prevState={cuisines || []} setState={setCuisines} />
+        <StringArrayInput
+          arr={cuisines || []}
+          label="Cuisines"
+          placeholder="e.g. Chinese, Italian"
+          prevState={cuisines || []}
+          setState={setCuisines}
+        />
         <StringArrayInput
           arr={dietaries || []}
           label="Dietary Provisions"
+          placeholder="e.g. Vegetarian, Gluten-free"
           prevState={dietaries || []}
           setState={setDietaries}
         />

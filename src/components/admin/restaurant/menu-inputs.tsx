@@ -42,7 +42,7 @@ const MenuInputs = ({ idx }: Props) => {
   });
   const {
     field: { onChange: setDietary, value: dietary },
-  } = useController({ control, name: `menu.${idx}.dietaryRestrictions` });
+  } = useController({ control, name: `menu.${idx}.dietaryProvisions` });
   const {
     field: { onChange: setCategory, value: category },
   } = useController({ control, name: `menu.${idx}.category` });
@@ -185,7 +185,7 @@ const MenuInputs = ({ idx }: Props) => {
           render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
             <Input
               name="price"
-              label="Price per Night"
+              label="Item Price"
               placeholder=" "
               type="tel"
               value={value?.toString() || ''}
@@ -213,7 +213,7 @@ const MenuInputs = ({ idx }: Props) => {
       />
       <StringArrayInput
         arr={dietary || []}
-        label="Dietary Restrictions for this item"
+        label="Dietary Provisions for this item"
         prevState={dietary || []}
         setState={setDietary}
       />

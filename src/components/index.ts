@@ -30,6 +30,7 @@ export { default as CreateRestaurantStep4 } from './admin/restaurant/create-rest
 export { default as CreateRestaurantStep6 } from './admin/restaurant/create-restaurant-6';
 export { default as CreateRestaurantStep7 } from './admin/restaurant/create-restaurant-7';
 export { default as CreateRestaurantStep8 } from './admin/restaurant/create-restaurant-8';
+export { default as CreateRestaurantReview } from './admin/restaurant/create-restaurant-review';
 
 // Auth
 export { default as LoginTab } from './auth/login-tab';
@@ -39,11 +40,13 @@ export { default as SignUpTab } from './auth/signup-tab';
 export { default as CustomStars } from './common/custom-stars';
 export { default as HeaderNav } from './common/header-nav';
 export { default as HeaderUser } from './common/header-user';
+export { default as ImageModal } from './common/image-modal';
 export { default as ServiceNav } from './common/service-nav';
 
 // Detail
-export { default as StayDetailImages } from './detail/stay-detail-images';
-export { default as StayDetailInfo } from './detail/stay-detail-info';
+export { default as DetailImages } from './detail/images';
+export { default as DetailInfo } from './detail/info';
+export { default as MenuItemCard } from './detail/menu-item-card';
 export { default as StayDetailNav } from './detail/stay-detail-nav';
 export { default as StayDetailTableCell } from './detail/stay-detail-table-cell';
 export { default as ListPropertyTestimonials } from './listproperty/testimonials';

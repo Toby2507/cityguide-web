@@ -181,7 +181,7 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
               placeholder=" "
               type="tel"
               value={value?.toString() || ''}
-              onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
+              onValueChange={(val) => /^[0-9+()\s]*$/.test(val) && onChange(val)}
               isInvalid={!!error}
               errorMessage={error?.message}
               ref={ref}
