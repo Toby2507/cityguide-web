@@ -1,24 +1,40 @@
-import { StayDetailImages, StayDetailInfo } from '@/components';
-import { IStay } from '@/types';
+import { DetailImages, DetailInfo } from '@/components';
+import { IAccommodation, IAddress, Rating } from '@/types';
 import mapBanner from '@images/map-banner.png';
 import { Button, Divider, User } from '@nextui-org/react';
 import NextImage from 'next/image';
 import { IoLocation, IoShareSocialOutline } from 'react-icons/io5';
 import { MdFavoriteBorder } from 'react-icons/md';
 
-interface IProps {
-  stay: IStay;
+interface Props {
+  name: string;
+  address: IAddress;
+  images: string[];
+  avatar: string;
+  amenities: string[];
+  summary: string;
+  hotelRating?: Rating;
+  accommodation?: IAccommodation[];
 }
 
-const StayDetailOverview = ({ stay }: IProps) => {
+const DetailPageOverview = ({
+  name,
+  address,
+  images,
+  avatar,
+  amenities,
+  hotelRating,
+  accommodation,
+  summary,
+}: Props) => {
   return (
     <section className="flex flex-col gap-4 pb-10" id="overview">
       <header className="flex items-center justify-between gap-10">
         <div className="flex flex-col gap-2">
-          <h1 className="text-4xl font-bold capitalize">{stay.name}</h1>
+          <h1 className="text-4xl font-bold capitalize">{name}</h1>
           <p className="flex items-center gap-1 text-sm text-accentGray font-medium">
             <IoLocation color="#0075FF" size={20} />
-            {stay.address.fullAddress}
+            {address.fullAddress}
           </p>
         </div>
         <div className="flex items-center gap-4">
@@ -31,7 +47,13 @@ const StayDetailOverview = ({ stay }: IProps) => {
         </div>
       </header>
       <div className="grid grid-cols-8 gap-3">
-        <StayDetailImages {...stay} />
+        <DetailImages
+          images={images}
+          avatar={avatar}
+          name={name}
+          hotelRating={hotelRating}
+          accommodation={accommodation}
+        />
         <aside className="col-span-2 flex flex-col gap-3">
           <article className="flex flex-col gap-3 px-2 py-3 rounded-lg border">
             <div className="flex items-center justify-end gap-2">
@@ -62,9 +84,9 @@ const StayDetailOverview = ({ stay }: IProps) => {
           </div>
         </aside>
       </div>
-      <StayDetailInfo stay={stay} />
+      <DetailInfo amenities={amenities} summary={summary} />
     </section>
   );
 };
 
-export default StayDetailOverview;
+export default DetailPageOverview;

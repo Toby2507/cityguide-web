@@ -1,19 +1,19 @@
 import { coreAmenities } from '@/data';
-import { IStay } from '@/types';
 import { Button } from '@nextui-org/react';
 import Link from 'next/link';
 import { IconType } from 'react-icons';
 import { IoCheckmark } from 'react-icons/io5';
 
-interface IProps {
-  stay: IStay;
+interface Props {
+  amenities: string[];
+  name: string;
 }
 interface ICore {
   name: string;
   Icon: IconType;
 }
 
-const StayDetailAmenities = ({ stay: { amenities, name } }: IProps) => {
+const DetailPageAmenities = ({ amenities, name }: Props) => {
   let core: ICore[] = [];
   let custom: string[] = [];
   amenities?.forEach((amenity) => {
@@ -32,7 +32,7 @@ const StayDetailAmenities = ({ stay: { amenities, name } }: IProps) => {
         </div>
         <Link href="#availability">
           <Button color="primary" className="px-10 font-semibold" radius="sm">
-            Book now
+            Reserve now
           </Button>
         </Link>
       </header>
@@ -60,4 +60,4 @@ const StayDetailAmenities = ({ stay: { amenities, name } }: IProps) => {
   );
 };
 
-export default StayDetailAmenities;
+export default DetailPageAmenities;

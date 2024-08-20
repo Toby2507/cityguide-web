@@ -1,11 +1,11 @@
 'use client';
 
 import { StayDetailTableCell } from '@/components';
+import { StaySearchBar } from '@/containers';
 import { useReservationStore, useSearchStore } from '@/providers';
 import { IAccommodation, IStay, PropertyType } from '@/types';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
-import StaySearchBar from '../home/stay-search';
 
 interface IProps {
   stay: IStay;
