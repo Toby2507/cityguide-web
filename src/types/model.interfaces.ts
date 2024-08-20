@@ -114,7 +114,7 @@ export interface IMenu {
   imgUrl: string;
   price?: number;
   category?: string[];
-  dietaryRestrictions?: string[];
+  dietaryProvisions?: string[];
 }
 
 export interface IRestaurantDetails {
@@ -131,7 +131,7 @@ export interface IRestaurant {
   summary: string;
   description?: string;
   address: IAddress;
-  rating: Rating;
+  rating: number;
   avatar: string;
   images: string[];
   availability: ICustomAvailability[];
@@ -142,8 +142,8 @@ export interface IRestaurant {
   menu: IMenu[];
   details: IRestaurantDetails;
   contact: IContact;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   partner: string | IPartner;
 }
 
