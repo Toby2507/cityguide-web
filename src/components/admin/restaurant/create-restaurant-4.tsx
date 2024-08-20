@@ -55,7 +55,13 @@ const CreateRestaurantStep4 = ({ setStep }: Props) => {
             </Checkbox>
           ))}
         </div>
-        <StringArrayInput arr={custom} customStyle="w-1/2" label="Other Amenities" addToArray={setAmenities} />
+        <StringArrayInput
+          arr={custom}
+          customStyle="w-1/2"
+          label="Other Amenities"
+          prevState={value}
+          setState={onChange}
+        />
       </div>
       <CreateNavButtons isLoading={isLoading} previous={() => setStep(3)} next={handleNext} />
     </div>

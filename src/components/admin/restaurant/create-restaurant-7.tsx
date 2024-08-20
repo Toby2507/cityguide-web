@@ -22,12 +22,6 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
     field: { value, onChange },
   } = useController({ control, name: 'details.paymentOptions' });
 
-  const addPaymentOption = (option: string) => {
-    let options = [...(value || [])];
-    if (options.includes(option)) options = options.filter((o) => o !== option);
-    else options.push(option);
-    onChange(options);
-  };
   const addNewSocial = () => {
     const socials = getValues('contact.socialMedia') || [];
     if (socials.find((s) => !s.name)) return toast.error('Use the previous social platform input');
@@ -59,6 +53,7 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
       );
     }
     setIsLoading(false);
+    setStep(8);
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
@@ -145,7 +140,8 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
         <StringArrayInput
           arr={value || []}
           label="Add the payment methods accepted at your restaurant"
-          addToArray={addPaymentOption}
+          prevState={value || []}
+          setState={onChange}
         />
         <Controller
           control={control}

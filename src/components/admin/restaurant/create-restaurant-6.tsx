@@ -38,17 +38,6 @@ const CreateRestaurantStep6 = ({ setStep }: Props) => {
     setValue(`availability.${idx}.day`, Object.values(DayOfWeek)[idx]);
     setValue(`availability.${idx}.${field}`, timeString);
   };
-  const setDetail = (detail: string, type: 'style' | 'food' | 'diet') => {
-    let details: string[] = [];
-    if (type === 'style') details = serviceStyle || [];
-    if (type === 'food') details = cuisines || [];
-    if (type === 'diet') details = dietaries || [];
-    if (details.includes(detail)) details = details.filter((d) => d !== detail);
-    else details.push(detail);
-    if (type === 'style') setServiceStyle(details);
-    if (type === 'food') setCuisines(details);
-    if (type === 'diet') setDietaries(details);
-  };
   const handleNext = async () => {
     setIsLoading(true);
     const avail = watch('availability').filter(Boolean);
@@ -121,17 +110,15 @@ const CreateRestaurantStep6 = ({ setStep }: Props) => {
         <StringArrayInput
           arr={serviceStyle || []}
           label="Service Style"
-          addToArray={(item: string) => setDetail(item, 'style')}
+          prevState={serviceStyle || []}
+          setState={setServiceStyle}
         />
-        <StringArrayInput
-          arr={cuisines || []}
-          label="Cuisines"
-          addToArray={(item: string) => setDetail(item, 'food')}
-        />
+        <StringArrayInput arr={cuisines || []} label="Cuisines" prevState={cuisines || []} setState={setCuisines} />
         <StringArrayInput
           arr={dietaries || []}
           label="Dietary Provisions"
-          addToArray={(item: string) => setDetail(item, 'diet')}
+          prevState={dietaries || []}
+          setState={setDietaries}
         />
       </div>
       <CreateNavButtons isLoading={isLoading} previous={() => setStep(5)} next={handleNext} />
