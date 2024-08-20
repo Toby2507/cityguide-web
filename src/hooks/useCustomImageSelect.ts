@@ -7,7 +7,13 @@ interface ICustomFile {
   file: File;
 }
 
-const useCustomImageSelect = (value?: string, imgIds: string[] = [], isAvatar: boolean = true) => {
+const useCustomImageSelect = (
+  value?: string,
+  imgIds: string[] = [],
+  isAvatar: boolean = true,
+  multiple: boolean = true,
+  noDrag: boolean = false
+) => {
   const [avatar, setAvatar] = useState<string>(value || '');
   const [images, setImages] = useState<ICustomFile[]>([]);
   const [invalidImages, setInvalidImages] = useState<string[]>([]);
@@ -30,7 +36,7 @@ const useCustomImageSelect = (value?: string, imgIds: string[] = [], isAvatar: b
     },
     [avatar, images, imgIds, isAvatar]
   );
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, multiple, noDrag });
 
   const removeFile = (id: string) => {
     setImages((prev) => prev.filter((file) => file.id !== id));
