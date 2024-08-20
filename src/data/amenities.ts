@@ -14,6 +14,7 @@ export const coreAmenities = [
   { name: 'Fitness Center', Icon: CgGym },
   { name: 'Restaurant', Icon: RiRestaurantLine },
   { name: 'Disabled Facilities', Icon: TbDisabled },
+  { name: 'Wheelchair Accessible', Icon: TbDisabled },
   { name: 'Bar', Icon: IoBeerOutline },
   { name: 'Very Good Breakfast', Icon: MdOutlineFreeBreakfast },
   { name: 'Family Rooms', Icon: MdOutlineFamilyRestroom },
@@ -72,7 +73,6 @@ export const otherAmenities = [
 export const staticAmenities = new Set([...coreAmenities.map((a) => a.name), ...otherAmenities]);
 
 export const restaurantAmenities = [
-  'Wi-Fi',
   'Air Conditioning',
   'Outdoor Seating',
   'Bar',
@@ -131,7 +131,6 @@ export const restaurantAmenities = [
   'DJ',
   'Dance Floor',
   'Live Band',
-  'Free Wi-Fi',
   'Charging Stations',
   'Accessible Restrooms',
 ];
