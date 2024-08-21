@@ -20,7 +20,7 @@ export interface ISocialLink {
 
 export interface IContact {
   email: string;
-  phone?: string;
+  phone: string;
   socialMedia?: ISocialLink[];
 }
 
@@ -121,7 +121,7 @@ export interface IRestaurantDetails {
   delivery: boolean;
   reservation?: number;
   amenities?: string[];
-  paymentOptions?: string[];
+  paymentOptions: string[];
   children: boolean;
 }
 
