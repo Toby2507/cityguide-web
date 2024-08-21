@@ -14,6 +14,7 @@ const path = {
   // Admin paths
   admin: () => '/admin',
   stays: () => '/admin/stay',
+  restaurants: () => '/admin/restaurant',
   createStay: () => '/admin/stay/create',
   createRestaurant: () => '/admin/restaurant/create',
 };
