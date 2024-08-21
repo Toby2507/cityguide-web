@@ -60,11 +60,12 @@ export const upgradeToPartner = (res: any) => {
 const _logout = async () => {
   cookies().delete('city-guide-username');
   cookies().delete('city-guide-useremail');
+  cookies().delete('city-guide-userphone');
   cookies().delete('city-guide-userimg');
   cookies().delete('city-guide-userid');
   cookies().delete('city-guide-partner');
-  cookies().delete('city-guide-userphone');
   cookies().delete('city-guide-userfavproperties');
+  cookies().delete('city-guide-type');
   cookies().delete('access-token');
   cookies().delete('refresh-token');
 };
