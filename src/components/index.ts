@@ -3,6 +3,7 @@ export { default as AdminBreadcrumbs } from './admin/breadcrumbs';
 export { default as AdminHeader } from './admin/header';
 // // Common
 export { default as CreateNavButtons } from './admin/common/create-nav-buttons';
+export { default as CreatePropertyAddress } from './admin/common/create-property-address';
 export { default as CreatePropertyImageUpload } from './admin/common/create-property-image-upload';
 export { default as StringArrayInput } from './admin/common/string-array-input';
 // // Dashboard
@@ -14,18 +15,15 @@ export { default as RestaurantCard } from './admin/dashboard/restaurant-card';
 export { default as StayCard } from './admin/dashboard/stay-card';
 // // Stay
 export { default as CreateStayStep1 } from './admin/stay/create-stay-1';
-export { default as CreateStayStep2 } from './admin/stay/create-stay-2';
 export { default as CreateStayStep3 } from './admin/stay/create-stay-3';
 export { default as CreateStayStep4 } from './admin/stay/create-stay-4';
 export { default as CreateStayStep5 } from './admin/stay/create-stay-5';
-export { default as CreateStayStep6 } from './admin/stay/create-stay-6';
 export { default as CreateStayStep7 } from './admin/stay/create-stay-7';
 export { default as CreateStayAccommodation } from './admin/stay/create-stay-accommodation';
 export { default as CreateStayReview } from './admin/stay/create-stay-review';
 
 // // Restaurant
 export { default as CreateRestaurantStep1 } from './admin/restaurant/create-restaurant-1';
-export { default as CreateRestaurantStep2 } from './admin/restaurant/create-restaurant-2';
 export { default as CreateRestaurantStep3 } from './admin/restaurant/create-restaurant-3';
 export { default as CreateRestaurantStep4 } from './admin/restaurant/create-restaurant-4';
 export { default as CreateRestaurantStep6 } from './admin/restaurant/create-restaurant-6';
