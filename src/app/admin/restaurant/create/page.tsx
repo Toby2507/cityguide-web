@@ -1,10 +1,10 @@
 'use client';
 
 import {
+  CreatePropertyAddress,
   CreatePropertyImageUpload,
   CreateRestaurantReview,
   CreateRestaurantStep1,
-  CreateRestaurantStep2,
   CreateRestaurantStep3,
   CreateRestaurantStep4,
   CreateRestaurantStep6,
@@ -27,7 +27,7 @@ const CreateRestaurantPage = () => {
   return (
     <FormProvider {...methods}>
       {step === 1 ? <CreateRestaurantStep1 setStep={setStep} /> : null}
-      {step === 2 ? <CreateRestaurantStep2 setStep={setStep} /> : null}
+      {step === 2 ? <CreatePropertyAddress mainText="restaurant" subText="diners" setStep={setStep} /> : null}
       {step === 3 ? <CreateRestaurantStep3 setStep={setStep} /> : null}
       {step === 4 ? <CreateRestaurantStep4 setStep={setStep} /> : null}
       {step === 5 ? <CreatePropertyImageUpload name="Restaurant" nextStep={6} setStep={setStep} /> : null}
