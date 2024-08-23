@@ -20,7 +20,16 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     field: { value, onChange },
-  } = useController({ control, name: 'details.paymentOptions' });
+  } = useController({
+    control,
+    name: 'details.paymentOptions',
+    rules: {
+      validate: (val) => {
+        const isValid = createRestaurantSchema.shape.details.shape.paymentOptions.safeParse(val);
+        return isValid.success || isValid.error.flatten().formErrors.join(', ');
+      },
+    },
+  });
 
   const addNewSocial = () => {
     const socials = getValues('contact.socialMedia') || [];
@@ -39,18 +48,19 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
   };
   const handleNext = async () => {
     setIsLoading(true);
-    const [isValidS, isValidT] = await Promise.all([
+    const [isValidS, isValidP, isValidT] = await Promise.all([
       createRestaurantSchema.shape.contact.shape.socialMedia.safeParseAsync(watch('contact.socialMedia')),
+      createRestaurantSchema.shape.details.shape.paymentOptions.safeParseAsync(watch('details.paymentOptions')),
       trigger(['contact.email', 'contact.phone', 'details.children', 'details.delivery', 'details.reservation']),
     ]);
     setIsLoading(false);
     if (!isValidS.success || !isValidT) {
-      const errors = isValidS.error?.flatten();
-      return toast.error(
-        errors?.formErrors.join(', ') ||
-          Object.values(errors?.fieldErrors ?? {}).join(', ') ||
-          'Please fill in the required fields'
-      );
+      const formErrors = [...(isValidS.error?.flatten().formErrors ?? []), isValidP.error?.flatten().formErrors];
+      const fieldErrors = [
+        ...Object.values(isValidS.error?.flatten().fieldErrors ?? {}),
+        ...Object.values(isValidP.error?.flatten().fieldErrors ?? {}),
+      ];
+      return toast.error([...formErrors, ...fieldErrors].join(', ') || 'Please fill in the required fields');
     }
     setIsLoading(false);
     setStep(8);
@@ -180,6 +190,7 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
               radius="full"
               placeholder=" "
               type="tel"
+              isRequired
               value={value?.toString() || ''}
               onValueChange={(val) => /^[0-9+()\s]*$/.test(val) && onChange(val)}
               isInvalid={!!error}
@@ -209,7 +220,7 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
               isLoading={isLoading}
               startContent={<IoAdd className="text-lg" />}
             >
-              New
+              Add Social Media
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-6">

@@ -3,8 +3,6 @@
 import { ISocialLink } from '@/types';
 import { Button, Input } from '@nextui-org/react';
 import { useState } from 'react';
-import { IoAdd } from 'react-icons/io5';
-import { PiMinus } from 'react-icons/pi';
 
 interface Props extends ISocialLink {
   addSocial: (social: ISocialLink) => void;
@@ -45,14 +43,14 @@ const CreateRestaurantSocial = ({ name, handle, addSocial, removeSocial }: Props
       />
       <Button
         color="primary"
+        className={`${isNew ? 'bg-primary/10 text-primary' : 'bg-danger/10 text-danger'} px-8`}
         radius="full"
         size="sm"
         variant="flat"
-        isIconOnly
         aria-label="Add a new social media platform"
         onPress={isNew ? onSubmit : removeSocial}
       >
-        {isNew ? <IoAdd className="text-lg" /> : <PiMinus className="text-lg" />}
+        {isNew ? 'Add' : 'Remove'}
       </Button>
     </div>
   );
