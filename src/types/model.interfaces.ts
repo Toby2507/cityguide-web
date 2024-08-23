@@ -204,6 +204,11 @@ export interface ICancellation {
   percentRefundable: number;
 }
 
+export interface IOptionalService {
+  title: string;
+  description: string;
+}
+
 export interface IStay {
   _id: string;
   partner: string | IPartner;
@@ -222,6 +227,7 @@ export interface IStay {
   accommodation: IAccommodation[];
   maxDays: MaxDays;
   language: string[];
+  optionalServices: IOptionalService[];
   createdAt: string;
   updatedAt: string;
 }

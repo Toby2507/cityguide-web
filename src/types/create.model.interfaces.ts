@@ -7,6 +7,7 @@ import {
   IExtraInfo,
   IGuests,
   IMenu,
+  IOptionalService,
   IReservationAccommodation,
   IRestaurantDetails,
 } from './model.interfaces';
@@ -31,6 +32,7 @@ export interface ICreateStay {
   accommodation: IAccommodation[];
   maxDays: MaxDays;
   language: string[];
+  optionalServices?: IOptionalService[];
 }
 
 export interface ICreateRestaurant {
