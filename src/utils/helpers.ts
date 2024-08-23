@@ -1,6 +1,5 @@
-import { IAddress, ICreateStay } from '@/types';
+import { IAddress, ICreateRestaurant, ICreateStay, ICustomAvailability } from '@/types';
 import { KeyboardEvent } from 'react';
-import toast from 'react-hot-toast';
 
 export const addressFormatter = (res: google.maps.places.PlaceResult): IAddress => {
   return {
@@ -61,6 +60,31 @@ export const formatStayBody = (body: ICreateStay) => {
   if ((extras?.host?.info && extras.host.name) || extras?.property || extras?.neighborhood?.info)
     stay.extraInfo = body.extraInfo;
   return stay;
+};
+
+export const formatRestaurantBody = (body: ICreateRestaurant) => {
+  const restaurant: ICreateRestaurant = {
+    name: body.name,
+    summary: body.summary,
+    address: body.address,
+    avatar: body.avatar,
+    images: body.images,
+    availability: body.availability.filter(Boolean) as ICustomAvailability[],
+    priceRange: body.priceRange,
+    serviceStyle: body.serviceStyle || [],
+    cuisine: body.cuisine || [],
+    dietaryProvisions: body.dietaryProvisions || [],
+    menu: body.menu,
+    details: {
+      delivery: body.details.delivery,
+      reservation: body.details.reservation ? body.details.reservation : undefined,
+      amenities: body.details.amenities,
+      paymentOptions: body.details.paymentOptions || [],
+      children: body.details.children,
+    },
+    contact: body.contact,
+  };
+  return restaurant;
 };
 
 export const createUploadDatas = (imgs: File[]) => {
