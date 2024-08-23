@@ -53,7 +53,7 @@ export const formatStayBody = (body: ICreateStay) => {
     rules: body.rules,
     accommodation: body.accommodation,
     maxDays: body.maxDays,
-    language: body.language,
+    language: body.language.map((l) => l.trim()),
   };
   if (body.hotelRating) stay.hotelRating = body.hotelRating;
   const extras = body.extraInfo;
