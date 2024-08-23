@@ -25,6 +25,7 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
     createdAt: '2024-06-04T08:50:15.956Z',
     updatedAt: '2024-06-04T08:50:15.956Z',
     rating: 4.9,
+    reviewCount: 500,
   };
 
   const onSubmit: SubmitHandler<ICreateRestaurant> = async (data) => {

@@ -15,6 +15,7 @@ const RestaurantCard = ({
   name,
   priceRange,
   rating,
+  reviewCount,
   serviceStyle,
   summary,
   details: { amenities, children, delivery, paymentOptions, reservation },
@@ -64,7 +65,9 @@ const RestaurantCard = ({
           <div className="flex items-center justify-end gap-2">
             <div className="flex flex-col items-end">
               <p className="text-primary font-bold">Exceptional</p>
-              <p className="text-xs text-accentGray font-medium">500 reviews</p>
+              <p className="text-xs text-accentGray font-medium">
+                {reviewCount} review{reviewCount === 1 ? '' : 's'}
+              </p>
             </div>
             <p className="bg-primary p-3 rounded-ee-lg rounded-t-lg text-white text-xl">{rating.toFixed(1)}</p>
           </div>

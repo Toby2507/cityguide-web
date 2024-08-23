@@ -20,6 +20,7 @@ const StayDetailReservation = ({
   name,
   address,
   rating,
+  reviewCount,
   accommodation,
   amenities,
   _id,
@@ -60,7 +61,9 @@ const StayDetailReservation = ({
           <p className="bg-primary p-2 rounded-es-lg rounded-t-lg text-white text-base">{rating.toFixed(1)}</p>
           <div className="flex flex-col items-start">
             <p className="text-sm text-primary font-bold">Exceptional</p>
-            <p className="text-xs text-accentGray font-medium">500 reviews</p>
+            <p className="text-xs text-accentGray font-medium">
+              {reviewCount} review{reviewCount === 1 ? '' : 's'}
+            </p>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">

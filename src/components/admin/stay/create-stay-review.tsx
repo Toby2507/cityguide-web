@@ -26,6 +26,8 @@ const CreateStayReview = ({ setStep }: IProps) => {
     updatedAt: '2024-06-04T08:50:15.956Z',
     partnerType: EntityType.ESTABLISHMENT,
     rating: 4.9,
+    reviewCount: 500,
+    optionalServices: [],
   };
 
   const onSubmit: SubmitHandler<ICreateStay> = async (data) => {

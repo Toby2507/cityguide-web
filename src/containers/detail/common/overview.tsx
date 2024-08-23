@@ -13,6 +13,8 @@ interface Props {
   avatar: string;
   amenities: string[];
   summary: string;
+  rating: number;
+  reviewCount: number;
   hotelRating?: Rating;
   accommodation?: IAccommodation[];
 }
@@ -23,6 +25,8 @@ const DetailPageOverview = ({
   images,
   avatar,
   amenities,
+  rating,
+  reviewCount,
   hotelRating,
   accommodation,
   summary,
@@ -59,9 +63,11 @@ const DetailPageOverview = ({
             <div className="flex items-center justify-end gap-2">
               <div className="flex flex-col items-end">
                 <p className="text-primary font-bold">Exceptional</p>
-                <p className="text-xs text-accentGray font-medium">500 reviews</p>
+                <p className="text-xs text-accentGray font-medium">
+                  {reviewCount} review{reviewCount === 1 ? '' : 's'}
+                </p>
               </div>
-              <p className="bg-primary p-3 rounded-ee-lg rounded-t-lg text-white text-xl">7.7</p>
+              <p className="bg-primary p-3 rounded-ee-lg rounded-t-lg text-white text-xl">{rating.toFixed(1)}</p>
             </div>
             <Divider />
             <div className="flex flex-col items-start gap-4 px-2">

@@ -95,7 +95,8 @@ export interface INightLife {
   summary: string;
   description?: string;
   address: IAddress;
-  rating: Rating;
+  rating: number;
+  reviewCount: number;
   avatar: string;
   images: string[];
   availability: ICustomAvailability[];
@@ -132,6 +133,7 @@ export interface IRestaurant {
   description?: string;
   address: IAddress;
   rating: number;
+  reviewCount: number;
   avatar: string;
   images: string[];
   availability: ICustomAvailability[];
@@ -219,6 +221,7 @@ export interface IStay {
   extraInfo?: IExtraInfo;
   address: IAddress;
   rating: number;
+  reviewCount: number;
   avatar: string;
   images: string[];
   amenities: string[];

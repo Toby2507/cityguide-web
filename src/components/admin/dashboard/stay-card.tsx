@@ -8,7 +8,18 @@ import { LuBaby, LuParkingCircle } from 'react-icons/lu';
 import { PiBathtub } from 'react-icons/pi';
 import { TbMeterSquare } from 'react-icons/tb';
 
-const StayCard = ({ avatar, name, summary, extraInfo, type, accommodation, address, rating, hotelRating }: IStay) => {
+const StayCard = ({
+  avatar,
+  name,
+  summary,
+  extraInfo,
+  type,
+  accommodation,
+  address,
+  rating,
+  reviewCount,
+  hotelRating,
+}: IStay) => {
   const validAddr =
     address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
   let neighborhood = '';
@@ -57,7 +68,9 @@ const StayCard = ({ avatar, name, summary, extraInfo, type, accommodation, addre
           <div className="flex items-center justify-end gap-2">
             <div className="flex flex-col items-end">
               <p className="text-primary font-bold">Exceptional</p>
-              <p className="text-xs text-accentGray font-medium">500 reviews</p>
+              <p className="text-xs text-accentGray font-medium">
+                {reviewCount} review{reviewCount === 1 ? '' : 's'}
+              </p>
             </div>
             <p className="bg-primary p-3 rounded-ee-lg rounded-t-lg text-white text-xl">{rating.toFixed(1)}</p>
           </div>
