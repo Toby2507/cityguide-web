@@ -1,9 +1,9 @@
 'use client';
 
+import { LIBS } from '@/data';
 import { useSearchStore } from '@/providers';
 import { getSearchResult } from '@/server';
 import { addressFormatter } from '@/utils';
-import { Library } from '@googlemaps/js-api-loader';
 import { CalendarDate, getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { Button, DateRangePicker, Input, Popover, PopoverContent, PopoverTrigger, RangeValue } from '@nextui-org/react';
 import { useJsApiLoader } from '@react-google-maps/api';
@@ -20,7 +20,6 @@ interface Props {
   isMain?: boolean;
 }
 
-const LIBS: Library[] = ['places', 'core'];
 const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
   const { setState, checkInDay, checkOutDay, location, noOfGuests, reservationCount } = useSearchStore();
   const placesRef = useRef<HTMLInputElement>(null);

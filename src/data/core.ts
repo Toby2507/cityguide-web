@@ -1,3 +1,7 @@
+import { Library } from '@googlemaps/js-api-loader';
+
+export const LIBS: Library[] = ['core', 'maps', 'places', 'marker'];
+
 export const footerLinks = [
   {
     category: 'Services',

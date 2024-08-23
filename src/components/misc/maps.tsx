@@ -1,13 +1,12 @@
 'use client';
 
+import { LIBS } from '@/data';
 import { IAddress, LatLng } from '@/types';
 import { addressFormatter } from '@/utils';
-import { Library } from '@googlemaps/js-api-loader';
 import { Input, Textarea } from '@nextui-org/react';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
 
-const LIBS: Library[] = ['core', 'maps', 'places', 'marker'];
 interface IMap {
   prevAddr: IAddress | null;
   customClass?: string;

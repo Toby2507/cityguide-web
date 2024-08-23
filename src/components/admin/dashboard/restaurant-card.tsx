@@ -12,7 +12,6 @@ const RestaurantCard = ({
   avatar,
   cuisine,
   dietaryProvisions,
-  menu,
   name,
   priceRange,
   rating,
@@ -61,7 +60,6 @@ const RestaurantCard = ({
           <div className="flex flex-col gap-2">
             <h3 className="text-xl text-primary font-semibold tracking-wide">{name}</h3>
             <p className="text-xs text-primary underline">{validAddr}</p>
-            {/* <p className="text-xs text-gray-600">{neighborhood}</p> */}
           </div>
           <div className="flex items-center justify-end gap-2">
             <div className="flex flex-col items-end">
