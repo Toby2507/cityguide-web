@@ -59,6 +59,7 @@ export const formatStayBody = (body: ICreateStay) => {
   const extras = body.extraInfo;
   if ((extras?.host?.info && extras.host.name) || extras?.property || extras?.neighborhood?.info)
     stay.extraInfo = body.extraInfo;
+  if (body.optionalServices?.length) stay.optionalServices = body.optionalServices;
   return stay;
 };
 
