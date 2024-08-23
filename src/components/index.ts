@@ -10,6 +10,7 @@ export { default as DashboardChart } from './admin/dashboard/dashboard-chart';
 export { default as EngagementCard } from './admin/dashboard/engagement-card';
 export { default as MetricCard } from './admin/dashboard/metric-card';
 export { default as ReservationCell } from './admin/dashboard/reservation-cell';
+export { default as RestaurantCard } from './admin/dashboard/restaurant-card';
 export { default as StayCard } from './admin/dashboard/stay-card';
 // // Stay
 export { default as CreateStayStep1 } from './admin/stay/create-stay-1';

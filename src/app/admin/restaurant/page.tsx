@@ -1,3 +1,4 @@
+import { RestaurantCard } from '@/components';
 import { getPartnerRestaurants, getUser } from '@/server';
 import { EntityType } from '@/types';
 import { paths } from '@/utils';
@@ -25,7 +26,7 @@ const AdminRestaurantListPage = async () => {
       </div>
       <div className="grid items-center px-2 py-6 gap-10 min-w-0 max-w-full">
         {restaurants?.length ? (
-          restaurants.map((restaurant) => <p key={restaurant._id}>{restaurant.name}</p>)
+          restaurants.map((restaurant) => <RestaurantCard key={restaurant._id} {...restaurant} />)
         ) : (
           <div className="grid place-items-center h-[70vh]">
             <p className="text-2xl text-accentGray text-center font-medium">No restaurants available</p>
