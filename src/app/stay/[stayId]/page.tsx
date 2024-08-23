@@ -1,11 +1,11 @@
 import { StayDetailNav } from '@/components';
 import {
+  DetailPageAmenities,
+  DetailPageOverview,
   Footer,
   Header,
-  StayDetailAmenities,
   StayDetailAvailability,
   StayDetailInfoReview,
-  StayDetailOverview,
   StayDetailRules,
   SubscribeBox,
 } from '@/containers';
@@ -26,8 +26,8 @@ const StayDetailPage = async ({ params: { stayId } }: IStayDetailPage) => {
       <main className="flex flex-col gap-20 bg-white">
         <div className="container mx-auto px-10 flex flex-col gap-6 max-w-7xl">
           <StayDetailNav />
-          <StayDetailOverview stay={stay} />
-          <StayDetailAmenities stay={stay} />
+          <DetailPageOverview {...stay} />
+          <DetailPageAmenities {...stay} />
           <StayDetailAvailability stay={stay} />
           <StayDetailInfoReview stay={stay} />
           <StayDetailRules stay={stay} />
