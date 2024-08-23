@@ -1,5 +1,6 @@
 'use client';
 
+import { StringArrayInput } from '@/components';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay, IFurniture, IRoom, Parking } from '@/types';
 import { onEnter } from '@/utils';
@@ -9,7 +10,6 @@ import { useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import AccommodationImages from './accommodation-images';
-import CreateStayAmenities from './create-stay-amenities';
 import CreateStayRoomCard from './create-stay-room';
 
 interface IAccommodationInputs {
@@ -416,10 +416,11 @@ const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
           ))}
         </div>
       ) : null}
-      <CreateStayAmenities
-        amenities={amenities}
+      <StringArrayInput
+        arr={amenities}
         label="Add amenities specific to this accommodation"
-        setAmenities={addAmenity}
+        prevState={amenities}
+        setState={addAmenities}
       />
       <Controller
         control={control}

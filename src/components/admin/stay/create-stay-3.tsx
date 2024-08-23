@@ -1,6 +1,5 @@
 'use client';
 
-import CustomStars from '../../common/custom-stars';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay, Rating, StayType } from '@/types';
 import { onEnter } from '@/utils';
@@ -8,7 +7,8 @@ import { Input, Textarea } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import CreateStayButtons from './create-stay-btns';
+import CustomStars from '../../common/custom-stars';
+import CreateNavButtons from '../common/create-nav-buttons';
 
 interface Props {
   setStep: Dispatch<SetStateAction<number>>;
@@ -139,7 +139,7 @@ const CreateStayStep3 = ({ setStep }: Props) => {
           />
         ) : null}
       </div>
-      <CreateStayButtons isLoading={isLoading} previous={() => setStep(2)} next={handleNext} />
+      <CreateNavButtons isLoading={isLoading} previous={() => setStep(2)} next={handleNext} />
     </div>
   );
 };

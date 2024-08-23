@@ -8,7 +8,8 @@ import dayjs from 'dayjs';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import CreateStayButtons from './create-stay-btns';
+import CreateNavButtons from '../common/create-nav-buttons';
+import CreateStayOptionalServices from './create-stay-optional';
 
 interface Props {
   setStep: Dispatch<SetStateAction<number>>;
@@ -209,6 +210,7 @@ const CreateStayStep7 = ({ setStep }: Props) => {
             }}
           />
         </div>
+        <CreateStayOptionalServices />
         <Controller
           control={control}
           render={({ field: { onChange, value }, fieldState: { error } }) => (
@@ -236,7 +238,7 @@ const CreateStayStep7 = ({ setStep }: Props) => {
           }}
         />
       </div>
-      <CreateStayButtons isLoading={isLoading} previous={() => setStep(6)} next={handleNext} />
+      <CreateNavButtons isLoading={isLoading} previous={() => setStep(6)} next={handleNext} />
     </div>
   );
 };

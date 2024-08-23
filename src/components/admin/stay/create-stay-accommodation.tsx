@@ -7,8 +7,8 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoAdd, IoRemove } from 'react-icons/io5';
+import CreateNavButtons from '../common/create-nav-buttons';
 import AccommodationInputs from './accommodation-inputs';
-import CreateStayButtons from './create-stay-btns';
 
 interface Props {
   setStep: Dispatch<SetStateAction<number>>;
@@ -80,7 +80,7 @@ const CreateStayAccommodation = ({ setStep }: Props) => {
             ) : null}
           </div>
         </div>
-        <CreateStayButtons isLoading={isLoading} previous={() => setStep(7)} next={handleNext} />
+        <CreateNavButtons isLoading={isLoading} previous={() => setStep(7)} next={handleNext} />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 'use client';
 
+import { StringArrayInput } from '@/components';
 import { staticAmenities } from '@/data';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay } from '@/types';
@@ -7,8 +8,7 @@ import { Checkbox } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import CreateStayAmenities from './create-stay-amenities';
-import CreateStayButtons from './create-stay-btns';
+import CreateNavButtons from '../common/create-nav-buttons';
 
 interface Props {
   setStep: Dispatch<SetStateAction<number>>;
@@ -56,14 +56,15 @@ const CreateStayStep5 = ({ setStep }: Props) => {
             </Checkbox>
           ))}
         </div>
-        <CreateStayAmenities
-          amenities={custom}
+        <StringArrayInput
+          arr={custom}
           customStyle="w-1/2"
           label="Other Amenities"
-          setAmenities={setAmenities}
+          prevState={value}
+          setState={onChange}
         />
       </div>
-      <CreateStayButtons isLoading={isLoading} previous={() => setStep(4)} next={handleNext} />
+      <CreateNavButtons isLoading={isLoading} previous={() => setStep(4)} next={handleNext} />
     </div>
   );
 };

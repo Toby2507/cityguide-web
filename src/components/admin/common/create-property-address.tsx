@@ -2,17 +2,18 @@
 
 import { CreateNavButtons, Map } from '@/components';
 import { createRestaurantSchema } from '@/schemas';
-import { ICreateRestaurant } from '@/types';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
+  mainText?: string;
+  subText?: string;
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const CreateRestaurantStep2 = ({ setStep }: Props) => {
-  const { control } = useFormContext<ICreateRestaurant>();
+const CreatePropertyAddress = ({ mainText, subText, setStep }: Props) => {
+  const { control } = useFormContext();
   const {
     field: { onChange, value },
   } = useController({ control, name: 'address' });
@@ -28,8 +29,10 @@ const CreateRestaurantStep2 = ({ setStep }: Props) => {
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
       <div className="flex flex-col gap-2">
-        <h1 className="text-4xl text-center font-semibold">Where is your restaurant located?</h1>
-        <p className="text-center font-light">Unlock potential diners! Pinpoint your restaurant&apos;s address</p>
+        <h1 className="text-4xl text-center font-semibold">Where is your {mainText || 'property'} located?</h1>
+        <p className="text-center font-light">
+          Unlock potential {subText || 'guests'}! Pinpoint your {mainText || 'property'}&apos;s address
+        </p>
       </div>
       <div className="w-10/12 mx-auto">
         <Map prevAddr={value} customClass="h-[65vh]" setAddr={(addr) => onChange(addr)} />
@@ -39,4 +42,4 @@ const CreateRestaurantStep2 = ({ setStep }: Props) => {
   );
 };
 
-export default CreateRestaurantStep2;
+export default CreatePropertyAddress;

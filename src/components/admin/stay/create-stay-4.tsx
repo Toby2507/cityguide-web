@@ -6,7 +6,7 @@ import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import CreateStayButtons from './create-stay-btns';
+import CreateNavButtons from '../common/create-nav-buttons';
 
 interface Props {
   setStep: Dispatch<SetStateAction<number>>;
@@ -123,7 +123,7 @@ const CreateStayStep4 = ({ setStep }: Props) => {
           }}
         />
       </div>
-      <CreateStayButtons isLoading={false} previous={() => setStep(3)} next={() => setStep(5)} />
+      <CreateNavButtons isLoading={false} previous={() => setStep(3)} next={() => setStep(5)} />
     </div>
   );
 };
