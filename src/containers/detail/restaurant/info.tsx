@@ -29,11 +29,11 @@ const RestaurantDetailsInfo = ({
         <div className="col-span-4 flex flex-col gap-4 border border-default rounded-xl p-6">
           <h4 className="text-lg text-black font-semibold">Open Days and Time</h4>
           <div className="grid grid-cols-2 gap-x-6 gap-y-3">
-            {availability.map(({ day, from, to }) => (
-              <div className="flex items-center justify-between gap-4" key={day}>
-                <p className="text-sm text-accentGray font-semibold">{day}</p>
+            {availability.map((item) => (
+              <div className="flex items-center justify-between gap-4" key={item?.day}>
+                <p className="text-sm text-accentGray font-semibold">{item?.day}</p>
                 <p className="text-xs text-accentGray font-medium">
-                  {dayjs(`1-1-1 ${from}`).format('hh:mm A')} - {dayjs(`1-1-1 ${to}`).format('hh:mm A')}
+                  {dayjs(`1-1-1 ${item?.from}`).format('hh:mm A')} - {dayjs(`1-1-1 ${item?.to}`).format('hh:mm A')}
                 </p>
               </div>
             ))}
