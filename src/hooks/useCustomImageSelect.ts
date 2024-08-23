@@ -6,6 +6,7 @@ interface ICustomFile {
   id: string;
   file: File;
 }
+const acceptedFormats = ['jpg', 'png', 'webp', 'jpeg', 'svg', 'gif'];
 
 const useCustomImageSelect = (
   value?: string,
@@ -30,6 +31,8 @@ const useCustomImageSelect = (
         tFiles.map(async (image) => {
           const { width, height } = await createImageBitmap(image.file);
           if (width * height < 307200) setInvalidImages((prev) => [...prev, image.id]);
+          const format = image.file.type.split('/')[1];
+          if (!acceptedFormats.includes(format)) setInvalidImages((prev) => [...prev, image.id]);
         })
       );
       setImages((prev) => [...prev, ...tFiles]);
