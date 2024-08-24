@@ -98,3 +98,17 @@ export const createUploadDatas = (imgs: File[]) => {
   }
   return formDatas;
 };
+
+export const ratingRank = (rating: number, reviewCount: number) => {
+  if (!reviewCount) return 'No Review Yet';
+  if (rating >= 4.5) return 'Exceptional';
+  if (rating >= 4.0) return 'Excellent';
+  if (rating >= 3.5) return 'Very Good';
+  if (rating >= 3.0) return 'Good';
+  if (rating >= 2.5) return 'Above Average';
+  if (rating >= 2.0) return 'Average';
+  if (rating >= 1.5) return 'Below Average';
+  if (rating >= 1.0) return 'Poor';
+  if (rating >= 0.5) return 'Very Poor';
+  return 'Unacceptable';
+};
