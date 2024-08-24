@@ -40,6 +40,7 @@ export { default as CustomStars } from './common/custom-stars';
 export { default as HeaderNav } from './common/header-nav';
 export { default as HeaderUser } from './common/header-user';
 export { default as ImageModal } from './common/image-modal';
+export { default as RatingCard } from './common/rating-card';
 export { default as ServiceNav } from './common/service-nav';
 
 // Detail
