@@ -1,3 +1,4 @@
+import { RatingCard } from '@/components';
 import { IRestaurant } from '@/types';
 import { numberToCurrency } from '@/utils';
 import { Button, Chip, Image } from '@nextui-org/react';
@@ -62,15 +63,7 @@ const RestaurantCard = ({
             <h3 className="text-xl text-primary font-semibold tracking-wide">{name}</h3>
             <p className="text-xs text-primary underline">{validAddr}</p>
           </div>
-          <div className="flex items-center justify-end gap-2">
-            <div className="flex flex-col items-end">
-              <p className="text-primary font-bold">Exceptional</p>
-              <p className="text-xs text-accentGray font-medium">
-                {reviewCount} review{reviewCount === 1 ? '' : 's'}
-              </p>
-            </div>
-            <p className="bg-primary p-3 rounded-ee-lg rounded-t-lg text-white text-xl">{rating.toFixed(1)}</p>
-          </div>
+          <RatingCard rating={rating} reviewCount={reviewCount} />
         </header>
         <p className="text-sm">{summary.split('\n')[0]}</p>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1">

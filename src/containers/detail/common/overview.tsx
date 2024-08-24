@@ -1,5 +1,6 @@
-import { DetailImages, DetailInfo } from '@/components';
+import { DetailImages, DetailInfo, RatingCard } from '@/components';
 import { IAccommodation, IAddress, Rating } from '@/types';
+import { ratingRank } from '@/utils';
 import mapBanner from '@images/map-banner.png';
 import { Button, Divider, User } from '@nextui-org/react';
 import NextImage from 'next/image';
@@ -60,15 +61,7 @@ const DetailPageOverview = ({
         />
         <aside className="col-span-2 flex flex-col gap-3">
           <article className="flex flex-col gap-3 px-2 py-3 rounded-lg border">
-            <div className="flex items-center justify-end gap-2">
-              <div className="flex flex-col items-end">
-                <p className="text-primary font-bold">Exceptional</p>
-                <p className="text-xs text-accentGray font-medium">
-                  {reviewCount} review{reviewCount === 1 ? '' : 's'}
-                </p>
-              </div>
-              <p className="bg-primary p-3 rounded-ee-lg rounded-t-lg text-white text-xl">{rating.toFixed(1)}</p>
-            </div>
+            <RatingCard rating={rating} reviewCount={reviewCount} />
             <Divider />
             <div className="flex flex-col items-start gap-4 px-2">
               <p className="text-xs">

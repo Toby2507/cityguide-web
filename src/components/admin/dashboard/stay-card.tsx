@@ -1,7 +1,8 @@
-import { CustomStars } from '@/components';
+import { CustomStars, RatingCard } from '@/components';
 import { IStay } from '@/types';
-import { numberToCurrency } from '@/utils';
+import { numberToCurrency, paths } from '@/utils';
 import { Button, Chip, Image } from '@nextui-org/react';
+import Link from 'next/link';
 import { FaChildren } from 'react-icons/fa6';
 import { IoFastFoodOutline } from 'react-icons/io5';
 import { LuBaby, LuParkingCircle } from 'react-icons/lu';
@@ -19,6 +20,7 @@ const StayCard = ({
   rating,
   reviewCount,
   hotelRating,
+  _id,
 }: IStay) => {
   const validAddr =
     address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
@@ -42,7 +44,7 @@ const StayCard = ({
     },
   ];
   return (
-    <article className="grid grid-cols-10 gap-6 border rounded-xl p-3 bg-white shadow-2xl">
+    <article className="grid grid-cols-10 items-center gap-6 border rounded-xl p-3 bg-white shadow-2xl">
       <figure className="h-full col-span-3 w-full">
         <Image
           src={avatar}
@@ -65,15 +67,7 @@ const StayCard = ({
             <p className="text-xs text-primary underline">{validAddr}</p>
             <p className="text-xs text-gray-600">{neighborhood}</p>
           </div>
-          <div className="flex items-center justify-end gap-2">
-            <div className="flex flex-col items-end">
-              <p className="text-primary font-bold">Exceptional</p>
-              <p className="text-xs text-accentGray font-medium">
-                {reviewCount} review{reviewCount === 1 ? '' : 's'}
-              </p>
-            </div>
-            <p className="bg-primary p-3 rounded-ee-lg rounded-t-lg text-white text-xl">{rating.toFixed(1)}</p>
-          </div>
+          <RatingCard rating={rating} reviewCount={reviewCount} />
         </header>
         <p className="text-sm">{summary.split('\n')[0]}</p>
         <div className="border-l border-accentGray2 pl-4 flex gap-10">
@@ -88,7 +82,7 @@ const StayCard = ({
               ))}
             </div>
             <ul className="flex flex-col">
-              {accommodation[0].rooms.map((room, idx) => (
+              {accommodation[0].rooms.slice(0, 3).map((room, idx) => (
                 <li key={idx}>
                   <span className="text-xs font-semibold">{room.name}: </span>
                   <span className="text-[10px]">
@@ -101,9 +95,11 @@ const StayCard = ({
           <div className="flex flex-col items-end gap-2">
             <p className="text-xs font-light">1 night, {accommodation[0].maxGuests} guests</p>
             <p className="text-3xl tracking-tighter font-medium">{numberToCurrency(accommodation[0].price)}</p>
-            <Button color="primary" radius="sm" className="font-medium tracking-wide px-12">
-              View Stay
-            </Button>
+            <Link href={paths.adminStay(_id)}>
+              <Button color="primary" radius="sm" className="font-medium tracking-wide px-12">
+                View Stay
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

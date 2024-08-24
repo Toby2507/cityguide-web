@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomStars } from '@/components';
+import { CustomStars, RatingCard } from '@/components';
 import { useReservationStore, useSearchStore } from '@/providers';
 import { IPartner, IStay } from '@/types';
 import { numberToCurrency, paths } from '@/utils';
@@ -57,15 +57,7 @@ const StayDetailReservation = ({
           <h3 className="text-lg font-bold tracking-wide">{name}</h3>
           <p className="text-sm font-medium leading-tight">{validAddr}</p>
         </div>
-        <div className="flex items-center justify-start gap-2">
-          <p className="bg-primary p-2 rounded-es-lg rounded-t-lg text-white text-base">{rating.toFixed(1)}</p>
-          <div className="flex flex-col items-start">
-            <p className="text-sm text-primary font-bold">Exceptional</p>
-            <p className="text-xs text-accentGray font-medium">
-              {reviewCount} review{reviewCount === 1 ? '' : 's'}
-            </p>
-          </div>
-        </div>
+        <RatingCard rating={rating} reviewCount={reviewCount} reversed />
         <div className="flex flex-wrap items-center gap-2">
           {amenities.slice(0, 5).map((name, idx) => (
             <div key={idx} className="flex items-center gap-1">
