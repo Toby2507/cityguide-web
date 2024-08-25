@@ -1,11 +1,13 @@
 import { CiParking1 } from 'react-icons/ci';
+import { HiLanguage } from 'react-icons/hi2';
 import { IoLocationOutline } from 'react-icons/io5';
 
 interface Props {
   amenities: string[];
+  language?: string[];
   summary: string;
 }
-const StayDetailInfo = ({ amenities, summary }: Props) => {
+const StayDetailInfo = ({ amenities, language, summary }: Props) => {
   const parking = amenities?.find((amenity) => amenity.toLowerCase().includes('parking'));
   const summaries = summary.split('\n').filter(Boolean);
   return (
@@ -32,6 +34,12 @@ const StayDetailInfo = ({ amenities, summary }: Props) => {
             <p className="flex items-center gap-1 text-xs capitalize">
               <CiParking1 size={20} />
               <span>{parking} Available On Site</span>
+            </p>
+          ) : null}
+          {language ? (
+            <p className="flex gap-1 text-xs">
+              <HiLanguage size={20} />
+              <span>Languages: {language.join(', ')}</span>
             </p>
           ) : null}
         </div>
