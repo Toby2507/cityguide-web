@@ -1,5 +1,5 @@
 import { MaxDays, Parking, Rating, StayType } from '@/types';
-import { boolean, nativeEnum, number, object, string } from 'zod';
+import { boolean, nativeEnum, number, object, strictObject, string } from 'zod';
 
 export const createStaySchema = object({
   type: nativeEnum(StayType, {
@@ -180,6 +180,88 @@ export const createStaySchema = object({
   })
     .array()
     .min(1, 'Atleast one language is required'),
+  optionalServices: object({
+    title: string({ required_error: 'Optional service title is required' }).min(
+      3,
+      'Optional service title should be atleast 3 characters long'
+    ),
+    description: string({ required_error: 'Optional service description is required' }).min(
+      10,
+      'Optional service description should be atleast 10 characters long'
+    ),
+  })
+    .array()
+    .min(1, 'Atleast 1 optional service should be added if any')
+    .optional(),
+});
+
+export const updateStaySchema = strictObject({
+  name: string().min(3, 'Stay name should be atleast 3 characters').optional(),
+  extraInfo: object({
+    host: object({
+      name: string({ required_error: 'Host name is required' }),
+      info: string({ required_error: 'Host description is required' }).min(
+        10,
+        'Host description should be atleast 10 characters'
+      ),
+    }).optional(),
+    property: string().min(10, 'Property description should be atleast 10 characters').optional(),
+    neighborhood: object({
+      info: string().min(10, 'Neighborhood description should be atleast 10 characters').optional(),
+    }).optional(),
+  }).optional(),
+  address: object({
+    name: string({ required_error: 'Address name is required' }),
+    fullAddress: string().optional(),
+    locationId: string({ required_error: 'Address location id is required' }),
+    city: string().optional(),
+    state: string({ required_error: 'State is required' }),
+    country: string({ required_error: 'Country is required' }),
+    geoLocation: object({
+      lat: number({
+        required_error: 'Latitude is required',
+        invalid_type_error: 'Latitude has to be a number',
+      }),
+      lng: number({
+        required_error: 'Longitude is required',
+        invalid_type_error: 'Longitude has to be a number',
+      }),
+    }),
+    extraDetails: string().optional(),
+  }).optional(),
+  avatar: string().optional(),
+  images: string({ required_error: 'Images is required', invalid_type_error: 'Images should be an array' })
+    .array()
+    .min(11, 'Atleast 11 images are required')
+    .optional(),
+  amenities: string({ invalid_type_error: 'Amenities should be an array' })
+    .array()
+    .min(1, 'Atleast one amenity is required')
+    .optional(),
+  hotelRating: nativeEnum(Rating, {
+    invalid_type_error: 'Hotel rating should be 0 | 1 | 2 | 3 | 4 | 5',
+  }).optional(),
+  rules: object({
+    checkIn: string({ required_error: 'Check-in time is required' }),
+    checkOut: string({ required_error: 'Check-out time is required' }),
+    smoking: boolean({
+      required_error: 'Smoking rules are required',
+      invalid_type_error: 'Smoking rules should be a boolean',
+    }),
+    pets: boolean({
+      required_error: 'Pet rules are required',
+      invalid_type_error: 'Pet rules should be a boolean',
+    }),
+    parties: boolean({
+      required_error: 'Party rules are required',
+      invalid_type_error: 'Party rules should be a boolean',
+    }),
+  }).optional(),
+  maxDays: nativeEnum(MaxDays, { invalid_type_error: 'maxDays should be 28 | 45 | 60 | 90' }).optional(),
+  language: string({ invalid_type_error: 'Languages should be an array' })
+    .array()
+    .min(1, 'Atleast one language is required')
+    .optional(),
   optionalServices: object({
     title: string({ required_error: 'Optional service title is required' }).min(
       3,
