@@ -4,11 +4,12 @@ import { StayDetailTableCell } from '@/components';
 import { StaySearchBar } from '@/containers';
 import { useReservationStore, useSearchStore } from '@/providers';
 import { IAccommodation, IStay, PropertyType } from '@/types';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 
 interface IProps {
   stay: IStay;
+  onUpdate?: () => void;
 }
 
 const columns = [
@@ -19,7 +20,7 @@ const columns = [
   { key: 'actions', label: ' ' },
 ];
 
-const StayDetailAvailability = ({ stay }: IProps) => {
+const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
   const { setReservation } = useReservationStore();
   const { noOfGuests, reservationCount } = useSearchStore();
   const [tableKey, setTableKey] = useState<number>(0);
@@ -58,13 +59,20 @@ const StayDetailAvailability = ({ stay }: IProps) => {
   }, []);
   return (
     <section className="flex flex-col gap-4 pb-10" id="availability">
-      <header className="flex flex-col gap-2">
-        <h1 className="text-4xl font-bold capitalize">Availability</h1>
-        <p className="flex items-center gap-1 text-sm text-accentGray font-medium">
-          Prices and availability for your stay
-        </p>
+      <header className="flex items-center justify-between gap-10">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-4xl font-bold capitalize">Availability</h1>
+          <p className="flex items-center gap-1 text-sm text-accentGray font-medium">
+            Prices and availability for your stay
+          </p>
+        </div>
+        {onUpdate ? (
+          <Button color="primary" className="px-10 font-semibold" onPress={onUpdate} radius="sm">
+            Update Accommodations
+          </Button>
+        ) : null}
       </header>
-      <StaySearchBar extraClass="mt-1 w-10/12" noLocation search={handleSearch} />
+      {!onUpdate ? <StaySearchBar extraClass="mt-1 w-10/12" noLocation search={handleSearch} /> : null}
       <Table key={tableKey} isStriped removeWrapper aria-label="Accommodation availability" className="border-collapse">
         <TableHeader columns={columns}>
           {(columns) => (
