@@ -14,7 +14,7 @@ import { LuBaby, LuParkingCircle } from 'react-icons/lu';
 import { PiBathtub } from 'react-icons/pi';
 import { TbMeterSquare } from 'react-icons/tb';
 
-interface IStayDetailTableBody {
+interface Props {
   columnKey: string;
   user: IAccommodation;
   showAction: boolean;
@@ -22,7 +22,7 @@ interface IStayDetailTableBody {
 }
 const GUEST: IGuests = { adults: 1, children: 0 };
 
-const StayDetailTableCell = ({ columnKey, user, showAction, type }: IStayDetailTableBody) => {
+const StayDetailTableCell = ({ columnKey, user, showAction, type }: Props) => {
   const { push } = useRouter();
   const { reservation, updateAccommodations } = useReservationStore();
   const quantity = useMemo(
