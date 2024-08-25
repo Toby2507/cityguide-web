@@ -21,6 +21,10 @@ export { default as CreateStayStep5 } from './admin/stay/create-stay-5';
 export { default as CreateStayStep7 } from './admin/stay/create-stay-7';
 export { default as CreateStayAccommodation } from './admin/stay/create-stay-accommodation';
 export { default as CreateStayReview } from './admin/stay/create-stay-review';
+export { default as UpdateStayAccommodation } from './admin/stay/update-stay-accommodation';
+export { default as UpdateStayDetails } from './admin/stay/update-stay-details';
+export { default as UpdateStayImages } from './admin/stay/update-stay-images';
+export { default as UpdateStayRules } from './admin/stay/update-stay-rules';
 
 // // Restaurant
 export { default as CreateRestaurantStep1 } from './admin/restaurant/create-restaurant-1';
