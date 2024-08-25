@@ -1,6 +1,6 @@
 'use server';
 
-import { ICreateRestaurant, ICreateStay } from '@/types';
+import { ICreateRestaurant, ICreateStay, IUpdateStay } from '@/types';
 import { fetchWithReAuth, formatRestaurantBody, formatStayBody, paths } from '@/utils';
 import { revalidatePath } from 'next/cache';
 
@@ -20,4 +20,9 @@ export const createRestaurant = async (body: ICreateRestaurant) => {
   const data = formatRestaurantBody(body);
   await fetchWithReAuth('property/restaurant', { method: 'POST', body: JSON.stringify(data) });
   revalidatePath(paths.restaurants());
+};
+
+export const updateStay = async (body: IUpdateStay, stayId: string) => {
+  await fetchWithReAuth(`property/stay/${stayId}`, { method: 'PATCH', body: JSON.stringify(body) });
+  revalidatePath(paths.adminStay(stayId));
 };
