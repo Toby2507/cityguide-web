@@ -1,19 +1,21 @@
 'use client';
 
 import { IStay } from '@/types';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { BsExclamationCircleFill } from 'react-icons/bs';
+import { FaCalendarDays } from 'react-icons/fa6';
 import { GiPartyPopper } from 'react-icons/gi';
 import { IoCard, IoLogIn, IoLogOut } from 'react-icons/io5';
 import { MdOutlineFamilyRestroom, MdOutlinePets } from 'react-icons/md';
 
 interface IProps {
   stay: IStay;
+  onUpdate?: () => void;
 }
 
-const StayDetailRules = ({ stay: { rules, accommodation } }: IProps) => {
+const StayDetailRules = ({ stay: { rules, accommodation, maxDays }, onUpdate }: IProps) => {
   const [checkInFrom, checkInTo] = rules.checkIn.split('-');
   const [checkOutFrom, checkOutTo] = rules.checkOut.split('-');
 
@@ -29,9 +31,16 @@ const StayDetailRules = ({ stay: { rules, accommodation } }: IProps) => {
   const infants = useMemo(() => accommodation.some((a) => a.infants), [accommodation]);
   return (
     <section className="flex flex-col gap-4 pb-10" id="rules">
-      <header className="flex flex-col gap-2">
-        <h1 className="text-4xl font-bold capitalize">House Rules</h1>
-        <p className="flex items-center gap-1 text-sm text-accentGray font-medium">We take special requests too!</p>
+      <header className="flex items-center justify-between gap-10">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-4xl font-bold capitalize">House Rules</h1>
+          <p className="flex items-center gap-1 text-sm text-accentGray font-medium">We take special requests too!</p>
+        </div>
+        {onUpdate ? (
+          <Button color="primary" className="px-10 font-semibold" onPress={onUpdate} radius="sm">
+            Update Stay Rules
+          </Button>
+        ) : null}
       </header>
       <Table className="border border-default rounded-lg p-4 gap-20" hideHeader removeWrapper aria-label="House rules">
         <TableHeader>
@@ -91,12 +100,19 @@ const StayDetailRules = ({ stay: { rules, accommodation } }: IProps) => {
               Parties are{!rules.parties ? ' not' : ''} allowed
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="border-b border-default">
             <TableCell className="flex items-center gap-2 py-4 font-medium">
               <IoCard className="text-lg" />
               Payment method
             </TableCell>
             <TableCell className="py-4 text-accentGray w-9/12">Payments will be made on site.</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="flex items-center gap-2 py-4 font-medium">
+              <FaCalendarDays className="text-lg" />
+              Max Reservation Days
+            </TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">{maxDays} days</TableCell>
           </TableRow>
         </TableBody>
       </Table>
