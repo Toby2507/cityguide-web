@@ -12,6 +12,7 @@ import {
   IRestaurantDetails,
 } from './model.interfaces';
 
+// Stay
 export interface ICreateStay {
   type: StayType;
   name: string;
@@ -34,7 +35,27 @@ export interface ICreateStay {
   language: string[];
   optionalServices?: IOptionalService[];
 }
+export interface IUpdateStay {
+  name?: string;
+  extraInfo?: IExtraInfo;
+  address?: IAddress;
+  avatar?: string;
+  images?: string[];
+  amenities?: string[];
+  hotelRating?: Rating;
+  rules?: {
+    checkIn: string;
+    checkOut: string;
+    smoking: boolean;
+    pets: boolean;
+    parties: boolean;
+  };
+  maxDays?: MaxDays;
+  language?: string[];
+  optionalServices?: IOptionalService[];
+}
 
+// Restaurant
 export interface ICreateRestaurant {
   name: string;
   summary: string;
@@ -52,6 +73,7 @@ export interface ICreateRestaurant {
   contact: IContact;
 }
 
+// Reservation
 export interface ICreateReservation {
   property: string;
   propertyType: PropertyType;

@@ -1,4 +1,4 @@
-import { ICreateReservation } from './create.model.interfaces';
+import { ICreateReservation } from './form.interfaces';
 import { IAddress, IGuests, IReservationAccommodation } from './model.interfaces';
 
 // Reservation
