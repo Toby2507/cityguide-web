@@ -1,6 +1,5 @@
 import { DetailImages, DetailInfo, RatingCard } from '@/components';
 import { IAccommodation, IAddress, Rating } from '@/types';
-import { ratingRank } from '@/utils';
 import mapBanner from '@images/map-banner.png';
 import { Button, Divider, User } from '@nextui-org/react';
 import NextImage from 'next/image';
@@ -16,8 +15,10 @@ interface Props {
   summary: string;
   rating: number;
   reviewCount: number;
+  language?: string[];
   hotelRating?: Rating;
   accommodation?: IAccommodation[];
+  onUpdate?: () => void;
 }
 
 const DetailPageOverview = ({
@@ -29,8 +30,10 @@ const DetailPageOverview = ({
   rating,
   reviewCount,
   hotelRating,
+  language,
   accommodation,
   summary,
+  onUpdate,
 }: Props) => {
   return (
     <section className="flex flex-col gap-4 pb-10" id="overview">
@@ -42,14 +45,20 @@ const DetailPageOverview = ({
             {address.fullAddress}
           </p>
         </div>
-        <div className="flex items-center gap-4">
-          <Button isIconOnly variant="light">
-            <IoShareSocialOutline color="#0075FF" size={30} />
+        {onUpdate ? (
+          <Button color="primary" className="px-10 font-semibold" onPress={onUpdate} radius="sm">
+            Update Property Info
           </Button>
-          <Button isIconOnly variant="light">
-            <MdFavoriteBorder color="#0075FF" size={30} />
-          </Button>
-        </div>
+        ) : (
+          <div className="flex items-center gap-4">
+            <Button isIconOnly variant="light">
+              <IoShareSocialOutline color="#0075FF" size={30} />
+            </Button>
+            <Button isIconOnly variant="light">
+              <MdFavoriteBorder color="#0075FF" size={30} />
+            </Button>
+          </div>
+        )}
       </header>
       <div className="grid grid-cols-8 gap-3">
         <DetailImages
@@ -83,7 +92,7 @@ const DetailPageOverview = ({
           </div>
         </aside>
       </div>
-      <DetailInfo amenities={amenities} summary={summary} />
+      <DetailInfo amenities={amenities} summary={summary} language={language} />
     </section>
   );
 };
