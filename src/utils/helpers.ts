@@ -1,4 +1,5 @@
 import { IAddress, ICreateRestaurant, ICreateStay, ICustomAvailability } from '@/types';
+import { differenceWith, fromPairs, isEqual, toPairs } from 'lodash';
 import { KeyboardEvent } from 'react';
 
 export const addressFormatter = (res: google.maps.places.PlaceResult): IAddress => {
@@ -111,4 +112,28 @@ export const ratingRank = (rating: number, reviewCount: number) => {
   if (rating >= 1.0) return 'Poor';
   if (rating >= 0.5) return 'Very Poor';
   return 'Unacceptable';
+};
+
+export const compactObject = (obj: Object): Object | undefined => {
+  if (obj === null || obj === undefined) return undefined;
+  if (Array.isArray(obj)) {
+    const cleanedArray = obj.map((item) => compactObject(item)).filter((item) => item !== undefined);
+    return cleanedArray.length ? cleanedArray : undefined;
+  }
+  if (typeof obj === 'object') {
+    const cleaned = Object.entries(obj).reduce((acc: any, [key, value]) => {
+      const cleanedValue = compactObject(value);
+      if (cleanedValue !== undefined) acc[key] = cleanedValue;
+      return acc;
+    }, {});
+    return Object.keys(cleaned).length ? cleaned : undefined;
+  }
+  return obj;
+};
+
+export const getObjDiff = (obj1: Object, obj2: Object) => {
+  const cleanedObj1 = compactObject(obj1);
+  const cleanedObj2 = compactObject(obj2);
+  const diff = differenceWith(toPairs(cleanedObj1), toPairs(cleanedObj2), isEqual);
+  return fromPairs(diff);
 };
