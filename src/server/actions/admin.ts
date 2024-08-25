@@ -3,6 +3,7 @@
 import { ICreateRestaurant, ICreateStay, IUpdateStay } from '@/types';
 import { fetchWithReAuth, formatRestaurantBody, formatStayBody, paths } from '@/utils';
 import { revalidatePath } from 'next/cache';
+import toast from 'react-hot-toast';
 
 export const uploadImages = async (body: FormData) => {
   const res = await fetchWithReAuth('account/upload', { method: 'POST', body }, true);
@@ -10,19 +11,28 @@ export const uploadImages = async (body: FormData) => {
   return images.imgUrls;
 };
 
+// Stay
 export const createStay = async (body: ICreateStay) => {
   const data = formatStayBody(body);
   await fetchWithReAuth('property/stay', { method: 'POST', body: JSON.stringify(data) });
   revalidatePath(paths.stays());
 };
 
+export const updateStay = async (body: IUpdateStay, stayId: string) => {
+  const res = await fetchWithReAuth(`property/stay/${stayId}`, { method: 'PATCH', body: JSON.stringify(body) });
+  if (res.status !== 204) return toast.error(res.statusText);
+  revalidatePath(paths.adminStay(stayId));
+};
+
+export const removeAccommodation = async (stayId: string, accId: string) => {
+  const res = await fetchWithReAuth(`property/stay/${stayId}/accommodation/${accId}`, { method: 'DELETE' });
+  if (res.status !== 204) return toast.error(res.statusText);
+  revalidatePath(paths.adminStay(stayId));
+};
+
+// Restaurant
 export const createRestaurant = async (body: ICreateRestaurant) => {
   const data = formatRestaurantBody(body);
   await fetchWithReAuth('property/restaurant', { method: 'POST', body: JSON.stringify(data) });
   revalidatePath(paths.restaurants());
-};
-
-export const updateStay = async (body: IUpdateStay, stayId: string) => {
-  await fetchWithReAuth(`property/stay/${stayId}`, { method: 'PATCH', body: JSON.stringify(body) });
-  revalidatePath(paths.adminStay(stayId));
 };
