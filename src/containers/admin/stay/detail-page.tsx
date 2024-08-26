@@ -8,19 +8,17 @@ import {
   StayDetailInfoReview,
   StayDetailRules,
 } from '@/containers';
-import { IStay, IUpdateStay } from '@/types';
+import { IStay } from '@/types';
 import { Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
 import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
 
 interface Props {
   stay: IStay;
 }
-type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map';
+type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities';
 
 const AdminDetailPage = ({ stay }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const method = useForm<IUpdateStay>({ defaultValues: stay, mode: 'onChange' });
   const [updateType, setUpdateType] = useState<Updates>('details');
 
   const onUpdate = (type: Updates) => {
@@ -33,15 +31,10 @@ const AdminDetailPage = ({ stay }: Props) => {
         <ModalContent className="max-h-[90vh]">
           {(onClose) => (
             <ModalBody>
-              {updateType === 'accommodation' ? (
-                <UpdateStayAccommodation onClose={onClose} stay={stay} />
-              ) : (
-                <FormProvider {...method}>
-                  {updateType === 'details' ? <UpdateStayDetails onClose={onClose} stay={stay} /> : null}
-                  {updateType === 'images' ? <UpdateStayImages /> : null}
-                  {updateType === 'rules' ? <UpdateStayRules onClose={onClose} stay={stay} /> : null}
-                </FormProvider>
-              )}
+              {updateType === 'accommodation' ? <UpdateStayAccommodation onClose={onClose} stay={stay} /> : null}
+              {updateType === 'details' ? <UpdateStayDetails onClose={onClose} stay={stay} /> : null}
+              {updateType === 'images' ? <UpdateStayImages /> : null}
+              {updateType === 'rules' ? <UpdateStayRules onClose={onClose} stay={stay} /> : null}
             </ModalBody>
           )}
         </ModalContent>
