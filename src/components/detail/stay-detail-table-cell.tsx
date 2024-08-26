@@ -19,10 +19,11 @@ interface Props {
   user: IAccommodation;
   showAction: boolean;
   type: StayType;
+  isAdmin?: boolean;
 }
 const GUEST: IGuests = { adults: 1, children: 0 };
 
-const StayDetailTableCell = ({ columnKey, user, showAction, type }: Props) => {
+const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin }: Props) => {
   const { push } = useRouter();
   const { reservation, updateAccommodations } = useReservationStore();
   const quantity = useMemo(
@@ -217,15 +218,17 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type }: Props) => {
           </div>
         ) : null}
         <div className="flex flex-col gap-1">
-          <Button
-            isDisabled={!reservation?.reservationCount}
-            color="primary"
-            className="px-12 font-semibold"
-            radius="sm"
-            onPress={() => push(paths.reserveStay(reservation?.property!))}
-          >
-            Reserve
-          </Button>
+          {!isAdmin ? (
+            <Button
+              isDisabled={!reservation?.reservationCount}
+              color="primary"
+              className="px-12 font-semibold"
+              radius="sm"
+              onPress={() => push(paths.reserveStay(reservation?.property!))}
+            >
+              Reserve
+            </Button>
+          ) : null}
           {reservation?.reservationCount ? <p className="text-xs">Continue reservation at the next step</p> : null}
         </div>
         <ul className="flex flex-col gap-2">

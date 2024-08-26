@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 
 interface IProps {
   stay: IStay;
-  tkey?: number;
   onUpdate?: () => void;
 }
 
@@ -104,6 +103,7 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
                     user={item}
                     showAction={item.id === firstStayId}
                     type={stay.type}
+                    isAdmin={!!onUpdate}
                   />
                 </TableCell>
               ))}
