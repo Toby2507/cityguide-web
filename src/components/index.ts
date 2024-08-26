@@ -4,6 +4,7 @@ export { default as AdminHeader } from './admin/header';
 // // Common
 export { default as CreateNavButtons } from './admin/common/create-nav-buttons';
 export { default as CreatePropertyAddress } from './admin/common/create-property-address';
+export { default as CreatePropertyAmenities } from './admin/common/create-property-amenities';
 export { default as CreatePropertyImageUpload } from './admin/common/create-property-image-upload';
 export { default as StringArrayInput } from './admin/common/string-array-input';
 // // Dashboard
@@ -22,6 +23,7 @@ export { default as CreateStayStep7 } from './admin/stay/create-stay-7';
 export { default as CreateStayAccommodation } from './admin/stay/create-stay-accommodation';
 export { default as CreateStayReview } from './admin/stay/create-stay-review';
 export { default as UpdateStayAccommodation } from './admin/stay/update-stay-accommodation';
+export { default as UpdateStayAmenities } from './admin/stay/update-stay-amenities';
 export { default as UpdateStayDetails } from './admin/stay/update-stay-details';
 export { default as UpdateStayImages } from './admin/stay/update-stay-images';
 export { default as UpdateStayRules } from './admin/stay/update-stay-rules';

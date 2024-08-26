@@ -8,7 +8,7 @@ import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Button, Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { Controller, FormProvider, useController, useForm } from 'react-hook-form';
+import { Controller, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 // interface IUpdateStay {
@@ -25,7 +25,7 @@ interface Props {
 
 const UpdateStayRules = ({ stay, onClose }: Props) => {
   const method = useForm<IUpdateStay>({ defaultValues: stay, mode: 'onChange' });
-  const { control, reset, watch } = method;
+  const { control, handleSubmit, reset } = method;
   const {
     field: { onChange: setCheckIn, value: checkIn },
     fieldState: { error: checkinErr },
@@ -58,10 +58,10 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
   const [checkoutFrom, setCheckoutFrom] = useState<TimeInputValue>();
   const [checkoutTo, setCheckoutTo] = useState<TimeInputValue>();
 
-  const onSubmit = async () => {
+  const onSubmit: SubmitHandler<IUpdateStay> = async (data) => {
     setIsLoading(true);
     try {
-      const updateBody = getObjDiff(watch(), stay);
+      const updateBody = getObjDiff(data, stay);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
@@ -269,7 +269,7 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
             color="primary"
             radius="full"
             variant="solid"
-            onPress={onSubmit}
+            onPress={() => handleSubmit(onSubmit)()}
             isLoading={isLoading}
           >
             Update Stay

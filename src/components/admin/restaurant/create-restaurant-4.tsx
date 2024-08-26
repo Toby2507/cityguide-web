@@ -1,12 +1,11 @@
 'use client';
 
-import { CreateNavButtons, StringArrayInput } from '@/components';
+import { CreateNavButtons, CreatePropertyAmenities } from '@/components';
 import { restaurantAmenities } from '@/data';
 import { createRestaurantSchema } from '@/schemas';
 import { ICreateRestaurant } from '@/types';
-import { Checkbox } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
-import { useController, useFormContext } from 'react-hook-form';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -14,22 +13,13 @@ interface Props {
 }
 
 const CreateRestaurantStep4 = ({ setStep }: Props) => {
-  const { control } = useFormContext<ICreateRestaurant>();
-  const {
-    field: { onChange, value = [] },
-  } = useController({ control, name: 'details.amenities' });
+  const { watch } = useFormContext<ICreateRestaurant>();
   const [isLoading, setisLoading] = useState<boolean>(false);
-  const custom = useMemo(() => value.filter((v) => !restaurantAmenities.includes(v)) || [], [value]);
 
-  const setAmenities = (amenity: string) => {
-    let newAmenities = [...value];
-    if (newAmenities?.includes(amenity)) newAmenities = newAmenities.filter((a) => a !== amenity);
-    else newAmenities.push(amenity);
-    onChange(newAmenities);
-  };
   const handleNext = async () => {
     setisLoading(true);
-    const isValid = await createRestaurantSchema.shape.details.shape.amenities.safeParseAsync(value);
+    const amenities = watch('details.amenities') || [];
+    const isValid = await createRestaurantSchema.shape.details.shape.amenities.safeParseAsync(amenities);
     setisLoading(false);
     if (!isValid.success) return toast.error(isValid.error.flatten().formErrors.join(', '));
     setStep(5);
@@ -42,27 +32,7 @@ const CreateRestaurantStep4 = ({ setStep }: Props) => {
           What makes your restaurant special? Highlight your amenities to attract diners on Cityguidex.
         </p>
       </div>
-      <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-6 items-center gap-4 py-2 w-full">
-          {Array.from(restaurantAmenities).map((amenity, i) => (
-            <Checkbox
-              key={i}
-              size="sm"
-              isSelected={value?.includes(amenity)}
-              onValueChange={() => setAmenities(amenity)}
-            >
-              {amenity}
-            </Checkbox>
-          ))}
-        </div>
-        <StringArrayInput
-          arr={custom}
-          customStyle="w-1/2"
-          label="Other Amenities"
-          prevState={value}
-          setState={onChange}
-        />
-      </div>
+      <CreatePropertyAmenities data={restaurantAmenities} name="details.amenities" />
       <CreateNavButtons isLoading={isLoading} previous={() => setStep(3)} next={handleNext} />
     </div>
   );

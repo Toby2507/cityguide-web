@@ -67,9 +67,6 @@ const CreatePropertyImageUpload = ({ name, nextStep, setStep }: Props) => {
     setStep(nextStep);
   };
 
-  useEffect(() => {
-    setImgIds([]);
-  }, []);
   return (
     <div className="flex flex-col justify-center gap-4">
       <div className="flex flex-col gap-2">
