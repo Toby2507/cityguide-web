@@ -1,5 +1,6 @@
 // Actions
 export {
+  addAccommodation,
   createRestaurant,
   createStay,
   removeAccommodation,

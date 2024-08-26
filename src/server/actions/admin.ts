@@ -24,6 +24,15 @@ export const updateStay = async (body: IUpdateStay, stayId: string) => {
   revalidatePath(paths.adminStay(stayId));
 };
 
+export const addAccommodation = async (body: IAccommodation[], stayId: string) => {
+  const res = await fetchWithReAuth(`property/stay/${stayId}/accommodation`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+  if (res.status !== 204) return toast.error(res.statusText);
+  revalidatePath(paths.adminStay(stayId));
+};
+
 export const updateAccommodation = async (body: IAccommodation, stayId: string) => {
   const res = await fetchWithReAuth(`property/stay/${stayId}/accommodation/${body.id}`, {
     method: 'PUT',
