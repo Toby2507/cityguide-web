@@ -50,7 +50,7 @@ const AdminDetailPage = ({ stay }: Props) => {
         <DetailPageOverview onUpdate={() => onUpdate('details')} {...stay} />
         <DetailPageAmenities {...stay} />
         <StayDetailAvailability onUpdate={() => onUpdate('accommodation')} stay={stay} />
-        <StayDetailInfoReview stay={stay} />
+        <StayDetailInfoReview stay={stay} isAdmin />
         <StayDetailRules onUpdate={() => onUpdate('rules')} stay={stay} />
       </div>
     </>
