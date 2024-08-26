@@ -308,8 +308,8 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
           control={control}
           render={({ field: { onChange, value }, fieldState: { error } }) => (
             <Select
-              selectedKeys={value === undefined ? undefined : [!!value ? 'Yes' : 'No']}
-              onChange={(e) => onChange(e.target.value === 'Yes' ? defaultBreakfast : false)}
+              selectedKeys={[!!value ? 'Yes' : 'No']}
+              onChange={(e) => onChange(e.target.value === 'Yes' ? defaultBreakfast : undefined)}
               label="Is Breakfast included?"
               placeholder=" "
               isInvalid={!!error}
