@@ -7,13 +7,14 @@ import { IoCheckmark } from 'react-icons/io5';
 interface Props {
   amenities: string[];
   name: string;
+  onUpdate?: () => void;
 }
 interface ICore {
   name: string;
   Icon: IconType;
 }
 
-const DetailPageAmenities = ({ amenities, name }: Props) => {
+const DetailPageAmenities = ({ amenities, name, onUpdate }: Props) => {
   let core: ICore[] = [];
   let custom: string[] = [];
   amenities?.forEach((amenity) => {
@@ -30,11 +31,17 @@ const DetailPageAmenities = ({ amenities, name }: Props) => {
             Great amenities for your comfort! Review score, 8.5
           </p>
         </div>
-        <Link href="#availability">
-          <Button color="primary" className="px-10 font-semibold" radius="sm">
-            Reserve now
+        {onUpdate ? (
+          <Button color="primary" className="px-10 font-semibold" onPress={onUpdate} radius="sm">
+            Update Amenities
           </Button>
-        </Link>
+        ) : (
+          <Link href="#availability">
+            <Button color="primary" className="px-10 font-semibold" radius="sm">
+              Reserve now
+            </Button>
+          </Link>
+        )}
       </header>
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-4">
