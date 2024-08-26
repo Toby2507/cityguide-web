@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 
 interface IProps {
   stay: IStay;
+  tkey?: number;
   onUpdate?: () => void;
 }
 
@@ -53,6 +54,10 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
     };
     setReservation(reservation);
   }, [stay, setReservation]);
+  useEffect(() => {
+    setAccommodations(stay.accommodation);
+    setTableKey((prev) => prev + 1);
+  }, [stay]);
   useEffect(() => {
     handleSearch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
