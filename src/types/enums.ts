@@ -81,3 +81,5 @@ export enum EngagementType {
   CANCELLED = 'Cancelled Reservation',
   REVIEW = 'Review',
 }
+
+export type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities';
