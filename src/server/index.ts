@@ -1,5 +1,12 @@
 // Actions
-export { createRestaurant, createStay, removeAccommodation, updateStay, uploadImages } from './actions/admin';
+export {
+  createRestaurant,
+  createStay,
+  removeAccommodation,
+  updateAccommodation,
+  updateStay,
+  uploadImages,
+} from './actions/admin';
 export { createEstablishment, createUser, loginUser, upgradeUser, verifyOtp } from './actions/auth';
 export { getSearchResult } from './actions/core';
 // Queries
