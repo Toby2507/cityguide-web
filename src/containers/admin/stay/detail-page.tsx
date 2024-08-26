@@ -7,6 +7,7 @@ import {
   UpdateStayImages,
   UpdateStayRules,
 } from '@/components';
+import UpdateStayAddress from '@/components/admin/stay/update-stay-address';
 import {
   DetailPageAmenities,
   DetailPageOverview,
@@ -14,14 +15,13 @@ import {
   StayDetailInfoReview,
   StayDetailRules,
 } from '@/containers';
-import { IStay } from '@/types';
+import { IStay, Updates } from '@/types';
 import { Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
 import { useState } from 'react';
 
 interface Props {
   stay: IStay;
 }
-type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities';
 
 const AdminDetailPage = ({ stay }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -42,12 +42,13 @@ const AdminDetailPage = ({ stay }: Props) => {
               {updateType === 'images' ? <UpdateStayImages /> : null}
               {updateType === 'rules' ? <UpdateStayRules onClose={onClose} stay={stay} /> : null}
               {updateType === 'amenities' ? <UpdateStayAmenities onClose={onClose} stay={stay} /> : null}
+              {updateType === 'map' ? <UpdateStayAddress onClose={onClose} stay={stay} /> : null}
             </ModalBody>
           )}
         </ModalContent>
       </Modal>
       <div className="flex flex-col gap-4 max-w-7xl pt-14 pb-6 mx-auto w-full">
-        <DetailPageOverview onUpdate={() => onUpdate('details')} {...stay} />
+        <DetailPageOverview onUpdate={onUpdate} {...stay} />
         <DetailPageAmenities onUpdate={() => onUpdate('amenities')} {...stay} />
         <StayDetailAvailability onUpdate={() => onUpdate('accommodation')} stay={stay} />
         <StayDetailInfoReview stay={stay} isAdmin />

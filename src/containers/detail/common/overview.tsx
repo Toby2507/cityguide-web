@@ -1,10 +1,13 @@
 import { DetailImages, DetailInfo, RatingCard } from '@/components';
-import { IAccommodation, IAddress, Rating } from '@/types';
+import { IAccommodation, IAddress, Rating, Updates } from '@/types';
 import mapBanner from '@images/map-banner.png';
 import { Button, Divider, User } from '@nextui-org/react';
 import NextImage from 'next/image';
+import { BsFillCameraFill } from 'react-icons/bs';
+import { HiClipboardDocumentList } from 'react-icons/hi2';
 import { IoLocation, IoShareSocialOutline } from 'react-icons/io5';
 import { MdFavoriteBorder } from 'react-icons/md';
+import { PiMapPinAreaFill } from 'react-icons/pi';
 
 interface Props {
   name: string;
@@ -18,7 +21,7 @@ interface Props {
   language?: string[];
   hotelRating?: Rating;
   accommodation?: IAccommodation[];
-  onUpdate?: () => void;
+  onUpdate?: (type: Updates) => void;
 }
 
 const DetailPageOverview = ({
@@ -46,9 +49,41 @@ const DetailPageOverview = ({
           </p>
         </div>
         {onUpdate ? (
-          <Button color="primary" className="px-10 font-semibold" onPress={onUpdate} radius="sm">
-            Update Property Info
-          </Button>
+          <div className="flex flex-col items-end gap-1">
+            <div className="flex items-center gap-2">
+              <Button
+                aria-label="update details"
+                color="primary"
+                isIconOnly
+                onPress={() => onUpdate('details')}
+                radius="sm"
+                variant="flat"
+              >
+                <HiClipboardDocumentList size={20} />
+              </Button>
+              <Button
+                aria-label="update map"
+                color="primary"
+                isIconOnly
+                onPress={() => onUpdate('map')}
+                radius="sm"
+                variant="flat"
+              >
+                <PiMapPinAreaFill size={20} />
+              </Button>
+              <Button
+                aria-label="update images"
+                color="primary"
+                isIconOnly
+                onPress={() => onUpdate('images')}
+                radius="sm"
+                variant="flat"
+              >
+                <BsFillCameraFill size={20} />
+              </Button>
+            </div>
+            <p className="text-xs text-accentGray">Update property details, address or images</p>
+          </div>
         ) : (
           <div className="flex items-center gap-4">
             <Button isIconOnly variant="light">
