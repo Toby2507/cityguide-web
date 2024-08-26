@@ -59,7 +59,6 @@ export const otherAmenities = [
   'Air conditioning',
   'Smoke-free property',
   'Elevator',
-  'Family rooms',
   'Non-smoking rooms',
   'Fire extinguishers',
   'CCTV outside property',
@@ -70,7 +69,7 @@ export const otherAmenities = [
   'Safe',
 ];
 
-export const staticAmenities = new Set([...coreAmenities.map((a) => a.name), ...otherAmenities]);
+export const staticAmenities = [...coreAmenities.map((a) => a.name), ...otherAmenities];
 
 export const restaurantAmenities = [
   'Air Conditioning',
