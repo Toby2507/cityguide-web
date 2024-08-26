@@ -54,6 +54,9 @@ export interface IUpdateStay {
   language?: string[];
   optionalServices?: IOptionalService[];
 }
+export interface IAccommodationForm {
+  accommodation: IAccommodation[];
+}
 
 // Restaurant
 export interface ICreateRestaurant {
