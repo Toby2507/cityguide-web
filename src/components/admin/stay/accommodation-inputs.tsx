@@ -14,13 +14,14 @@ import CreateStayRoomCard from './create-stay-room';
 
 interface IAccommodationInputs {
   idx: number;
+  isUpdate?: boolean;
 }
 const defaultBreakfast = {
   price: 0,
   options: [],
 };
 
-const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
+const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
   const { control, watch, setFocus, setValue } = useFormContext<ICreateStay>();
   const [roomName, setRoomName] = useState<string>('');
   const {
@@ -64,20 +65,14 @@ const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
     );
     onChange(updated);
   };
-  const addAmenity = (amenity: string) => {
-    let newAmenities = [...amenities];
-    if (newAmenities?.includes(amenity)) newAmenities = newAmenities.filter((a) => a !== amenity);
-    else newAmenities.push(amenity);
-    addAmenities(newAmenities);
-  };
 
-  const initAvail = watch(`accommodation.${idx}.initialAvailable`);
+  const initAvail = watch(`accommodation.${idx}.available`);
   useEffect(() => {
     if (!watch(`accommodation.${idx}.id`)) setValue(`accommodation.${idx}.id`, nanoid());
   }, [setValue, watch, idx]);
   useEffect(() => {
-    if (initAvail) setValue(`accommodation.${idx}.available`, initAvail);
-  }, [initAvail, idx, setValue]);
+    if (initAvail && !isUpdate) setValue(`accommodation.${idx}.initialAvailable`, initAvail);
+  }, [initAvail, idx, isUpdate, setValue]);
   return (
     <>
       <Controller
@@ -228,7 +223,7 @@ const AccommodationInputs = ({ idx }: IAccommodationInputs) => {
               className="text-accentGray"
             />
           )}
-          name={`accommodation.${idx}.initialAvailable`}
+          name={`accommodation.${idx}.available`}
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.accommodation.element.shape.initialAvailable.safeParse(val);
