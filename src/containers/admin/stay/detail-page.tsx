@@ -1,6 +1,12 @@
 'use client';
 
-import { UpdateStayAccommodation, UpdateStayDetails, UpdateStayImages, UpdateStayRules } from '@/components';
+import {
+  UpdateStayAccommodation,
+  UpdateStayAmenities,
+  UpdateStayDetails,
+  UpdateStayImages,
+  UpdateStayRules,
+} from '@/components';
 import {
   DetailPageAmenities,
   DetailPageOverview,
@@ -35,13 +41,14 @@ const AdminDetailPage = ({ stay }: Props) => {
               {updateType === 'details' ? <UpdateStayDetails onClose={onClose} stay={stay} /> : null}
               {updateType === 'images' ? <UpdateStayImages /> : null}
               {updateType === 'rules' ? <UpdateStayRules onClose={onClose} stay={stay} /> : null}
+              {updateType === 'amenities' ? <UpdateStayAmenities onClose={onClose} stay={stay} /> : null}
             </ModalBody>
           )}
         </ModalContent>
       </Modal>
       <div className="flex flex-col gap-4 max-w-7xl pt-14 pb-6 mx-auto w-full">
         <DetailPageOverview onUpdate={() => onUpdate('details')} {...stay} />
-        <DetailPageAmenities {...stay} />
+        <DetailPageAmenities onUpdate={() => onUpdate('amenities')} {...stay} />
         <StayDetailAvailability onUpdate={() => onUpdate('accommodation')} stay={stay} />
         <StayDetailInfoReview stay={stay} isAdmin />
         <StayDetailRules onUpdate={() => onUpdate('rules')} stay={stay} />
