@@ -7,6 +7,7 @@ import { getObjDiff } from '@/utils';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import CreateStayOptionalServices from './create-stay-optional';
 
 interface Props {
@@ -23,10 +24,14 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
     try {
       const updateBody = getObjDiff(watch(), stay);
       delete updateBody.updatedAt;
-      if (!Object.keys(updateBody).length) return;
+      if (!Object.keys(updateBody).length) {
+        onClose();
+        return toast.error('No change has been made!');
+      }
       await updateStay(updateBody, stay._id);
       onClose();
       reset();
+      toast.success('Stay detail updated successfully!');
     } finally {
       setIsLoading(false);
     }

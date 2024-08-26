@@ -9,6 +9,7 @@ import { Button, Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-o
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 // interface IUpdateStay {
 //   address?: IAddress;
@@ -61,10 +62,14 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
     try {
       const updateBody = getObjDiff(watch(), stay);
       delete updateBody.updatedAt;
-      if (!Object.keys(updateBody).length) return;
+      if (!Object.keys(updateBody).length) {
+        onClose();
+        return toast.error('No change has been made!');
+      }
       await updateStay(updateBody, stay._id);
       onClose();
       reset();
+      toast.success('Stay rules updated successfully!');
     } finally {
       setIsLoading(false);
     }
