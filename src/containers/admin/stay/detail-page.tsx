@@ -39,7 +39,7 @@ const AdminDetailPage = ({ stay }: Props) => {
             <ModalBody>
               {updateType === 'accommodation' ? <UpdateStayAccommodation onClose={onClose} stay={stay} /> : null}
               {updateType === 'details' ? <UpdateStayDetails onClose={onClose} stay={stay} /> : null}
-              {updateType === 'images' ? <UpdateStayImages /> : null}
+              {updateType === 'images' ? <UpdateStayImages onClose={onClose} stay={stay} /> : null}
               {updateType === 'rules' ? <UpdateStayRules onClose={onClose} stay={stay} /> : null}
               {updateType === 'amenities' ? <UpdateStayAmenities onClose={onClose} stay={stay} /> : null}
               {updateType === 'map' ? <UpdateStayAddress onClose={onClose} stay={stay} /> : null}
