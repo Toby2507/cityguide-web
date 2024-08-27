@@ -1,5 +1,8 @@
 import { IAddress, ICreateRestaurant, ICreateStay, ICustomAvailability } from '@/types';
-import { differenceWith, fromPairs, isEqual, toPairs } from 'lodash';
+import differenceWith from 'lodash/differenceWith';
+import fromPairs from 'lodash/fromPairs';
+import isEqual from 'lodash/isEqual';
+import toPairs from 'lodash/toPairs';
 import { KeyboardEvent } from 'react';
 
 export const addressFormatter = (res: google.maps.places.PlaceResult): IAddress => {
