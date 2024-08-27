@@ -1,5 +1,5 @@
 import { EntityType } from '@/types';
-import { paths } from '@/utils';
+import paths from '@/utils/paths';
 import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
