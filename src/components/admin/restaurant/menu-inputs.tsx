@@ -23,9 +23,9 @@ const MenuInputs = ({ idx }: Props) => {
   const { getRootProps, getInputProps, removeFile, clearImages, images, invalidImages } = useCustomImageSelect(
     '',
     [],
+    true,
     false,
-    false,
-    true
+    false
   );
   const {
     field: { onChange, value },

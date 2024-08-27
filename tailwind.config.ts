@@ -13,6 +13,7 @@ const config: Config = {
         accentBlue: '#89C0FF',
         accentLightBlue: '#AED4FF',
         accentRed: '#E42424',
+        bgLightRed: '#f0d6d6',
         bgAccentBlue: '#F0F7FF',
         bgLightBlue: '#C4DFFF',
         brandBlue: '#0075FF',
