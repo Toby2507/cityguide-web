@@ -11,9 +11,9 @@ const acceptedFormats = ['jpg', 'png', 'webp', 'jpeg', 'svg', 'gif'];
 const useCustomImageSelect = (
   value?: string,
   imgIds: string[] = [],
+  noDrag: boolean = false,
   isAvatar: boolean = true,
-  multiple: boolean = true,
-  noDrag: boolean = false
+  multiple: boolean = true
 ) => {
   const [avatar, setAvatar] = useState<string>(value || '');
   const [images, setImages] = useState<ICustomFile[]>([]);
