@@ -18,6 +18,7 @@ const CreateRestaurantStep8 = ({ setStep }: Props) => {
   const { control, trigger, watch } = useFormContext<ICreateRestaurant>();
   const [menuIdx, setMenuIdx] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(1);
   const { remove } = useFieldArray({ control, name: 'menu' });
 
@@ -48,7 +49,7 @@ const CreateRestaurantStep8 = ({ setStep }: Props) => {
         <p className="text-center font-light">Expand your offerings with diverse menu</p>
       </div>
       <div className="flex flex-col gap-4 max-w-3xl py-2 mx-auto w-full">
-        <MenuInputs key={menuIdx} idx={menuIdx} />
+        <MenuInputs key={menuIdx} idx={menuIdx} isUploading={isUploading} setIsUploading={setIsUploading} />
         <div className="flex items-center justify-between gap-10">
           <Pagination total={total} page={menuIdx + 1} onChange={(val) => setMenuIdx(val - 1)} />
           <div className="flex items-center gap-2">
@@ -59,6 +60,7 @@ const CreateRestaurantStep8 = ({ setStep }: Props) => {
               size="sm"
               variant="flat"
               onPress={addMenu}
+              isDisabled={isUploading}
               isLoading={isLoading}
               startContent={<IoAdd className="text-lg" />}
             >
@@ -72,6 +74,7 @@ const CreateRestaurantStep8 = ({ setStep }: Props) => {
                 size="sm"
                 variant="flat"
                 onPress={removeMenu}
+                isDisabled={isUploading}
                 isLoading={isLoading}
                 startContent={<IoRemove className="text-lg" />}
               >
@@ -80,7 +83,12 @@ const CreateRestaurantStep8 = ({ setStep }: Props) => {
             ) : null}
           </div>
         </div>
-        <CreateNavButtons isLoading={isLoading} previous={() => setStep(7)} next={handleNext} />
+        <CreateNavButtons
+          isDisabled={isUploading}
+          isLoading={isLoading}
+          previous={() => setStep(7)}
+          next={handleNext}
+        />
       </div>
     </div>
   );

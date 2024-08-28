@@ -8,17 +8,18 @@ import { ICreateRestaurant } from '@/types';
 import { formatFileSize, onEnter } from '@/utils';
 import { Button, Image, Input, Textarea } from '@nextui-org/react';
 import { nanoid } from 'nanoid';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoClose } from 'react-icons/io5';
 
 interface Props {
   idx: number;
+  isUploading: boolean;
+  setIsUploading: Dispatch<SetStateAction<boolean>>;
 }
 
-const MenuInputs = ({ idx }: Props) => {
-  const [isUploading, setIsUploading] = useState<boolean>(false);
+const MenuInputs = ({ idx, isUploading, setIsUploading }: Props) => {
   const { control, setFocus, setValue, watch } = useFormContext<ICreateRestaurant>();
   const { getRootProps, getInputProps, removeFile, clearImages, images, invalidImages } = useCustomImageSelect(
     '',
