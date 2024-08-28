@@ -82,4 +82,4 @@ export enum EngagementType {
   REVIEW = 'Review',
 }
 
-export type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities';
+export type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities' | 'menu' | 'info';
