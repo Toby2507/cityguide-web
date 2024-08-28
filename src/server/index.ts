@@ -6,6 +6,7 @@ export {
   createStay,
   removeAccommodation,
   removeMenuItem,
+  udpateMenuItem,
   updateAccommodation,
   updateRestaurant,
   updateStay,
