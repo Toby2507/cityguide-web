@@ -11,13 +11,6 @@ import { useEffect, useState } from 'react';
 import { Controller, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-// interface IUpdateStay {
-//   address?: IAddress;
-//   avatar?: string;
-//   images?: string[];
-//   amenities?: string[];
-// }
-
 interface Props {
   stay: IStay;
   onClose: () => void;

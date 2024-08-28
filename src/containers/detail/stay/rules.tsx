@@ -10,12 +10,12 @@ import { GiPartyPopper } from 'react-icons/gi';
 import { IoCard, IoLogIn, IoLogOut } from 'react-icons/io5';
 import { MdOutlineFamilyRestroom, MdOutlinePets } from 'react-icons/md';
 
-interface IProps {
+interface Props {
   stay: IStay;
   onUpdate?: () => void;
 }
 
-const StayDetailRules = ({ stay: { rules, accommodation, maxDays }, onUpdate }: IProps) => {
+const StayDetailRules = ({ stay: { rules, accommodation, maxDays }, onUpdate }: Props) => {
   const [checkInFrom, checkInTo] = rules.checkIn.split('-');
   const [checkOutFrom, checkOutTo] = rules.checkOut.split('-');
 

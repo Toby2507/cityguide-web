@@ -1,6 +1,6 @@
 import { IRestaurant } from '@/types';
 import { numberToCurrency } from '@/utils';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { FaClipboardList } from 'react-icons/fa';
 import { GrDeliver } from 'react-icons/gr';
@@ -8,22 +8,37 @@ import { IoCard, IoPricetags } from 'react-icons/io5';
 import { LuVegan } from 'react-icons/lu';
 import { MdFoodBank, MdOutlineFamilyRestroom, MdRoomService } from 'react-icons/md';
 
+interface Props {
+  restaurant: IRestaurant;
+  onUpdate?: () => void;
+}
+
 const RestaurantDetailsInfo = ({
-  availability,
-  cuisine,
-  dietaryProvisions,
-  priceRange,
-  serviceStyle,
-  details: { children, delivery, reservation, paymentOptions },
-  contact: { email, phone, socialMedia },
-}: IRestaurant) => {
+  restaurant: {
+    availability,
+    cuisine,
+    dietaryProvisions,
+    priceRange,
+    serviceStyle,
+    details: { children, delivery, reservation, paymentOptions },
+    contact: { email, phone, socialMedia },
+  },
+  onUpdate,
+}: Props) => {
   return (
     <section className="flex flex-col gap-4 pb-10" id="availability">
-      <header className="flex flex-col gap-2">
-        <h1 className="text-4xl font-bold capitalize">Info and Details</h1>
-        <p className="flex items-center gap-1 text-sm text-accentGray font-medium">
-          Everything you need to know. Plan your visit with our essential information.
-        </p>
+      <header className="flex items-center justify-between gap-10">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-4xl font-bold capitalize">Info and Details</h1>
+          <p className="flex items-center gap-1 text-sm text-accentGray font-medium">
+            Everything you need to know. Plan your visit with our essential information.
+          </p>
+        </div>
+        {onUpdate ? (
+          <Button color="primary" className="px-10 font-semibold" onPress={onUpdate} radius="sm">
+            Update Restaurant Info
+          </Button>
+        ) : null}
       </header>
       <div className="grid grid-cols-7 gap-4">
         <div className="col-span-4 flex flex-col gap-4 border border-default rounded-xl p-6">

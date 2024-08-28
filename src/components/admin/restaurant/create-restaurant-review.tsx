@@ -76,7 +76,7 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
         <DetailPageOverview {...restaurant} amenities={restaurant.details.amenities || []} />
         <DetailPageAmenities amenities={restaurant.details.amenities || []} name={restaurant.name} />
         <RestaurantDetailMenu menu={restaurant.menu} />
-        <RestaurantDetailInfo {...restaurant} />
+        <RestaurantDetailInfo restaurant={restaurant} />
       </div>
       <div className="flex flex-col gap-2 pb-10 mx-auto w-1/2">
         <Button
