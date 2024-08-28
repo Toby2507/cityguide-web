@@ -36,6 +36,7 @@ export { default as CreateRestaurantStep6 } from './admin/restaurant/create-rest
 export { default as CreateRestaurantStep7 } from './admin/restaurant/create-restaurant-7';
 export { default as CreateRestaurantStep8 } from './admin/restaurant/create-restaurant-8';
 export { default as CreateRestaurantReview } from './admin/restaurant/create-restaurant-review';
+export { default as UpdateRestaurantDetails } from './admin/restaurant/update-restaurant-details';
 export { default as UpdateRestaurantInfo } from './admin/restaurant/update-restaurant-info';
 
 // Auth
