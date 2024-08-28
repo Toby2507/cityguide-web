@@ -46,6 +46,7 @@ const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
     setIsLoading(true);
     try {
       const updateBody = getObjDiff(data, restaurant);
+      delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
         return toast.error('No change has been made!');
