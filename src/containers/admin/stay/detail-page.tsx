@@ -1,8 +1,8 @@
 'use client';
 
 import {
+  UpdatePropertyAmenities,
   UpdateStayAccommodation,
-  UpdateStayAmenities,
   UpdateStayDetails,
   UpdateStayImages,
   UpdateStayRules,
@@ -15,7 +15,7 @@ import {
   StayDetailInfoReview,
   StayDetailRules,
 } from '@/containers';
-import { IStay, Updates } from '@/types';
+import { IStay, PropertyType, Updates } from '@/types';
 import { Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
 import { useState } from 'react';
 
@@ -41,7 +41,9 @@ const AdminStayDetailPage = ({ stay }: Props) => {
               {updateType === 'details' ? <UpdateStayDetails onClose={onClose} stay={stay} /> : null}
               {updateType === 'images' ? <UpdateStayImages onClose={onClose} stay={stay} /> : null}
               {updateType === 'rules' ? <UpdateStayRules onClose={onClose} stay={stay} /> : null}
-              {updateType === 'amenities' ? <UpdateStayAmenities onClose={onClose} stay={stay} /> : null}
+              {updateType === 'amenities' ? (
+                <UpdatePropertyAmenities onClose={onClose} property={stay} type={PropertyType.STAY} />
+              ) : null}
               {updateType === 'map' ? <UpdateStayAddress onClose={onClose} stay={stay} /> : null}
             </ModalBody>
           )}
