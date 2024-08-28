@@ -1,6 +1,6 @@
 'use server';
 
-import { IAccommodation, ICreateRestaurant, ICreateStay, IUpdateStay } from '@/types';
+import { IAccommodation, ICreateRestaurant, ICreateStay, IUpdateRestaurant, IUpdateStay } from '@/types';
 import { fetchWithReAuth, formatRestaurantBody, formatStayBody, paths } from '@/utils';
 import { revalidatePath } from 'next/cache';
 import toast from 'react-hot-toast';
@@ -53,4 +53,10 @@ export const createRestaurant = async (body: ICreateRestaurant) => {
   const data = formatRestaurantBody(body);
   await fetchWithReAuth('property/restaurant', { method: 'POST', body: JSON.stringify(data) });
   revalidatePath(paths.restaurants());
+};
+
+export const updateRestaurant = async (body: IUpdateRestaurant, resId: string) => {
+  const res = await fetchWithReAuth(`property/restaurant/${resId}`, { method: 'PATCH', body: JSON.stringify(body) });
+  if (res.status !== 204) return toast.error(res.statusText);
+  revalidatePath(paths.adminRestaurant(resId));
 };

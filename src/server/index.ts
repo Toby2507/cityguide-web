@@ -5,6 +5,7 @@ export {
   createStay,
   removeAccommodation,
   updateAccommodation,
+  updateRestaurant,
   updateStay,
   uploadImages,
 } from './actions/admin';
