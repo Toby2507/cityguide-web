@@ -4,6 +4,7 @@ export {
   createRestaurant,
   createStay,
   removeAccommodation,
+  removeMenuItem,
   updateAccommodation,
   updateRestaurant,
   updateStay,
