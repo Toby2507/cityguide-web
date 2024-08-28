@@ -136,7 +136,6 @@ export interface IRestaurant {
   _id: string;
   name: string;
   summary: string;
-  description?: string;
   address: IAddress;
   rating: number;
   reviewCount: number;
