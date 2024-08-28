@@ -1,8 +1,8 @@
 'use client';
 
 import { useCustomImageSelect } from '@/hooks';
-import { updateStay, uploadImages } from '@/server';
-import { IStay, IUpdateStay } from '@/types';
+import { updateRestaurant, updateStay, uploadImages } from '@/server';
+import { IRestaurant, IStay, IUpdateRestaurant, IUpdateStay, PropertyType } from '@/types';
 import { createUploadDatas, formatFileSize, getObjDiff } from '@/utils';
 import {
   Button,
@@ -23,15 +23,19 @@ import { HiDotsVertical } from 'react-icons/hi';
 import { IoClose, IoCloudUploadOutline } from 'react-icons/io5';
 
 interface Props {
-  stay: IStay;
+  property: IStay | IRestaurant;
+  type: PropertyType;
   onClose: () => void;
 }
 
-const UpdateStayImages = ({ stay, onClose }: Props) => {
+const UpdatePropertyImages = ({ property, type, onClose }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [activeImage, setActiveImage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { control, handleSubmit, reset, watch } = useForm<IUpdateStay>({ defaultValues: stay, mode: 'onChange' });
+  const { control, handleSubmit, reset, watch } = useForm<IUpdateStay | IUpdateRestaurant>({
+    defaultValues: property,
+    mode: 'onChange',
+  });
   const {
     field: { onChange: setAvatar, value: avatar },
   } = useController({ control, name: 'avatar' });
@@ -54,7 +58,7 @@ const UpdateStayImages = ({ stay, onClose }: Props) => {
     setAvatar(imgUrl);
     setImages(newImages);
   };
-  const onSubmit: SubmitHandler<IUpdateStay> = async (data) => {
+  const onSubmit: SubmitHandler<IUpdateStay | IUpdateRestaurant> = async (data) => {
     setIsLoading(true);
     try {
       if (!avatar) return toast.error('Please select an avatar');
@@ -73,15 +77,17 @@ const UpdateStayImages = ({ stay, onClose }: Props) => {
         }
         clearImages();
       }
-      const updateBody = getObjDiff(watch(), stay);
+      const updateBody = getObjDiff(watch(), property);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
         return toast.error('No change has been made!');
       }
-      await updateStay(updateBody, stay._id);
+      if (type === PropertyType.STAY) await updateStay(updateBody, property._id);
+      else await updateRestaurant(updateBody, property._id);
       onClose();
       reset();
+      toast.success('Property images updated successfully!');
     } finally {
       setIsLoading(false);
     }
@@ -236,4 +242,4 @@ const UpdateStayImages = ({ stay, onClose }: Props) => {
   );
 };
 
-export default UpdateStayImages;
+export default UpdatePropertyImages;

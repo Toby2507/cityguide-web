@@ -2,9 +2,9 @@
 
 import {
   UpdatePropertyAmenities,
+  UpdatePropertyImages,
   UpdateStayAccommodation,
   UpdateStayDetails,
-  UpdateStayImages,
   UpdateStayRules,
 } from '@/components';
 import UpdateStayAddress from '@/components/admin/stay/update-stay-address';
@@ -39,7 +39,9 @@ const AdminStayDetailPage = ({ stay }: Props) => {
             <ModalBody>
               {updateType === 'accommodation' ? <UpdateStayAccommodation onClose={onClose} stay={stay} /> : null}
               {updateType === 'details' ? <UpdateStayDetails onClose={onClose} stay={stay} /> : null}
-              {updateType === 'images' ? <UpdateStayImages onClose={onClose} stay={stay} /> : null}
+              {updateType === 'images' ? (
+                <UpdatePropertyImages onClose={onClose} property={stay} type={PropertyType.STAY} />
+              ) : null}
               {updateType === 'rules' ? <UpdateStayRules onClose={onClose} stay={stay} /> : null}
               {updateType === 'amenities' ? (
                 <UpdatePropertyAmenities onClose={onClose} property={stay} type={PropertyType.STAY} />

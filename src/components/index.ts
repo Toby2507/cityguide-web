@@ -8,6 +8,7 @@ export { default as CreatePropertyAmenities } from './admin/common/create-proper
 export { default as CreatePropertyImageUpload } from './admin/common/create-property-image-upload';
 export { default as StringArrayInput } from './admin/common/string-array-input';
 export { default as UpdatePropertyAmenities } from './admin/common/update-property-amenities';
+export { default as UpdatePropertyImages } from './admin/common/update-property-images';
 // // Dashboard
 export { default as DashboardChart } from './admin/dashboard/dashboard-chart';
 export { default as EngagementCard } from './admin/dashboard/engagement-card';
@@ -24,9 +25,7 @@ export { default as CreateStayStep7 } from './admin/stay/create-stay-7';
 export { default as CreateStayAccommodation } from './admin/stay/create-stay-accommodation';
 export { default as CreateStayReview } from './admin/stay/create-stay-review';
 export { default as UpdateStayAccommodation } from './admin/stay/update-stay-accommodation';
-export { default as UpdateStayAmenities } from './admin/stay/update-stay-amenities';
 export { default as UpdateStayDetails } from './admin/stay/update-stay-details';
-export { default as UpdateStayImages } from './admin/stay/update-stay-images';
 export { default as UpdateStayRules } from './admin/stay/update-stay-rules';
 
 // // Restaurant

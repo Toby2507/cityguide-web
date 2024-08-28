@@ -1,6 +1,6 @@
 'use client';
 
-import { UpdatePropertyAmenities } from '@/components';
+import { UpdatePropertyAmenities, UpdatePropertyImages } from '@/components';
 import { DetailPageAmenities, DetailPageOverview, RestaurantDetailInfo, RestaurantDetailMenu } from '@/containers';
 import { IRestaurant, PropertyType, Updates } from '@/types';
 import { Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
@@ -24,6 +24,9 @@ const AdminRestaurantDetailPage = ({ restaurant }: Props) => {
         <ModalContent className="max-h-[90vh]">
           {(onClose) => (
             <ModalBody>
+              {updateType === 'images' ? (
+                <UpdatePropertyImages onClose={onClose} property={restaurant} type={PropertyType.RESTAURANT} />
+              ) : null}
               {updateType === 'amenities' ? (
                 <UpdatePropertyAmenities onClose={onClose} property={restaurant} type={PropertyType.RESTAURANT} />
               ) : null}
