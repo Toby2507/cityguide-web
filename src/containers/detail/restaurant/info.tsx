@@ -100,7 +100,7 @@ const RestaurantDetailsInfo = ({
             </TableCell>
             <TableCell className="py-4 text-accentGray w-9/12">
               {reservation
-                ? `Reservation required. Fee: ${numberToCurrency(reservation)} per person.`
+                ? `Reservation required. Fee: ${numberToCurrency(reservation.price)} per table.`
                 : 'No reservations available. Walk-ins welcome.'}
             </TableCell>
           </TableRow>
