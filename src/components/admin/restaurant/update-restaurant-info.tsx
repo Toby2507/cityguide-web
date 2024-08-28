@@ -55,7 +55,7 @@ const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
       await updateRestaurant(updateBody, restaurant._id);
       onClose();
       reset();
-      toast.success('Stay rules updated successfully!');
+      toast.success('Restaurant information updated successfully!');
     } finally {
       setIsLoading(false);
     }
