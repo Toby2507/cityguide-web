@@ -4,6 +4,7 @@ import {
   UpdatePropertyAddress,
   UpdatePropertyAmenities,
   UpdatePropertyImages,
+  UpdateRestaurantDetails,
   UpdateRestaurantInfo,
 } from '@/components';
 import { DetailPageAmenities, DetailPageOverview, RestaurantDetailInfo, RestaurantDetailMenu } from '@/containers';
@@ -39,6 +40,7 @@ const AdminRestaurantDetailPage = ({ restaurant }: Props) => {
                 <UpdatePropertyAddress onClose={onClose} property={restaurant} type={PropertyType.RESTAURANT} />
               ) : null}
               {updateType === 'info' ? <UpdateRestaurantInfo onClose={onClose} restaurant={restaurant} /> : null}
+              {updateType === 'details' ? <UpdateRestaurantDetails onClose={onClose} restaurant={restaurant} /> : null}
             </ModalBody>
           )}
         </ModalContent>
