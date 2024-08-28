@@ -1,7 +1,8 @@
 import { RatingCard } from '@/components';
 import { IRestaurant } from '@/types';
-import { numberToCurrency } from '@/utils';
+import { numberToCurrency, paths } from '@/utils';
 import { Button, Chip, Image } from '@nextui-org/react';
+import Link from 'next/link';
 import { FaChildren } from 'react-icons/fa6';
 import { GrDeliver } from 'react-icons/gr';
 import { IoCard, IoCheckmark, IoPricetags } from 'react-icons/io5';
@@ -9,6 +10,7 @@ import { LuVegan } from 'react-icons/lu';
 import { MdFoodBank, MdRoomService } from 'react-icons/md';
 
 const RestaurantCard = ({
+  _id,
   address,
   avatar,
   cuisine,
@@ -90,13 +92,15 @@ const RestaurantCard = ({
             <p className="text-xs font-light">{reservation ? 'Reservation required.' : 'No reservations available'}</p>
             {reservation ? (
               <p className="text-2xl tracking-tighter font-medium">
-                {numberToCurrency(reservation)}
-                <span className="text-xs tracking-normal"> / person</span>
+                {numberToCurrency(reservation.price)}
+                <span className="text-xs tracking-normal"> / Table</span>
               </p>
             ) : null}
-            <Button color="primary" radius="sm" className="font-medium tracking-wide px-8">
-              View Restaurant
-            </Button>
+            <Link href={paths.adminRestaurant(_id)}>
+              <Button color="primary" radius="sm" className="font-medium tracking-wide px-8">
+                View Restaurant
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

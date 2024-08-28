@@ -18,7 +18,7 @@ const path = {
   adminStay: (id: string) => `/admin/stay/${id}`,
   restaurants: () => '/admin/restaurant',
   createRestaurant: () => '/admin/restaurant/create',
-  adminRestaurant: (id: string) => `admin/restaurant/${id}`,
+  adminRestaurant: (id: string) => `/admin/restaurant/${id}`,
 };
 
 export default path;
