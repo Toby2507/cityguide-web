@@ -62,7 +62,6 @@ export interface IAccommodationForm {
 export interface ICreateRestaurant {
   name: string;
   summary: string;
-  description?: string;
   address: IAddress;
   avatar: string;
   images: string[];
@@ -74,6 +73,24 @@ export interface ICreateRestaurant {
   menu: IMenu[];
   details: IRestaurantDetails;
   contact: IContact;
+}
+
+export interface IUpdateRestaurant {
+  name?: string;
+  summary?: string;
+  address?: IAddress;
+  avatar?: string;
+  images?: string[];
+  availability?: (ICustomAvailability | null)[];
+  priceRange?: PriceRange;
+  serviceStyle?: string[];
+  cuisine?: string[];
+  dietaryProvisions?: string[];
+  details?: IRestaurantDetails;
+  contact?: IContact;
+}
+export interface IMenuForm {
+  menu: IMenu[];
 }
 
 // Reservation
