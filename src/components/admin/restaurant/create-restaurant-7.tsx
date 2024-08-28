@@ -5,7 +5,7 @@ import { createRestaurantSchema } from '@/schemas';
 import { ICreateRestaurant, ISocialLink } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoAdd } from 'react-icons/io5';
@@ -18,6 +18,7 @@ interface Props {
 const CreateRestaurantStep7 = ({ setStep }: Props) => {
   const { control, getValues, setFocus, setValue, trigger, watch } = useFormContext<ICreateRestaurant>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [reservation, setReservation] = useState<boolean>(!!getValues('details.reservation') || false);
   const {
     field: { value, onChange },
   } = useController({
@@ -65,6 +66,11 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
     setIsLoading(false);
     setStep(8);
   };
+
+  useEffect(() => {
+    if (!reservation) setValue('details.reservation', undefined);
+    else !getValues('details.reservation') && setValue('details.reservation', { available: 1, max: 1, price: 0 });
+  }, [reservation, getValues, setValue]);
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
       <div className="flex flex-col gap-2">
@@ -121,32 +127,101 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
               },
             }}
           />
-          <Controller
-            control={control}
-            render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
-              <Input
-                name="reservation"
-                label="Reservation Price"
-                placeholder=" "
-                type="tel"
-                value={value?.toString() || ''}
-                onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
-                isInvalid={!!error}
-                errorMessage={error?.message}
-                ref={ref}
-                className="text-accentGray"
-                description="Leave blank if you don't take reservations"
-              />
-            )}
-            name="details.reservation"
-            rules={{
-              validate: (val) => {
-                const isValid = createRestaurantSchema.shape.details.shape.reservation.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
-          />
+          <Select
+            selectedKeys={[reservation ? 'Yes' : 'No']}
+            onChange={(e) => setReservation(e.target.value === 'Yes')}
+            label="Reservation service?"
+            placeholder=" "
+          >
+            <SelectItem key="Yes">Yes</SelectItem>
+            <SelectItem key="No">No</SelectItem>
+          </Select>
         </div>
+        {reservation ? (
+          <div className="grid grid-cols-3 gap-3">
+            <Controller
+              control={control}
+              render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+                <Input
+                  name="reservation_available"
+                  label="No of tables available"
+                  placeholder=" "
+                  type="tel"
+                  isRequired
+                  value={value?.toString() || ''}
+                  onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
+                  isInvalid={!!error}
+                  errorMessage={error?.message}
+                  ref={ref}
+                  className="text-accentGray"
+                />
+              )}
+              name="details.reservation.available"
+              rules={{
+                validate: (val) => {
+                  const isValid = createRestaurantSchema.shape.details.shape.reservation
+                    .unwrap()
+                    .shape.available.safeParse(val);
+                  return isValid.success || isValid.error.flatten().formErrors.join(', ');
+                },
+              }}
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+                <Input
+                  name="reservation_table"
+                  label="Max guests per table"
+                  placeholder=" "
+                  type="tel"
+                  isRequired
+                  value={value?.toString() || ''}
+                  onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
+                  isInvalid={!!error}
+                  errorMessage={error?.message}
+                  ref={ref}
+                  className="text-accentGray"
+                />
+              )}
+              name="details.reservation.max"
+              rules={{
+                validate: (val) => {
+                  const isValid = createRestaurantSchema.shape.details.shape.reservation
+                    .unwrap()
+                    .shape.max.safeParse(val);
+                  return isValid.success || isValid.error.flatten().formErrors.join(', ');
+                },
+              }}
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+                <Input
+                  name="reservation"
+                  label="Table Price"
+                  placeholder=" "
+                  type="tel"
+                  isRequired
+                  value={value?.toString() || ''}
+                  onValueChange={(val) => /^[\d.]*$/.test(val) && onChange(+val)}
+                  isInvalid={!!error}
+                  errorMessage={error?.message}
+                  ref={ref}
+                  className="text-accentGray"
+                />
+              )}
+              name="details.reservation.price"
+              rules={{
+                validate: (val) => {
+                  const isValid = createRestaurantSchema.shape.details.shape.reservation
+                    .unwrap()
+                    .shape.price.safeParse(val);
+                  return isValid.success || isValid.error.flatten().formErrors.join(', ');
+                },
+              }}
+            />
+          </div>
+        ) : null}
         <StringArrayInput
           arr={value || []}
           label="Add the payment methods accepted at your restaurant"
