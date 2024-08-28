@@ -70,6 +70,31 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
           />
           <Controller
             control={control}
+            render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+              <Textarea
+                name="summary"
+                label="Property Summary"
+                labelPlacement="outside"
+                placeholder=" "
+                radius="full"
+                value={value}
+                onChange={onChange}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                ref={ref}
+                className="text-accentGray"
+              />
+            )}
+            name="summary"
+            rules={{
+              validate: (val) => {
+                const isValid = updateStaySchema.shape.summary.safeParse(val);
+                return isValid.success || isValid.error.flatten().formErrors.join(', ');
+              },
+            }}
+          />
+          <Controller
+            control={control}
             render={({ field: { onChange, ref, value } }) => (
               <Input
                 name="host_name"
