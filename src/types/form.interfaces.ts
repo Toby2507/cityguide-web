@@ -37,6 +37,7 @@ export interface ICreateStay {
 }
 export interface IUpdateStay {
   name?: string;
+  summary?: string;
   extraInfo?: IExtraInfo;
   address?: IAddress;
   avatar?: string;
