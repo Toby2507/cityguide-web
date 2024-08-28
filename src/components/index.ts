@@ -38,6 +38,7 @@ export { default as CreateRestaurantStep8 } from './admin/restaurant/create-rest
 export { default as CreateRestaurantReview } from './admin/restaurant/create-restaurant-review';
 export { default as UpdateRestaurantDetails } from './admin/restaurant/update-restaurant-details';
 export { default as UpdateRestaurantInfo } from './admin/restaurant/update-restaurant-info';
+export { default as UpdateRestaurantMenu } from './admin/restaurant/update-restaurant-menu';
 
 // Auth
 export { default as LoginTab } from './auth/login-tab';
