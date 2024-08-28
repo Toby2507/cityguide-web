@@ -69,7 +69,7 @@ const CreateRestaurantStep6 = ({ setStep }: Props) => {
           </h6>
           <div className="grid grid-cols-2 gap-4">
             {Object.values(DayOfWeek).map((item, i) => {
-              const [from, to] = getValues([`availability.${i}.from`, `availability.${i}.to`]);
+              const [from, to] = watch([`availability.${i}.from`, `availability.${i}.to`]);
               const fromValue = from ? parseAbsoluteToLocal(dayjs(`2000-01-01 ${from}`).toISOString()) : undefined;
               const toValue = to ? parseAbsoluteToLocal(dayjs(`2000-01-01 ${to}`).toISOString()) : undefined;
               return (

@@ -19,7 +19,7 @@ interface Props {
 
 const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
   const method = useForm<IUpdateRestaurant>({ defaultValues: restaurant, mode: 'onChange' });
-  const { control, getValues, handleSubmit, reset, setValue } = method;
+  const { control, getValues, handleSubmit, reset, setValue, watch } = method;
   const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,7 +45,8 @@ const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
   const onSubmit: SubmitHandler<IUpdateRestaurant> = async (data) => {
     setIsLoading(true);
     try {
-      const updateBody = getObjDiff(data, restaurant);
+      const updatedData = { ...data, availability: data.availability?.filter(Boolean) };
+      const updateBody = getObjDiff(updatedData, restaurant);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
@@ -68,7 +69,7 @@ const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
             <h6 className="text-lg font-medium">Availability</h6>
             <div className="grid grid-cols-2 gap-4">
               {Object.values(DayOfWeek).map((item, i) => {
-                const [from, to] = getValues([`availability.${i}.from`, `availability.${i}.to`]);
+                const [from, to] = watch([`availability.${i}.from`, `availability.${i}.to`]);
                 const fromValue = from ? parseAbsoluteToLocal(dayjs(`2000-01-01 ${from}`).toISOString()) : undefined;
                 const toValue = to ? parseAbsoluteToLocal(dayjs(`2000-01-01 ${to}`).toISOString()) : undefined;
                 return (
