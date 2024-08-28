@@ -23,7 +23,7 @@ interface Props {
   stay: IStay;
 }
 
-const AdminDetailPage = ({ stay }: Props) => {
+const AdminStayDetailPage = ({ stay }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [updateType, setUpdateType] = useState<Updates>('details');
 
@@ -58,4 +58,4 @@ const AdminDetailPage = ({ stay }: Props) => {
   );
 };
 
-export default AdminDetailPage;
+export default AdminStayDetailPage;

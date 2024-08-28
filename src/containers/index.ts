@@ -3,6 +3,8 @@ export { default as AdminSidebar } from './admin/sidebar';
 // // Home
 export { default as AdminDashboard } from './admin/home/dashboard';
 export { default as AdminReservation } from './admin/home/reservation';
+// // Restaurant
+export { default as AdminRestaurantDetail } from './admin/restaurant/detail-page';
 // // Stay
 export { default as AdminStayDetail } from './admin/stay/detail-page';
 
