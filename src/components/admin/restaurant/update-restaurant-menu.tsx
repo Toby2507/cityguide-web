@@ -5,6 +5,8 @@ import { Button } from '@nextui-org/react';
 import { useState } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import UpdateRestaurantMenuList from './update-restaurant-menu-list';
+import UpdateRestaurantMenuUpdate from './update-restaurant-menu-update';
+import UpdateRestaurantMenuCreate from './update-restaurant-menu-create';
 
 interface Props {
   restaurant: IRestaurant;
@@ -39,6 +41,10 @@ const UpdateRestaurantMenu = ({ restaurant, onClose }: Props) => {
         ) : null}
       </header>
       {modalState === 'list' ? <UpdateRestaurantMenuList onUpdate={updateMenuItem} restaurant={restaurant} /> : null}
+      {modalState === 'update' ? (
+        <UpdateRestaurantMenuUpdate onClose={onClose} menuItem={activeMenuItem!} resId={restaurant._id} />
+      ) : null}
+      {modalState === 'create' ? <UpdateRestaurantMenuCreate onClose={onClose} resId={restaurant._id} /> : null}
     </div>
   );
 };
