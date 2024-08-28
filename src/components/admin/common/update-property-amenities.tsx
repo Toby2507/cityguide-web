@@ -42,7 +42,7 @@ const UpdatePropertyAmenities = ({ property, type, onClose }: Props) => {
   return (
     <FormProvider {...method}>
       <div className="flex flex-col gap-6 p-2">
-        <h3 className="text-2xl text-center font-semibold tracking-wide border-b py-2">Update Stay Amenities</h3>
+        <h3 className="text-2xl text-center font-semibold tracking-wide border-b py-2">Update Property Amenities</h3>
         <CreatePropertyAmenities
           data={type === PropertyType.STAY ? staticAmenities : restaurantAmenities}
           name={type === PropertyType.STAY ? 'amenities' : 'details.amenities'}

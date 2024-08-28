@@ -112,7 +112,7 @@ const UpdatePropertyImages = ({ property, type, onClose }: Props) => {
           )}
         </ModalContent>
       </Modal>
-      <h3 className="text-2xl text-center font-semibold tracking-wide border-b py-2">Update Stay Images</h3>
+      <h3 className="text-2xl text-center font-semibold tracking-wide border-b py-2">Update Property Images</h3>
       <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">

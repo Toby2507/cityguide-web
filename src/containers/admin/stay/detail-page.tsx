@@ -1,13 +1,13 @@
 'use client';
 
 import {
+  UpdatePropertyAddress,
   UpdatePropertyAmenities,
   UpdatePropertyImages,
   UpdateStayAccommodation,
   UpdateStayDetails,
   UpdateStayRules,
 } from '@/components';
-import UpdateStayAddress from '@/components/admin/stay/update-stay-address';
 import {
   DetailPageAmenities,
   DetailPageOverview,
@@ -46,7 +46,9 @@ const AdminStayDetailPage = ({ stay }: Props) => {
               {updateType === 'amenities' ? (
                 <UpdatePropertyAmenities onClose={onClose} property={stay} type={PropertyType.STAY} />
               ) : null}
-              {updateType === 'map' ? <UpdateStayAddress onClose={onClose} stay={stay} /> : null}
+              {updateType === 'map' ? (
+                <UpdatePropertyAddress onClose={onClose} property={stay} type={PropertyType.STAY} />
+              ) : null}
             </ModalBody>
           )}
         </ModalContent>

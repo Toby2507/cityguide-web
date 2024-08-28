@@ -7,6 +7,7 @@ export { default as CreatePropertyAddress } from './admin/common/create-property
 export { default as CreatePropertyAmenities } from './admin/common/create-property-amenities';
 export { default as CreatePropertyImageUpload } from './admin/common/create-property-image-upload';
 export { default as StringArrayInput } from './admin/common/string-array-input';
+export { default as UpdatePropertyAddress } from './admin/common/update-property-address';
 export { default as UpdatePropertyAmenities } from './admin/common/update-property-amenities';
 export { default as UpdatePropertyImages } from './admin/common/update-property-images';
 // // Dashboard
