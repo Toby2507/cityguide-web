@@ -10,7 +10,6 @@ export const createRestaurantSchema = object({
     10,
     'Summary should be atleast 10 characters'
   ),
-  description: string().min(10, 'Description should be atleast 10 characters').optional(),
   address: object(
     {
       name: string({ required_error: 'Address name is required' }),
