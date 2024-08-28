@@ -23,7 +23,7 @@ export const numberFormat = (number: number) => {
 };
 
 export const numberToCurrency = (value: number, prefix: boolean = false) => {
-  const number = (value || 0).toFixed(2);
+  const number = (+value || 0).toFixed(2);
   const [currency, decimal] = number.split('.');
   if (prefix && value < 1000000) return `₦${Math.ceil(value / 1000)}K`;
   if (prefix && value >= 1000000) return `₦${Math.ceil(value / 1000000)}M`;
