@@ -1,38 +1,40 @@
 'use client';
 
-import { staticAmenities } from '@/data';
-import { updateStay } from '@/server';
-import { IStay, IUpdateStay } from '@/types';
+import { restaurantAmenities, staticAmenities } from '@/data';
+import { updateRestaurant, updateStay } from '@/server';
+import { IRestaurant, IStay, IUpdateRestaurant, IUpdateStay, PropertyType } from '@/types';
 import { getObjDiff } from '@/utils';
 import { Button } from '@nextui-org/react';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import CreatePropertyAmenities from '../common/create-property-amenities';
+import CreatePropertyAmenities from './create-property-amenities';
 
 interface Props {
-  stay: IStay;
+  property: IStay | IRestaurant;
+  type: PropertyType;
   onClose: () => void;
 }
 
-const UpdateStayAmenities = ({ stay, onClose }: Props) => {
+const UpdatePropertyAmenities = ({ property, type, onClose }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const method = useForm<IUpdateStay>({ defaultValues: stay, mode: 'onChange' });
+  const method = useForm<IUpdateStay | IUpdateRestaurant>({ defaultValues: property, mode: 'onChange' });
   const { handleSubmit, reset } = method;
 
-  const onSubmit: SubmitHandler<IUpdateStay> = async (data) => {
+  const onSubmit: SubmitHandler<IUpdateStay | IUpdateRestaurant> = async (data) => {
     setIsLoading(true);
     try {
-      const updateBody = getObjDiff(data, stay);
+      const updateBody = getObjDiff(data, property);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
         return toast.error('No change has been made!');
       }
-      await updateStay(updateBody, stay._id);
+      if (type === PropertyType.STAY) await updateStay(updateBody, property._id);
+      else await updateRestaurant(updateBody, property._id);
       onClose();
       reset();
-      toast.success('Stay rules updated successfully!');
+      toast.success('Property rules updated successfully!');
     } finally {
       setIsLoading(false);
     }
@@ -41,7 +43,10 @@ const UpdateStayAmenities = ({ stay, onClose }: Props) => {
     <FormProvider {...method}>
       <div className="flex flex-col gap-6 p-2">
         <h3 className="text-2xl text-center font-semibold tracking-wide border-b py-2">Update Stay Amenities</h3>
-        <CreatePropertyAmenities data={staticAmenities} name="amenities" />
+        <CreatePropertyAmenities
+          data={type === PropertyType.STAY ? staticAmenities : restaurantAmenities}
+          name={type === PropertyType.STAY ? 'amenities' : 'details.amenities'}
+        />
         <Button
           className="text-sm font-semibold px-14 py-6 my-6"
           color="primary"
@@ -49,11 +54,11 @@ const UpdateStayAmenities = ({ stay, onClose }: Props) => {
           onPress={() => handleSubmit(onSubmit)()}
           isLoading={isLoading}
         >
-          Update Accommodation
+          Update Amenities
         </Button>
       </div>
     </FormProvider>
   );
 };
 
-export default UpdateStayAmenities;
+export default UpdatePropertyAmenities;
