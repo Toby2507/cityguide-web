@@ -58,6 +58,8 @@ const UpdateStayImages = ({ stay, onClose }: Props) => {
     setIsLoading(true);
     try {
       if (!avatar) return toast.error('Please select an avatar');
+      if ([...images, ...stayImages, avatar].length < 12)
+        return toast.error('A minimum of 12 images overall is required');
       if (images.length) {
         if (invalidImages.length)
           return toast.error(`${invalidImages.length} image(s) does not meet the minimum quality`);
@@ -75,7 +77,7 @@ const UpdateStayImages = ({ stay, onClose }: Props) => {
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
-        return toast.error('No change has beed made!');
+        return toast.error('No change has been made!');
       }
       await updateStay(updateBody, stay._id);
       onClose();
