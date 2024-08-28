@@ -241,3 +241,28 @@ export const updateRestaurantSchema = strictObject({
       .optional(),
   }).optional(),
 });
+
+export const addMenuItemSchema = object({
+  body: object(
+    {
+      id: string({ required_error: 'Menu item id is required' }),
+      name: string({ required_error: 'Menu item name is required' }).min(
+        3,
+        'Menu item name should be atleast 3 characters'
+      ),
+      description: string({ required_error: 'Menu item description is required' }).min(
+        10,
+        'Menu item description should be atleast 10 characters'
+      ),
+      imgUrl: string({ required_error: 'Menu item image is required' }),
+      price: number({ invalid_type_error: 'Menu item price should be a number' }).optional(),
+      category: string({ invalid_type_error: 'Menu item category should be an array' }).array().optional(),
+      dietaryProvisions: string({ invalid_type_error: 'Menu item dietary provisions should be an array' })
+        .array()
+        .optional(),
+    },
+    { required_error: 'Menu item is required', invalid_type_error: 'Menu item should be an array' }
+  )
+    .array()
+    .min(1, 'Atleast one menu item is required'),
+});
