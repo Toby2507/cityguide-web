@@ -1,7 +1,7 @@
 'use server';
 
 import { IReservationStats, IRestaurant, IStay, PropertyType } from '@/types';
-import { fetchBaseQuery, fetchWithReAuth } from '@/utils';
+import { fetchWithReAuth } from '@/utils';
 
 interface IGetResAnalytics {
   property?: string;

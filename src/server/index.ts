@@ -13,4 +13,4 @@ export { getSearchResult } from './actions/core';
 // Queries
 export { getPartnerRestaurants, getPartnerStays, getReservationAnalytics } from './queries/admin';
 export { getUser, getUserProfile, logout } from './queries/auth';
-export { getStayById, getTrendingStays } from './queries/core';
+export { getRestaurantById, getStayById, getTrendingStays } from './queries/core';
