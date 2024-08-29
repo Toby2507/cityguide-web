@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchStayCard } from '@/components';
+import { SearchStayCard, SearchStayFilterBox } from '@/components';
 import { StaySearchBar } from '@/containers';
 import { useSearchStore } from '@/providers';
 import { getStaySearch, refetchPage } from '@/server';
@@ -37,9 +37,7 @@ const StaySearchPage = ({ searchParam }: Props) => {
       <div className="grid grid-cols-10 gap-4 pb-10">
         <div className="col-span-3 flex flex-col border rounded-xl">
           <h3 className="text-lg font-bold border-b px-3 py-4">Filter by: </h3>
-          <div className="flex flex-col gap-2 px-4 py-2">
-            <h4 className="text-base font-bold">Stay type</h4>
-          </div>
+          <SearchStayFilterBox stays={searchResult || []} filterStays={setSearchResult} />
         </div>
         <div className="col-span-7 flex flex-col gap-4">
           <h1 className="text-xl font-bold">
