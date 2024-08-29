@@ -83,3 +83,5 @@ export enum EngagementType {
 }
 
 export type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities' | 'menu' | 'info';
+
+export type NavTabs = 'Stay' | 'Restaurant' | 'Nightlife' | 'Airtime';
