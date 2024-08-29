@@ -236,6 +236,11 @@ export interface IStay {
   maxDays: MaxDays;
   language: string[];
   optionalServices: IOptionalService[];
+  locationInfo?: {
+    distance: number;
+    distanceInWords: string;
+    duration: string;
+  };
   createdAt: string;
   updatedAt: string;
 }
