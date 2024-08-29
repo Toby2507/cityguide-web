@@ -79,3 +79,7 @@ export { default as SubmitForm } from './misc/submit-form';
 
 // Reservation
 export { default as UserDetailReservationAccommodation } from './reservations/user-detail-accommodation';
+
+// Search
+// // Stay
+export { default as SearchStayCard } from './search/stay/stay-card';
