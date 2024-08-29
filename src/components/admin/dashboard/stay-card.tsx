@@ -1,13 +1,8 @@
 import { CustomStars, RatingCard } from '@/components';
 import { IStay } from '@/types';
-import { numberToCurrency, paths } from '@/utils';
+import { formatAccomodationDetails, numberToCurrency, paths } from '@/utils';
 import { Button, Chip, Image } from '@nextui-org/react';
 import Link from 'next/link';
-import { FaChildren } from 'react-icons/fa6';
-import { IoFastFoodOutline } from 'react-icons/io5';
-import { LuBaby, LuParkingCircle } from 'react-icons/lu';
-import { PiBathtub } from 'react-icons/pi';
-import { TbMeterSquare } from 'react-icons/tb';
 
 const StayCard = ({
   avatar,
@@ -27,22 +22,6 @@ const StayCard = ({
   let neighborhood = '';
   if (extraInfo?.neighborhood)
     extraInfo.neighborhood.locations?.slice(0, 2).forEach((e) => (neighborhood += `• ${e.distance} from ${e.name} `));
-  const accommodationDetails = [
-    { title: 'bathrooms', value: `${accommodation[0].bathrooms} bathrooms`, Icon: PiBathtub },
-    {
-      title: 'children',
-      value: accommodation[0].children ? 'Children allowed' : 'Children not allowed',
-      Icon: FaChildren,
-    },
-    { title: 'infants', value: accommodation[0].infants ? 'Infants allowed' : 'Infants not allowed', Icon: LuBaby },
-    { title: 'parking', value: `${accommodation[0].parking} parking`, Icon: LuParkingCircle },
-    { title: 'size', value: `${accommodation[0].size} m²`, Icon: TbMeterSquare },
-    {
-      title: 'breakfast',
-      value: !!accommodation[0].breakfast ? (accommodation[0].breakfast.price ? 'Paid' : 'Free') : 'No',
-      Icon: IoFastFoodOutline,
-    },
-  ];
   return (
     <article className="grid grid-cols-10 items-center gap-6 border rounded-xl p-3 bg-white shadow-2xl">
       <figure className="h-full col-span-3 w-full">
@@ -74,7 +53,7 @@ const StayCard = ({
           <div className="flex-1 flex flex-col gap-2">
             <p className="font-bold">{accommodation[0].name}</p>
             <div className="flex flex-wrap items-center gap-2">
-              {accommodationDetails.map(({ title, value, Icon }) => (
+              {formatAccomodationDetails(accommodation[0]).map(({ title, value, Icon }) => (
                 <div key={title} className="flex items-center gap-1">
                   <Icon color="text-default" size={16} />
                   <p className="text-xs font-light">{value}</p>
