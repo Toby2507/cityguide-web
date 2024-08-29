@@ -29,8 +29,12 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
     libraries: LIBS,
   });
-  const validCheckIn = dayjs(checkInDay).isValid() ? dayjs(checkInDay) : dayjs();
-  const validCheckOut = dayjs(checkOutDay).isValid() ? dayjs(checkOutDay) : dayjs().add(1, 'd');
+  const validCheckIn =
+    dayjs(checkInDay).isValid() && dayjs().diff(dayjs(checkInDay), 'd') < 0 ? dayjs(checkInDay) : dayjs();
+  const validCheckOut =
+    dayjs(checkOutDay).isValid() && dayjs().diff(dayjs(checkOutDay), 'd') < 0
+      ? dayjs(checkOutDay)
+      : dayjs().add(1, 'd');
   const checkDate = {
     start: parseDate(validCheckIn.format('YYYY-MM-DD')),
     end: parseDate(validCheckOut.format('YYYY-MM-DD')),
@@ -62,6 +66,11 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
       return () => acListen.remove();
     }
   }, [autoComplete, noLocation, setState]);
+  useEffect(() => {
+    if (!dayjs(checkInDay).isValid()) setState({ checkInDay: dayjs().format('YYYY-MM-DD') });
+    if (!dayjs(checkOutDay).isValid()) setState({ checkOutDay: dayjs().add(1, 'd').format('YYYY-MM-DD') });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className={`relative flex items-center gap-1 bg-accentLightBlue p-1 rounded-xl shadow-xl ${extraClass}`}>
       {!noLocation ? (
