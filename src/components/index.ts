@@ -83,3 +83,4 @@ export { default as UserDetailReservationAccommodation } from './reservations/us
 // Search
 // // Stay
 export { default as SearchStayCard } from './search/stay/stay-card';
+export { default as SearchStayFilterBox } from './search/stay/stay-filter-box';
