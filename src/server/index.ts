@@ -13,8 +13,8 @@ export {
   uploadImages,
 } from './actions/admin';
 export { createEstablishment, createUser, loginUser, upgradeUser, verifyOtp } from './actions/auth';
-export { getSearchResult } from './actions/core';
+export { refetchPage } from './actions/core';
 // Queries
 export { getPartnerRestaurants, getPartnerStays, getReservationAnalytics } from './queries/admin';
 export { getUser, getUserProfile, logout } from './queries/auth';
-export { getRestaurantById, getStayById, getTrendingStays } from './queries/core';
+export { getRestaurantById, getStayById, getStaySearch, getTrendingStays } from './queries/core';

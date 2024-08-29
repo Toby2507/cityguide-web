@@ -1,5 +1,7 @@
 'use server';
 
-export const getSearchResult = async () => {
-  console.log('search');
+import { revalidatePath } from 'next/cache';
+
+export const refetchPage = async (path: string) => {
+  revalidatePath(path);
 };

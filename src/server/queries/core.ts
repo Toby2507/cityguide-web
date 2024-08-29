@@ -1,6 +1,6 @@
 'use server';
 
-import { IRestaurant, IStay } from '@/types';
+import { IRestaurant, IStay, LatLng } from '@/types';
 import { fetchBaseQuery } from '@/utils';
 import toast from 'react-hot-toast';
 
@@ -19,6 +19,24 @@ export const getStayById = async (id: string) => {
   }
   const stay = await res.json();
   return stay.stay as IStay;
+};
+
+export const getStaySearch = async (
+  { lat, lng }: LatLng,
+  checkIn?: string,
+  checkOut?: string,
+  children?: boolean,
+  guest?: number,
+  count?: number
+) => {
+  let url = `property/stay/search?lat=${lat}&lng=${lng}`;
+  if (checkIn && checkOut) url += `&checkin=${checkIn}&checkout=${checkOut}`;
+  if (children) url += '&children=0';
+  if (guest) url += `&guests=${guest}`;
+  if (count) url += `&count=${count}`;
+  const res = await fetchBaseQuery(url, { method: 'GET' });
+  const stays = await res.json();
+  return stays.properties as IStay[];
 };
 
 // Restaurants
