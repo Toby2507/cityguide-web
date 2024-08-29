@@ -1,9 +1,14 @@
-import { IAddress, ICreateRestaurant, ICreateStay, ICustomAvailability } from '@/types';
+import { IAccommodation, IAddress, ICreateRestaurant, ICreateStay, ICustomAvailability } from '@/types';
 import differenceWith from 'lodash/differenceWith';
 import fromPairs from 'lodash/fromPairs';
 import isEqual from 'lodash/isEqual';
 import toPairs from 'lodash/toPairs';
 import { KeyboardEvent } from 'react';
+import { FaChildren } from 'react-icons/fa6';
+import { IoFastFoodOutline } from 'react-icons/io5';
+import { LuBaby, LuParkingCircle } from 'react-icons/lu';
+import { PiBathtub } from 'react-icons/pi';
+import { TbMeterSquare } from 'react-icons/tb';
 
 export const addressFormatter = (res: google.maps.places.PlaceResult): IAddress => {
   return {
@@ -140,3 +145,20 @@ export const getObjDiff = (obj1: Object, obj2: Object) => {
   const diff = differenceWith(toPairs(cleanedObj1), toPairs(cleanedObj2), isEqual);
   return fromPairs(diff);
 };
+
+export const formatAccomodationDetails = (acc: IAccommodation) => [
+  { title: 'bathrooms', value: `${acc.bathrooms} bathrooms`, Icon: PiBathtub },
+  {
+    title: 'children',
+    value: acc.children ? 'Children allowed' : 'Children not allowed',
+    Icon: FaChildren,
+  },
+  { title: 'infants', value: acc.infants ? 'Infants allowed' : 'Infants not allowed', Icon: LuBaby },
+  { title: 'parking', value: `${acc.parking} parking`, Icon: LuParkingCircle },
+  { title: 'size', value: `${acc.size} m²`, Icon: TbMeterSquare },
+  {
+    title: 'breakfast',
+    value: !!acc.breakfast ? (acc.breakfast.price ? 'Paid' : 'Free') : 'No',
+    Icon: IoFastFoodOutline,
+  },
+];
