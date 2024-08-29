@@ -9,6 +9,7 @@ import { useJsApiLoader } from '@react-google-maps/api';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 import { FaRegUser } from 'react-icons/fa';
 import { MdOutlineLocationSearching } from 'react-icons/md';
 import { PiMinusThin, PiPlusThin } from 'react-icons/pi';
@@ -46,9 +47,11 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
       checkInDay: value.start.toString(),
       checkOutDay: value.end.toString(),
     });
+  const clearLocation = () => setState({ location: null });
   const handleSearch = () => {
     setIsLoading(true);
-    isMain ? push(paths.searchStay()) : search!();
+    if (isMain) location ? push(paths.searchStay()) : toast.error('Please select a location');
+    else search!();
     setIsLoading(false);
   };
 
@@ -88,6 +91,8 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
           radius="sm"
           placeholder={location?.fullAddress || ''}
           ref={placesRef}
+          isClearable
+          onClear={clearLocation}
         />
       ) : null}
       <DateRangePicker
