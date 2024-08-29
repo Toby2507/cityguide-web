@@ -5,12 +5,16 @@ import { persist } from 'zustand/middleware';
 export const searchStore = () => {
   return createStore<ISearchStore>()(
     persist(
-      (set, get) => ({
-        location: null,
+      (set) => ({
+        activeTab: 'Stay',
         checkInDay: '',
         checkOutDay: '',
+        location: null,
         noOfGuests: { adults: 1, children: 0 },
         reservationCount: 1,
+        setActiveTab(activeTab) {
+          set({ activeTab });
+        },
         setState(search) {
           set((state) => ({ ...state, ...search }));
         },
