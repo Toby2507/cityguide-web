@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Toaster position="bottom-left" />
         <Providers>{children}</Providers>
+        <SpeedInsights />
       </body>
     </html>
   );

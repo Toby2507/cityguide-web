@@ -13,6 +13,7 @@
     "@internationalized/date": "^3.5.4",
     "@nextui-org/react": "^2.3.6",
     "@react-google-maps/api": "^2.19.3",
+    "@vercel/speed-insights": "^1.0.12",
     "dayjs": "^1.11.11",
     "framer-motion": "^11.2.6",
     "nanoid": "^5.0.7",
