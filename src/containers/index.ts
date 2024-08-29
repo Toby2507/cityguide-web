@@ -50,3 +50,6 @@ export { default as Footer } from './misc/footer';
 // Reservation
 export { default as StayDetailReservation } from './reservation/stay-detail';
 export { default as UserDetailReservation } from './reservation/user-detail';
+
+// Search
+export { default as StaySearch } from './search/stay/stay-search';
