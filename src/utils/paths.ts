@@ -11,8 +11,8 @@ const path = {
   offers: (id: string) => '#',
   stayDetail: (id: string) => `/stay/${id}`,
   reserveStay: (id: string) => `/reservation/stay/${id}`,
-  searchStay: (params?: string[]) => `/search/stay/${params?.join('/')}`,
-  searchRestaurant: (params?: string[]) => `search/restaurant/${params?.join('/')}`,
+  searchStay: (params?: string[]) => `/search/stay/${params?.join('/') || ''}`,
+  searchRestaurant: (params?: string[]) => `search/restaurant/${params?.join('/') || ''}`,
   // Admin paths
   admin: () => '/admin',
   stays: () => '/admin/stay',
