@@ -24,6 +24,7 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
   const { push } = useRouter();
   const { setState, checkInDay, checkOutDay, location, noOfGuests, reservationCount } = useSearchStore();
   const placesRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [autoComplete, setAutoComplete] = useState<google.maps.places.Autocomplete | null>(null);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
@@ -45,6 +46,11 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
       checkInDay: value.start.toString(),
       checkOutDay: value.end.toString(),
     });
+  const handleSearch = () => {
+    setIsLoading(true);
+    isMain ? push(paths.searchStay()) : search!();
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     if (isLoaded && !noLocation) {
@@ -195,7 +201,8 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
           className="font-semibold"
           size="lg"
           color="primary"
-          onPress={() => (isMain ? push(paths.searchStay()) : search!())}
+          isLoading={isLoading}
+          onPress={handleSearch}
           radius="sm"
         >
           Search
