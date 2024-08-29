@@ -2,17 +2,13 @@
 
 import { useReservationStore } from '@/providers';
 import { IAccommodation, IGuests, StayType } from '@/types';
-import { numberToCurrency, paths } from '@/utils';
+import { formatAccomodationDetails, numberToCurrency, paths } from '@/utils';
 import { Button, ButtonGroup, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { BsDot } from 'react-icons/bs';
 import { FaUserAlt } from 'react-icons/fa';
-import { FaChildren } from 'react-icons/fa6';
-import { IoCaretDownOutline, IoCheckmark, IoFastFoodOutline } from 'react-icons/io5';
-import { LuBaby, LuParkingCircle } from 'react-icons/lu';
-import { PiBathtub } from 'react-icons/pi';
-import { TbMeterSquare } from 'react-icons/tb';
+import { IoCaretDownOutline, IoCheckmark } from 'react-icons/io5';
 
 interface Props {
   columnKey: string;
@@ -36,20 +32,6 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin }: Pro
   );
   const prepayment = [StayType.APARTMENT, StayType.BnB].includes(type);
 
-  const accommodationDetails = [
-    { title: 'bathrooms', value: `${user.bathrooms} bathrooms`, Icon: PiBathtub },
-    { title: 'children', value: user.children ? 'Children allowed' : 'Children not allowed', Icon: FaChildren },
-    { title: 'infants', value: user.infants ? 'Infants allowed' : 'Infants not allowed', Icon: LuBaby },
-    { title: 'parking', value: `${user.parking} parking`, Icon: LuParkingCircle },
-    { title: 'size', value: `${user.size} m²`, Icon: TbMeterSquare },
-    {
-      title: 'breakfast',
-      value: !!user.breakfast
-        ? `Very good breakfast ${user.breakfast.price ? numberToCurrency(user.breakfast.price) : 'included'}`
-        : 'No breakfast',
-      Icon: IoFastFoodOutline,
-    },
-  ];
   const reservationInfo = [
     { id: 'cancellation', title: 'Free Cancellation', description: '' },
     ...(!prepayment
@@ -98,7 +80,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin }: Pro
         <p className="text-sm">{user?.description}</p>
         <hr />
         <div className="flex flex-wrap items-center gap-2">
-          {accommodationDetails.map(({ title, value, Icon }) => (
+          {formatAccomodationDetails(user).map(({ title, value, Icon }) => (
             <div key={title} className="flex items-center gap-1">
               <Icon size={16} />
               <p className="text-xs font-medium">{value}</p>
