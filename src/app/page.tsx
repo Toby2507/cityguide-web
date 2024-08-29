@@ -9,7 +9,6 @@ import {
   TopOffers,
   TrendingDestinations,
 } from '@/containers';
-import { getSearchResult } from '@/server';
 
 const HomePage = () => {
   return (
@@ -17,7 +16,7 @@ const HomePage = () => {
       <HomeHeader />
       <main className="flex flex-col gap-36 bg-white">
         <div className="container mx-auto px-10 flex flex-col gap-20 max-w-7xl">
-          <StaySearchBar extraClass="-mt-9" isMain search={getSearchResult} />
+          <StaySearchBar extraClass="-mt-9" isMain />
           <TopOffers />
           <TrendingDestinations />
         </div>
