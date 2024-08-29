@@ -2,12 +2,12 @@
 
 import { LIBS } from '@/data';
 import { useSearchStore } from '@/providers';
-import { getSearchResult } from '@/server';
-import { addressFormatter } from '@/utils';
+import { addressFormatter, paths } from '@/utils';
 import { CalendarDate, getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { Button, DateRangePicker, Input, Popover, PopoverContent, PopoverTrigger, RangeValue } from '@nextui-org/react';
 import { useJsApiLoader } from '@react-google-maps/api';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { FaRegUser } from 'react-icons/fa';
 import { MdOutlineLocationSearching } from 'react-icons/md';
@@ -21,6 +21,7 @@ interface Props {
 }
 
 const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
+  const { push } = useRouter();
   const { setState, checkInDay, checkOutDay, location, noOfGuests, reservationCount } = useSearchStore();
   const placesRef = useRef<HTMLInputElement>(null);
   const [autoComplete, setAutoComplete] = useState<google.maps.places.Autocomplete | null>(null);
@@ -180,12 +181,12 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
           </PopoverContent>
         </Popover>
       </div>
-      {!!search ? (
+      {!!search || isMain ? (
         <Button
           className="font-semibold"
           size="lg"
           color="primary"
-          onPress={() => (isMain ? getSearchResult() : search())}
+          onPress={() => (isMain ? push(paths.searchStay()) : search!())}
           radius="sm"
         >
           Search
