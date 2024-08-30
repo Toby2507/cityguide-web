@@ -1,7 +1,7 @@
 'use client';
 
-import { IStay, StayType } from '@/types';
-import { getFilterData, getMaxPrice, stayTypeFormat } from '@/utils';
+import { IStay } from '@/types';
+import { getFilterData } from '@/utils';
 import { Checkbox, CheckboxGroup, Slider, SliderValue } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 
@@ -98,7 +98,7 @@ const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
           ))}
         </CheckboxGroup>
       </div>
-      <div className="flex flex-col gap-2 border-b px-4 pt-2 pb-4">
+      <div className="flex flex-col gap-2 px-4 pt-2 pb-4">
         <CheckboxGroup
           classNames={{ label: '!text-sm text-black font-semibold' }}
           label="Distance from selected address: "
