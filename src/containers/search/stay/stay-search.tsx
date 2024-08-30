@@ -15,6 +15,7 @@ interface Props {
 const StaySearchPage = ({ searchParam }: Props) => {
   const { checkInDay, checkOutDay, location, noOfGuests, reservationCount } = useSearchStore();
   const [searchResult, setSearchResult] = useState<IStay[]>();
+  const [filteredResult, setFilteredResult] = useState<IStay[]>([]);
 
   const searchStay = async () => {
     const stays = await getStaySearch(
@@ -26,6 +27,7 @@ const StaySearchPage = ({ searchParam }: Props) => {
       reservationCount
     );
     setSearchResult(stays);
+    setFilteredResult(stays);
   };
   useEffect(() => {
     if (!searchResult && location) (async () => await searchStay())();
@@ -37,15 +39,15 @@ const StaySearchPage = ({ searchParam }: Props) => {
       <div className="grid grid-cols-10 items-start gap-4 pb-10">
         <div className="col-span-3 flex flex-col border rounded-xl">
           <h3 className="text-lg font-bold border-b px-3 py-4">Filter by: </h3>
-          <SearchStayFilterBox stays={searchResult || []} filterStays={setSearchResult} />
+          <SearchStayFilterBox stays={searchResult} filterStays={setFilteredResult} />
         </div>
         <div className="col-span-7 flex flex-col gap-4">
           <h1 className="text-xl font-bold">
-            {location?.fullAddress}: {searchResult?.length || 0} properties found
+            {location?.fullAddress}: {filteredResult?.length || 0} properties found
           </h1>
           <div className="flex flex-col gap-4">
-            {searchResult ? (
-              searchResult.map((stay) => <SearchStayCard key={stay._id} {...stay} />)
+            {filteredResult ? (
+              filteredResult.map((stay) => <SearchStayCard key={stay._id} {...stay} />)
             ) : (
               <div className="grid place-items-center h-72">
                 <p className="text-sm text-accentGray font-medium">No Properties found</p>
