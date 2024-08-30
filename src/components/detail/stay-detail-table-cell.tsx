@@ -116,31 +116,11 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin }: Pro
   if (columnKey === 'options')
     return (
       <div className="flex flex-col gap-1 w-40">
-        <ButtonGroup className="w-full" size="sm" variant="flat">
-          <Button className="text-xs font-medium w-full">
-            No of rooms: <span className="font-bold">{quantity}</span>
-          </Button>
-          <Dropdown classNames={{ content: '!max-h-96 !justify-start overflow-auto' }} placement="bottom-end">
-            <DropdownTrigger>
-              <Button isIconOnly>
-                <IoCaretDownOutline />
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="quantity to be booked" items={quantities}>
-              {(item) => (
-                <DropdownItem key={item.key} onPress={() => changeQuantity(+item.key)}>
-                  {item.label}
-                </DropdownItem>
-              )}
-            </DropdownMenu>
-          </Dropdown>
-        </ButtonGroup>
-        {quantity ? (
+        {!isAdmin ? (
           <>
-            <p className="text-xs font-medium pl-2 pt-1">Per Room</p>
             <ButtonGroup className="w-full" size="sm" variant="flat">
               <Button className="text-xs font-medium w-full">
-                Adult guests: <span className="font-bold">{noOfGuests.adults}</span>
+                No of rooms: <span className="font-bold">{quantity}</span>
               </Button>
               <Dropdown classNames={{ content: '!max-h-96 !justify-start overflow-auto' }} placement="bottom-end">
                 <DropdownTrigger>
@@ -148,44 +128,75 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin }: Pro
                     <IoCaretDownOutline />
                   </Button>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="quantity to be booked" items={adultList}>
+                <DropdownMenu aria-label="quantity to be booked" items={quantities}>
                   {(item) => (
-                    <DropdownItem key={item.key} onPress={() => changeNoOfGuests({ adults: +item.key })}>
+                    <DropdownItem key={item.key} onPress={() => changeQuantity(+item.key)}>
                       {item.label}
                     </DropdownItem>
                   )}
                 </DropdownMenu>
               </Dropdown>
             </ButtonGroup>
-            {user.children || user.infants ? (
-              <ButtonGroup className="w-full" size="sm" variant="flat">
-                <Button className="text-xs font-medium w-full">
-                  Child guests: <span className="font-bold">{noOfGuests.children}</span>
-                </Button>
-                <Dropdown classNames={{ content: '!max-h-96 !justify-start overflow-auto' }} placement="bottom-end">
-                  <DropdownTrigger>
-                    <Button isIconOnly>
-                      <IoCaretDownOutline />
+            {quantity ? (
+              <>
+                <p className="text-xs font-medium pl-2 pt-1">Per Room</p>
+                <ButtonGroup className="w-full" size="sm" variant="flat">
+                  <Button className="text-xs font-medium w-full">
+                    Adult guests: <span className="font-bold">{noOfGuests.adults}</span>
+                  </Button>
+                  <Dropdown classNames={{ content: '!max-h-96 !justify-start overflow-auto' }} placement="bottom-end">
+                    <DropdownTrigger>
+                      <Button isIconOnly>
+                        <IoCaretDownOutline />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="quantity to be booked" items={adultList}>
+                      {(item) => (
+                        <DropdownItem key={item.key} onPress={() => changeNoOfGuests({ adults: +item.key })}>
+                          {item.label}
+                        </DropdownItem>
+                      )}
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                {user.children || user.infants ? (
+                  <ButtonGroup className="w-full" size="sm" variant="flat">
+                    <Button className="text-xs font-medium w-full">
+                      Child guests: <span className="font-bold">{noOfGuests.children}</span>
                     </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu aria-label="quantity to be booked" items={childrenList}>
-                    {(item) => (
-                      <DropdownItem key={item.key} onPress={() => changeNoOfGuests({ children: +item.key })}>
-                        {item.label}
-                      </DropdownItem>
-                    )}
-                  </DropdownMenu>
-                </Dropdown>
-              </ButtonGroup>
+                    <Dropdown classNames={{ content: '!max-h-96 !justify-start overflow-auto' }} placement="bottom-end">
+                      <DropdownTrigger>
+                        <Button isIconOnly>
+                          <IoCaretDownOutline />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu aria-label="quantity to be booked" items={childrenList}>
+                        {(item) => (
+                          <DropdownItem key={item.key} onPress={() => changeNoOfGuests({ children: +item.key })}>
+                            {item.label}
+                          </DropdownItem>
+                        )}
+                      </DropdownMenu>
+                    </Dropdown>
+                  </ButtonGroup>
+                ) : null}
+              </>
+            ) : null}
+            {user.available <= 5 ? (
+              <div className="flex gap-2 pt-6">
+                <BsDot className="text-danger" size={16} />
+                <p className="flex-1 text-xs text-danger font-medium">Only {user.available} left on our site</p>
+              </div>
             ) : null}
           </>
-        ) : null}
-        {user.available <= 5 ? (
-          <div className="flex gap-2 pt-6">
-            <BsDot className="text-danger" size={16} />
-            <p className="flex-1 text-xs text-danger font-medium">Only {user.available} left on our site</p>
+        ) : (
+          <div className="flex gap-1">
+            <BsDot size={16} />
+            <p className="flex-1 text-xs font-medium">
+              {!user.available ? 'None' : user.available} of this accommodation is available
+            </p>
           </div>
-        ) : null}
+        )}
       </div>
     );
   if (columnKey === 'actions' && showAction)
