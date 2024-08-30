@@ -15,7 +15,7 @@ interface Props {
   onUpdate?: () => void;
 }
 
-const StayDetailRules = ({ stay: { rules, accommodation, maxDays }, onUpdate }: Props) => {
+const StayDetailRules = ({ stay: { rules, accommodation, maxDays, paymentMethods }, onUpdate }: Props) => {
   const [checkInFrom, checkInTo] = rules.checkIn.split('-');
   const [checkOutFrom, checkOutTo] = rules.checkOut.split('-');
 
@@ -105,7 +105,7 @@ const StayDetailRules = ({ stay: { rules, accommodation, maxDays }, onUpdate }: 
               <IoCard className="text-lg" />
               Payment method
             </TableCell>
-            <TableCell className="py-4 text-accentGray w-9/12">Payments will be made on site.</TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">{paymentMethods.join(', ')}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="flex items-center gap-2 py-4 font-medium">
