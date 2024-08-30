@@ -1,13 +1,14 @@
 'use client';
 
 import { IStay } from '@/types';
-import { getFilterData } from '@/utils';
+import { filterStayResults, getFilterData } from '@/utils';
 import { Checkbox, CheckboxGroup, Slider, SliderValue } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import slice from 'lodash/slice';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
 interface Props {
-  stays: IStay[];
-  filterStays: Dispatch<SetStateAction<IStay[] | undefined>>;
+  stays: IStay[] | undefined;
+  filterStays: Dispatch<SetStateAction<IStay[]>>;
 }
 
 const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
@@ -20,10 +21,38 @@ const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
   const [policy, setPolicy] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<SliderValue>([0, 500000]);
 
-  const { stayTypes, maxPrice, ratings, maxDays, languages, distances, payments, policies } = useMemo(
-    () => getFilterData(stays),
-    [stays]
-  );
+  const isSingle = (val: string[], cb: Dispatch<SetStateAction<string[]>>) => {
+    const newVal = slice(val, -1);
+    cb(newVal);
+  };
+
+  const {
+    stayTypes,
+    maxPrice: { min, max },
+    ratings,
+    maxDays,
+    languages,
+    distances,
+    payments,
+    policies,
+  } = useMemo(() => getFilterData(stays || []), [stays]);
+  useEffect(() => {
+    if (stays)
+      filterStays(
+        filterStayResults(
+          stays,
+          selectedType,
+          rating[0],
+          maxdays[0],
+          language,
+          distance[0],
+          payment,
+          policy[0],
+          (priceRange as number[])[0],
+          (priceRange as number[])[1]
+        )
+      );
+  }, [selectedType, rating, maxdays, language, distance, payment, policy, priceRange, stays, filterStays]);
   return (
     <>
       {Object.values(stayTypes).length ? (
@@ -51,8 +80,8 @@ const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
           label="Select a budget"
           formatOptions={{ style: 'currency', currency: 'NGN' }}
           step={1000}
-          maxValue={Math.max(1000, maxPrice)}
-          minValue={0}
+          maxValue={Math.max(1000, max)}
+          minValue={Math.max(0, min)}
           value={priceRange}
           onChange={setPriceRange}
           className="max-w-md"
@@ -63,7 +92,7 @@ const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
           <CheckboxGroup
             classNames={{ label: '!text-sm text-black font-semibold' }}
             label="Rating: "
-            onValueChange={setRating}
+            onValueChange={(val) => isSingle(val, setRating)}
             value={rating}
           >
             {Object.entries(ratings).map(([label, count]) => (
@@ -82,7 +111,7 @@ const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
           <CheckboxGroup
             classNames={{ label: '!text-sm text-black font-semibold' }}
             label="Max Reservation Days: "
-            onValueChange={setMaxdays}
+            onValueChange={(val) => isSingle(val, setMaxdays)}
             value={maxdays}
           >
             {Object.entries(maxDays).map(([label, count]) => (
@@ -120,7 +149,7 @@ const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
           <CheckboxGroup
             classNames={{ label: '!text-sm text-black font-semibold' }}
             label="Distance from selected address: "
-            onValueChange={setDistance}
+            onValueChange={(val) => isSingle(val, setDistance)}
             value={distance}
           >
             {Object.entries(distances).map(([label, count]) => (
@@ -158,7 +187,7 @@ const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
           <CheckboxGroup
             classNames={{ label: '!text-sm text-black font-semibold' }}
             label="Reservation Policy: "
-            onValueChange={setPolicy}
+            onValueChange={(val) => isSingle(val, setPolicy)}
             value={policy}
           >
             {Object.entries(policies).map(([label, count]) => (
