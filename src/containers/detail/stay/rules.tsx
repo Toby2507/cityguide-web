@@ -1,6 +1,6 @@
 'use client';
 
-import { IStay } from '@/types';
+import { IStay, StayType } from '@/types';
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
@@ -15,7 +15,7 @@ interface Props {
   onUpdate?: () => void;
 }
 
-const StayDetailRules = ({ stay: { rules, accommodation, maxDays, paymentMethods }, onUpdate }: Props) => {
+const StayDetailRules = ({ stay: { rules, accommodation, maxDays, paymentMethods, type }, onUpdate }: Props) => {
   const [checkInFrom, checkInTo] = rules.checkIn.split('-');
   const [checkOutFrom, checkOutTo] = rules.checkOut.split('-');
 
@@ -105,7 +105,10 @@ const StayDetailRules = ({ stay: { rules, accommodation, maxDays, paymentMethods
               <IoCard className="text-lg" />
               Payment method
             </TableCell>
-            <TableCell className="py-4 text-accentGray w-9/12">{paymentMethods.join(', ')}</TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">
+              {![StayType.APARTMENT, StayType.BnB].includes(type) ? 'Payment would be made at the property. ' : ''}
+              {paymentMethods.join(', ')}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="flex items-center gap-2 py-4 font-medium">
