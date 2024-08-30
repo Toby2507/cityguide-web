@@ -33,6 +33,7 @@ export interface ICreateStay {
   accommodation: IAccommodation[];
   maxDays: MaxDays;
   language: string[];
+  paymentMethods: string[];
   optionalServices?: IOptionalService[];
 }
 export interface IUpdateStay {
@@ -53,6 +54,7 @@ export interface IUpdateStay {
   };
   maxDays?: MaxDays;
   language?: string[];
+  paymentMethods?: string[];
   optionalServices?: IOptionalService[];
 }
 export interface IAccommodationForm {

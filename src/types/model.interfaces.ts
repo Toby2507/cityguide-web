@@ -235,6 +235,7 @@ export interface IStay {
   accommodation: IAccommodation[];
   maxDays: MaxDays;
   language: string[];
+  paymentMethods: string[];
   optionalServices: IOptionalService[];
   locationInfo?: {
     distance: number;
