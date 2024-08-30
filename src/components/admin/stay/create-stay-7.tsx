@@ -1,5 +1,6 @@
 'use client';
 
+import { StringArrayInput } from '@/components';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay, MaxDays } from '@/types';
 import { parseAbsoluteToLocal } from '@internationalized/date';
@@ -39,6 +40,18 @@ const CreateStayStep7 = ({ setStep }: Props) => {
     rules: {
       validate: (val) => {
         const isValid = createStaySchema.shape.rules.shape.checkOut.safeParse(val);
+        return isValid.success || isValid.error.flatten().formErrors.join(', ');
+      },
+    },
+  });
+  const {
+    field: { onChange: setPaymentMethod, value: paymentMethods },
+  } = useController({
+    control,
+    name: 'paymentMethods',
+    rules: {
+      validate: (val) => {
+        const isValid = createStaySchema.shape.paymentMethods.safeParse(val);
         return isValid.success || isValid.error.flatten().formErrors.join(', ');
       },
     },
@@ -236,6 +249,13 @@ const CreateStayStep7 = ({ setStep }: Props) => {
               return isValid.success || isValid.error.flatten().formErrors.join(', ');
             },
           }}
+        />
+        <StringArrayInput
+          arr={paymentMethods || []}
+          label="Service Style"
+          placeholder="e.g. Fast-food, Drive-through"
+          prevState={paymentMethods || []}
+          setState={setPaymentMethod}
         />
       </div>
       <CreateNavButtons isLoading={isLoading} previous={() => setStep(6)} next={handleNext} />

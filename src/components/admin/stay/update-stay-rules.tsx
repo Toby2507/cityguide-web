@@ -1,5 +1,6 @@
 'use client';
 
+import { StringArrayInput } from '@/components';
 import { updateStaySchema } from '@/schemas';
 import { updateStay } from '@/server';
 import { IStay, IUpdateStay, MaxDays } from '@/types';
@@ -41,6 +42,18 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
     rules: {
       validate: (val) => {
         const isValid = updateStaySchema.shape.rules.unwrap().shape.checkOut.safeParse(val);
+        return isValid.success || isValid.error.flatten().formErrors.join(', ');
+      },
+    },
+  });
+  const {
+    field: { onChange: setPaymentMethod, value: paymentMethods },
+  } = useController({
+    control,
+    name: 'paymentMethods',
+    rules: {
+      validate: (val) => {
+        const isValid = updateStaySchema.shape.paymentMethods.safeParse(val);
         return isValid.success || isValid.error.flatten().formErrors.join(', ');
       },
     },
@@ -256,6 +269,13 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
                 return isValid.success || isValid.error.flatten().formErrors.join(', ');
               },
             }}
+          />
+          <StringArrayInput
+            arr={paymentMethods || []}
+            label="Service Style"
+            placeholder="e.g. Fast-food, Drive-through"
+            prevState={paymentMethods || []}
+            setState={setPaymentMethod}
           />
           <Button
             className="text-sm font-semibold px-14 py-6 my-6"
