@@ -58,7 +58,7 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
     setTableKey((prev) => prev + 1);
   }, [stay]);
   useEffect(() => {
-    handleSearch();
+    if (!onUpdate) handleSearch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
