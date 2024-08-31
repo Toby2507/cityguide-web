@@ -17,4 +17,10 @@ export { refetchPage } from './actions/core';
 // Queries
 export { getPartnerRestaurants, getPartnerStays, getReservationAnalytics } from './queries/admin';
 export { getUser, getUserProfile, logout } from './queries/auth';
-export { getRestaurantById, getStayById, getStaySearch, getTrendingStays } from './queries/core';
+export {
+  getRestaurantById,
+  getStayById,
+  getStaySearch,
+  getTrendingRestaurants,
+  getTrendingStays,
+} from './queries/core';

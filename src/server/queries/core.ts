@@ -40,6 +40,12 @@ export const getStaySearch = async (
 };
 
 // Restaurants
+export const getTrendingRestaurants = async () => {
+  const res = await fetchBaseQuery('property/restaurant/trending', { method: 'GET' });
+  const restaurants = await res.json();
+  return restaurants.properties as IRestaurant[];
+};
+
 export const getRestaurantById = async (id: string) => {
   const res = await fetchBaseQuery(`property/restaurant/${id}`, { method: 'GET' });
   if (res.status !== 200) {

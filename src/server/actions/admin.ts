@@ -15,7 +15,7 @@ export const uploadImages = async (body: FormData) => {
 export const createStay = async (body: ICreateStay) => {
   const data = formatStayBody(body);
   await fetchWithReAuth('property/stay', { method: 'POST', body: JSON.stringify(data) });
-  revalidatePath(paths.stays());
+  revalidatePath(paths.adminStays());
 };
 
 export const updateStay = async (body: IUpdateStay, stayId: string) => {
@@ -52,7 +52,7 @@ export const removeAccommodation = async (stayId: string, accId: string) => {
 export const createRestaurant = async (body: ICreateRestaurant) => {
   const data = formatRestaurantBody(body);
   await fetchWithReAuth('property/restaurant', { method: 'POST', body: JSON.stringify(data) });
-  revalidatePath(paths.restaurants());
+  revalidatePath(paths.adminRestaurants());
 };
 
 export const updateRestaurant = async (body: IUpdateRestaurant, resId: string) => {
