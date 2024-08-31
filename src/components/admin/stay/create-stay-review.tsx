@@ -52,7 +52,7 @@ const CreateStayReview = ({ setStep }: IProps) => {
                 <p className="text-lg font-medium">
                   Property Successfully <span className="text-primary">Published!</span>
                 </p>
-                <Link href={paths.stays()}>
+                <Link href={paths.adminStays()}>
                   <Button className="text-sm px-14 font-semibold w-fit" color="primary" radius="full" variant="flat">
                     Dashboard
                   </Button>

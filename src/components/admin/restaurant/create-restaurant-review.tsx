@@ -55,7 +55,7 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
                 <p className="text-lg font-medium">
                   Restaurant Successfully <span className="text-primary">Published!</span>
                 </p>
-                <Link href={paths.restaurants()}>
+                <Link href={paths.adminRestaurants()}>
                   <Button className="text-sm px-14 font-semibold w-fit" color="primary" radius="full" variant="flat">
                     Dashboard
                   </Button>

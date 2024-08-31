@@ -1,5 +1,3 @@
-import { Button } from '@nextui-org/react';
-
 const Hero = () => {
   return (
     <div className="container mx-auto px-4 py-6 max-w-6xl bg-primary">
@@ -14,9 +12,6 @@ const Hero = () => {
           Plan your perfect getaway with Cityguidesx. Find the best hotels, villas, apartments, restaurants, and
           nightclubs.
         </p>
-        <Button className="text-primary text-xs font-semibold max-w-fit mx-auto" color="secondary">
-          Learn more
-        </Button>
       </div>
     </div>
   );
