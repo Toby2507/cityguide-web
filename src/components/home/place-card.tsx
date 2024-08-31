@@ -1,9 +1,9 @@
-import { IStay } from '@/types';
+import { IRestaurant, IStay } from '@/types';
 import { paths } from '@/utils';
 import { Card, CardBody, CardFooter, Image } from '@nextui-org/react';
 import Link from 'next/link';
 
-const PlaceCard = ({ _id, name, summary, avatar }: IStay) => {
+const PlaceCard = ({ _id, name, summary, avatar }: IStay | IRestaurant) => {
   return (
     <Card shadow="none" className="grid grid-rows-2">
       <CardBody className="p-0">
