@@ -1,5 +1,7 @@
 const path = {
   home: () => '/',
+  stays: () => '/stay',
+  restaurants: () => '/restaurant',
   login: (referer?: string) => `/login${referer ? `/${referer}` : ''}`,
   register: (referer?: string) => `/signup${referer ? `/${referer}` : ''}`,
   listProperty: () => '/listproperty',
@@ -15,10 +17,10 @@ const path = {
   searchRestaurant: (params?: string[]) => `search/restaurant/${params?.join('/') || ''}`,
   // Admin paths
   admin: () => '/admin',
-  stays: () => '/admin/stay',
+  adminStays: () => '/admin/stay',
   createStay: () => '/admin/stay/create',
   adminStay: (id: string) => `/admin/stay/${id}`,
-  restaurants: () => '/admin/restaurant',
+  adminRestaurants: () => '/admin/restaurant',
   createRestaurant: () => '/admin/restaurant/create',
   adminRestaurant: (id: string) => `/admin/restaurant/${id}`,
 };
