@@ -32,14 +32,17 @@ export { default as StayDetailInfoReview } from './detail/stay/review';
 export { default as StayDetailRules } from './detail/stay/rules';
 
 // Home
+// // Restaurant
+export { default as RestaurantTrendingDestinations } from './home/restaurant/trending-destinations';
+// // Stay
+export { default as DiscoverHome } from './home/common/discover-home';
+export { default as HomeHeader } from './home/common/home-header';
+export { default as SubscribeBox } from './home/common/subscribe-box';
+export { default as TopOffers } from './home/common/top-offers';
 export { default as Destinations } from './home/stay/destinations';
-export { default as DiscoverHome } from './home/stay/discover-home';
-export { default as HomeHeader } from './home/stay/home-header';
 export { default as StayCategories } from './home/stay/stay-categories';
 export { default as StaySearchBar } from './home/stay/stay-search';
-export { default as SubscribeBox } from './home/stay/subscribe-box';
-export { default as TopOffers } from './home/stay/top-offers';
-export { default as TrendingDestinations } from './home/stay/trending-destination';
+export { default as StayTrendingDestinations } from './home/stay/trending-destination';
 
 // List Property
 export { default as ListPropertyHeader } from './listproperty/header';
