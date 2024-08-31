@@ -5,12 +5,12 @@ import {
   HomeHeader,
   StayCategories,
   StaySearchBar,
+  StayTrendingDestinations,
   SubscribeBox,
   TopOffers,
-  TrendingDestinations,
 } from '@/containers';
 
-const HomePage = () => {
+const StayHomePage = () => {
   return (
     <>
       <HomeHeader />
@@ -18,7 +18,7 @@ const HomePage = () => {
         <div className="container mx-auto px-10 flex flex-col gap-20 max-w-7xl">
           <StaySearchBar extraClass="-mt-9" isMain />
           <TopOffers />
-          <TrendingDestinations />
+          <StayTrendingDestinations />
         </div>
         <DiscoverHome />
         <div className="container mx-auto px-10 flex flex-col gap-20 max-w-7xl">
@@ -32,4 +32,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default StayHomePage;
