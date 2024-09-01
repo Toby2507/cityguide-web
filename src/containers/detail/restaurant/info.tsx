@@ -1,3 +1,5 @@
+'use client';
+
 import { IRestaurant } from '@/types';
 import { numberToCurrency } from '@/utils';
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
