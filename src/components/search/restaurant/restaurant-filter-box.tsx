@@ -1,78 +1,50 @@
 'use client';
 
-import { IStay } from '@/types';
-import { filterStayResults, getStayFilterData } from '@/utils';
+import { IRestaurant } from '@/types';
+import { getRestaurantFilterData } from '@/utils';
 import { Checkbox, CheckboxGroup, Slider, SliderValue } from '@nextui-org/react';
+import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import slice from 'lodash/slice';
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
 interface Props {
-  stays: IStay[] | undefined;
-  types?: string[];
-  filterStays: Dispatch<SetStateAction<IStay[]>>;
+  restaurants?: IRestaurant[];
+  prices?: string[];
+  filterRestaurants: Dispatch<SetStateAction<IRestaurant[]>>;
 }
 
-const SearchStayFilterBox = ({ stays, types, filterStays }: Props) => {
-  const [paramUsed, setParamUsed] = useState<boolean>(false);
-  const [selectedType, setSelectedType] = useState<string[]>([]);
+const SearchRestaurantFilterBox = ({ restaurants, prices, filterRestaurants }: Props) => {
+  const [priceRange, setPriceRange] = useState<string[]>([]);
+  const [slider, setSlider] = useState<SliderValue>([0, 10000000000]);
   const [rating, setRating] = useState<string[]>([]);
-  const [maxdays, setMaxdays] = useState<string[]>([]);
-  const [language, setLanguage] = useState<string[]>([]);
   const [distance, setDistance] = useState<string[]>([]);
   const [payment, setPayment] = useState<string[]>([]);
-  const [policy, setPolicy] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<SliderValue>([0, 10000000000]);
 
   const {
-    stayTypes,
-    maxPrice: { min, max },
+    priceRanges,
+    maxPrice: { max, min },
     ratings,
-    maxDays,
-    languages,
     distances,
     payments,
-    policies,
-  } = useMemo(() => getStayFilterData(stays || []), [stays]);
+    dietaries,
+    cuisines,
+    serviceStyles,
+  } = useMemo(() => getRestaurantFilterData(restaurants || []), [restaurants]);
 
   const isSingle = (val: string[], cb: Dispatch<SetStateAction<string[]>>) => {
     const newVal = slice(val, -1);
     cb(newVal);
   };
-
-  useEffect(() => {
-    if (stays && types && !paramUsed) {
-      setSelectedType(types);
-      setParamUsed(true);
-    }
-  }, [stays, types, paramUsed]);
-  useEffect(() => {
-    if (stays)
-      filterStays(
-        filterStayResults(
-          stays,
-          selectedType,
-          rating[0],
-          maxdays[0],
-          language,
-          distance[0],
-          payment,
-          policy[0],
-          (priceRange as number[])[0],
-          (priceRange as number[])[1]
-        )
-      );
-  }, [selectedType, rating, maxdays, language, distance, payment, policy, priceRange, stays, types, filterStays]);
   return (
     <>
-      {Object.values(stayTypes).length ? (
+      {Object.values(priceRanges).length ? (
         <div className="flex flex-col gap-2 border-b px-4 pt-2 pb-4">
           <CheckboxGroup
             classNames={{ label: '!text-sm text-black font-semibold' }}
             label="Stay Type: "
-            onValueChange={setSelectedType}
-            value={selectedType}
+            onValueChange={setPriceRange}
+            value={priceRange}
           >
-            {Object.entries(stayTypes).map(([label, count]) => (
+            {Object.entries(priceRanges).map(([label, count]) => (
               <Checkbox classNames={{ base: 'max-w-full', label: 'w-full' }} key={label} value={label}>
                 <div className="flex items-center justify-between gap-2 w-full">
                   <p className="text-sm font-normal tracking-wide">{label}</p>
@@ -91,8 +63,8 @@ const SearchStayFilterBox = ({ stays, types, filterStays }: Props) => {
           step={1000}
           maxValue={Math.max(1000, max)}
           minValue={Math.max(0, min)}
-          value={priceRange}
-          onChange={setPriceRange}
+          value={slider}
+          onChange={setSlider}
           className="max-w-md"
         />
       </div>
@@ -115,15 +87,15 @@ const SearchStayFilterBox = ({ stays, types, filterStays }: Props) => {
           </CheckboxGroup>
         </div>
       ) : null}
-      {Object.values(maxDays).length ? (
+      {Object.values(serviceStyles).length ? (
         <div className="flex flex-col gap-2 border-b px-4 pt-2 pb-4">
           <CheckboxGroup
             classNames={{ label: '!text-sm text-black font-semibold' }}
-            label="Max Reservation Days: "
-            onValueChange={(val) => isSingle(val, setMaxdays)}
-            value={maxdays}
+            label="Service Styles: "
+            onValueChange={(val) => isSingle(val, setDistance)}
+            value={distance}
           >
-            {Object.entries(maxDays).map(([label, count]) => (
+            {Object.entries(serviceStyles).map(([label, count]) => (
               <Checkbox classNames={{ base: 'max-w-full', label: 'w-full' }} key={label} value={label}>
                 <div className="flex items-center justify-between gap-2 w-full">
                   <p className="text-sm font-normal tracking-wide">{label}</p>
@@ -134,15 +106,34 @@ const SearchStayFilterBox = ({ stays, types, filterStays }: Props) => {
           </CheckboxGroup>
         </div>
       ) : null}
-      {Object.values(languages).length ? (
+      {Object.values(cuisines).length ? (
         <div className="flex flex-col gap-2 border-b px-4 pt-2 pb-4">
           <CheckboxGroup
             classNames={{ label: '!text-sm text-black font-semibold' }}
-            label="Staff Spoken Language: "
-            onValueChange={setLanguage}
-            value={language}
+            label="Cuisines: "
+            onValueChange={(val) => isSingle(val, setDistance)}
+            value={distance}
           >
-            {Object.entries(languages).map(([label, count]) => (
+            {Object.entries(cuisines).map(([label, count]) => (
+              <Checkbox classNames={{ base: 'max-w-full', label: 'w-full' }} key={label} value={label}>
+                <div className="flex items-center justify-between gap-2 w-full">
+                  <p className="text-sm font-normal tracking-wide">{label}</p>
+                  <p className="text-sm font-light">{count}</p>
+                </div>
+              </Checkbox>
+            ))}
+          </CheckboxGroup>
+        </div>
+      ) : null}
+      {Object.values(dietaries).length ? (
+        <div className="flex flex-col gap-2 border-b px-4 pt-2 pb-4">
+          <CheckboxGroup
+            classNames={{ label: '!text-sm text-black font-semibold' }}
+            label="Dietary Provisions: "
+            onValueChange={(val) => isSingle(val, setDistance)}
+            value={distance}
+          >
+            {Object.entries(dietaries).map(([label, count]) => (
               <Checkbox classNames={{ base: 'max-w-full', label: 'w-full' }} key={label} value={label}>
                 <div className="flex items-center justify-between gap-2 w-full">
                   <p className="text-sm font-normal tracking-wide">{label}</p>
@@ -191,27 +182,8 @@ const SearchStayFilterBox = ({ stays, types, filterStays }: Props) => {
           </CheckboxGroup>
         </div>
       ) : null}
-      {Object.values(policies).length ? (
-        <div className="flex flex-col gap-2 px-4 pt-2 pb-4">
-          <CheckboxGroup
-            classNames={{ label: '!text-sm text-black font-semibold' }}
-            label="Reservation Policy: "
-            onValueChange={(val) => isSingle(val, setPolicy)}
-            value={policy}
-          >
-            {Object.entries(policies).map(([label, count]) => (
-              <Checkbox classNames={{ base: 'max-w-full', label: 'w-full' }} key={label} value={label}>
-                <div className="flex items-center justify-between gap-2 w-full">
-                  <p className="text-sm font-normal tracking-wide">{label}</p>
-                  <p className="text-sm font-light">{count}</p>
-                </div>
-              </Checkbox>
-            ))}
-          </CheckboxGroup>
-        </div>
-      ) : null}
     </>
   );
 };
 
-export default SearchStayFilterBox;
+export default SearchRestaurantFilterBox;
