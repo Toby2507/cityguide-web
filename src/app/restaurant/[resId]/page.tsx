@@ -1,3 +1,4 @@
+import { RestaurantDetailNav } from '@/components';
 import {
   DetailPageAmenities,
   DetailPageOverview,
@@ -23,6 +24,7 @@ const RestaurantDetailPage = async ({ params: { resId } }: Props) => {
       <Header />
       <main className="flex flex-col gap-20 bg-white">
         <div className="container mx-auto px-10 flex flex-col gap-6 max-w-7xl">
+          <RestaurantDetailNav />
           <DetailPageOverview amenities={restaurant.details.amenities} {...restaurant} />
           <DetailPageAmenities amenities={restaurant.details.amenities} {...restaurant} />
           <RestaurantDetailMenu menu={restaurant.menu} />
