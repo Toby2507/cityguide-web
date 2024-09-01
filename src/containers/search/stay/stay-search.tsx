@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchStayCard, SearchStayFilterBox } from '@/components';
+import { SearchCardLoader, SearchStayCard, SearchStayFilterBox } from '@/components';
 import { StaySearchBar } from '@/containers';
 import { useSearchStore } from '@/providers';
 import { getStaySearch, refetchPage } from '@/server';
@@ -14,10 +14,12 @@ interface Props {
 
 const StaySearchPage = ({ searchParam }: Props) => {
   const { checkInDay, checkOutDay, location, noOfGuests, reservationCount } = useSearchStore();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<IStay[]>();
   const [filteredResult, setFilteredResult] = useState<IStay[]>([]);
 
   const searchStay = async () => {
+    setIsLoading(true);
     const stays = await getStaySearch(
       location?.geoLocation,
       checkInDay,
@@ -28,6 +30,7 @@ const StaySearchPage = ({ searchParam }: Props) => {
     );
     setSearchResult(stays);
     setFilteredResult(stays);
+    setIsLoading(false);
   };
   useEffect(() => {
     if (!searchResult && (location || searchParam)) (async () => await searchStay())();
@@ -42,19 +45,25 @@ const StaySearchPage = ({ searchParam }: Props) => {
           <SearchStayFilterBox stays={searchResult} types={searchParam} filterStays={setFilteredResult} />
         </div>
         <div className="col-span-7 flex flex-col gap-4">
-          <h1 className="text-xl font-bold">
-            {location ? `${location.fullAddress}: ` : ''}
-            {filteredResult?.length || 0} properties found
-          </h1>
-          <div className="flex flex-col gap-4">
-            {filteredResult ? (
-              filteredResult.map((stay) => <SearchStayCard key={stay._id} {...stay} />)
-            ) : (
-              <div className="grid place-items-center h-72">
-                <p className="text-sm text-accentGray font-medium">No Properties found</p>
+          {isLoading ? (
+            <SearchCardLoader />
+          ) : (
+            <>
+              <h1 className="text-xl font-bold">
+                {location ? `${location.fullAddress}: ` : ''}
+                {filteredResult?.length || 0} properties found
+              </h1>
+              <div className="flex flex-col gap-4">
+                {filteredResult ? (
+                  filteredResult.map((stay) => <SearchStayCard key={stay._id} {...stay} />)
+                ) : (
+                  <div className="grid place-items-center h-72">
+                    <p className="text-sm text-accentGray font-medium">No Properties found</p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </div>
     </>

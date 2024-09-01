@@ -81,6 +81,8 @@ export { default as SubmitForm } from './misc/submit-form';
 export { default as UserDetailReservationAccommodation } from './reservations/user-detail-accommodation';
 
 // Search
+// // Common
+export { default as SearchCardLoader } from './search/common/search-card-loader';
 // // Stay
 export { default as SearchStayCard } from './search/stay/stay-card';
 export { default as SearchStayFilterBox } from './search/stay/stay-filter-box';
