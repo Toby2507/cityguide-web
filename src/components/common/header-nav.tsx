@@ -15,7 +15,7 @@ const HeaderNav = async ({ noList, noAuth }: IHeaderNav) => {
   return (
     <Navbar position="static" className="bg-primary" maxWidth="full">
       <NavbarBrand>
-        <Link href="/" className="font-bold text-2xl text-white">
+        <Link href={paths.home()} className="font-bold text-2xl text-white">
           CityGuideX
         </Link>
       </NavbarBrand>
