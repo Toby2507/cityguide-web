@@ -1,6 +1,6 @@
 'use server';
 
-import { DayOfWeek, IRestaurant, IStay, LatLng } from '@/types';
+import { IRestaurant, IStay, LatLng } from '@/types';
 import { fetchBaseQuery } from '@/utils';
 import toast from 'react-hot-toast';
 
@@ -61,7 +61,7 @@ export const getRestaurantById = async (id: string) => {
 
 export const getRestaurantSearch = async (
   geoLocation?: LatLng,
-  day?: DayOfWeek,
+  day?: string,
   time?: string,
   children?: boolean,
   guest?: number,
