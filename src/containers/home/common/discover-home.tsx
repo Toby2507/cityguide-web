@@ -1,5 +1,7 @@
-import { Button, Image, Spacer } from '@nextui-org/react';
+import { paths } from '@/utils';
 import discoverImg from '@images/discover-main.png';
+import { Button, Image, Spacer } from '@nextui-org/react';
+import Link from 'next/link';
 
 const DiscoverHome = () => {
   return (
@@ -44,7 +46,9 @@ const DiscoverHome = () => {
               <Button className="text-primary text-xs font-semibold" color="secondary">
                 Learn more
               </Button>
-              <Button color="primary">Register</Button>
+              <Link href={paths.register()}>
+                <Button color="primary">Register</Button>
+              </Link>
             </div>
           </div>
         </div>
