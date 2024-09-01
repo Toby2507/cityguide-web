@@ -23,7 +23,7 @@ interface Props {
 
 const RestaurantSearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
   const { push } = useRouter();
-  const { setState, checkInDay, location, noOfGuests, reservationCount } = useSearchStore();
+  const { setState, checkInDay, location, noOfGuests, reservationCount, activeTab } = useSearchStore();
   const placesRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [renderSearch, setRenderSearch] = useState<boolean>(false);
@@ -69,6 +69,9 @@ const RestaurantSearchBar = ({ extraClass, isMain, noLocation, search }: Props) 
       return () => acListen.remove();
     }
   }, [autoComplete, noLocation, setState]);
+  useEffect(() => {
+    if (activeTab !== 'Restaurant') push(`/${activeTab.toLowerCase()}`);
+  }, [activeTab, push]);
   useEffect(() => {
     setRenderSearch(true);
     if (!dayjs(checkInDay).isValid()) setState({ checkInDay: dayjs().toISOString() });

@@ -23,7 +23,7 @@ interface Props {
 
 const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
   const { push } = useRouter();
-  const { setState, checkInDay, checkOutDay, location, noOfGuests, reservationCount } = useSearchStore();
+  const { setState, checkInDay, checkOutDay, location, noOfGuests, reservationCount, activeTab } = useSearchStore();
   const placesRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [autoComplete, setAutoComplete] = useState<google.maps.places.Autocomplete | null>(null);
@@ -75,6 +75,9 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
       return () => acListen.remove();
     }
   }, [autoComplete, noLocation, setState]);
+  useEffect(() => {
+    if (activeTab !== 'Stay') push(`/${activeTab.toLowerCase()}`);
+  }, [activeTab, push]);
   useEffect(() => {
     if (!dayjs(checkInDay).isValid()) setState({ checkInDay: dayjs().format('YYYY-MM-DD') });
     if (!dayjs(checkOutDay).isValid()) setState({ checkOutDay: dayjs().add(1, 'd').format('YYYY-MM-DD') });
