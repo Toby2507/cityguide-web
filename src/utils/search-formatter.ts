@@ -1,4 +1,4 @@
-import { IPartner, IStay, StayType } from '@/types';
+import { IPartner, IRestaurant, IStay, PriceRange, StayType } from '@/types';
 
 interface IFilter {
   [key: string]: number;
@@ -6,7 +6,7 @@ interface IFilter {
 
 // Stay
 // // Data
-export const stayTypeFormat = (stays: IStay[]): IFilter => {
+const stayTypeFormat = (stays: IStay[]): IFilter => {
   const types: IFilter = {};
   Object.values(StayType).forEach((type) => {
     types[type] = 0;
@@ -17,13 +17,13 @@ export const stayTypeFormat = (stays: IStay[]): IFilter => {
   }, types);
 };
 
-export const getMinMaxPrice = (stays: IStay[]) => {
+const getMinMaxPrice = (stays: IStay[]) => {
   if (!stays.length) return { min: 0, max: 1000 };
   const flatAcc = stays.flatMap((stay) => stay.accommodation.map((acc) => acc.price));
   return { min: Math.min(...flatAcc), max: Math.max(...flatAcc) };
 };
 
-export const ratingsFormat = (stays: IStay[]): IFilter => {
+const ratingsFormat = (stays: (IStay | IRestaurant)[]): IFilter => {
   const ratingRange = [
     { min: 4.5, label: 'Exceptional: 4.5+' },
     { min: 4, label: 'Excellent: 4+' },
@@ -38,14 +38,14 @@ export const ratingsFormat = (stays: IStay[]): IFilter => {
   }, {});
 };
 
-export const maxDaysFormat = (stays: IStay[]): IFilter => {
+const maxDaysFormat = (stays: IStay[]): IFilter => {
   return stays.reduce((maxDays: IFilter, stay) => {
     maxDays[`${stay.maxDays} days`] = (maxDays[`${stay.maxDays} days`] || 0) + 1;
     return maxDays;
   }, {});
 };
 
-export const languageFormat = (stays: IStay[]): IFilter => {
+const languageFormat = (stays: IStay[]): IFilter => {
   const languages: IFilter = {};
   for (const stay of stays) {
     for (const lang of stay.language) {
@@ -56,7 +56,7 @@ export const languageFormat = (stays: IStay[]): IFilter => {
   return languages;
 };
 
-export const distanceFormat = (stays: IStay[]): IFilter => {
+const distanceFormat = (stays: (IStay | IRestaurant)[]): IFilter => {
   const distanceRanges = [
     { max: 1000, label: 'Less than 1 km' },
     { max: 5000, label: 'Less than 5 km' },
@@ -73,12 +73,12 @@ export const distanceFormat = (stays: IStay[]): IFilter => {
   }, {});
 };
 
-export const paymentFormat = (stays: IStay[]): IFilter => {
+const paymentFormat = (stays: (IStay | IRestaurant)[]): IFilter => {
   const payments: IFilter = {
     'Credit/Debit Cards': 0,
   };
   for (const stay of stays) {
-    for (const pay of stay.paymentMethods) {
+    for (const pay of (stay as IStay).paymentMethods ?? (stay as IRestaurant).details.paymentOptions) {
       const payment = `${pay[0].toUpperCase()}${pay.slice(1).toLowerCase()}`;
       if (payment.toLowerCase().includes('credit') || payment.toLowerCase().includes('debit'))
         payments['Credit/Debit Cards'] += 1;
@@ -88,7 +88,7 @@ export const paymentFormat = (stays: IStay[]): IFilter => {
   return payments;
 };
 
-export const policyFormat = (stays: IStay[]): IFilter => {
+const policyFormat = (stays: IStay[]): IFilter => {
   return stays.reduce((acc: IFilter, stay) => {
     if (!(stay.partner as IPartner).cancellationPolicy) acc['Free cancellation'] = (acc['Free cancellation'] || 0) + 1;
     if (![StayType.APARTMENT, StayType.BnB].includes(stay.type)) acc['No prepayment'] = (acc['No prepayment'] || 0) + 1;
@@ -98,7 +98,7 @@ export const policyFormat = (stays: IStay[]): IFilter => {
   }, {});
 };
 
-export const getFilterData = (stays: IStay[]) => {
+export const getStayFilterData = (stays: IStay[]) => {
   return {
     stayTypes: stayTypeFormat(stays),
     maxPrice: getMinMaxPrice(stays),
@@ -111,27 +111,27 @@ export const getFilterData = (stays: IStay[]) => {
   };
 };
 // // Filters
-export const filterByType = (stays: IStay[], filterBy: Set<string>) => {
+const filterByType = (stays: IStay[], filterBy: Set<string>) => {
   return stays.filter((stay) => filterBy.has(stay.type));
 };
 
-export const filterByRating = (stays: IStay[], filterBy: string) => {
+const filterByRating = (stays: IStay[], filterBy: string) => {
   const minRating = +filterBy.split(': ')[1].replace('+', '');
   return stays.filter((stay) => stay.rating >= minRating);
 };
 
-export const filterByMaxDays = (stays: IStay[], filterBy: string) => {
+const filterByMaxDays = (stays: IStay[], filterBy: string) => {
   const maxDays = +filterBy.split(' ')[0];
   return stays.filter((stay) => stay.maxDays === maxDays);
 };
 
-export const filterByLanguage = (stays: IStay[], filterBy: string[]) =>
+const filterByLanguage = (stays: IStay[], filterBy: string[]) =>
   stays.filter((stay) => {
     const langs = new Set(stay.language);
     return filterBy.every((lang) => langs.has(`${lang[0].toUpperCase()}${lang.slice(1).toLowerCase()}`));
   });
 
-export const filterByDistance = (stays: IStay[], filterBy: string): IStay[] => {
+const filterByDistance = (stays: IStay[], filterBy: string): IStay[] => {
   const [op, _, d, __] = filterBy.split(' ');
   let maxDistance = Infinity;
   if (op === 'Less') maxDistance = +d * 1000;
@@ -139,7 +139,7 @@ export const filterByDistance = (stays: IStay[], filterBy: string): IStay[] => {
   return stays.filter((stay) => (stay.locationInfo?.distance ?? 21000) <= maxDistance);
 };
 
-export const filterByPayment = (stays: IStay[], filterBy: string[]) => {
+const filterByPayment = (stays: IStay[], filterBy: string[]) => {
   return stays.filter((stay) => {
     const paySet = new Set(stay.paymentMethods.map((pay) => `${pay[0].toUpperCase()}${pay.slice(1).toLowerCase()}`));
     return filterBy.every((pay) => {
@@ -153,7 +153,7 @@ export const filterByPayment = (stays: IStay[], filterBy: string[]) => {
   });
 };
 
-export const filterByPolicy = (stays: IStay[], filterBy: string) => {
+const filterByPolicy = (stays: IStay[], filterBy: string) => {
   return stays.filter((stay) => {
     if (filterBy === 'Free cancellation' && !(stay.partner as IPartner).cancellationPolicy) return true;
     if (filterBy === 'No prepayment' && ![StayType.APARTMENT, StayType.BnB].includes(stay.type)) return true;
@@ -166,7 +166,7 @@ export const filterByPolicy = (stays: IStay[], filterBy: string) => {
   });
 };
 
-export const filterByPrice = (stays: IStay[], min: number, max: number) =>
+const filterByPrice = (stays: IStay[], min: number, max: number) =>
   stays.filter((stay) => stay.accommodation.some((acc) => acc.price >= min && acc.price <= max));
 
 export const filterStayResults = (
@@ -191,4 +191,72 @@ export const filterStayResults = (
   if (payment.length) results = filterByPayment(results, payment);
   if (policy) results = filterByPolicy(results, policy);
   return results;
+};
+
+// Restaurant
+// // Data
+const priceRangeFormat = (res: IRestaurant[]): IFilter => {
+  const types: IFilter = {};
+  Object.values(PriceRange).forEach((type) => {
+    types[type] = 0;
+  });
+  return res.reduce((types: IFilter, stay) => {
+    types[stay.priceRange]++;
+    return types;
+  }, types);
+};
+
+const getMinMaxReservePrice = (res: IRestaurant[]) => {
+  if (!res.length) return { min: 0, max: 1000 };
+  const flatAcc = res.map((r) => r.details.reservation?.price ?? 0);
+  return { min: Math.min(...flatAcc), max: Math.max(...flatAcc) };
+};
+
+const serviceStyleFormat = (res: IRestaurant[]) => {
+  const data: IFilter = {};
+  for (const prop of res) {
+    if (prop.serviceStyle)
+      for (const style of prop.serviceStyle) {
+        const item = `${style[0].toUpperCase()}${style.slice(1).toLowerCase()}`;
+        data[item] = (data[item] || 0) + 1;
+      }
+  }
+  return data;
+};
+
+const dietaryFormat = (res: IRestaurant[]) => {
+  const data: IFilter = {};
+  for (const prop of res) {
+    if (prop.dietaryProvisions)
+      for (const style of prop.dietaryProvisions) {
+        const item = `${style[0].toUpperCase()}${style.slice(1).toLowerCase()}`;
+        data[item] = (data[item] || 0) + 1;
+      }
+  }
+  return data;
+};
+
+const cuisineFormat = (res: IRestaurant[]) => {
+  const data: IFilter = {};
+  for (const prop of res) {
+    if (prop.cuisine)
+      for (const style of prop.cuisine) {
+        const item = `${style[0].toUpperCase()}${style.slice(1).toLowerCase()}`;
+        data[item] = (data[item] || 0) + 1;
+      }
+  }
+  return data;
+};
+
+export const getRestaurantFilterData = (res: IRestaurant[]) => {
+  return {
+    priceRanges: priceRangeFormat(res),
+    maxPrice: getMinMaxReservePrice(res),
+    ratings: ratingsFormat(res),
+    serviceStyles: serviceStyleFormat(res),
+    dietaries: dietaryFormat(res),
+    cuisines: cuisineFormat(res),
+    distances: distanceFormat(res),
+    payments: paymentFormat(res),
+  };
 };
