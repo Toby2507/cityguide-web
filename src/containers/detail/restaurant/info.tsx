@@ -28,7 +28,7 @@ const RestaurantDetailsInfo = ({
   onUpdate,
 }: Props) => {
   return (
-    <section className="flex flex-col gap-4 pb-10" id="availability">
+    <section className="flex flex-col gap-4 pb-10" id="info">
       <header className="flex items-center justify-between gap-10">
         <div className="flex flex-col gap-2">
           <h1 className="text-4xl font-bold capitalize">Info and Details</h1>
