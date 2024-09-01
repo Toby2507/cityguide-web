@@ -7,10 +7,14 @@ interface IFilter {
 // Stay
 // // Data
 export const stayTypeFormat = (stays: IStay[]): IFilter => {
+  const types: IFilter = {};
+  Object.values(StayType).forEach((type) => {
+    types[type] = 0;
+  });
   return stays.reduce((types: IFilter, stay) => {
-    types[stay.type] = (types[stay.type] || 0) + 1;
+    types[stay.type]++;
     return types;
-  }, {});
+  }, types);
 };
 
 export const getMinMaxPrice = (stays: IStay[]) => {
