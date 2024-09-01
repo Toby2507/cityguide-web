@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchCardLoader, SearchRestaurantCard } from '@/components';
+import { RestaurantFilterBox, SearchCardLoader, SearchRestaurantCard } from '@/components';
 import { RestaurantSearchBar } from '@/containers';
 import { useSearchStore } from '@/providers';
 import { getRestaurantSearch } from '@/server';
@@ -43,7 +43,7 @@ const RestaurantSearchPage = ({ searchParam }: Props) => {
       <div className="grid grid-cols-10 items-start gap-4 pb-10">
         <div className="col-span-3 flex flex-col border rounded-xl">
           <h3 className="text-lg font-bold border-b px-3 py-4">Filter by: </h3>
-          {/* <SearchStayFilterBox stays={searchResult} types={searchParam} filterStays={setFilteredResult} /> */}
+          <RestaurantFilterBox restaurants={searchResult} prices={searchParam} filterRestaurants={setFilteredResult} />
         </div>
         <div className="col-span-7 flex flex-col gap-4">
           {isLoading ? (
