@@ -3,9 +3,8 @@
 import { SearchCardLoader, SearchStayCard, SearchStayFilterBox } from '@/components';
 import { StaySearchBar } from '@/containers';
 import { useSearchStore } from '@/providers';
-import { getStaySearch, refetchPage } from '@/server';
+import { getStaySearch } from '@/server';
 import { IStay } from '@/types';
-import { paths } from '@/utils';
 import { useEffect, useState } from 'react';
 
 interface Props {
@@ -38,7 +37,7 @@ const StaySearchPage = ({ searchParam }: Props) => {
   }, []);
   return (
     <>
-      <StaySearchBar extraClass="-mt-7" search={() => refetchPage(paths.searchStay(searchParam))} />
+      <StaySearchBar extraClass="-mt-7" search={searchStay} />
       <div className="grid grid-cols-10 items-start gap-4 pb-10">
         <div className="col-span-3 flex flex-col border rounded-xl">
           <h3 className="text-lg font-bold border-b px-3 py-4">Filter by: </h3>
