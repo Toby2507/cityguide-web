@@ -84,6 +84,8 @@ export { default as UserDetailReservationAccommodation } from './reservations/us
 // Search
 // // Common
 export { default as SearchCardLoader } from './search/common/search-card-loader';
+// // Restaurant
+export { default as SearchRestaurantCard } from './search/restaurant/restaurant-card';
 // // Stay
 export { default as SearchStayCard } from './search/stay/stay-card';
 export { default as SearchStayFilterBox } from './search/stay/stay-filter-box';
