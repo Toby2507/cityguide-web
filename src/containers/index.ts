@@ -33,15 +33,16 @@ export { default as StayDetailRules } from './detail/stay/rules';
 
 // Home
 // // Restaurant
+export { default as RestaurantSearchBar } from './home/restaurant/search';
 export { default as RestaurantTrendingDestinations } from './home/restaurant/trending-destinations';
 // // Stay
 export { default as DiscoverHome } from './home/common/discover-home';
 export { default as HomeHeader } from './home/common/home-header';
 export { default as SubscribeBox } from './home/common/subscribe-box';
 export { default as TopOffers } from './home/common/top-offers';
+export { default as StayCategories } from './home/stay/categories';
 export { default as Destinations } from './home/stay/destinations';
-export { default as StayCategories } from './home/stay/stay-categories';
-export { default as StaySearchBar } from './home/stay/stay-search';
+export { default as StaySearchBar } from './home/stay/search';
 export { default as StayTrendingDestinations } from './home/stay/trending-destination';
 
 // List Property
