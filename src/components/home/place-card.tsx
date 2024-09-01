@@ -1,9 +1,12 @@
 import { IRestaurant, IStay } from '@/types';
-import { paths } from '@/utils';
 import { Card, CardBody, CardFooter, Image } from '@nextui-org/react';
 import Link from 'next/link';
 
-const PlaceCard = ({ _id, name, summary, avatar }: IStay | IRestaurant) => {
+type Props = (IStay | IRestaurant) & {
+  refPath: (id: string) => string;
+};
+
+const PlaceCard = ({ _id, name, summary, avatar, refPath }: Props) => {
   return (
     <Card shadow="none" className="grid grid-rows-2">
       <CardBody className="p-0">
@@ -22,7 +25,7 @@ const PlaceCard = ({ _id, name, summary, avatar }: IStay | IRestaurant) => {
           <h3 className="text-xl font-bold">{name}</h3>
           <p className="text-xs font-normal">{summary.split('\n')[0].substring(0, 350)}...</p>
         </div>
-        <Link href={paths.stayDetail(_id)}>
+        <Link href={refPath(_id)}>
           <p className="text-xs text-primary font-semibold hover:underline">See more {' >'}</p>
         </Link>
       </CardFooter>
