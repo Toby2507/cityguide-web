@@ -35,7 +35,7 @@ const StaySearchPage = ({ searchParam }: Props) => {
   useEffect(() => {
     if (!searchResult && (location || searchParam)) (async () => await searchStay())();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchResult, location, searchParam]);
+  }, []);
   return (
     <>
       <StaySearchBar extraClass="-mt-7" search={() => refetchPage(paths.searchStay(searchParam))} />

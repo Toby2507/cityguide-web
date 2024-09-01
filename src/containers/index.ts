@@ -56,4 +56,5 @@ export { default as StayDetailReservation } from './reservation/stay-detail';
 export { default as UserDetailReservation } from './reservation/user-detail';
 
 // Search
+export { default as RestaurantSearch } from './search/restaurant/restaurant-search';
 export { default as StaySearch } from './search/stay/stay-search';
