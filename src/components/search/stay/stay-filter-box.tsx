@@ -8,10 +8,12 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
 interface Props {
   stays: IStay[] | undefined;
+  types?: string[];
   filterStays: Dispatch<SetStateAction<IStay[]>>;
 }
 
-const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
+const SearchStayFilterBox = ({ stays, types, filterStays }: Props) => {
+  const [paramUsed, setParamUsed] = useState<boolean>(false);
   const [selectedType, setSelectedType] = useState<string[]>([]);
   const [rating, setRating] = useState<string[]>([]);
   const [maxdays, setMaxdays] = useState<string[]>([]);
@@ -20,11 +22,6 @@ const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
   const [payment, setPayment] = useState<string[]>([]);
   const [policy, setPolicy] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<SliderValue>([0, 500000]);
-
-  const isSingle = (val: string[], cb: Dispatch<SetStateAction<string[]>>) => {
-    const newVal = slice(val, -1);
-    cb(newVal);
-  };
 
   const {
     stayTypes,
@@ -36,6 +33,18 @@ const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
     payments,
     policies,
   } = useMemo(() => getFilterData(stays || []), [stays]);
+
+  const isSingle = (val: string[], cb: Dispatch<SetStateAction<string[]>>) => {
+    const newVal = slice(val, -1);
+    cb(newVal);
+  };
+
+  useEffect(() => {
+    if (stays && types && !paramUsed) {
+      setSelectedType(types);
+      setParamUsed(true);
+    }
+  }, [stays, types, paramUsed]);
   useEffect(() => {
     if (stays)
       filterStays(
@@ -52,7 +61,7 @@ const SearchStayFilterBox = ({ stays, filterStays }: Props) => {
           (priceRange as number[])[1]
         )
       );
-  }, [selectedType, rating, maxdays, language, distance, payment, policy, priceRange, stays, filterStays]);
+  }, [selectedType, rating, maxdays, language, distance, payment, policy, priceRange, stays, types, filterStays]);
   return (
     <>
       {Object.values(stayTypes).length ? (
