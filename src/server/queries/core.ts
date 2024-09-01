@@ -22,18 +22,21 @@ export const getStayById = async (id: string) => {
 };
 
 export const getStaySearch = async (
-  { lat, lng }: LatLng,
+  geoLocation?: LatLng,
   checkIn?: string,
   checkOut?: string,
   children?: boolean,
   guest?: number,
   count?: number
 ) => {
-  let url = `property/stay/search?lat=${lat}&lng=${lng}`;
-  if (checkIn && checkOut) url += `&checkin=${checkIn}&checkout=${checkOut}`;
-  if (children) url += '&children=0';
-  if (guest) url += `&guests=${guest}`;
-  if (count) url += `&count=${count}`;
+  let url = 'property/stay/search';
+  const params = [];
+  if (geoLocation) params.push(`lat=${geoLocation.lat}&lng=${geoLocation.lng}`);
+  if (checkIn && checkOut) params.push(`checkin=${checkIn}&checkout=${checkOut}`);
+  if (children) params.push('children=0');
+  if (guest) params.push(`guests=${guest}`);
+  if (count) params.push(`count=${count}`);
+  if (params.length) url += `?${params.join('&')}`;
   const res = await fetchBaseQuery(url, { method: 'GET' });
   const stays = await res.json();
   return stays.properties as IStay[];
