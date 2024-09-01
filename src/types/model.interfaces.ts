@@ -62,6 +62,12 @@ export interface IPartner {
   cancellationPolicy: ICancellation | null;
 }
 
+export interface ILocationInfo {
+  distance: number;
+  distanceInWords: string;
+  duration: string;
+}
+
 // NightLife
 export interface IEvent {
   id: string;
@@ -149,6 +155,7 @@ export interface IRestaurant {
   menu: IMenu[];
   details: IRestaurantDetails;
   contact: IContact;
+  locationInfo?: ILocationInfo;
   createdAt: string;
   updatedAt: string;
   partner: string | IPartner;
@@ -237,11 +244,7 @@ export interface IStay {
   language: string[];
   paymentMethods: string[];
   optionalServices: IOptionalService[];
-  locationInfo?: {
-    distance: number;
-    distanceInWords: string;
-    duration: string;
-  };
+  locationInfo?: ILocationInfo;
   createdAt: string;
   updatedAt: string;
 }
