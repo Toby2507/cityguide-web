@@ -19,6 +19,7 @@ export { getPartnerRestaurants, getPartnerStays, getReservationAnalytics } from 
 export { getUser, getUserProfile, logout } from './queries/auth';
 export {
   getRestaurantById,
+  getRestaurantSearch,
   getStayById,
   getStaySearch,
   getTrendingRestaurants,

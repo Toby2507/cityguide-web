@@ -1,6 +1,6 @@
 'use server';
 
-import { IRestaurant, IStay, LatLng } from '@/types';
+import { DayOfWeek, IRestaurant, IStay, LatLng } from '@/types';
 import { fetchBaseQuery } from '@/utils';
 import toast from 'react-hot-toast';
 
@@ -57,4 +57,25 @@ export const getRestaurantById = async (id: string) => {
   }
   const restaurant = await res.json();
   return restaurant.restaurant as IRestaurant;
+};
+
+export const getRestaurantSearch = async (
+  geoLocation?: LatLng,
+  day?: DayOfWeek,
+  time?: string,
+  children?: boolean,
+  guest?: number,
+  count?: number
+) => {
+  let url = 'property/restaurant/search';
+  const params = [];
+  if (geoLocation) params.push(`lat=${geoLocation.lat}&lng=${geoLocation.lng}`);
+  if (children) params.push('children=0');
+  if (guest) params.push(`guests=${guest}`);
+  if (count) params.push(`count=${count}`);
+  if (day && time) params.push(`day=${day}&time=${time}`);
+  if (params.length) url += `?${params.join('&')}`;
+  const res = await fetchBaseQuery(url, { method: 'GET' });
+  const restaurants = await res.json();
+  return restaurants.properties as IRestaurant[];
 };
