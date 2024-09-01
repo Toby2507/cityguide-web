@@ -76,8 +76,8 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
     }
   }, [autoComplete, noLocation, setState]);
   useEffect(() => {
-    if (activeTab !== 'Stay') push(`/${activeTab.toLowerCase()}`);
-  }, [activeTab, push]);
+    if (activeTab !== 'Stay' && isMain) push(`/${activeTab.toLowerCase()}`);
+  }, [activeTab, isMain, push]);
   useEffect(() => {
     if (!dayjs(checkInDay).isValid()) setState({ checkInDay: dayjs().format('YYYY-MM-DD') });
     if (!dayjs(checkOutDay).isValid()) setState({ checkOutDay: dayjs().add(1, 'd').format('YYYY-MM-DD') });

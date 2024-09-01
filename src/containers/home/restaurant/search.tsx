@@ -26,7 +26,6 @@ const RestaurantSearchBar = ({ extraClass, isMain, noLocation, search }: Props) 
   const { setState, checkInDay, location, noOfGuests, reservationCount, activeTab } = useSearchStore();
   const placesRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [renderSearch, setRenderSearch] = useState<boolean>(false);
   const [autoComplete, setAutoComplete] = useState<google.maps.places.Autocomplete | null>(null);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
@@ -70,151 +69,148 @@ const RestaurantSearchBar = ({ extraClass, isMain, noLocation, search }: Props) 
     }
   }, [autoComplete, noLocation, setState]);
   useEffect(() => {
-    if (activeTab !== 'Restaurant') push(`/${activeTab.toLowerCase()}`);
-  }, [activeTab, push]);
+    if (activeTab !== 'Restaurant' && isMain) push(`/${activeTab.toLowerCase()}`);
+  }, [activeTab, isMain, push]);
   useEffect(() => {
-    setRenderSearch(true);
     if (!dayjs(checkInDay).isValid()) setState({ checkInDay: dayjs().toISOString() });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
-      {renderSearch ? (
-        <div className={`relative flex items-center gap-1 bg-accentLightBlue p-1 rounded-xl shadow-xl ${extraClass}`}>
-          {!noLocation ? (
-            <Input
-              className="flex-1 h-full"
-              label="Set destination"
-              startContent={<MdOutlineLocationSearching />}
-              size="sm"
-              radius="sm"
-              placeholder={location?.fullAddress || ''}
-              ref={placesRef}
-              isClearable
-              onClear={clearLocation}
-            />
-          ) : null}
-          <DatePicker
-            className="flex-1"
-            label="Set reservation date"
-            radius="sm"
+      <div className={`relative flex items-center gap-1 bg-accentLightBlue p-1 rounded-xl shadow-xl ${extraClass}`}>
+        {!noLocation ? (
+          <Input
+            className="flex-1 h-full"
+            label="Set destination"
+            startContent={<MdOutlineLocationSearching />}
             size="sm"
-            onChange={setCheckDate}
-            hideTimeZone
-            value={resDate}
-            minValue={today(getLocalTimeZone())}
-            suppressHydrationWarning
+            radius="sm"
+            placeholder={location?.fullAddress || ''}
+            ref={placesRef}
+            isClearable
+            onClear={clearLocation}
           />
-          <div className="flex-1 py-[6px] bg-[#F4F4F4] rounded-lg w-full hover:bg-[#E4E4E4]">
-            <Popover className="flex-1" placement="bottom-end" radius="sm" triggerScaleOnOpen={false}>
-              <PopoverTrigger className="flex-1 px-3 w-full">
-                <div className="flex flex-col cursor-pointer w-full">
-                  <p className="text-xs text-accentGray2 font-semibold">Reservation info</p>
-                  <div className="flex items-center gap-2">
-                    <FaRegUser />
-                    <p className="text-sm">
-                      {`${noOfGuests.adults} adult${noOfGuests.adults === 1 ? '' : 's'} • ${noOfGuests.children} child${
-                        noOfGuests.children === 1 ? '' : 'ren'
-                      } • ${reservationCount} accommodation${reservationCount === 1 ? '' : 's'}`}
-                    </p>
+        ) : null}
+        <DatePicker
+          className="flex-1"
+          label="Set reservation date"
+          radius="sm"
+          size="sm"
+          onChange={setCheckDate}
+          hideTimeZone
+          value={resDate}
+          minValue={today(getLocalTimeZone())}
+          suppressHydrationWarning
+        />
+        <div className="flex-1 py-[6px] bg-[#F4F4F4] rounded-lg w-full hover:bg-[#E4E4E4]">
+          <Popover className="flex-1" placement="bottom-end" radius="sm" triggerScaleOnOpen={false}>
+            <PopoverTrigger className="flex-1 px-3 w-full">
+              <div className="flex flex-col cursor-pointer w-full">
+                <p className="text-xs text-accentGray2 font-semibold">Reservation info</p>
+                <div className="flex items-center gap-2">
+                  <FaRegUser />
+                  <p className="text-sm">
+                    {`${noOfGuests.adults} adult${noOfGuests.adults === 1 ? '' : 's'} • ${noOfGuests.children} child${
+                      noOfGuests.children === 1 ? '' : 'ren'
+                    } • ${reservationCount} accommodation${reservationCount === 1 ? '' : 's'}`}
+                  </p>
+                </div>
+              </div>
+            </PopoverTrigger>
+            <PopoverContent className="mt-2 w-96">
+              <div className="flex flex-col gap-1 p-6 w-full">
+                <div className="flex items-center justify-between gap-12">
+                  <p className="text-sm">Adults</p>
+                  <div className="flex items-center rounded-sm border border-black/60">
+                    <Button
+                      color="primary"
+                      isDisabled={noOfGuests.adults <= 1}
+                      isIconOnly
+                      onPress={() => setState({ noOfGuests: { ...noOfGuests, adults: noOfGuests.adults - 1 } })}
+                      radius="sm"
+                      variant="light"
+                    >
+                      <PiMinusThin size={20} />
+                    </Button>
+                    <p className="text-sm text-center font-medium w-10">{noOfGuests.adults}</p>
+                    <Button
+                      color="primary"
+                      isIconOnly
+                      onPress={() => setState({ noOfGuests: { ...noOfGuests, adults: noOfGuests.adults + 1 } })}
+                      radius="sm"
+                      variant="light"
+                    >
+                      <PiPlusThin size={20} />
+                    </Button>
                   </div>
                 </div>
-              </PopoverTrigger>
-              <PopoverContent className="mt-2 w-96">
-                <div className="flex flex-col gap-1 p-6 w-full">
-                  <div className="flex items-center justify-between gap-12">
-                    <p className="text-sm">Adults</p>
-                    <div className="flex items-center rounded-sm border border-black/60">
-                      <Button
-                        color="primary"
-                        isDisabled={noOfGuests.adults <= 1}
-                        isIconOnly
-                        onPress={() => setState({ noOfGuests: { ...noOfGuests, adults: noOfGuests.adults - 1 } })}
-                        radius="sm"
-                        variant="light"
-                      >
-                        <PiMinusThin size={20} />
-                      </Button>
-                      <p className="text-sm text-center font-medium w-10">{noOfGuests.adults}</p>
-                      <Button
-                        color="primary"
-                        isIconOnly
-                        onPress={() => setState({ noOfGuests: { ...noOfGuests, adults: noOfGuests.adults + 1 } })}
-                        radius="sm"
-                        variant="light"
-                      >
-                        <PiPlusThin size={20} />
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between gap-12">
-                    <p className="text-sm">Children</p>
-                    <div className="flex items-center rounded-sm border border-black/60">
-                      <Button
-                        color="primary"
-                        isDisabled={noOfGuests.children <= 0}
-                        isIconOnly
-                        onPress={() => setState({ noOfGuests: { ...noOfGuests, children: noOfGuests.children - 1 } })}
-                        radius="sm"
-                        variant="light"
-                      >
-                        <PiMinusThin size={20} />
-                      </Button>
-                      <p className="text-sm text-center font-medium w-10">{noOfGuests.children}</p>
-                      <Button
-                        color="primary"
-                        isIconOnly
-                        onPress={() => setState({ noOfGuests: { ...noOfGuests, children: noOfGuests.children + 1 } })}
-                        radius="sm"
-                        variant="light"
-                      >
-                        <PiPlusThin size={20} />
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between gap-12">
-                    <p className="text-sm">Accommodations</p>
-                    <div className="flex items-center rounded-sm border border-black/60">
-                      <Button
-                        color="primary"
-                        isDisabled={reservationCount <= 1}
-                        isIconOnly
-                        onPress={() => setState({ reservationCount: reservationCount - 1 })}
-                        radius="sm"
-                        variant="light"
-                      >
-                        <PiMinusThin size={20} />
-                      </Button>
-                      <p className="text-sm text-center font-medium w-10">{reservationCount}</p>
-                      <Button
-                        color="primary"
-                        isIconOnly
-                        onPress={() => setState({ reservationCount: reservationCount + 1 })}
-                        radius="sm"
-                        variant="light"
-                      >
-                        <PiPlusThin size={20} />
-                      </Button>
-                    </div>
+                <div className="flex items-center justify-between gap-12">
+                  <p className="text-sm">Children</p>
+                  <div className="flex items-center rounded-sm border border-black/60">
+                    <Button
+                      color="primary"
+                      isDisabled={noOfGuests.children <= 0}
+                      isIconOnly
+                      onPress={() => setState({ noOfGuests: { ...noOfGuests, children: noOfGuests.children - 1 } })}
+                      radius="sm"
+                      variant="light"
+                    >
+                      <PiMinusThin size={20} />
+                    </Button>
+                    <p className="text-sm text-center font-medium w-10">{noOfGuests.children}</p>
+                    <Button
+                      color="primary"
+                      isIconOnly
+                      onPress={() => setState({ noOfGuests: { ...noOfGuests, children: noOfGuests.children + 1 } })}
+                      radius="sm"
+                      variant="light"
+                    >
+                      <PiPlusThin size={20} />
+                    </Button>
                   </div>
                 </div>
-              </PopoverContent>
-            </Popover>
-          </div>
-          {!!search || isMain ? (
-            <Button
-              className="font-semibold"
-              size="lg"
-              color="primary"
-              isLoading={isLoading}
-              onPress={handleSearch}
-              radius="sm"
-            >
-              Search
-            </Button>
-          ) : null}
+                <div className="flex items-center justify-between gap-12">
+                  <p className="text-sm">Accommodations</p>
+                  <div className="flex items-center rounded-sm border border-black/60">
+                    <Button
+                      color="primary"
+                      isDisabled={reservationCount <= 1}
+                      isIconOnly
+                      onPress={() => setState({ reservationCount: reservationCount - 1 })}
+                      radius="sm"
+                      variant="light"
+                    >
+                      <PiMinusThin size={20} />
+                    </Button>
+                    <p className="text-sm text-center font-medium w-10">{reservationCount}</p>
+                    <Button
+                      color="primary"
+                      isIconOnly
+                      onPress={() => setState({ reservationCount: reservationCount + 1 })}
+                      radius="sm"
+                      variant="light"
+                    >
+                      <PiPlusThin size={20} />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
-      ) : null}
+        {!!search || isMain ? (
+          <Button
+            className="font-semibold"
+            size="lg"
+            color="primary"
+            isLoading={isLoading}
+            onPress={handleSearch}
+            radius="sm"
+          >
+            Search
+          </Button>
+        ) : null}
+      </div>
     </>
   );
 };
