@@ -115,7 +115,7 @@ const filterByType = (stays: IStay[], filterBy: Set<string>) => {
   return stays.filter((stay) => filterBy.has(stay.type));
 };
 
-const filterByRating = (stays: IStay[], filterBy: string) => {
+const filterByRating = (stays: (IStay | IRestaurant)[], filterBy: string) => {
   const minRating = +filterBy.split(': ')[1].replace('+', '');
   return stays.filter((stay) => stay.rating >= minRating);
 };
@@ -131,7 +131,7 @@ const filterByLanguage = (stays: IStay[], filterBy: string[]) =>
     return filterBy.every((lang) => langs.has(`${lang[0].toUpperCase()}${lang.slice(1).toLowerCase()}`));
   });
 
-const filterByDistance = (stays: IStay[], filterBy: string): IStay[] => {
+const filterByDistance = (stays: (IStay | IRestaurant)[], filterBy: string) => {
   const [op, _, d, __] = filterBy.split(' ');
   let maxDistance = Infinity;
   if (op === 'Less') maxDistance = +d * 1000;
@@ -139,13 +139,14 @@ const filterByDistance = (stays: IStay[], filterBy: string): IStay[] => {
   return stays.filter((stay) => (stay.locationInfo?.distance ?? 21000) <= maxDistance);
 };
 
-const filterByPayment = (stays: IStay[], filterBy: string[]) => {
+const filterByPayment = (stays: (IStay | IRestaurant)[], filterBy: string[]) => {
   return stays.filter((stay) => {
-    const paySet = new Set(stay.paymentMethods.map((pay) => `${pay[0].toUpperCase()}${pay.slice(1).toLowerCase()}`));
+    const pays = (stay as IStay).paymentMethods ?? (stay as IRestaurant).details.paymentOptions;
+    const paySet = new Set(pays.map((pay) => `${pay[0].toUpperCase()}${pay.slice(1).toLowerCase()}`));
     return filterBy.every((pay) => {
       if (
         pay === 'Credit/Debit Cards' &&
-        stay.paymentMethods.some((p) => p.toLowerCase().includes('credit') || p.toLowerCase().includes('debit'))
+        pays.some((p) => p.toLowerCase().includes('credit') || p.toLowerCase().includes('debit'))
       )
         return true;
       return paySet.has(pay);
@@ -184,11 +185,11 @@ export const filterStayResults = (
   let results = [...stays];
   results = filterByPrice(results, min, max);
   if (type.length) results = filterByType(results, new Set(type));
-  if (rating) results = filterByRating(results, rating);
+  if (rating) results = filterByRating(results, rating) as IStay[];
   if (maxdays) results = filterByMaxDays(results, maxdays);
   if (language.length) results = filterByLanguage(results, language);
-  if (distance) results = filterByDistance(results, distance);
-  if (payment.length) results = filterByPayment(results, payment);
+  if (distance) results = filterByDistance(results, distance) as IStay[];
+  if (payment.length) results = filterByPayment(results, payment) as IStay[];
   if (policy) results = filterByPolicy(results, policy);
   return results;
 };
@@ -259,4 +260,56 @@ export const getRestaurantFilterData = (res: IRestaurant[]) => {
     distances: distanceFormat(res),
     payments: paymentFormat(res),
   };
+};
+// // Filter
+const filterByPriceRange = (res: IRestaurant[], filterBy: Set<string>) => {
+  return res.filter((prop) => filterBy.has(prop.priceRange));
+};
+
+const filterByPriceRes = (res: IRestaurant[], min: number, max: number) =>
+  res.filter((prop) => {
+    const price = prop.details.reservation?.price ?? 0;
+    return price >= min && price <= max;
+  });
+
+const filterByService = (res: IRestaurant[], filterBy: string[]) =>
+  res.filter((prop) => {
+    const items = new Set(prop.serviceStyle);
+    return filterBy.every((item) => items.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
+  });
+
+const filterByCuisine = (res: IRestaurant[], filterBy: string[]) =>
+  res.filter((prop) => {
+    const items = new Set(prop.cuisine);
+    return filterBy.every((item) => items.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
+  });
+
+const filterByDietaries = (res: IRestaurant[], filterBy: string[]) =>
+  res.filter((prop) => {
+    const items = new Set(prop.dietaryProvisions);
+    return filterBy.every((item) => items.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
+  });
+
+export const filterRestaurantResults = (
+  res: IRestaurant[],
+  priceRange: string[],
+  rating: string,
+  styles: string[],
+  cuisines: string[],
+  diets: string[],
+  distance: string,
+  payment: string[],
+  min: number,
+  max: number
+) => {
+  let results = [...res];
+  results = filterByPriceRes(results, min, max);
+  if (priceRange.length) results = filterByPriceRange(res, new Set(priceRange));
+  if (rating) results = filterByRating(results, rating) as IRestaurant[];
+  if (distance) results = filterByDistance(results, distance) as IRestaurant[];
+  if (payment.length) results = filterByPayment(results, payment) as IRestaurant[];
+  if (styles.length) results = filterByService(results, styles);
+  if (cuisines.length) results = filterByCuisine(results, cuisines);
+  if (diets.length) results = filterByDietaries(results, diets);
+  return results;
 };
