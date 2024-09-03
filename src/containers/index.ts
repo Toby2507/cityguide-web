@@ -26,6 +26,7 @@ export { default as DetailPageOverview } from './detail/common/overview';
 // // Restaurant
 export { default as RestaurantDetailInfo } from './detail/restaurant/info';
 export { default as RestaurantDetailMenu } from './detail/restaurant/menu';
+export { default as RestaurantDetailReserveBtn } from './detail/restaurant/reserve-button';
 // // Stay
 export { default as StayDetailAvailability } from './detail/stay/availability';
 export { default as StayDetailInfoReview } from './detail/stay/review';
