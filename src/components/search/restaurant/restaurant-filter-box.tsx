@@ -13,6 +13,7 @@ interface Props {
 }
 
 const SearchRestaurantFilterBox = ({ restaurants, prices, filterRestaurants }: Props) => {
+  const [paramUsed, setParamUsed] = useState<boolean>(false);
   const [priceRange, setPriceRange] = useState<string[]>([]);
   const [slider, setSlider] = useState<SliderValue>([0, 10000000000]);
   const [serviceStyle, setServiceStyle] = useState<string[]>([]);
@@ -39,6 +40,12 @@ const SearchRestaurantFilterBox = ({ restaurants, prices, filterRestaurants }: P
   };
 
   useEffect(() => {
+    if (restaurants && prices && !paramUsed) {
+      setPriceRange(prices);
+      setParamUsed(true);
+    }
+  }, [restaurants, prices, paramUsed]);
+  useEffect(() => {
     if (restaurants)
       filterRestaurants(
         filterRestaurantResults(
@@ -54,7 +61,7 @@ const SearchRestaurantFilterBox = ({ restaurants, prices, filterRestaurants }: P
           (slider as number[])[1]
         )
       );
-  });
+  }, [restaurants, priceRange, rating, serviceStyle, cuisine, dietary, distance, payment, slider, filterRestaurants]);
   return (
     <>
       {Object.values(priceRanges).length ? (
