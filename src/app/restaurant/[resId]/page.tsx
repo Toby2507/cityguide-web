@@ -30,7 +30,7 @@ const RestaurantDetailPage = async ({ params: { resId } }: Props) => {
           <DetailPageAmenities amenities={restaurant.details.amenities} {...restaurant} />
           <RestaurantDetailMenu menu={restaurant.menu} />
           <RestaurantDetailInfo restaurant={restaurant} />
-          <RestaurantDetailReserveBtn restaurant={restaurant} />
+          {restaurant.details.reservation ? <RestaurantDetailReserveBtn restaurant={restaurant} /> : null}
         </div>
         <SubscribeBox />
       </main>
