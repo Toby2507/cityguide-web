@@ -6,6 +6,7 @@ import {
   Header,
   RestaurantDetailInfo,
   RestaurantDetailMenu,
+  RestaurantDetailReserveBtn,
   SubscribeBox,
 } from '@/containers';
 import { getRestaurantById } from '@/server';
@@ -29,6 +30,7 @@ const RestaurantDetailPage = async ({ params: { resId } }: Props) => {
           <DetailPageAmenities amenities={restaurant.details.amenities} {...restaurant} />
           <RestaurantDetailMenu menu={restaurant.menu} />
           <RestaurantDetailInfo restaurant={restaurant} />
+          <RestaurantDetailReserveBtn restaurant={restaurant} />
         </div>
         <SubscribeBox />
       </main>
