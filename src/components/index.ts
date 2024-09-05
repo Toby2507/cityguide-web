@@ -14,6 +14,7 @@ export { default as UpdatePropertyImages } from './admin/common/update-property-
 export { default as DashboardChart } from './admin/dashboard/dashboard-chart';
 export { default as EngagementCard } from './admin/dashboard/engagement-card';
 export { default as MetricCard } from './admin/dashboard/metric-card';
+export { default as NightlifeCard } from './admin/dashboard/nightlife-card';
 export { default as ReservationCell } from './admin/dashboard/reservation-cell';
 export { default as RestaurantCard } from './admin/dashboard/restaurant-card';
 export { default as StayCard } from './admin/dashboard/stay-card';
