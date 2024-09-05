@@ -1,5 +1,5 @@
-import { PriceRange, StayType } from '@/types';
-import { FaHotel, FaUmbrellaBeach } from 'react-icons/fa';
+import { NightLifeType, PriceRange, StayType } from '@/types';
+import { FaCouch, FaGlassMartiniAlt, FaHotel, FaMusic, FaRegLightbulb, FaUmbrellaBeach } from 'react-icons/fa';
 import { GiBunkBeds } from 'react-icons/gi';
 import { IoBed, IoHome } from 'react-icons/io5';
 import { MdOutlineApartment } from 'react-icons/md';
@@ -58,5 +58,32 @@ export const priceRanges = [
     key: PriceRange.FINE,
     name: 'Fine-dining',
     desc: 'Premium options that offer luxury experiences with high-end amenities, services, and gourmet dining.',
+  },
+];
+
+export const nightLifeTypes = [
+  {
+    key: NightLifeType.CLUB,
+    name: 'Club',
+    desc: 'Vibrant venues with dance floors, DJs, and late-night entertainment, often featuring electronic or popular music.',
+    Icon: FaMusic,
+  },
+  {
+    key: NightLifeType.BAR,
+    name: 'Bar',
+    desc: 'Establishments primarily serving alcoholic beverages, often with a casual atmosphere and sometimes offering light snacks or entertainment.',
+    Icon: FaGlassMartiniAlt,
+  },
+  {
+    key: NightLifeType.LOUNGE,
+    name: 'Lounge',
+    desc: 'Upscale, relaxed settings with comfortable seating, often featuring cocktails, ambient music, and a sophisticated atmosphere.',
+    Icon: FaCouch,
+  },
+  {
+    key: NightLifeType.OTHER,
+    name: 'Other',
+    desc: "Unique or unconventional nightlife venues that don't fit traditional categories, such as comedy clubs, karaoke bars, or themed experiences.",
+    Icon: FaRegLightbulb,
   },
 ];
