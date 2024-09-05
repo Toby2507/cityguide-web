@@ -99,7 +99,6 @@ export interface INightLife {
   type: NightLifeType;
   name: string;
   summary: string;
-  description?: string;
   address: IAddress;
   rating: number;
   reviewCount: number;
