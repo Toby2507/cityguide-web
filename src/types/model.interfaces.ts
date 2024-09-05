@@ -95,7 +95,6 @@ export interface INightLifeDetails {
 
 export interface INightLife {
   _id: string;
-  establishment: string;
   type: NightLifeType;
   name: string;
   summary: string;
@@ -108,8 +107,9 @@ export interface INightLife {
   rules: INightLifeRules;
   details: INightLifeDetails;
   contact: IContact;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
+  partner: string | IPartner;
 }
 
 // Restaurants
