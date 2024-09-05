@@ -1,29 +1,25 @@
 'use client';
 
-import { IRestaurant } from '@/types';
+import { INightLife } from '@/types';
 import { numberToCurrency } from '@/utils';
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import dayjs from 'dayjs';
-import { FaClipboardList } from 'react-icons/fa';
-import { GrDeliver } from 'react-icons/gr';
-import { IoCard, IoPricetags } from 'react-icons/io5';
-import { LuVegan } from 'react-icons/lu';
-import { MdFoodBank, MdOutlineFamilyRestroom, MdRoomService } from 'react-icons/md';
+import { GiDress } from 'react-icons/gi';
+import { IoCalendarSharp, IoCard, IoPricetags } from 'react-icons/io5';
+import { PiMusicNoteFill } from 'react-icons/pi';
+import { TbParkingCircle } from 'react-icons/tb';
 
 interface Props {
-  restaurant: IRestaurant;
+  nightlife: INightLife;
   onUpdate?: () => void;
 }
 
-const RestaurantDetailsInfo = ({
-  restaurant: {
+const NightlifeDetailInfo = ({
+  nightlife: {
     availability,
-    cuisine,
-    dietaryProvisions,
-    priceRange,
-    serviceStyle,
-    details: { children, delivery, reservation, paymentOptions },
     contact: { email, phone, socialMedia },
+    details: { entryFee, paymentOptions },
+    rules: { dressCode, minAge, musicGenre, parking },
   },
   onUpdate,
 }: Props) => {
@@ -38,7 +34,7 @@ const RestaurantDetailsInfo = ({
         </div>
         {onUpdate ? (
           <Button color="primary" className="px-10 font-semibold" onPress={onUpdate} radius="sm">
-            Update Restaurant Info
+            Update Nightlife Info
           </Button>
         ) : null}
       </header>
@@ -84,74 +80,46 @@ const RestaurantDetailsInfo = ({
         <TableBody>
           <TableRow className="border-b border-default">
             <TableCell className="flex items-center gap-2 py-4 font-medium">
+              <IoCalendarSharp className="text-xl" />
+              Minimum Age
+            </TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">{minAge}+</TableCell>
+          </TableRow>
+          <TableRow className="border-b border-default">
+            <TableCell className="flex items-center gap-2 py-4 font-medium">
               <IoPricetags className="text-xl" />
-              Price Range
+              Entry Fee
             </TableCell>
-            <TableCell className="py-4 text-accentGray w-9/12">{priceRange}</TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">{numberToCurrency(entryFee ?? 0)}</TableCell>
           </TableRow>
           <TableRow className="border-b border-default">
             <TableCell className="flex items-center gap-2 py-4 font-medium">
-              <MdRoomService className="text-xl" />
-              Service Styles
+              <TbParkingCircle className="text-xl" />
+              Parking
+            </TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">{parking}</TableCell>
+          </TableRow>
+          <TableRow className="border-b border-default">
+            <TableCell className="flex items-center gap-2 py-4 font-medium">
+              <GiDress className="text-xl" />
+              Dress Code
             </TableCell>
             <TableCell className="py-4 text-accentGray w-9/12">
-              {serviceStyle?.join(', ') || 'There is no specific service style'}
+              {dressCode?.join(', ') || 'There is no dress code'}
             </TableCell>
           </TableRow>
           <TableRow className="border-b border-default">
             <TableCell className="flex items-center gap-2 py-4 font-medium">
-              <MdFoodBank className="text-xl" />
-              Cuisines
+              <PiMusicNoteFill className="text-xl" />
+              Music Genres
             </TableCell>
             <TableCell className="py-4 text-accentGray w-9/12">
-              {cuisine?.join(', ') || 'There is no specific cuisine'}
+              {musicGenre?.join(', ') || 'There is no specific music genre'}
             </TableCell>
           </TableRow>
           <TableRow className="border-b border-default">
             <TableCell className="flex items-center gap-2 py-4 font-medium">
-              <LuVegan className="text-xl" />
-              Dietary Provisions
-            </TableCell>
-            <TableCell className="py-4 text-accentGray w-9/12">
-              {dietaryProvisions?.join(', ') || 'There is no specific dietary provisions'}
-            </TableCell>
-          </TableRow>
-          <TableRow className="border-b border-default">
-            <TableCell className="flex items-center gap-2 py-4 font-medium">
-              <FaClipboardList className="text-xl" />
-              Reservation
-            </TableCell>
-            <TableCell className="py-4 text-accentGray w-9/12">
-              {reservation
-                ? `Reservation required. Fee: ${numberToCurrency(reservation.price)} per table.`
-                : 'No reservations available. Walk-ins welcome.'}
-            </TableCell>
-          </TableRow>
-          <TableRow className="border-b border-default">
-            <TableCell className="flex items-center gap-2 py-4 font-medium">
-              <GrDeliver className="text-xl" />
-              Delivery Service
-            </TableCell>
-            <TableCell className="py-4 text-accentGray w-9/12">
-              {delivery
-                ? 'The restaurant offers a delivery service. Contact the restaurant for more details.'
-                : 'The restaurant does not offer a delivery service.'}
-            </TableCell>
-          </TableRow>
-          <TableRow className="border-b border-default">
-            <TableCell className="flex items-center gap-2 py-4 font-medium">
-              <MdOutlineFamilyRestroom className="text-lg" />
-              Children & Infants
-            </TableCell>
-            <TableCell className="py-4 w-9/12">
-              <p className="text-accentGray pb-2">
-                Children of all ages are {children ? '' : 'not '}welcome at this property
-              </p>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="flex items-center gap-2 py-4 font-medium">
-              <IoCard className="text-lg" />
+              <IoCard className="text-xl" />
               Accepted Payment Method
             </TableCell>
             <TableCell className="py-4 text-accentGray w-9/12">{paymentOptions.join(', ')}</TableCell>
@@ -162,4 +130,4 @@ const RestaurantDetailsInfo = ({
   );
 };
 
-export default RestaurantDetailsInfo;
+export default NightlifeDetailInfo;

@@ -31,6 +31,8 @@ export { default as RestaurantDetailReserveBtn } from './detail/restaurant/reser
 export { default as StayDetailAvailability } from './detail/stay/availability';
 export { default as StayDetailInfoReview } from './detail/stay/review';
 export { default as StayDetailRules } from './detail/stay/rules';
+// // Nightlife
+export { default as NightlifeDetailInfo } from './detail/nightlife/info';
 
 // Home
 // // Restaurant
