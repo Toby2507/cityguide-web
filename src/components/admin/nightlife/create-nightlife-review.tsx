@@ -1,6 +1,7 @@
 'use client';
 
 import { DetailPageAmenities, DetailPageOverview, NightlifeDetailInfo } from '@/containers';
+import { createNightlife } from '@/server';
 import { ICreateNightlife, ICustomAvailability, INightLife } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Link, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
@@ -30,6 +31,7 @@ const CreateNightlifeReview = ({ setStep }: Props) => {
   const onSubmit: SubmitHandler<ICreateNightlife> = async (data) => {
     setIsLoading(true);
     onOpen();
+    await createNightlife(data);
     setIsLoading(false);
   };
   return (
