@@ -1,7 +1,15 @@
 'use server';
 
-import { IAccommodation, ICreateRestaurant, ICreateStay, IMenu, IUpdateRestaurant, IUpdateStay } from '@/types';
-import { fetchWithReAuth, formatRestaurantBody, formatStayBody, paths } from '@/utils';
+import {
+  IAccommodation,
+  ICreateNightlife,
+  ICreateRestaurant,
+  ICreateStay,
+  IMenu,
+  IUpdateRestaurant,
+  IUpdateStay,
+} from '@/types';
+import { fetchWithReAuth, formatNightlifeBody, formatRestaurantBody, formatStayBody, paths } from '@/utils';
 import { revalidatePath } from 'next/cache';
 import toast from 'react-hot-toast';
 
@@ -83,4 +91,11 @@ export const removeMenuItem = async (resId: string, menuId: string) => {
   const res = await fetchWithReAuth(`property/restaurant/${resId}/menu/${menuId}`, { method: 'DELETE' });
   if (res.status !== 204) return toast.error(res.statusText);
   revalidatePath(paths.adminRestaurant(resId));
+};
+
+// Nightlife
+export const createNightlife = async (body: ICreateNightlife) => {
+  const data = formatNightlifeBody(body);
+  await fetchWithReAuth('property/nightlife', { method: 'POST', body: JSON.stringify(data) });
+  revalidatePath(paths.adminNightlifes());
 };

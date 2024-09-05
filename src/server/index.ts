@@ -2,6 +2,7 @@
 export {
   addAccommodation,
   addMenuItem,
+  createNightlife,
   createRestaurant,
   createStay,
   removeAccommodation,
