@@ -43,6 +43,7 @@ export { default as UpdateRestaurantMenu } from './admin/restaurant/update-resta
 // // Night Life
 export { default as CreateNightlifeStep1 } from './admin/nightlife/create-nightlife-1';
 export { default as CreateNightlifeStep3 } from './admin/nightlife/create-nightlife-3';
+export { default as CreateNightlifeStep4 } from './admin/nightlife/create-nightlife-4';
 
 // Auth
 export { default as LoginTab } from './auth/login-tab';
