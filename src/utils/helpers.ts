@@ -1,4 +1,11 @@
-import { IAccommodation, IAddress, ICreateRestaurant, ICreateStay, ICustomAvailability } from '@/types';
+import {
+  IAccommodation,
+  IAddress,
+  ICreateNightlife,
+  ICreateRestaurant,
+  ICreateStay,
+  ICustomAvailability,
+} from '@/types';
 import differenceWith from 'lodash/differenceWith';
 import fromPairs from 'lodash/fromPairs';
 import isEqual from 'lodash/isEqual';
@@ -96,6 +103,22 @@ export const formatRestaurantBody = (body: ICreateRestaurant) => {
     contact: body.contact,
   };
   return restaurant;
+};
+
+export const formatNightlifeBody = (body: ICreateNightlife) => {
+  const nightlife: ICreateNightlife = {
+    name: body.name,
+    summary: body.summary,
+    address: body.address,
+    avatar: body.avatar,
+    images: body.images,
+    availability: body.availability.filter(Boolean) as ICustomAvailability[],
+    type: body.type,
+    rules: body.rules,
+    details: body.details,
+    contact: body.contact,
+  };
+  return nightlife;
 };
 
 export const createUploadDatas = (imgs: File[]) => {
