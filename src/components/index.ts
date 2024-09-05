@@ -40,6 +40,8 @@ export { default as CreateRestaurantReview } from './admin/restaurant/create-res
 export { default as UpdateRestaurantDetails } from './admin/restaurant/update-restaurant-details';
 export { default as UpdateRestaurantInfo } from './admin/restaurant/update-restaurant-info';
 export { default as UpdateRestaurantMenu } from './admin/restaurant/update-restaurant-menu';
+// // Night Life
+export { default as CreateNightlifeStep1 } from './admin/nightlife/create-nightlife-1';
 
 // Auth
 export { default as LoginTab } from './auth/login-tab';
