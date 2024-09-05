@@ -1,6 +1,12 @@
 'use client';
 
-import { CreateNightlifeStep1, CreateNightlifeStep3, CreateNightlifeStep4, CreatePropertyAddress } from '@/components';
+import {
+  CreateNightlifeStep1,
+  CreateNightlifeStep3,
+  CreateNightlifeStep4,
+  CreatePropertyAddress,
+  CreatePropertyImageUpload,
+} from '@/components';
 import { ICreateNightlife } from '@/types';
 import { Pagination } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
@@ -20,6 +26,7 @@ const CreateNightlifePage = () => {
       {step === 2 ? <CreatePropertyAddress setStep={setStep} /> : null}
       {step === 3 ? <CreateNightlifeStep3 setStep={setStep} /> : null}
       {step === 4 ? <CreateNightlifeStep4 setStep={setStep} /> : null}
+      {step === 5 ? <CreatePropertyImageUpload name="Nightlife" nextStep={6} setStep={setStep} /> : null}
       <div className="absolute bottom-10 flex flex-col gap-2">
         <p className="text-xs">Go to step</p>
         <Pagination className="z-50" total={topStep} page={step} onChange={(val) => setStep(val)} />
