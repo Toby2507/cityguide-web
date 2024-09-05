@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  CreateNightlifeReview,
   CreateNightlifeStep1,
   CreateNightlifeStep3,
   CreateNightlifeStep4,
@@ -31,6 +32,7 @@ const CreateNightlifePage = () => {
       {step === 5 ? <CreatePropertyImageUpload name="Nightlife" nextStep={6} setStep={setStep} /> : null}
       {step === 6 ? <CreateNightlifeStep6 setStep={setStep} /> : null}
       {step === 7 ? <CreateNightlifeStep7 setStep={setStep} /> : null}
+      {step === 8 ? <CreateNightlifeReview setStep={setStep} /> : null}
       <div className="absolute bottom-10 flex flex-col gap-2">
         <p className="text-xs">Go to step</p>
         <Pagination className="z-50" total={topStep} page={step} onChange={(val) => setStep(val)} />
