@@ -63,7 +63,6 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
       ];
       return toast.error([...formErrors, ...fieldErrors].join(', ') || 'Please fill in the required fields');
     }
-    setIsLoading(false);
     setStep(8);
   };
 
