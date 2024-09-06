@@ -1,6 +1,6 @@
 'use client';
 
-import { updateRestaurantSchema } from '@/schemas';
+import { updateNightlifeSchema } from '@/schemas';
 import { updateNightlife } from '@/server';
 import { INightLife, IUpdateNightlife, NightLifeType } from '@/types';
 import { getObjDiff, onEnter } from '@/utils';
@@ -32,6 +32,8 @@ const UpdateNightlifeDetails = ({ nightlife, onClose }: Props) => {
       onClose();
       reset();
       toast.success('Nightlife detail updated successfully!');
+    } catch (err: any) {
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -39,7 +41,7 @@ const UpdateNightlifeDetails = ({ nightlife, onClose }: Props) => {
   return (
     <FormProvider {...method}>
       <div className="flex flex-col gap-6 p-2">
-        <h3 className="text-2xl text-center font-semibold tracking-wide border-b py-2">Update Stay Details</h3>
+        <h3 className="text-2xl text-center font-semibold tracking-wide border-b py-2">Update Nightlife Details</h3>
         <div className="flex flex-col gap-2">
           <Controller
             control={control}
@@ -62,7 +64,7 @@ const UpdateNightlifeDetails = ({ nightlife, onClose }: Props) => {
             name="name"
             rules={{
               validate: (val) => {
-                const isValid = updateRestaurantSchema.shape.name.safeParse(val);
+                const isValid = updateNightlifeSchema.shape.name.safeParse(val);
                 return isValid.success || isValid.error.flatten().formErrors.join(', ');
               },
             }}
@@ -87,7 +89,7 @@ const UpdateNightlifeDetails = ({ nightlife, onClose }: Props) => {
             name="summary"
             rules={{
               validate: (val) => {
-                const isValid = updateRestaurantSchema.shape.summary.safeParse(val);
+                const isValid = updateNightlifeSchema.shape.summary.safeParse(val);
                 return isValid.success || isValid.error.flatten().formErrors.join(', ');
               },
             }}
@@ -113,7 +115,7 @@ const UpdateNightlifeDetails = ({ nightlife, onClose }: Props) => {
             name="type"
             rules={{
               validate: (val) => {
-                const isValid = updateRestaurantSchema.shape.priceRange.safeParse(val);
+                const isValid = updateNightlifeSchema.shape.type.safeParse(val);
                 return isValid.success || isValid.error.flatten().formErrors.join(', ');
               },
             }}
