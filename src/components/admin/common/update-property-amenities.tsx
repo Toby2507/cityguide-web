@@ -2,7 +2,15 @@
 
 import { restaurantAmenities, staticAmenities } from '@/data';
 import { updateRestaurant, updateStay } from '@/server';
-import { IRestaurant, IStay, IUpdateRestaurant, IUpdateStay, PropertyType } from '@/types';
+import {
+  INightLife,
+  IRestaurant,
+  IStay,
+  IUpdateNightlife,
+  IUpdateRestaurant,
+  IUpdateStay,
+  PropertyType,
+} from '@/types';
 import { getObjDiff } from '@/utils';
 import { Button } from '@nextui-org/react';
 import { useState } from 'react';
@@ -11,17 +19,20 @@ import toast from 'react-hot-toast';
 import CreatePropertyAmenities from './create-property-amenities';
 
 interface Props {
-  property: IStay | IRestaurant;
+  property: IStay | IRestaurant | INightLife;
   type: PropertyType;
   onClose: () => void;
 }
 
 const UpdatePropertyAmenities = ({ property, type, onClose }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const method = useForm<IUpdateStay | IUpdateRestaurant>({ defaultValues: property, mode: 'onChange' });
+  const method = useForm<IUpdateStay | IUpdateRestaurant | IUpdateNightlife>({
+    defaultValues: property,
+    mode: 'onChange',
+  });
   const { handleSubmit, reset } = method;
 
-  const onSubmit: SubmitHandler<IUpdateStay | IUpdateRestaurant> = async (data) => {
+  const onSubmit: SubmitHandler<IUpdateStay | IUpdateRestaurant | IUpdateNightlife> = async (data) => {
     setIsLoading(true);
     try {
       const updateBody = getObjDiff(data, property);

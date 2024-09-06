@@ -2,7 +2,15 @@
 
 import { Map } from '@/components';
 import { updateRestaurant, updateStay } from '@/server';
-import { IRestaurant, IStay, IUpdateRestaurant, IUpdateStay, PropertyType } from '@/types';
+import {
+  INightLife,
+  IRestaurant,
+  IStay,
+  IUpdateNightlife,
+  IUpdateRestaurant,
+  IUpdateStay,
+  PropertyType,
+} from '@/types';
 import { getObjDiff } from '@/utils';
 import { Button } from '@nextui-org/react';
 import { useState } from 'react';
@@ -10,14 +18,14 @@ import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
-  property: IStay | IRestaurant;
+  property: IStay | IRestaurant | INightLife;
   type: PropertyType;
   onClose: () => void;
 }
 
 const UpdatePropertyAddress = ({ property, type, onClose }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { control, handleSubmit, reset } = useForm<IUpdateStay | IUpdateRestaurant>({
+  const { control, handleSubmit, reset } = useForm<IUpdateStay | IUpdateRestaurant | IUpdateNightlife>({
     defaultValues: property,
     mode: 'onChange',
   });
@@ -25,7 +33,7 @@ const UpdatePropertyAddress = ({ property, type, onClose }: Props) => {
     field: { onChange, value },
   } = useController({ control, name: 'address' });
 
-  const onSubmit: SubmitHandler<IUpdateStay | IUpdateRestaurant> = async (data) => {
+  const onSubmit: SubmitHandler<IUpdateStay | IUpdateRestaurant | IUpdateNightlife> = async (data) => {
     setIsLoading(true);
     try {
       const updateBody = getObjDiff(data, property);

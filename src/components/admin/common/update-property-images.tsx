@@ -2,7 +2,15 @@
 
 import { useCustomImageSelect } from '@/hooks';
 import { updateRestaurant, updateStay, uploadImages } from '@/server';
-import { IRestaurant, IStay, IUpdateRestaurant, IUpdateStay, PropertyType } from '@/types';
+import {
+  INightLife,
+  IRestaurant,
+  IStay,
+  IUpdateNightlife,
+  IUpdateRestaurant,
+  IUpdateStay,
+  PropertyType,
+} from '@/types';
 import { createUploadDatas, formatFileSize, getObjDiff } from '@/utils';
 import {
   Button,
@@ -23,7 +31,7 @@ import { HiDotsVertical } from 'react-icons/hi';
 import { IoClose, IoCloudUploadOutline } from 'react-icons/io5';
 
 interface Props {
-  property: IStay | IRestaurant;
+  property: IStay | IRestaurant | INightLife;
   type: PropertyType;
   onClose: () => void;
 }
@@ -32,7 +40,7 @@ const UpdatePropertyImages = ({ property, type, onClose }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [activeImage, setActiveImage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { control, handleSubmit, reset, watch } = useForm<IUpdateStay | IUpdateRestaurant>({
+  const { control, handleSubmit, reset, watch } = useForm<IUpdateStay | IUpdateRestaurant | IUpdateNightlife>({
     defaultValues: property,
     mode: 'onChange',
   });
@@ -58,7 +66,7 @@ const UpdatePropertyImages = ({ property, type, onClose }: Props) => {
     setAvatar(imgUrl);
     setImages(newImages);
   };
-  const onSubmit: SubmitHandler<IUpdateStay | IUpdateRestaurant> = async (data) => {
+  const onSubmit: SubmitHandler<IUpdateStay | IUpdateRestaurant | IUpdateNightlife> = async (data) => {
     setIsLoading(true);
     try {
       if (!avatar) return toast.error('Please select an avatar');
