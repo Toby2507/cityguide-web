@@ -1,7 +1,7 @@
 'use client';
 
-import { restaurantAmenities, staticAmenities } from '@/data';
-import { updateRestaurant, updateStay } from '@/server';
+import { nightlifeAmenities, restaurantAmenities, staticAmenities } from '@/data';
+import { updateNightlife, updateRestaurant, updateStay } from '@/server';
 import {
   INightLife,
   IRestaurant,
@@ -42,7 +42,8 @@ const UpdatePropertyAmenities = ({ property, type, onClose }: Props) => {
         return toast.error('No change has been made!');
       }
       if (type === PropertyType.STAY) await updateStay(updateBody, property._id);
-      else await updateRestaurant(updateBody, property._id);
+      else if (type === PropertyType.RESTAURANT) await updateRestaurant(updateBody, property._id);
+      else await updateNightlife(updateBody, property._id);
       onClose();
       reset();
       toast.success('Property rules updated successfully!');
@@ -57,7 +58,13 @@ const UpdatePropertyAmenities = ({ property, type, onClose }: Props) => {
       <div className="flex flex-col gap-6 p-2">
         <h3 className="text-2xl text-center font-semibold tracking-wide border-b py-2">Update Property Amenities</h3>
         <CreatePropertyAmenities
-          data={type === PropertyType.STAY ? staticAmenities : restaurantAmenities}
+          data={
+            type === PropertyType.STAY
+              ? staticAmenities
+              : type === PropertyType.RESTAURANT
+              ? restaurantAmenities
+              : nightlifeAmenities
+          }
           name={type === PropertyType.STAY ? 'amenities' : 'details.amenities'}
         />
         <Button

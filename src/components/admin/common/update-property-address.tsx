@@ -1,7 +1,7 @@
 'use client';
 
 import { Map } from '@/components';
-import { updateRestaurant, updateStay } from '@/server';
+import { updateNightlife, updateRestaurant, updateStay } from '@/server';
 import {
   INightLife,
   IRestaurant,
@@ -43,7 +43,8 @@ const UpdatePropertyAddress = ({ property, type, onClose }: Props) => {
         return toast.error('No change has been made!');
       }
       if (type === PropertyType.STAY) await updateStay(updateBody, property._id);
-      else await updateRestaurant(updateBody, property._id);
+      else if (type === PropertyType.RESTAURANT) await updateRestaurant(updateBody, property._id);
+      else await updateNightlife(updateBody, property._id);
       onClose();
       reset();
       toast.success('Propery address updated successfully!');
