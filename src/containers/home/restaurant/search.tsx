@@ -31,7 +31,10 @@ const RestaurantSearchBar = ({ extraClass, isMain, noLocation, search }: Props) 
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
     libraries: LIBS,
   });
-  const validCheckIn = dayjs(checkInDay).isValid() ? dayjs(checkInDay).toISOString() : dayjs().toISOString();
+  const validCheckIn =
+    dayjs(checkInDay).isValid() && dayjs().isBefore(dayjs(checkInDay))
+      ? dayjs(checkInDay).toISOString()
+      : dayjs().toISOString();
   const resDate = parseAbsoluteToLocal(validCheckIn);
 
   const setCheckDate = (value: ZonedDateTime) => {
