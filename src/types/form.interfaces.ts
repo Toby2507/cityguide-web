@@ -126,6 +126,19 @@ export interface IUpdateRestaurant {
   contact?: IContact;
 }
 
+export interface IUpdateNightlife {
+  type?: NightLifeType;
+  name?: string;
+  summary?: string;
+  address?: IAddress;
+  avatar?: string;
+  images?: string[];
+  availability?: (ICustomAvailability | null)[];
+  rules?: INightLifeRules;
+  details?: INightLifeDetails;
+  contact?: IContact;
+}
+
 // Miscellaneous Forms
 export interface IAccommodationForm {
   accommodation: IAccommodation[];
