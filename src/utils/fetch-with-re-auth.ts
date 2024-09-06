@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { paths } from '.';
 
 const baseQuery = process.env.NEXT_PUBLIC_SERVER_URL;
+const apiQuery = process.env.NEXT_PUBLIC_API_URL;
 
 export const fetchBaseQuery = async (
   url: string,
@@ -20,24 +21,24 @@ export const fetchBaseQuery = async (
   return res;
 };
 
+export const fetchApiRoute = async (url: string, options: RequestInit = {}): Promise<Response> => {
+  options.credentials = 'include';
+  const res = await fetch(`${apiQuery}/${url}`, options);
+  return res;
+};
+
 export const fetchWithReAuth = async (
   url: string,
   options: RequestInit = {},
   isMultipart: boolean = false
 ): Promise<Response> => {
-  const res = await fetchBaseQuery(url, options, isMultipart);
+  let res = await fetchBaseQuery(url, options, isMultipart);
   if (res.status === 401 || res.statusText === 'Unauthorized') {
-    const refreshToken = cookies().get('refresh-token')?.value;
-    const refreshRes = await fetchBaseQuery('account/refreshaccess', {
-      method: 'POST',
-      body: JSON.stringify({ refreshToken }),
-    });
+    const refreshRes = await fetchApiRoute('api/refreshtoken', { method: 'POST' });
     if (refreshRes.ok) {
-      const { accessToken } = await refreshRes.json();
-      cookies().set('access-token', accessToken);
-      return fetchBaseQuery(url, options, isMultipart);
+      res = await fetchBaseQuery(url, options, isMultipart);
     } else {
-      logout();
+      await logout();
       redirect(paths.login());
     }
   }
