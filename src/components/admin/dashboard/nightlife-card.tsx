@@ -2,7 +2,6 @@ import { RatingCard } from '@/components';
 import { INightLife } from '@/types';
 import { numberToCurrency, paths } from '@/utils';
 import { Button, Chip, Image, Link } from '@nextui-org/react';
-import { title } from 'process';
 import { GiDress } from 'react-icons/gi';
 import { IoCalendarSharp, IoCard, IoCheckmark } from 'react-icons/io5';
 import { PiMusicNoteFill } from 'react-icons/pi';
@@ -80,7 +79,7 @@ const NightlifeCard = ({
                 <span className="text-xs tracking-normal"> / Person</span>
               </p>
             ) : null}
-            <Link href={paths.adminRestaurant(_id)}>
+            <Link href={paths.adminNightlife(_id)}>
               <Button color="primary" radius="sm" className="font-medium tracking-wide px-8">
                 View Nightlife
               </Button>
