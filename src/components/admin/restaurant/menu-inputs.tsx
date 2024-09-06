@@ -58,8 +58,8 @@ const MenuInputs = ({ idx, isUploading, setIsUploading }: Props) => {
         const imgUrl = await uploadImages(imageData);
         onChange(imgUrl[0]);
         clearImages();
-      } catch (err) {
-        toast.error('Failed to upload image');
+      } catch (err: any) {
+        toast.error(err.message);
       }
     } finally {
       setIsUploading(false);

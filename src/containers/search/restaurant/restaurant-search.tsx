@@ -7,6 +7,7 @@ import { getRestaurantSearch } from '@/server';
 import { IRestaurant } from '@/types';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Props {
   searchParam?: string[];
@@ -19,19 +20,24 @@ const RestaurantSearchPage = ({ searchParam }: Props) => {
   const [filteredResult, setFilteredResult] = useState<IRestaurant[]>([]);
 
   const searchRestaurant = async () => {
-    setIsLoading(true);
-    const day = dayjs(checkInDay).isValid() ? dayjs(checkInDay).format('dddd|HH:mm') : '|';
-    const restaurants = await getRestaurantSearch(
-      location?.geoLocation,
-      day.split('|')[0],
-      day.split('|')[1],
-      !!noOfGuests.children,
-      noOfGuests.adults + noOfGuests.children,
-      reservationCount
-    );
-    setSearchResult(restaurants);
-    setFilteredResult(restaurants);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      const day = dayjs(checkInDay).isValid() ? dayjs(checkInDay).format('dddd|HH:mm') : '|';
+      const restaurants = await getRestaurantSearch(
+        location?.geoLocation,
+        day.split('|')[0],
+        day.split('|')[1],
+        !!noOfGuests.children,
+        noOfGuests.adults + noOfGuests.children,
+        reservationCount
+      );
+      setSearchResult(restaurants);
+      setFilteredResult(restaurants);
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
   useEffect(() => {
     if (!searchResult && (location || searchParam)) (async () => await searchRestaurant())();

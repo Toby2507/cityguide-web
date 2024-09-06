@@ -15,8 +15,9 @@ import { revalidatePath } from 'next/cache';
 
 export const uploadImages = async (body: FormData) => {
   const res = await fetchWithReAuth('account/upload', { method: 'POST', body }, true);
-  const images = await res.json();
-  return images.imgUrls;
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.imgUrls;
 };
 
 // Stay
@@ -28,9 +29,9 @@ export const createStay = async (body: ICreateStay) => {
 
 export const updateStay = async (body: IUpdateStay, stayId: string) => {
   const res = await fetchWithReAuth(`property/stay/${stayId}`, { method: 'PATCH', body: JSON.stringify(body) });
-  if (res.status !== 204) {
-    const payload = await res.json();
-    throw new Error(payload.message);
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
   }
   revalidatePath(paths.adminStay(stayId));
 };
@@ -40,9 +41,9 @@ export const addAccommodation = async (body: IAccommodation[], stayId: string) =
     method: 'POST',
     body: JSON.stringify(body),
   });
-  if (res.status !== 204) {
-    const payload = await res.json();
-    throw new Error(payload.message);
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
   }
   revalidatePath(paths.adminStay(stayId));
 };
@@ -52,18 +53,18 @@ export const updateAccommodation = async (body: IAccommodation, stayId: string) 
     method: 'PUT',
     body: JSON.stringify(body),
   });
-  if (res.status !== 204) {
-    const payload = await res.json();
-    throw new Error(payload.message);
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
   }
   revalidatePath(paths.adminStay(stayId));
 };
 
 export const removeAccommodation = async (stayId: string, accId: string) => {
   const res = await fetchWithReAuth(`property/stay/${stayId}/accommodation/${accId}`, { method: 'DELETE' });
-  if (res.status !== 204) {
-    const payload = await res.json();
-    throw new Error(payload.message);
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
   }
   revalidatePath(paths.adminStay(stayId));
 };
@@ -77,9 +78,9 @@ export const createRestaurant = async (body: ICreateRestaurant) => {
 
 export const updateRestaurant = async (body: IUpdateRestaurant, resId: string) => {
   const res = await fetchWithReAuth(`property/restaurant/${resId}`, { method: 'PATCH', body: JSON.stringify(body) });
-  if (res.status !== 204) {
-    const payload = await res.json();
-    throw new Error(payload.message);
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
   }
   revalidatePath(paths.adminRestaurant(resId));
 };
@@ -89,30 +90,30 @@ export const addMenuItem = async (body: IMenu[], resId: string) => {
     method: 'POST',
     body: JSON.stringify(body),
   });
-  if (res.status !== 204) {
-    const payload = await res.json();
-    throw new Error(payload.message);
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
   }
   revalidatePath(paths.adminRestaurant(resId));
 };
 
-export const udpateMenuItem = async (body: IMenu, resId: string) => {
+export const updateMenuItem = async (body: IMenu, resId: string) => {
   const res = await fetchWithReAuth(`property/restaurant/${resId}/menu/${body.id}`, {
     method: 'PUT',
     body: JSON.stringify(body),
   });
-  if (res.status !== 204) {
-    const payload = await res.json();
-    throw new Error(payload.message);
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
   }
   revalidatePath(paths.adminRestaurant(resId));
 };
 
 export const removeMenuItem = async (resId: string, menuId: string) => {
   const res = await fetchWithReAuth(`property/restaurant/${resId}/menu/${menuId}`, { method: 'DELETE' });
-  if (res.status !== 204) {
-    const payload = await res.json();
-    throw new Error(payload.message);
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
   }
   revalidatePath(paths.adminRestaurant(resId));
 };
@@ -126,9 +127,9 @@ export const createNightlife = async (body: ICreateNightlife) => {
 
 export const updateNightlife = async (body: IUpdateNightlife, propId: string) => {
   const res = await fetchWithReAuth(`property/nightlife/${propId}`, { method: 'PATCH', body: JSON.stringify(body) });
-  if (res.status !== 204) {
-    const payload = await res.json();
-    throw new Error(payload.message);
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
   }
   revalidatePath(paths.adminNightlife(propId));
 };

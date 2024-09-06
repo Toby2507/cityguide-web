@@ -6,6 +6,7 @@ import { useSearchStore } from '@/providers';
 import { getStaySearch } from '@/server';
 import { IStay } from '@/types';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Props {
   searchParam?: string[];
@@ -18,18 +19,23 @@ const StaySearchPage = ({ searchParam }: Props) => {
   const [filteredResult, setFilteredResult] = useState<IStay[]>([]);
 
   const searchStay = async () => {
-    setIsLoading(true);
-    const stays = await getStaySearch(
-      location?.geoLocation,
-      checkInDay,
-      checkOutDay,
-      !!noOfGuests.children,
-      noOfGuests.adults + noOfGuests.children,
-      reservationCount
-    );
-    setSearchResult(stays);
-    setFilteredResult(stays);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      const stays = await getStaySearch(
+        location?.geoLocation,
+        checkInDay,
+        checkOutDay,
+        !!noOfGuests.children,
+        noOfGuests.adults + noOfGuests.children,
+        reservationCount
+      );
+      setSearchResult(stays);
+      setFilteredResult(stays);
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
   useEffect(() => {
     if (!searchResult && (location || searchParam)) (async () => await searchStay())();

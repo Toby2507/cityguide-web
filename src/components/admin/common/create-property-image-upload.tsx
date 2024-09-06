@@ -4,7 +4,7 @@ import { useCustomImageSelect } from '@/hooks';
 import { uploadImages } from '@/server';
 import { createUploadDatas, formatFileSize } from '@/utils';
 import { Button, Image } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoClose, IoCloudUploadOutline } from 'react-icons/io5';
@@ -58,8 +58,8 @@ const CreatePropertyImageUpload = ({ name, nextStep, setStep }: Props) => {
         }
         setImgIds([...imgIds, ...images.map((i) => i.id)]);
         setStep(7);
-      } catch (err) {
-        toast.error('Failed to upload images');
+      } catch (err: any) {
+        toast.error(err.message);
       }
     } finally {
       setIsLoading(false);

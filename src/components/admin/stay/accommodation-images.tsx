@@ -51,8 +51,8 @@ const AccommodationImages = ({ idx }: Props) => {
         setAccIds([...accIds, ...images.map((i) => i.id)]);
         clearImages();
         close();
-      } catch (err) {
-        toast.error('Failed to upload images');
+      } catch (err: any) {
+        toast.error(err.message);
       }
     } finally {
       setIsLoading(false);

@@ -1,6 +1,6 @@
 'use client';
 
-import { udpateMenuItem } from '@/server';
+import { updateMenuItem } from '@/server';
 import { IMenu, IMenuForm } from '@/types';
 import { getObjDiff } from '@/utils';
 import { Button } from '@nextui-org/react';
@@ -29,7 +29,7 @@ const UpdateRestaurantMenuUpdate = ({ menuItem, resId, onClose }: Props) => {
         onClose();
         return toast.error('No change has been made!');
       }
-      await udpateMenuItem(data.menu[0], resId);
+      await updateMenuItem(data.menu[0], resId);
       onClose();
       reset();
       toast.success('Accommodation updated successfully!');

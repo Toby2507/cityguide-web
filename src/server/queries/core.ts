@@ -2,23 +2,20 @@
 
 import { INightLife, IRestaurant, IStay, LatLng } from '@/types';
 import { fetchBaseQuery } from '@/utils';
-import toast from 'react-hot-toast';
 
 // Stays
 export const getTrendingStays = async () => {
   const res = await fetchBaseQuery('property/stay/trending', { method: 'GET' });
-  const stays = await res.json();
-  return stays.properties as IStay[];
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.properties as IStay[];
 };
 
 export const getStayById = async (id: string) => {
   const res = await fetchBaseQuery(`property/stay/${id}`, { method: 'GET' });
-  if (res.status !== 200) {
-    toast.error(res.statusText);
-    return;
-  }
-  const stay = await res.json();
-  return stay.stay as IStay;
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.stay as IStay;
 };
 
 export const getStaySearch = async (
@@ -38,25 +35,24 @@ export const getStaySearch = async (
   if (count) params.push(`count=${count}`);
   if (params.length) url += `?${params.join('&')}`;
   const res = await fetchBaseQuery(url, { method: 'GET' });
-  const stays = await res.json();
-  return stays.properties as IStay[];
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.properties as IStay[];
 };
 
 // Restaurants
 export const getTrendingRestaurants = async () => {
   const res = await fetchBaseQuery('property/restaurant/trending', { method: 'GET' });
-  const restaurants = await res.json();
-  return restaurants.properties as IRestaurant[];
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.properties as IRestaurant[];
 };
 
 export const getRestaurantById = async (id: string) => {
   const res = await fetchBaseQuery(`property/restaurant/${id}`, { method: 'GET' });
-  if (res.status !== 200) {
-    toast.error(res.statusText);
-    return;
-  }
-  const restaurant = await res.json();
-  return restaurant.restaurant as IRestaurant;
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.restaurant as IRestaurant;
 };
 
 export const getRestaurantSearch = async (
@@ -76,17 +72,15 @@ export const getRestaurantSearch = async (
   if (day && time) params.push(`day=${day}&time=${time}`);
   if (params.length) url += `?${params.join('&')}`;
   const res = await fetchBaseQuery(url, { method: 'GET' });
-  const restaurants = await res.json();
-  return restaurants.properties as IRestaurant[];
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.properties as IRestaurant[];
 };
 
 // Night Life
 export const getNightlifeById = async (id: string) => {
   const res = await fetchBaseQuery(`property/nightlife/${id}`, { method: 'GET' });
-  if (res.status !== 200) {
-    toast.error(res.statusText);
-    return;
-  }
-  const nightlife = await res.json();
-  return nightlife.nightlife as INightLife;
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.nightlife as INightLife;
 };

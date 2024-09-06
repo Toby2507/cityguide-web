@@ -36,9 +36,13 @@ const UpdateRestaurantMenuList = ({ restaurant: { _id, menu }, onUpdate }: Props
       onClose();
       return toast.error('Atleast 1 menu item is required');
     }
-    await removeMenuItem(_id, menuId);
-    onClose();
-    return toast.success('Menu item successfully removed');
+    try {
+      await removeMenuItem(_id, menuId);
+      onClose();
+      return toast.success('Menu item successfully removed');
+    } catch (err: any) {
+      return toast.error(err.message);
+    }
   };
   return (
     <>

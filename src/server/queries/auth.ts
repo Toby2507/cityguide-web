@@ -26,12 +26,9 @@ export const getUser = async () => {
 
 export const getUserProfile = async () => {
   const res = await fetchWithReAuth('user/profile', { method: 'GET' });
-  if (res.status === 404) {
-    toast.error(res.statusText);
-    return null;
-  }
-  const user = await res.json();
-  return user.user as IUser;
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.user as IUser;
 };
 
 export const setCookies = async (res: any, type: EntityType) => {

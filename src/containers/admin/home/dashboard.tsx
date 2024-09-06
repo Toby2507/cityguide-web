@@ -17,6 +17,7 @@ import {
 } from '@nextui-org/react';
 import dayjs, { ManipulateType } from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import { IoChevronDownOutline } from 'react-icons/io5';
 
 const AdminDashboard = () => {
@@ -55,10 +56,14 @@ const AdminDashboard = () => {
   useEffect(() => {
     let inputData = formattedInput;
     (async () => {
-      setIsLoading(true);
-      const data = await getReservationAnalytics(inputData);
-      setChartData(data);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const data = await getReservationAnalytics(inputData);
+        setChartData(data);
+        setIsLoading(false);
+      } catch (err: any) {
+        toast.error(err.message);
+      }
     })();
   }, [formattedInput]);
   useEffect(() => {

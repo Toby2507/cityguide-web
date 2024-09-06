@@ -17,8 +17,9 @@ export const getReservationAnalytics = async (data: IGetResAnalytics): Promise<I
       method: 'POST',
       body: JSON.stringify(data),
     });
-    const response = await res.json();
-    return response.analytics as IReservationStats[];
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.message);
+    return result.analytics as IReservationStats[];
   } catch (err: unknown) {
     return [];
   }
@@ -26,18 +27,21 @@ export const getReservationAnalytics = async (data: IGetResAnalytics): Promise<I
 
 export const getPartnerStays = async () => {
   const res = await fetchWithReAuth('property/stay/admin', { method: 'GET' });
-  const stays = await res.json();
-  return stays.properties as IStay[];
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.properties as IStay[];
 };
 
 export const getPartnerRestaurants = async () => {
   const res = await fetchWithReAuth('property/restaurant/admin', { method: 'GET' });
-  const restaurants = await res.json();
-  return restaurants.properties as IRestaurant[];
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.properties as IRestaurant[];
 };
 
 export const getPartnerNightlifes = async () => {
   const res = await fetchWithReAuth('property/nightlife/admin', { method: 'GET' });
-  const nightlifes = await res.json();
-  return nightlifes.properties as INightLife[];
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.properties as INightLife[];
 };

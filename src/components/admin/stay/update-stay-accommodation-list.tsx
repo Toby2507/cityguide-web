@@ -36,9 +36,13 @@ const UpdateStayAccommodationList = ({ stay: { _id, accommodation }, onUpdate }:
       onClose();
       return toast.error('Atleast 1 accommodation is required');
     }
-    await removeAccommodation(_id, accId);
-    onClose();
-    return toast.success('Accommodation successfully removed');
+    try {
+      await removeAccommodation(_id, accId);
+      onClose();
+      return toast.success('Accommodation successfully removed');
+    } catch (err: any) {
+      return toast.error(err.message);
+    }
   };
   return (
     <>
