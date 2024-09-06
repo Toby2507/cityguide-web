@@ -47,6 +47,7 @@ export { default as CreateNightlifeStep4 } from './admin/nightlife/create-nightl
 export { default as CreateNightlifeStep6 } from './admin/nightlife/create-nightlife-6';
 export { default as CreateNightlifeStep7 } from './admin/nightlife/create-nightlife-7';
 export { default as CreateNightlifeReview } from './admin/nightlife/create-nightlife-review';
+export { default as updateNightlifeDetails } from './admin/nightlife/update-nightlife-details';
 
 // Auth
 export { default as LoginTab } from './auth/login-tab';
