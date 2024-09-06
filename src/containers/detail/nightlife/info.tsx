@@ -117,7 +117,7 @@ const NightlifeDetailInfo = ({
               {musicGenre?.join(', ') || 'There is no specific music genre'}
             </TableCell>
           </TableRow>
-          <TableRow className="border-b border-default">
+          <TableRow>
             <TableCell className="flex items-center gap-2 py-4 font-medium">
               <IoCard className="text-xl" />
               Accepted Payment Method
