@@ -6,6 +6,7 @@ import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow
 import dayjs from 'dayjs';
 import { GiDress } from 'react-icons/gi';
 import { IoCalendarSharp, IoCard, IoPricetags } from 'react-icons/io5';
+import { MdNightlife } from 'react-icons/md';
 import { PiMusicNoteFill } from 'react-icons/pi';
 import { TbParkingCircle } from 'react-icons/tb';
 
@@ -17,6 +18,7 @@ interface Props {
 const NightlifeDetailInfo = ({
   nightlife: {
     availability,
+    type,
     contact: { email, phone, socialMedia },
     details: { entryFee, paymentOptions },
     rules: { dressCode, minAge, musicGenre, parking },
@@ -78,6 +80,13 @@ const NightlifeDetailInfo = ({
           <TableColumn>Description</TableColumn>
         </TableHeader>
         <TableBody>
+          <TableRow className="border-b border-default">
+            <TableCell className="flex items-center gap-2 py-4 font-medium">
+              <MdNightlife className="text-xl" />
+              Nightlife Type
+            </TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">{type}</TableCell>
+          </TableRow>
           <TableRow className="border-b border-default">
             <TableCell className="flex items-center gap-2 py-4 font-medium">
               <IoCalendarSharp className="text-xl" />
