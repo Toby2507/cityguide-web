@@ -25,6 +25,7 @@ export {
   getRestaurantSearch,
   getStayById,
   getStaySearch,
+  getTrendingNightlifes,
   getTrendingRestaurants,
   getTrendingStays,
 } from './queries/core';

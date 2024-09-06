@@ -78,6 +78,13 @@ export const getRestaurantSearch = async (
 };
 
 // Night Life
+export const getTrendingNightlifes = async () => {
+  const res = await fetchBaseQuery('property/nightlife/trending', { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.properties as INightLife[];
+};
+
 export const getNightlifeById = async (id: string) => {
   const res = await fetchBaseQuery(`property/nightlife/${id}`, { method: 'GET' });
   const result = await res.json();
