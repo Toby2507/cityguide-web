@@ -35,12 +35,12 @@ const RestaurantCard = ({
       Icon: FaChildren,
     },
     {
-      title: 'delivery',
+      title: 'Delivery',
       value: delivery ? 'Delivery service available' : 'No delivery service',
       Icon: GrDeliver,
     },
     {
-      title: 'payment',
+      title: 'Payment',
       value: paymentOptions.join(', '),
       Icon: IoCard,
     },
