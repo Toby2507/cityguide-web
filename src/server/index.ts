@@ -9,6 +9,7 @@ export {
   removeMenuItem,
   udpateMenuItem,
   updateAccommodation,
+  updateNightlife,
   updateRestaurant,
   updateStay,
   uploadImages,
