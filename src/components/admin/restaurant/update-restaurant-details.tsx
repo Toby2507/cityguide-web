@@ -46,7 +46,7 @@ const UpdateRestaurantDetails = ({ restaurant, onClose }: Props) => {
             render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
               <Input
                 name="name"
-                label="Restaurant Name"
+                label="Property Name"
                 labelPlacement="outside"
                 placeholder=" "
                 radius="full"
