@@ -47,6 +47,8 @@ const UpdatePropertyAddress = ({ property, type, onClose }: Props) => {
       onClose();
       reset();
       toast.success('Propery address updated successfully!');
+    } catch (err: any) {
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }

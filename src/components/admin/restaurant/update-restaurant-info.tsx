@@ -56,6 +56,8 @@ const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
       onClose();
       reset();
       toast.success('Restaurant information updated successfully!');
+    } catch (err: any) {
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }

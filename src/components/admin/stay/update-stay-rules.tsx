@@ -77,6 +77,8 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
       onClose();
       reset();
       toast.success('Stay rules updated successfully!');
+    } catch (err: any) {
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }

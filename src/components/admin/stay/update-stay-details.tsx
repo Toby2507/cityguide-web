@@ -33,6 +33,8 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
       onClose();
       reset();
       toast.success('Stay detail updated successfully!');
+    } catch (err: any) {
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }

@@ -32,6 +32,8 @@ const UpdateStayAccommodationUpdate = ({ accommodation, onClose, stayId }: Props
       onClose();
       reset();
       toast.success('Accommodation updated successfully!');
+    } catch (err: any) {
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }

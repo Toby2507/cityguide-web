@@ -46,6 +46,8 @@ const UpdateRestaurantMenuCreate = ({ resId, onClose }: Props) => {
       onClose();
       reset();
       toast.success('Accommodation(s) added successfully!');
+    } catch (err: any) {
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }

@@ -46,6 +46,8 @@ const UpdatePropertyAmenities = ({ property, type, onClose }: Props) => {
       onClose();
       reset();
       toast.success('Property rules updated successfully!');
+    } catch (err: any) {
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }
