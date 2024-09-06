@@ -1,6 +1,6 @@
 'use server';
 
-import { IRestaurant, IStay, LatLng } from '@/types';
+import { INightLife, IRestaurant, IStay, LatLng } from '@/types';
 import { fetchBaseQuery } from '@/utils';
 import toast from 'react-hot-toast';
 
@@ -78,4 +78,15 @@ export const getRestaurantSearch = async (
   const res = await fetchBaseQuery(url, { method: 'GET' });
   const restaurants = await res.json();
   return restaurants.properties as IRestaurant[];
+};
+
+// Night Life
+export const getNightlifeById = async (id: string) => {
+  const res = await fetchBaseQuery(`property/nightlife/${id}`, { method: 'GET' });
+  if (res.status !== 200) {
+    toast.error(res.statusText);
+    return;
+  }
+  const nightlife = await res.json();
+  return nightlife.nightlife as INightLife;
 };

@@ -19,6 +19,7 @@ export { refetchPage } from './actions/core';
 export { getPartnerNightlifes, getPartnerRestaurants, getPartnerStays, getReservationAnalytics } from './queries/admin';
 export { getUser, getUserProfile, logout } from './queries/auth';
 export {
+  getNightlifeById,
   getRestaurantById,
   getRestaurantSearch,
   getStayById,
