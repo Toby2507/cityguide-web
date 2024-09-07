@@ -65,6 +65,7 @@ export { default as ServiceNav } from './common/service-nav';
 export { default as DetailImages } from './detail/images';
 export { default as DetailInfo } from './detail/info';
 export { default as MenuItemCard } from './detail/menu-item-card';
+export { default as NightlifeDetailNav } from './detail/nightlife-detail-nav';
 export { default as RestaurantDetailNav } from './detail/restaurant-detail-nav';
 export { default as StayDetailNav } from './detail/stay-detail-nav';
 export { default as StayDetailTableCell } from './detail/stay-detail-table-cell';
