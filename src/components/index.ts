@@ -100,3 +100,5 @@ export { default as RestaurantFilterBox } from './search/restaurant/restaurant-f
 // // Stay
 export { default as SearchStayCard } from './search/stay/stay-card';
 export { default as SearchStayFilterBox } from './search/stay/stay-filter-box';
+// // Nightlife
+export { default as SearchNightlifeCard } from './search/nightlife/nightlife-card';
