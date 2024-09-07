@@ -1,4 +1,4 @@
-import { RestaurantDetailNav } from '@/components';
+import { NightlifeDetailNav } from '@/components';
 import {
   DetailPageAmenities,
   DetailPageOverview,
@@ -25,7 +25,7 @@ const NightlifeDetailPage = async ({ params: { nightlifeId } }: Props) => {
         <Header />
         <main className="flex flex-col gap-20 bg-white">
           <div className="container mx-auto px-10 flex flex-col gap-6 max-w-7xl">
-            <RestaurantDetailNav />
+            <NightlifeDetailNav />
             <DetailPageOverview amenities={nightlife.details.amenities} {...nightlife} />
             <DetailPageAmenities amenities={nightlife.details.amenities} {...nightlife} />
             <NightlifeDetailInfo nightlife={nightlife} />
