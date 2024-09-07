@@ -37,6 +37,9 @@ export { default as StayDetailRules } from './detail/stay/rules';
 export { default as NightlifeDetailInfo } from './detail/nightlife/info';
 
 // Home
+// // Nightlife
+export { default as NightlifeSearchBar } from './home/nightlife/search';
+export { default as NightlifeTrendingDestinations } from './home/nightlife/trending-destination';
 // // Restaurant
 export { default as RestaurantSearchBar } from './home/restaurant/search';
 export { default as RestaurantTrendingDestinations } from './home/restaurant/trending-destinations';
