@@ -1,6 +1,6 @@
 'use client';
 
-import { nightlifeAmenities, restaurantAmenities, staticAmenities } from '@/data';
+import { nightlifeAmenities, restaurantAmenities, stayAmenities } from '@/data';
 import { updateNightlife, updateRestaurant, updateStay } from '@/server';
 import {
   INightLife,
@@ -60,7 +60,7 @@ const UpdatePropertyAmenities = ({ property, type, onClose }: Props) => {
         <CreatePropertyAmenities
           data={
             type === PropertyType.STAY
-              ? staticAmenities
+              ? stayAmenities
               : type === PropertyType.RESTAURANT
               ? restaurantAmenities
               : nightlifeAmenities

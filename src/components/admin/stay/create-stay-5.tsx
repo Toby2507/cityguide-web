@@ -1,7 +1,7 @@
 'use client';
 
 import { CreatePropertyAmenities } from '@/components';
-import { staticAmenities } from '@/data';
+import { stayAmenities } from '@/data';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay } from '@/types';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -33,7 +33,7 @@ const CreateStayStep5 = ({ setStep }: Props) => {
           What makes your place special? Highlight your amenities to attract guests on Cityguidex.
         </p>
       </div>
-      <CreatePropertyAmenities data={staticAmenities} name="amenities" />
+      <CreatePropertyAmenities data={stayAmenities} name="amenities" />
       <CreateNavButtons isLoading={isLoading} previous={() => setStep(4)} next={handleNext} />
     </div>
   );

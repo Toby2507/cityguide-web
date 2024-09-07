@@ -1,8 +1,17 @@
-import { CiParking1 } from 'react-icons/ci';
-import { GrSwim } from 'react-icons/gr';
-import { IoWifi, IoBeerOutline } from 'react-icons/io5';
-import { MdOutlineSmokeFree, MdOutlineFreeBreakfast, MdOutlineFamilyRestroom, MdPets } from 'react-icons/md';
+import { BsFillSpeakerFill } from 'react-icons/bs';
 import { CgGym } from 'react-icons/cg';
+import { CiParking1 } from 'react-icons/ci';
+import { FaWineBottle } from 'react-icons/fa6';
+import { GiPoolTableCorner } from 'react-icons/gi';
+import { GrSwim } from 'react-icons/gr';
+import { IoBeerOutline, IoWifi } from 'react-icons/io5';
+import {
+  MdOutlineEmojiPeople,
+  MdOutlineFamilyRestroom,
+  MdOutlineFreeBreakfast,
+  MdOutlineSmokeFree,
+  MdPets,
+} from 'react-icons/md';
 import { RiRestaurantLine } from 'react-icons/ri';
 import { TbDisabled } from 'react-icons/tb';
 
@@ -19,9 +28,24 @@ export const coreAmenities = [
   { name: 'Very Good Breakfast', Icon: MdOutlineFreeBreakfast },
   { name: 'Family Rooms', Icon: MdOutlineFamilyRestroom },
   { name: 'Pets Allowed', Icon: MdPets },
+  { name: 'Dance floor', Icon: MdOutlineEmojiPeople },
+  { name: 'Bottle service', Icon: FaWineBottle },
+  { name: 'Pool table', Icon: GiPoolTableCorner },
+  { name: 'Sound system', Icon: BsFillSpeakerFill },
 ];
 
-export const otherAmenities = [
+export const stayAmenities = [
+  'Indoor Swimming Pool',
+  'Free Parking',
+  'Free Wi-Fi',
+  'Non-smoking rooms',
+  'Fitness Center',
+  'Restaurant',
+  'Disabled Facilities',
+  'Bar',
+  'Very Good Breakfast',
+  'Family Rooms',
+  'Pets Allowed',
   'Dining table',
   'Stovetop',
   'Kitchenware',
@@ -68,8 +92,6 @@ export const otherAmenities = [
   '24-hour security',
   'Safe',
 ];
-
-export const staticAmenities = [...coreAmenities.map((a) => a.name), ...otherAmenities];
 
 export const restaurantAmenities = [
   'Air Conditioning',
