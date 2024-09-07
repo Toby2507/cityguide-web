@@ -19,6 +19,7 @@ export interface ISearch {
   location: IAddress | null;
   noOfGuests: IGuests;
   reservationCount: number;
+  minAge: number;
   activeTab: NavTabs;
 }
 
