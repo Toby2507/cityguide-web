@@ -102,3 +102,4 @@ export { default as SearchStayCard } from './search/stay/stay-card';
 export { default as SearchStayFilterBox } from './search/stay/stay-filter-box';
 // // Nightlife
 export { default as SearchNightlifeCard } from './search/nightlife/nightlife-card';
+export { default as SearchNightlifeFilterBox } from './search/nightlife/nightlife-filter-box';
