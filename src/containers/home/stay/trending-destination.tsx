@@ -9,7 +9,7 @@ const TrendingDestinations = async () => {
     return (
       <section className="flex flex-col gap-4">
         <SectionHeader
-          title="Trending destinations"
+          title="Trending stays"
           desc="Most popular choices for travelers from Nigeria"
           viewUrl={stays.length > 6 ? '#' : ''}
         />

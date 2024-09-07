@@ -9,7 +9,7 @@ const RestaurantTrendingDestination = async () => {
     return (
       <section className="flex flex-col gap-4">
         <SectionHeader
-          title="Trending destinations"
+          title="Trending restaurants"
           desc="Most popular choices for travelers from Nigeria"
           viewUrl={restaurants.length > 6 ? '#' : ''}
         />
