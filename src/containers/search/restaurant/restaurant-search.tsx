@@ -15,7 +15,7 @@ interface Props {
 
 const RestaurantSearchPage = ({ searchParam }: Props) => {
   const { checkInDay, location, noOfGuests, reservationCount } = useSearchStore();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchResult, setSearchResult] = useState<IRestaurant[]>();
   const [filteredResult, setFilteredResult] = useState<IRestaurant[]>([]);
 

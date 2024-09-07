@@ -14,7 +14,7 @@ interface Props {
 
 const StaySearchPage = ({ searchParam }: Props) => {
   const { checkInDay, checkOutDay, location, noOfGuests, reservationCount } = useSearchStore();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchResult, setSearchResult] = useState<IStay[]>();
   const [filteredResult, setFilteredResult] = useState<IStay[]>([]);
 
