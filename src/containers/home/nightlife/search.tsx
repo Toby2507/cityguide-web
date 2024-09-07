@@ -22,7 +22,7 @@ interface Props {
 
 const NightlifeSearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
   const { push } = useRouter();
-  const { setState, checkInDay, location, noOfGuests, reservationCount, activeTab } = useSearchStore();
+  const { setState, checkInDay, location, minAge, activeTab } = useSearchStore();
   const placesRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [autoComplete, setAutoComplete] = useState<google.maps.places.Autocomplete | null>(null);
@@ -30,10 +30,7 @@ const NightlifeSearchBar = ({ extraClass, isMain, noLocation, search }: Props) =
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
     libraries: LIBS,
   });
-  const validCheckIn =
-    dayjs(checkInDay).isValid() && dayjs().isBefore(dayjs(checkInDay))
-      ? dayjs(checkInDay).toISOString()
-      : dayjs().toISOString();
+  const validCheckIn = dayjs(checkInDay).isValid() ? dayjs(checkInDay).toISOString() : dayjs().toISOString();
   const resDate = parseAbsoluteToLocal(validCheckIn);
 
   const setCheckDate = (value: ZonedDateTime) => {
@@ -74,7 +71,10 @@ const NightlifeSearchBar = ({ extraClass, isMain, noLocation, search }: Props) =
     if (activeTab !== 'Nightlife' && isMain) push(`/${activeTab.toLowerCase()}`);
   }, [activeTab, isMain, push]);
   useEffect(() => {
-    if (!dayjs(checkInDay).isValid()) setState({ checkInDay: dayjs().toISOString() });
+    if (!dayjs(checkInDay).isValid()) {
+      const newDate = dayjs().isBefore(dayjs(checkInDay)) ? dayjs(checkInDay).toISOString() : dayjs().toISOString();
+      setState({ checkInDay: newDate });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -110,7 +110,8 @@ const NightlifeSearchBar = ({ extraClass, isMain, noLocation, search }: Props) =
           startContent={<PiCalendarDots />}
           size="sm"
           radius="sm"
-          placeholder={location?.fullAddress || ''}
+          value={minAge?.toString() || '0'}
+          onValueChange={(val) => /^[\d.]*$/.test(val) && setState({ minAge: +val })}
         />
         {!!search || isMain ? (
           <Button
