@@ -107,6 +107,7 @@ export interface INightLife {
   rules: INightLifeRules;
   details: INightLifeDetails;
   contact: IContact;
+  locationInfo?: ILocationInfo;
   createdAt: string;
   updatedAt: string;
   partner: string | IPartner;
