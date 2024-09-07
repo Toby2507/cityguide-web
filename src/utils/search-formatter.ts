@@ -1,4 +1,4 @@
-import { IPartner, IRestaurant, IStay, PriceRange, StayType } from '@/types';
+import { INightLife, IPartner, IRestaurant, IStay, NightLifeType, PriceRange, StayType } from '@/types';
 
 interface IFilter {
   [key: string]: number;
@@ -23,7 +23,7 @@ const getMinMaxPrice = (stays: IStay[]) => {
   return { min: Math.min(...flatAcc), max: Math.max(...flatAcc) };
 };
 
-const ratingsFormat = (stays: (IStay | IRestaurant)[]): IFilter => {
+const ratingsFormat = (stays: (IStay | IRestaurant | INightLife)[]): IFilter => {
   const ratingRange = [
     { min: 4.5, label: 'Exceptional: 4.5+' },
     { min: 4, label: 'Excellent: 4+' },
@@ -56,12 +56,12 @@ const languageFormat = (stays: IStay[]): IFilter => {
   return languages;
 };
 
-const distanceFormat = (stays: (IStay | IRestaurant)[]): IFilter => {
+const distanceFormat = (stays: (IStay | IRestaurant | INightLife)[]): IFilter => {
   const distanceRanges = [
     { max: 1000, label: 'Less than 1 km' },
     { max: 5000, label: 'Less than 5 km' },
     { max: 10000, label: 'Less than 10 km' },
-    { max: 15000, label: 'Less than 20 km' },
+    { max: 20000, label: 'Less than 20 km' },
     { max: Infinity, label: 'More than 20 km' },
   ];
   return stays.reduce((acc: IFilter, stay) => {
@@ -73,16 +73,16 @@ const distanceFormat = (stays: (IStay | IRestaurant)[]): IFilter => {
   }, {});
 };
 
-const paymentFormat = (stays: (IStay | IRestaurant)[]): IFilter => {
-  const payments: IFilter = {
-    'Credit/Debit Cards': 0,
-  };
+const paymentFormat = (stays: (IStay | IRestaurant | INightLife)[]): IFilter => {
+  const payments: IFilter = {};
   for (const stay of stays) {
+    let isCredit = true;
     for (const pay of (stay as IStay).paymentMethods ?? (stay as IRestaurant).details.paymentOptions) {
       const payment = `${pay[0].toUpperCase()}${pay.slice(1).toLowerCase()}`;
-      if (payment.toLowerCase().includes('credit') || payment.toLowerCase().includes('debit'))
-        payments['Credit/Debit Cards'] += 1;
-      else payments[payment] = (payments[payment] || 0) + 1;
+      if (payment.toLowerCase().includes('credit') || payment.toLowerCase().includes('debit')) {
+        if (isCredit) payments['Credit/Debit Cards'] = (payments['Credit/Debit Cards'] || 0) + 1;
+        isCredit = false;
+      } else payments[payment] = (payments[payment] || 0) + 1;
     }
   }
   return payments;
@@ -115,7 +115,7 @@ const filterByType = (stays: IStay[], filterBy: Set<string>) => {
   return stays.filter((stay) => filterBy.has(stay.type));
 };
 
-const filterByRating = (stays: (IStay | IRestaurant)[], filterBy: string) => {
+const filterByRating = (stays: (IStay | IRestaurant | INightLife)[], filterBy: string) => {
   const minRating = +filterBy.split(': ')[1].replace('+', '');
   return stays.filter((stay) => stay.rating >= minRating);
 };
@@ -131,7 +131,7 @@ const filterByLanguage = (stays: IStay[], filterBy: string[]) =>
     return filterBy.every((lang) => langs.has(`${lang[0].toUpperCase()}${lang.slice(1).toLowerCase()}`));
   });
 
-const filterByDistance = (stays: (IStay | IRestaurant)[], filterBy: string) => {
+const filterByDistance = (stays: (IStay | IRestaurant | INightLife)[], filterBy: string) => {
   const [op, _, d, __] = filterBy.split(' ');
   let maxDistance = Infinity;
   if (op === 'Less') maxDistance = +d * 1000;
@@ -139,7 +139,7 @@ const filterByDistance = (stays: (IStay | IRestaurant)[], filterBy: string) => {
   return stays.filter((stay) => (stay.locationInfo?.distance ?? 21000) <= maxDistance);
 };
 
-const filterByPayment = (stays: (IStay | IRestaurant)[], filterBy: string[]) => {
+const filterByPayment = (stays: (IStay | IRestaurant | INightLife)[], filterBy: string[]) => {
   return stays.filter((stay) => {
     const pays = (stay as IStay).paymentMethods ?? (stay as IRestaurant).details.paymentOptions;
     const paySet = new Set(pays.map((pay) => `${pay[0].toUpperCase()}${pay.slice(1).toLowerCase()}`));
@@ -275,19 +275,19 @@ const filterByPriceRes = (res: IRestaurant[], min: number, max: number) =>
 const filterByService = (res: IRestaurant[], filterBy: string[]) =>
   res.filter((prop) => {
     const items = new Set(prop.serviceStyle);
-    return filterBy.every((item) => items.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
+    return filterBy.some((item) => items.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
   });
 
 const filterByCuisine = (res: IRestaurant[], filterBy: string[]) =>
   res.filter((prop) => {
     const items = new Set(prop.cuisine);
-    return filterBy.every((item) => items.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
+    return filterBy.some((item) => items.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
   });
 
 const filterByDietaries = (res: IRestaurant[], filterBy: string[]) =>
   res.filter((prop) => {
     const items = new Set(prop.dietaryProvisions);
-    return filterBy.every((item) => items.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
+    return filterBy.some((item) => items.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
   });
 
 export const filterRestaurantResults = (
@@ -311,5 +311,114 @@ export const filterRestaurantResults = (
   if (styles.length) results = filterByService(results, styles);
   if (cuisines.length) results = filterByCuisine(results, cuisines);
   if (diets.length) results = filterByDietaries(results, diets);
+  return results;
+};
+
+// Nightlife
+// // Data
+const nightlifeTypeFormat = (props: INightLife[]): IFilter => {
+  const types: IFilter = {};
+  Object.values(NightLifeType).forEach((type) => {
+    types[type] = 0;
+  });
+  return props.reduce((types: IFilter, nightlife) => {
+    types[nightlife.type]++;
+    return types;
+  }, types);
+};
+
+const getMinMaxEntryFee = (props: INightLife[]) => {
+  if (!props.length) return { min: 0, max: 1000 };
+  const flatAcc = props.map((r) => r.details.entryFee ?? 0);
+  return { min: Math.min(...flatAcc), max: Math.max(...flatAcc) };
+};
+
+const dresscodeFormat = (props: INightLife[]) => {
+  const data: IFilter = {};
+  for (const prop of props) {
+    for (const style of prop.rules.dressCode ?? []) {
+      const item = `${style[0].toUpperCase()}${style.slice(1).toLowerCase()}`;
+      data[item] = (data[item] || 0) + 1;
+    }
+  }
+  return data;
+};
+
+const musicgenreFormat = (props: INightLife[]) => {
+  const data: IFilter = {};
+  for (const prop of props) {
+    for (const style of prop.rules.musicGenre ?? []) {
+      const item = `${style[0].toUpperCase()}${style.slice(1).toLowerCase()}`;
+      data[item] = (data[item] || 0) + 1;
+    }
+  }
+  return data;
+};
+
+const parkingFormat = (props: INightLife[]) =>
+  props.reduce((parkings: IFilter, prop) => {
+    parkings[prop.rules.parking] = (parkings[prop.rules.parking] || 0) + 1;
+    return parkings;
+  }, {});
+
+export const getNightlifeFilterData = (prop: INightLife[]) => {
+  return {
+    nightlifeTypes: nightlifeTypeFormat(prop),
+    entryFees: getMinMaxEntryFee(prop),
+    ratings: ratingsFormat(prop),
+    dresscodes: dresscodeFormat(prop),
+    musicgenres: musicgenreFormat(prop),
+    parkings: parkingFormat(prop),
+    distances: distanceFormat(prop),
+    payments: paymentFormat(prop),
+  };
+};
+// Filters
+const filterByNightlifeType = (props: INightLife[], filterBy: Set<string>) => {
+  return props.filter((prop) => filterBy.has(prop.type));
+};
+
+const filterByEntryFees = (props: INightLife[], min: number, max: number) =>
+  props.filter((prop) => {
+    const price = prop.details.entryFee ?? 0;
+    return price >= min && price <= max;
+  });
+
+const filterByDresscode = (props: INightLife[], filterBy: Set<string>) =>
+  props.filter((prop) => {
+    if (!prop.rules.dressCode) return false;
+    return prop.rules.dressCode.some((item) => filterBy.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
+  });
+
+const filterByMusicgenre = (props: INightLife[], filterBy: Set<string>) =>
+  props.filter((prop) => {
+    if (!prop.rules.musicGenre) return false;
+    return prop.rules.musicGenre.some((item) => filterBy.has(`${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`));
+  });
+
+const filterByParking = (props: INightLife[], filterBy: string) =>
+  props.filter((prop) => filterBy == prop.rules.parking);
+
+export const filterNightlifeResult = (
+  nightlife: INightLife[],
+  types: string[],
+  rating: string,
+  dresscodes: string[],
+  musicgenres: string[],
+  parking: string,
+  distance: string,
+  payment: string[],
+  min: number,
+  max: number
+) => {
+  let results = [...nightlife];
+  results = filterByEntryFees(results, min, max);
+  if (types.length) results = filterByNightlifeType(results, new Set(types));
+  if (rating) results = filterByRating(results, rating) as INightLife[];
+  if (distance) results = filterByDistance(results, distance) as INightLife[];
+  if (payment.length) results = filterByPayment(results, payment) as INightLife[];
+  if (dresscodes.length) results = filterByDresscode(results, new Set(dresscodes));
+  if (musicgenres.length) results = filterByMusicgenre(results, new Set(musicgenres));
+  if (parking) results = filterByParking(results, parking);
   return results;
 };
