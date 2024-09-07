@@ -91,3 +91,16 @@ export const getNightlifeById = async (id: string) => {
   if (!res.ok) throw new Error(result.message);
   return result.nightlife as INightLife;
 };
+
+export const getNightlifeSearch = async (geoLocation?: LatLng, day?: string, time?: string, minAge?: number) => {
+  let url = 'property/nightlife/search';
+  const params = [];
+  if (geoLocation) params.push(`lat=${geoLocation.lat}&lng=${geoLocation.lng}`);
+  if (day && time) params.push(`day=${day}&time=${time}`);
+  if (minAge) params.push(`minAge=${minAge}`);
+  if (params.length) url += `?${params.join('&')}`;
+  const res = await fetchBaseQuery(url, { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.properties as INightLife[];
+};

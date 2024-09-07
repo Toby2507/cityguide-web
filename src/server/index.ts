@@ -21,6 +21,7 @@ export { getPartnerNightlifes, getPartnerRestaurants, getPartnerStays, getReserv
 export { getUser, getUserProfile, logout } from './queries/auth';
 export {
   getNightlifeById,
+  getNightlifeSearch,
   getRestaurantById,
   getRestaurantSearch,
   getStayById,
