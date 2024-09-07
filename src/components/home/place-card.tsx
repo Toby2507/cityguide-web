@@ -1,8 +1,8 @@
-import { IRestaurant, IStay } from '@/types';
+import { INightLife, IRestaurant, IStay } from '@/types';
 import { Card, CardBody, CardFooter, Image } from '@nextui-org/react';
 import Link from 'next/link';
 
-type Props = (IStay | IRestaurant) & {
+type Props = (IStay | IRestaurant | INightLife) & {
   refPath: (id: string) => string;
 };
 
