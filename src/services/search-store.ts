@@ -12,6 +12,7 @@ export const searchStore = () => {
         location: null,
         noOfGuests: { adults: 1, children: 0 },
         reservationCount: 1,
+        minAge: 0,
         setActiveTab(activeTab) {
           set({ activeTab });
         },
