@@ -42,7 +42,7 @@ const NightlifeSearchBar = ({ extraClass, isMain, noLocation, search }: Props) =
   const clearLocation = () => setState({ location: null });
   const handleSearch = () => {
     setIsLoading(true);
-    if (isMain) location ? push(paths.searchRestaurant()) : toast.error('Please select a location');
+    if (isMain) location ? push(paths.searchNightlife()) : toast.error('Please select a location');
     else search!();
     setIsLoading(false);
   };
