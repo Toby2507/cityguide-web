@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchCardLoader, SearchNightlifeCard } from '@/components';
+import { SearchCardLoader, SearchNightlifeCard, SearchNightlifeFilterBox } from '@/components';
 import { NightlifeSearchBar } from '@/containers';
 import { useSearchStore } from '@/providers';
 import { getNightlifeSearch } from '@/server';
@@ -15,7 +15,7 @@ interface Props {
 
 const NightlifeSearchPage = ({ searchParam }: Props) => {
   const { checkInDay, location, minAge } = useSearchStore();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchResult, setSearchResult] = useState<INightLife[]>();
   const [filteredResult, setFilteredResult] = useState<INightLife[]>([]);
 
@@ -42,6 +42,11 @@ const NightlifeSearchPage = ({ searchParam }: Props) => {
       <div className="grid grid-cols-10 items-start gap-4 pb-10">
         <div className="col-span-3 flex flex-col border rounded-xl">
           <h3 className="text-lg font-bold border-b px-3 py-4">Filter by: </h3>
+          <SearchNightlifeFilterBox
+            nightlifes={searchResult}
+            types={searchParam}
+            filterNightlifes={setFilteredResult}
+          />
         </div>
         <div className="col-span-7 flex flex-col gap-4">
           {isLoading ? (
