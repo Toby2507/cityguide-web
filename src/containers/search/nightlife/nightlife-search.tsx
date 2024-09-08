@@ -35,7 +35,7 @@ const NightlifeSearchPage = ({ searchParam }: Props) => {
   useEffect(() => {
     if (!searchResult && (location || searchParam)) (async () => await searchNightlife())();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location, searchParam, searchResult]);
   return (
     <>
       <NightlifeSearchBar extraClass="-mt-7" search={searchNightlife} />
