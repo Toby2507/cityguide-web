@@ -19,7 +19,7 @@ import {
 } from '@/types';
 import { fetchBaseQuery, fetchWithReAuth, paths } from '@/utils';
 import { redirect, RedirectType } from 'next/navigation';
-import { setCookies, upgradeToPartner } from '../queries/auth';
+import { setCookies, upgradeToPartner } from './cookie';
 
 export const signInWithGoogle = async () => signIn('google');
 export const signInWithFacebook = async () => signIn('facebook');
