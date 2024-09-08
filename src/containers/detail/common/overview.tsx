@@ -1,15 +1,21 @@
+'use client';
+
 import { DetailImages, DetailInfo, RatingCard } from '@/components';
-import { IAccommodation, IAddress, Rating, Updates } from '@/types';
+import { addFavouriteProperty, getUser, removeFavouriteProperty } from '@/server';
+import { IAccommodation, IAddress, PropertyType, Rating, Updates } from '@/types';
 import mapBanner from '@images/map-banner.png';
 import { Button, Divider, User } from '@nextui-org/react';
 import NextImage from 'next/image';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { HiClipboardDocumentList } from 'react-icons/hi2';
 import { IoLocation, IoShareSocialOutline } from 'react-icons/io5';
-import { MdFavoriteBorder } from 'react-icons/md';
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { PiMapPinAreaFill } from 'react-icons/pi';
 
 interface Props {
+  _id: string;
   name: string;
   address: IAddress;
   images: string[];
@@ -18,6 +24,7 @@ interface Props {
   summary: string;
   rating: number;
   reviewCount: number;
+  propType: PropertyType;
   language?: string[];
   hotelRating?: Rating;
   accommodation?: IAccommodation[];
@@ -25,6 +32,7 @@ interface Props {
 }
 
 const DetailPageOverview = ({
+  _id,
   name,
   address,
   images,
@@ -33,18 +41,45 @@ const DetailPageOverview = ({
   rating,
   reviewCount,
   hotelRating,
+  propType,
   language,
   accommodation,
   summary,
   onUpdate,
 }: Props) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFavourite, setIsFavourite] = useState<boolean>(false);
+  const toggleFavourite = async () => {
+    setIsLoading(true);
+    try {
+      if (isFavourite) {
+        await removeFavouriteProperty(_id);
+        setIsFavourite(false);
+      } else {
+        await addFavouriteProperty(_id, propType);
+        setIsFavourite(true);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const user = await getUser();
+      const favProps = user?.favouriteProperties ?? [];
+      setIsFavourite(!!favProps.find((prop) => prop.propertyId === _id));
+    })();
+  }, [_id]);
   return (
     <section className="flex flex-col gap-4 pb-10" id="overview">
       <header className="flex items-center justify-between gap-10">
         <div className="flex flex-col gap-2">
           <h1 className="text-4xl font-bold capitalize">{name}</h1>
           <p className="flex items-center gap-1 text-sm text-accentGray font-medium">
-            <IoLocation color="#0075FF" size={20} />
+            <IoLocation className="text-primary" size={20} />
             {address.fullAddress}
           </p>
         </div>
@@ -86,11 +121,15 @@ const DetailPageOverview = ({
           </div>
         ) : (
           <div className="flex items-center gap-4">
-            <Button isIconOnly variant="light">
-              <IoShareSocialOutline color="#0075FF" size={30} />
+            <Button color="primary" isIconOnly variant="light">
+              <IoShareSocialOutline className="text-primary" size={30} />
             </Button>
-            <Button isIconOnly variant="light">
-              <MdFavoriteBorder color="#0075FF" size={30} />
+            <Button color="primary" isIconOnly isLoading={isLoading} onPress={toggleFavourite} variant="light">
+              {isFavourite ? (
+                <MdFavorite className="text-primary" size={30} />
+              ) : (
+                <MdFavoriteBorder className="text-primary" size={30} />
+              )}
             </Button>
           </div>
         )}
