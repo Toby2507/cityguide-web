@@ -3,11 +3,15 @@
 import CustomStars from '@/components/common/custom-stars';
 import RatingCard from '@/components/common/rating-card';
 import { useSearchStore } from '@/providers';
-import { IStay } from '@/types';
+import { removeFavouriteProperty, addFavouriteProperty, getUser } from '@/server';
+import { IStay, PropertyType } from '@/types';
 import { formatAccomodationDetails, numberToCurrency, paths } from '@/utils';
 import { Button, Chip, Image, Link } from '@nextui-org/react';
 import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { BsDot } from 'react-icons/bs';
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
 const SearchStayCard = ({
   _id,
@@ -22,6 +26,8 @@ const SearchStayCard = ({
   locationInfo,
 }: IStay) => {
   const { noOfGuests, reservationCount, checkInDay, checkOutDay } = useSearchStore();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFavourite, setIsFavourite] = useState<boolean>(false);
 
   const nights = checkInDay && checkOutDay ? dayjs(checkOutDay).diff(dayjs(checkInDay), 'd') : 1;
   const guests = noOfGuests.adults + noOfGuests.children;
@@ -34,9 +40,33 @@ const SearchStayCard = ({
       !(noOfGuests.children && !a.children && !a.infants)
   );
 
+  const toggleFavourite = async () => {
+    setIsLoading(true);
+    try {
+      if (isFavourite) {
+        await removeFavouriteProperty(_id);
+        setIsFavourite(false);
+      } else {
+        await addFavouriteProperty(_id, PropertyType.STAY);
+        setIsFavourite(true);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const user = await getUser();
+      const favProps = user?.favouriteProperties ?? [];
+      setIsFavourite(!!favProps.find((prop) => prop.propertyId === _id));
+    })();
+  }, [_id]);
   return (
     <article className="grid grid-cols-10 gap-4 border rounded-xl p-2 bg-white shadow-lg">
-      <figure className="col-span-3 h-full w-full">
+      <figure className="relative col-span-3 h-full w-full">
         <Image
           src={avatar}
           width="full"
@@ -44,6 +74,22 @@ const SearchStayCard = ({
           radius="sm"
           className="aspect-square object-cover rounded-xl w-full"
         />
+        <Button
+          color="primary"
+          className="absolute top-1 right-1 bg-white z-[99999]"
+          isIconOnly
+          isLoading={isLoading}
+          radius="full"
+          size="sm"
+          onPress={toggleFavourite}
+          variant="flat"
+        >
+          {isFavourite ? (
+            <MdFavorite className="text-primary" size={20} />
+          ) : (
+            <MdFavoriteBorder className="text-primary" size={20} />
+          )}
+        </Button>
       </figure>
       <div className="col-span-7 flex flex-col gap-1 pr-1">
         <Chip size="sm" className="text-sm" color="primary" radius="sm" variant="flat">
