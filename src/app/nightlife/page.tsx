@@ -3,6 +3,7 @@ import {
   DiscoverHome,
   Footer,
   HomeHeader,
+  NightlifeCategories,
   NightlifeSearchBar,
   NightlifeTrendingDestinations,
   SubscribeBox,
@@ -21,6 +22,7 @@ const NightlifeHomePage = () => {
         </div>
         <DiscoverHome />
         <div className="container mx-auto px-10 flex flex-col gap-20 max-w-7xl">
+          <NightlifeCategories />
           <Destinations />
         </div>
         <SubscribeBox />
