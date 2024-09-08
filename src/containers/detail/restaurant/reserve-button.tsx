@@ -2,9 +2,10 @@
 
 import { useReservationStore, useSearchStore } from '@/providers';
 import { EntityType, ICreateReservation, IGuests, IRestaurant, PropertyType } from '@/types';
-import { numberToCurrency } from '@/utils';
+import { numberToCurrency, paths } from '@/utils';
 import { Button, ButtonGroup, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { GoPeople } from 'react-icons/go';
 import { IoCaretDownOutline, IoPricetagsOutline } from 'react-icons/io5';
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const RestaurantDetailReserveBtn = ({ restaurant }: Props) => {
+  const { push } = useRouter();
   const { reservation, setReservation } = useReservationStore();
   const { checkInDay, checkOutDay, noOfGuests, reservationCount } = useSearchStore();
   const { max, available, price } = restaurant.details.reservation!;
@@ -151,7 +153,7 @@ const RestaurantDetailReserveBtn = ({ restaurant }: Props) => {
             color="primary"
             className="px-12 font-semibold"
             radius="full"
-            // onPress={() => push(paths.reserveStay(reservation?.property!))}
+            onPress={() => push(paths.reserveRestaurant(restaurant._id))}
           >
             Reserve
           </Button>
