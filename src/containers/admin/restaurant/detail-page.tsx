@@ -65,7 +65,12 @@ const AdminRestaurantDetailPage = ({ restaurant }: Props) => {
         </ModalContent>
       </Modal>
       <div className="flex flex-col gap-4 max-w-7xl pt-14 pb-6 mx-auto w-full">
-        <DetailPageOverview amenities={restaurant.details.amenities} onUpdate={onUpdate} {...restaurant} />
+        <DetailPageOverview
+          amenities={restaurant.details.amenities}
+          onUpdate={onUpdate}
+          propType={PropertyType.RESTAURANT}
+          {...restaurant}
+        />
         <DetailPageAmenities
           amenities={restaurant.details.amenities}
           name={restaurant.name}

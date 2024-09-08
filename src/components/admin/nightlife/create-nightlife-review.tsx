@@ -2,7 +2,7 @@
 
 import { DetailPageAmenities, DetailPageOverview, NightlifeDetailInfo } from '@/containers';
 import { createNightlife } from '@/server';
-import { ICreateNightlife, ICustomAvailability, INightLife } from '@/types';
+import { ICreateNightlife, ICustomAvailability, INightLife, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Link, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -73,7 +73,11 @@ const CreateNightlifeReview = ({ setStep }: Props) => {
         </p>
       </div>
       <div className="flex flex-col gap-4 max-w-7xl py-2 mx-auto w-full">
-        <DetailPageOverview {...nightlife} amenities={nightlife.details.amenities || []} />
+        <DetailPageOverview
+          {...nightlife}
+          amenities={nightlife.details.amenities || []}
+          propType={PropertyType.NIGHTLIFE}
+        />
         <DetailPageAmenities amenities={nightlife.details.amenities || []} name={nightlife.name} />
         <NightlifeDetailInfo nightlife={nightlife} />
       </div>

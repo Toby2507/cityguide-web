@@ -59,7 +59,12 @@ const AdminNightlifeDetailPage = ({ nightlife }: Props) => {
         </ModalContent>
       </Modal>
       <div className="flex flex-col gap-4 max-w-7xl pt-14 pb-6 mx-auto w-full">
-        <DetailPageOverview amenities={nightlife.details.amenities} onUpdate={onUpdate} {...nightlife} />
+        <DetailPageOverview
+          amenities={nightlife.details.amenities}
+          onUpdate={onUpdate}
+          propType={PropertyType.NIGHTLIFE}
+          {...nightlife}
+        />
         <DetailPageAmenities
           amenities={nightlife.details.amenities}
           name={nightlife.name}

@@ -10,6 +10,7 @@ import {
   SubscribeBox,
 } from '@/containers';
 import { getStayById } from '@/server';
+import { PropertyType } from '@/types';
 import toast from 'react-hot-toast';
 
 interface IStayDetailPage {
@@ -28,7 +29,7 @@ const StayDetailPage = async ({ params: { stayId } }: IStayDetailPage) => {
         <main className="flex flex-col gap-20 bg-white">
           <div className="container mx-auto px-10 flex flex-col gap-6 max-w-7xl">
             <StayDetailNav />
-            <DetailPageOverview {...stay} />
+            <DetailPageOverview propType={PropertyType.STAY} {...stay} />
             <DetailPageAmenities {...stay} />
             <StayDetailAvailability stay={stay} />
             <StayDetailInfoReview stay={stay} />

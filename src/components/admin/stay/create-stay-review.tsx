@@ -2,7 +2,7 @@
 
 import { DetailPageAmenities, DetailPageOverview, StayDetailAvailability, StayDetailRules } from '@/containers';
 import { createStay } from '@/server';
-import { EntityType, ICreateStay, IStay } from '@/types';
+import { EntityType, ICreateStay, IStay, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import Link from 'next/link';
@@ -70,7 +70,7 @@ const CreateStayReview = ({ setStep }: IProps) => {
         </p>
       </div>
       <div className="flex flex-col gap-4 max-w-7xl py-2 mx-auto w-full">
-        <DetailPageOverview {...stay} />
+        <DetailPageOverview propType={PropertyType.STAY} {...stay} />
         <DetailPageAmenities {...stay} />
         <StayDetailAvailability stay={stay} />
         <StayDetailRules stay={stay} />

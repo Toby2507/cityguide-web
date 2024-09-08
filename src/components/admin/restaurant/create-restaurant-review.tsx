@@ -2,7 +2,7 @@
 
 import { DetailPageAmenities, DetailPageOverview, RestaurantDetailInfo, RestaurantDetailMenu } from '@/containers';
 import { createRestaurant } from '@/server';
-import { ICreateRestaurant, ICustomAvailability, IRestaurant } from '@/types';
+import { ICreateRestaurant, ICustomAvailability, IRestaurant, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Link, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -73,7 +73,11 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
         </p>
       </div>
       <div className="flex flex-col gap-4 max-w-7xl py-2 mx-auto w-full">
-        <DetailPageOverview {...restaurant} amenities={restaurant.details.amenities || []} />
+        <DetailPageOverview
+          {...restaurant}
+          amenities={restaurant.details.amenities || []}
+          propType={PropertyType.RESTAURANT}
+        />
         <DetailPageAmenities amenities={restaurant.details.amenities || []} name={restaurant.name} />
         <RestaurantDetailMenu menu={restaurant.menu} />
         <RestaurantDetailInfo restaurant={restaurant} />

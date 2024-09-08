@@ -71,7 +71,7 @@ const AdminStayDetailPage = ({ stay }: Props) => {
         </ModalContent>
       </Modal>
       <div className="flex flex-col gap-4 max-w-7xl pt-14 pb-6 mx-auto w-full">
-        <DetailPageOverview onUpdate={onUpdate} {...stay} />
+        <DetailPageOverview onUpdate={onUpdate} propType={PropertyType.STAY} {...stay} />
         <DetailPageAmenities onUpdate={() => onUpdate('amenities')} {...stay} />
         <StayDetailAvailability onUpdate={() => onUpdate('accommodation')} stay={stay} />
         <StayDetailInfoReview stay={stay} isAdmin />

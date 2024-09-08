@@ -8,6 +8,7 @@ import {
   SubscribeBox,
 } from '@/containers';
 import { getNightlifeById } from '@/server';
+import { PropertyType } from '@/types';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -26,7 +27,11 @@ const NightlifeDetailPage = async ({ params: { nightlifeId } }: Props) => {
         <main className="flex flex-col gap-20 bg-white">
           <div className="container mx-auto px-10 flex flex-col gap-6 max-w-7xl">
             <NightlifeDetailNav />
-            <DetailPageOverview amenities={nightlife.details.amenities} {...nightlife} />
+            <DetailPageOverview
+              amenities={nightlife.details.amenities}
+              propType={PropertyType.NIGHTLIFE}
+              {...nightlife}
+            />
             <DetailPageAmenities amenities={nightlife.details.amenities} {...nightlife} />
             <NightlifeDetailInfo nightlife={nightlife} />
           </div>
