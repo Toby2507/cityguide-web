@@ -6,6 +6,7 @@ import { IAccommodation, IAddress, PropertyType, Rating, Updates } from '@/types
 import mapBanner from '@images/map-banner.png';
 import { Button, Divider, User } from '@nextui-org/react';
 import NextImage from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsFillCameraFill } from 'react-icons/bs';
@@ -160,9 +161,14 @@ const DetailPageOverview = ({
               alt="map"
               className="absolute top-0 bottom-0 left-0 right-0 w-full h-full rounded-lg object-cover"
             />
-            <Button color="primary" className="px-12 font-semibold" radius="full">
-              Go to map
-            </Button>
+            <Link
+              href={`https://www.google.com/maps/search/?api=1&query=${address.geoLocation.lat},${address.geoLocation.lng}`}
+              target='_blank'
+            >
+              <Button color="primary" className="px-12 font-semibold" radius="full">
+                Go to map
+              </Button>
+            </Link>
           </div>
         </aside>
       </div>
