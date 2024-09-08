@@ -2,15 +2,18 @@
 
 import { RatingCard } from '@/components';
 import { useSearchStore } from '@/providers';
-import { IRestaurant } from '@/types';
+import { addFavouriteProperty, getUser, removeFavouriteProperty } from '@/server';
+import { IRestaurant, PropertyType } from '@/types';
 import { numberToCurrency, paths } from '@/utils';
 import { Button, Chip, Image } from '@nextui-org/react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { FaChildren } from 'react-icons/fa6';
 import { GrDeliver } from 'react-icons/gr';
 import { IoCard, IoPricetags } from 'react-icons/io5';
 import { LuVegan } from 'react-icons/lu';
-import { MdFoodBank, MdRoomService } from 'react-icons/md';
+import { MdFavorite, MdFavoriteBorder, MdFoodBank, MdRoomService } from 'react-icons/md';
 
 const SearchRestaurantCard = ({
   _id,
@@ -27,6 +30,8 @@ const SearchRestaurantCard = ({
   details: { children, delivery, paymentOptions, reservation },
 }: IRestaurant) => {
   const { noOfGuests, reservationCount } = useSearchStore();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFavourite, setIsFavourite] = useState<boolean>(false);
 
   const validAddr =
     address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
@@ -50,9 +55,34 @@ const SearchRestaurantCard = ({
       Icon: IoCard,
     },
   ];
+
+  const toggleFavourite = async () => {
+    setIsLoading(true);
+    try {
+      if (isFavourite) {
+        await removeFavouriteProperty(_id);
+        setIsFavourite(false);
+      } else {
+        await addFavouriteProperty(_id, PropertyType.STAY);
+        setIsFavourite(true);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const user = await getUser();
+      const favProps = user?.favouriteProperties ?? [];
+      setIsFavourite(!!favProps.find((prop) => prop.propertyId === _id));
+    })();
+  }, [_id]);
   return (
     <article className="grid grid-cols-10 gap-4 border rounded-xl p-2 bg-white shadow-lg">
-      <figure className="col-span-3 h-full w-full">
+      <figure className="relative col-span-3 h-full w-full">
         <Image
           src={avatar}
           width="full"
@@ -60,6 +90,22 @@ const SearchRestaurantCard = ({
           radius="sm"
           className="aspect-square object-cover rounded-xl w-full"
         />
+        <Button
+          color="primary"
+          className="absolute top-1 right-1 bg-white z-[99999]"
+          isIconOnly
+          isLoading={isLoading}
+          radius="full"
+          size="sm"
+          onPress={toggleFavourite}
+          variant="flat"
+        >
+          {isFavourite ? (
+            <MdFavorite className="text-primary" size={20} />
+          ) : (
+            <MdFavoriteBorder className="text-primary" size={20} />
+          )}
+        </Button>
       </figure>
       <div className="col-span-7 flex flex-col gap-1 pr-1">
         <Chip size="sm" className="text-sm" color="primary" radius="sm" variant="flat" startContent={<IoPricetags />}>
