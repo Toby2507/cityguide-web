@@ -1,6 +1,6 @@
 'use server';
 
-import { EntityType, IUserDetails } from '@/types';
+import { EntityType, IFavProperties, IUserDetails } from '@/types';
 import { cookies } from 'next/headers';
 
 export const getUser = async () => {
@@ -11,8 +11,8 @@ export const getUser = async () => {
   const type = cookies().get('type')?.value as EntityType;
   const favProperties = cookies().get('userfavproperties')?.value;
   const phoneNumber = cookies().get('userphone')?.value!;
-  let favouriteProperties: string[] = [];
-  if (favProperties) favouriteProperties = JSON.parse(favProperties) as string[];
+  let favouriteProperties: IFavProperties[] = [];
+  if (favProperties) favouriteProperties = JSON.parse(favProperties) as IFavProperties[];
   const partner = cookies().get('partner')?.value;
   if (!fullName || !id || !partner) return null;
   const isPartner = partner === 'true' ? true : false;
@@ -34,6 +34,22 @@ export const setCookies = async (res: any, type: EntityType) => {
   cookies().set('partner', type === EntityType.USER ? res.user.isPartner : true);
   cookies().set('type', type);
   type === EntityType.USER && cookies().set('userfavproperties', JSON.stringify(res.user.favouriteProperties));
+};
+
+export const addToFavourites = async (data: IFavProperties) => {
+  const favProperties = cookies().get('userfavproperties')?.value;
+  let favouriteProperties: IFavProperties[] = [];
+  if (favProperties) favouriteProperties = JSON.parse(favProperties) as IFavProperties[];
+  favouriteProperties.push(data);
+  cookies().set('userfavproperties', JSON.stringify(favouriteProperties));
+};
+
+export const removeFromFavourites = async (id: string) => {
+  const favProperties = cookies().get('userfavproperties')?.value;
+  let favouriteProperties: IFavProperties[] = [];
+  if (favProperties) favouriteProperties = JSON.parse(favProperties) as IFavProperties[];
+  favouriteProperties = favouriteProperties.filter((prop) => prop.propertyId !== id);
+  cookies().set('userfavproperties', JSON.stringify(favouriteProperties));
 };
 
 export const upgradeToPartner = (res: any) => {
