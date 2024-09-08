@@ -42,7 +42,7 @@ const RestaurantSearchPage = ({ searchParam }: Props) => {
   useEffect(() => {
     if (!searchResult && (location || searchParam)) (async () => await searchRestaurant())();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchResult, location, searchParam]);
   return (
     <>
       <RestaurantSearchBar extraClass="-mt-7" search={searchRestaurant} />
