@@ -1,24 +1,41 @@
 'use client';
 
-import { UpdatePropertyImages, UpdatePropertyAmenities, UpdatePropertyAddress } from '@/components';
+import { UpdatePropertyAddress, UpdatePropertyAmenities, UpdatePropertyImages } from '@/components';
 import UpdateNightlifeDetails from '@/components/admin/nightlife/update-nightlife-details';
 import UpdateNightlifeInfo from '@/components/admin/nightlife/update-nightlife-info';
 import { DetailPageAmenities, DetailPageOverview, NightlifeDetailInfo } from '@/containers';
+import { deleteNightlife } from '@/server';
 import { INightLife, PropertyType, Updates } from '@/types';
-import { Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
+import { paths } from '@/utils';
+import { Button, Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Props {
   nightlife: INightLife;
 }
 
 const AdminNightlifeDetailPage = ({ nightlife }: Props) => {
+  const { push } = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [updateType, setUpdateType] = useState<Updates>('details');
 
   const onUpdate = (type: Updates) => {
     setUpdateType(type);
     onOpen();
+  };
+  const onDelete = async () => {
+    try {
+      setIsLoading(true);
+      await deleteNightlife(nightlife._id);
+      push(paths.adminNightlifes());
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
@@ -49,6 +66,9 @@ const AdminNightlifeDetailPage = ({ nightlife }: Props) => {
           onUpdate={() => onUpdate('amenities')}
         />
         <NightlifeDetailInfo nightlife={nightlife} onUpdate={() => onUpdate('info')} />
+        <Button className="mt-4" color="danger" isLoading={isLoading} onPress={onDelete} variant="flat">
+          Delete Nightlife
+        </Button>
       </div>
     </>
   );
