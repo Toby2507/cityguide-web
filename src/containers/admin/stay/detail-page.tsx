@@ -15,21 +15,38 @@ import {
   StayDetailInfoReview,
   StayDetailRules,
 } from '@/containers';
+import { deleteStay } from '@/server';
 import { IStay, PropertyType, Updates } from '@/types';
-import { Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
+import { paths } from '@/utils';
+import { Button, Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Props {
   stay: IStay;
 }
 
 const AdminStayDetailPage = ({ stay }: Props) => {
+  const { push } = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [updateType, setUpdateType] = useState<Updates>('details');
 
   const onUpdate = (type: Updates) => {
     setUpdateType(type);
     onOpen();
+  };
+  const onDelete = async () => {
+    try {
+      setIsLoading(true);
+      await deleteStay(stay._id);
+      push(paths.adminStays());
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
@@ -59,6 +76,9 @@ const AdminStayDetailPage = ({ stay }: Props) => {
         <StayDetailAvailability onUpdate={() => onUpdate('accommodation')} stay={stay} />
         <StayDetailInfoReview stay={stay} isAdmin />
         <StayDetailRules onUpdate={() => onUpdate('rules')} stay={stay} />
+        <Button className="mt-4" color="danger" isLoading={isLoading} onPress={onDelete} variant="flat">
+          Delete Stay
+        </Button>
       </div>
     </>
   );
