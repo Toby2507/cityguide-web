@@ -1,4 +1,4 @@
-import { getUser } from '@/server/queries/auth';
+import { getUser } from '@/server';
 import { paths } from '@/utils';
 import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react';
 import Link from 'next/link';
