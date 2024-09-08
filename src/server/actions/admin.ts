@@ -36,6 +36,15 @@ export const updateStay = async (body: IUpdateStay, stayId: string) => {
   revalidatePath(paths.adminStay(stayId));
 };
 
+export const deleteStay = async (stayId: string) => {
+  const res = await fetchWithReAuth(`property/stay/${stayId}`, { method: 'DELETE' });
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
+  }
+  revalidatePath(paths.adminStay(stayId));
+};
+
 export const addAccommodation = async (body: IAccommodation[], stayId: string) => {
   const res = await fetchWithReAuth(`property/stay/${stayId}/accommodation`, {
     method: 'POST',
@@ -85,6 +94,15 @@ export const updateRestaurant = async (body: IUpdateRestaurant, resId: string) =
   revalidatePath(paths.adminRestaurant(resId));
 };
 
+export const deleteRestaurant = async (resId: string) => {
+  const res = await fetchWithReAuth(`property/restaurant/${resId}`, { method: 'DELETE' });
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
+  }
+  revalidatePath(paths.adminRestaurant(resId));
+};
+
 export const addMenuItem = async (body: IMenu[], resId: string) => {
   const res = await fetchWithReAuth(`property/restaurant/${resId}/menu`, {
     method: 'POST',
@@ -127,6 +145,15 @@ export const createNightlife = async (body: ICreateNightlife) => {
 
 export const updateNightlife = async (body: IUpdateNightlife, propId: string) => {
   const res = await fetchWithReAuth(`property/nightlife/${propId}`, { method: 'PATCH', body: JSON.stringify(body) });
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
+  }
+  revalidatePath(paths.adminNightlife(propId));
+};
+
+export const deleteNightlife = async (propId: string) => {
+  const res = await fetchWithReAuth(`property/nightlife/${propId}`, { method: 'DELETE' });
   if (!res.ok) {
     const result = await res.json();
     throw new Error(result.message);
