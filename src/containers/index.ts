@@ -62,8 +62,11 @@ export { default as ListPropertyHeader } from './listproperty/header';
 export { default as Footer } from './misc/footer';
 
 // Reservation
-export { default as StayDetailReservation } from './reservation/stay-detail';
-export { default as UserDetailReservation } from './reservation/user-detail';
+// // Restaurant
+export { default as RestaurantDetailReservation } from './reservation/restaurant/restaurant-detail';
+// // Stay
+export { default as StayDetailReservation } from './reservation/stay/stay-detail';
+export { default as UserDetailReservation } from './reservation/stay/user-detail';
 
 // Search
 export { default as NightlifeSearch } from './search/nightlife/nightlife-search';
