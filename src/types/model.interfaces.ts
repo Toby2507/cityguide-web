@@ -13,6 +13,11 @@ import {
 } from './enums';
 
 // General
+export interface IFavProperties {
+  propertyId: string;
+  propertyType: PropertyType;
+}
+
 export interface ISocialLink {
   name: string;
   handle: string;

@@ -1,5 +1,6 @@
 import { StaticImageData } from 'next/image';
 import { EntityType } from './enums';
+import { IFavProperties } from './model.interfaces';
 
 // Stored Details
 export interface IUserDetails {
@@ -10,7 +11,7 @@ export interface IUserDetails {
   phoneNumber: string;
   isPartner: boolean;
   type: EntityType;
-  favouriteProperties?: string[];
+  favouriteProperties?: IFavProperties[];
 }
 
 // External Data
