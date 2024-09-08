@@ -144,17 +144,19 @@ const DetailPageOverview = ({
           accommodation={accommodation}
         />
         <aside className="col-span-2 flex flex-col gap-3">
-          <article className="flex flex-col gap-3 px-2 py-3 rounded-lg border">
-            <RatingCard rating={rating} reviewCount={reviewCount} />
-            <Divider />
-            <div className="flex flex-col items-start gap-4 px-2">
-              <p className="text-xs">
-                &ldquo;The apartment was very clean. The area was quiet and seem to be safe. The apartment staff the
-                very diligent in sure that our Needs & Wants were met in a timely manner.&rdquo;
-              </p>
-              <User name="Jane Doe" avatarProps={{ isBordered: true }} />
-            </div>
-          </article>
+          {!!reviewCount ? (
+            <article className="flex flex-col gap-3 px-2 py-3 rounded-lg border">
+              <RatingCard rating={rating} reviewCount={reviewCount} />
+              <Divider />
+              <div className="flex flex-col items-start gap-4 px-2">
+                <p className="text-xs">
+                  &ldquo;The apartment was very clean. The area was quiet and seem to be safe. The apartment staff the
+                  very diligent in sure that our Needs & Wants were met in a timely manner.&rdquo;
+                </p>
+                <User name="Jane Doe" avatarProps={{ isBordered: true }} />
+              </div>
+            </article>
+          ) : null}
           <div className="relative h-full flex items-end justify-center pb-4 rounded-lg">
             <NextImage
               src={mapBanner}
@@ -163,7 +165,7 @@ const DetailPageOverview = ({
             />
             <Link
               href={`https://www.google.com/maps/search/?api=1&query=${address.geoLocation.lat},${address.geoLocation.lng}`}
-              target='_blank'
+              target="_blank"
             >
               <Button color="primary" className="px-12 font-semibold" radius="full">
                 Go to map
