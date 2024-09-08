@@ -1,11 +1,15 @@
 'use client';
 
 import { RatingCard } from '@/components';
-import { INightLife } from '@/types';
+import { addFavouriteProperty, getUser, removeFavouriteProperty } from '@/server';
+import { INightLife, PropertyType } from '@/types';
 import { numberToCurrency, paths } from '@/utils';
 import { Button, Chip, Image, Link } from '@nextui-org/react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { GiDress } from 'react-icons/gi';
 import { IoCalendarSharp, IoCard } from 'react-icons/io5';
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { PiMusicNoteFill } from 'react-icons/pi';
 import { TbParkingCircle } from 'react-icons/tb';
 
@@ -21,6 +25,9 @@ const SearchNightlifeCard = ({
   details: { entryFee, paymentOptions },
   rules: { minAge, parking, dressCode, musicGenre },
 }: INightLife) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFavourite, setIsFavourite] = useState<boolean>(false);
+
   const validAddr =
     address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
   const nightlifeDetails = [
@@ -30,9 +37,34 @@ const SearchNightlifeCard = ({
   ];
   if (dressCode) nightlifeDetails.push({ title: 'Dress code', value: dressCode?.join(', '), Icon: GiDress });
   if (musicGenre) nightlifeDetails.push({ title: 'Music Genre', value: musicGenre?.join(', '), Icon: PiMusicNoteFill });
+
+  const toggleFavourite = async () => {
+    setIsLoading(true);
+    try {
+      if (isFavourite) {
+        await removeFavouriteProperty(_id);
+        setIsFavourite(false);
+      } else {
+        await addFavouriteProperty(_id, PropertyType.STAY);
+        setIsFavourite(true);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const user = await getUser();
+      const favProps = user?.favouriteProperties ?? [];
+      setIsFavourite(!!favProps.find((prop) => prop.propertyId === _id));
+    })();
+  }, [_id]);
   return (
     <article className="grid grid-cols-10 gap-4 border rounded-xl p-2 bg-white shadow-lg">
-      <figure className="col-span-3 h-full w-full">
+      <figure className="relative col-span-3 h-full w-full">
         <Image
           src={avatar}
           width="full"
@@ -40,6 +72,22 @@ const SearchNightlifeCard = ({
           radius="sm"
           className="aspect-square object-cover rounded-xl w-full"
         />
+        <Button
+          color="primary"
+          className="absolute top-1 right-1 bg-white z-[99999]"
+          isIconOnly
+          isLoading={isLoading}
+          radius="full"
+          size="sm"
+          onPress={toggleFavourite}
+          variant="flat"
+        >
+          {isFavourite ? (
+            <MdFavorite className="text-primary" size={20} />
+          ) : (
+            <MdFavoriteBorder className="text-primary" size={20} />
+          )}
+        </Button>
       </figure>
       <div className="col-span-7 flex flex-col gap-1 pr-1">
         <Chip size="sm" className="text-sm" color="primary" radius="sm" variant="flat">
