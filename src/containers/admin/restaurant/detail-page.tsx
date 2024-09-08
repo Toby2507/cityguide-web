@@ -9,21 +9,38 @@ import {
   UpdateRestaurantMenu,
 } from '@/components';
 import { DetailPageAmenities, DetailPageOverview, RestaurantDetailInfo, RestaurantDetailMenu } from '@/containers';
+import { deleteRestaurant } from '@/server';
 import { IRestaurant, PropertyType, Updates } from '@/types';
-import { Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
+import { paths } from '@/utils';
+import { Button, Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Props {
   restaurant: IRestaurant;
 }
 
 const AdminRestaurantDetailPage = ({ restaurant }: Props) => {
+  const { push } = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [updateType, setUpdateType] = useState<Updates>('details');
 
   const onUpdate = (type: Updates) => {
     setUpdateType(type);
     onOpen();
+  };
+  const onDelete = async () => {
+    try {
+      setIsLoading(true);
+      await deleteRestaurant(restaurant._id);
+      push(paths.adminRestaurants());
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
@@ -56,6 +73,9 @@ const AdminRestaurantDetailPage = ({ restaurant }: Props) => {
         />
         <RestaurantDetailMenu menu={restaurant.menu} onUpdate={() => onUpdate('menu')} />
         <RestaurantDetailInfo restaurant={restaurant} onUpdate={() => onUpdate('info')} />
+        <Button className="mt-4" color="danger" isLoading={isLoading} onPress={onDelete} variant="flat">
+          Delete Restaurant
+        </Button>
       </div>
     </>
   );
