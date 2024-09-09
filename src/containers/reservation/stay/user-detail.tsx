@@ -3,7 +3,7 @@
 import { UserDetailReservationAccommodation } from '@/components';
 import { useReservationStore, useSearchStore } from '@/providers';
 import { IPartner, IStay, IUserDetails, StayType } from '@/types';
-import { paths } from '@/utils';
+import { generateTimeRange, paths } from '@/utils';
 import {
   Button,
   Checkbox,
@@ -30,29 +30,10 @@ interface Props {
   user: IUserDetails | null;
   stay: IStay;
 }
-interface ITimes {
-  key: string;
-  label: string;
-}
-
-const generateTimeRange = (from: string, to: string) => {
-  const times: ITimes[] = [];
-  let curr = dayjs(`2000-01-01 ${from}`);
-  let end = dayjs(`2000-01-01 ${to}`);
-  if (end.isBefore(curr)) end = end.add(1, 'd');
-  while (curr.isBefore(end) || curr.isSame(end)) {
-    times.push({
-      key: curr.format('HH:mm'),
-      label: curr.format('hh:mm A'),
-    });
-    curr = curr.add(1, 'h');
-  }
-  return times;
-};
 
 const UserDetailReservation = ({ stay: { accommodation, rules, type, partner }, user }: Props) => {
-  const pathname = usePathname();
   const { push } = useRouter();
+  const pathname = usePathname();
   const { checkInDay, checkOutDay } = useSearchStore();
   const { reservation, setReservation } = useReservationStore();
   const userDetails = [
@@ -99,7 +80,7 @@ const UserDetailReservation = ({ stay: { accommodation, rules, type, partner }, 
     if (!reservation?.checkInTime) return toast.error('Please select your estimated check-in time');
     if (!reservation?.checkOutTime) return toast.error('Please select your estimated check-out time');
     setReservation({ checkInDay, checkOutDay });
-    push('complete');
+    push(`${pathname}/complete`);
   };
   return (
     <section className="flex flex-col gap-2">
