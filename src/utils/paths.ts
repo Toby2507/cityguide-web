@@ -11,6 +11,7 @@ const path = {
   restaurants: () => '/restaurant',
   restaurantDetail: (id: string) => `/restaurant/${id}`,
   searchRestaurant: (params?: string[]) => `search/restaurant/${params?.join('/') || ''}`,
+  reserveRestaurant: (id: string) => `/reservation/restaurant/${id}`,
   nightlifes: () => '/nightlife',
   nightlifeDetail: (id: string) => `/nightlife/${id}`,
   searchNightlife: (params?: string[]) => `search/nightlife/${params?.join('/') || ''}`,
