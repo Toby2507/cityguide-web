@@ -13,7 +13,7 @@ export const adminNav = [
   { title: 'Stays', href: '/admin/stay', Icon: IoBedOutline },
   { title: 'Restaurants', href: '/admin/restaurant', Icon: IoRestaurantOutline },
   { title: 'Night Life', href: '/admin/nightlife', Icon: PiWine },
-  { title: 'Reservations', href: '/admin/#', Icon: BsListCheck },
+  { title: 'Reservations', href: '/admin/reservation', Icon: BsListCheck },
   { title: 'Payments', href: '/admin/#', Icon: CiCreditCard1 },
   { title: 'Reports', href: '/admin/#', Icon: BsBarChartLine },
   { title: 'Support', href: '/admin/#', Icon: BiSupport },
