@@ -6,6 +6,7 @@ import {
   ICreateStay,
   ICustomAvailability,
 } from '@/types';
+import dayjs from 'dayjs';
 import differenceWith from 'lodash/differenceWith';
 import fromPairs from 'lodash/fromPairs';
 import isEqual from 'lodash/isEqual';
@@ -16,6 +17,11 @@ import { IoFastFoodOutline } from 'react-icons/io5';
 import { LuBaby, LuParkingCircle } from 'react-icons/lu';
 import { PiBathtub } from 'react-icons/pi';
 import { TbMeterSquare } from 'react-icons/tb';
+
+interface ITimes {
+  key: string;
+  label: string;
+}
 
 export const addressFormatter = (res: google.maps.places.PlaceResult): IAddress => {
   return {
@@ -186,3 +192,18 @@ export const formatAccomodationDetails = (acc: IAccommodation) => [
     Icon: IoFastFoodOutline,
   },
 ];
+
+export const generateTimeRange = (from: string, to: string) => {
+  const times: ITimes[] = [];
+  let curr = dayjs(`2000-01-01 ${from}`);
+  let end = dayjs(`2000-01-01 ${to}`);
+  if (end.isBefore(curr)) end = end.add(1, 'd');
+  while (curr.isBefore(end) || curr.isSame(end)) {
+    times.push({
+      key: curr.format('HH:mm'),
+      label: curr.format('hh:mm A'),
+    });
+    curr = curr.add(1, 'h');
+  }
+  return times;
+};
