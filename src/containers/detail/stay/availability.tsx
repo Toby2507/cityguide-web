@@ -3,8 +3,9 @@
 import { StayDetailTableCell } from '@/components';
 import { StaySearchBar } from '@/containers';
 import { useReservationStore, useSearchStore } from '@/providers';
-import { IAccommodation, IStay, PropertyType } from '@/types';
+import { IAccommodation, ICreateReservation, IStay, PropertyType } from '@/types';
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 interface IProps {
@@ -22,7 +23,7 @@ const columns = [
 
 const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
   const { setReservation } = useReservationStore();
-  const { noOfGuests, reservationCount } = useSearchStore();
+  const { checkInDay, checkOutDay, noOfGuests, reservationCount } = useSearchStore();
   const [tableKey, setTableKey] = useState<number>(0);
   const [accommodations, setAccommodations] = useState<IAccommodation[]>(stay.accommodation);
   const firstStayId = accommodations.length ? accommodations[0].id : '';
@@ -45,14 +46,20 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
   };
 
   useEffect(() => {
-    const reservation = {
+    const reservation: ICreateReservation = {
       property: stay._id,
       propertyType: PropertyType.STAY,
       partner: typeof stay.partner === 'string' ? stay.partner : stay.partner._id,
       partnerType: stay.partnerType,
+      checkInDay,
+      checkInTime: dayjs(checkInDay).format('HH:mm'),
+      checkOutDay,
+      checkOutTime: dayjs(checkOutDay).format('HH:mm'),
+      noOfGuests,
+      reservationCount,
     };
     setReservation(reservation);
-  }, [stay, setReservation]);
+  }, [checkInDay, checkOutDay, noOfGuests, reservationCount, stay, setReservation]);
   useEffect(() => {
     setAccommodations(stay.accommodation);
     setTableKey((prev) => prev + 1);
