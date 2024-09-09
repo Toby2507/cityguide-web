@@ -39,6 +39,12 @@ const RestaurantDetailReserveBtn = ({ restaurant }: Props) => {
       },
     });
   };
+  const reserve = () => {
+    const reservationPrice = restaurant.details.reservation?.price ?? 0;
+    const price = reservationPrice * (reservation?.reservationCount || 1);
+    setReservation({ price });
+    push(paths.reserveRestaurant(restaurant._id));
+  };
 
   useEffect(() => {
     const reservation: ICreateReservation = {
@@ -153,7 +159,7 @@ const RestaurantDetailReserveBtn = ({ restaurant }: Props) => {
             color="primary"
             className="px-12 font-semibold"
             radius="full"
-            onPress={() => push(paths.reserveRestaurant(restaurant._id))}
+            onPress={reserve}
           >
             Reserve
           </Button>
