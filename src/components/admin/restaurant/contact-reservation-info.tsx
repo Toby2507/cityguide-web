@@ -4,7 +4,7 @@ import { updateRestaurantSchema } from '@/schemas';
 import { ICreateRestaurant, ISocialLink } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoAdd } from 'react-icons/io5';
@@ -42,6 +42,11 @@ const RestaurantContactReservationInfo = () => {
     let newSocials = socials.toSpliced(idx, 1);
     setValue('contact.socialMedia', newSocials);
   };
+
+  useEffect(() => {
+    if (!reservation) setValue('details.reservation', undefined);
+    else !getValues('details.reservation') && setValue('details.reservation', { available: 1, max: 1, price: 0 });
+  }, [reservation, getValues, setValue]);
   return (
     <div className="flex flex-col gap-4 pb-2 w-full">
       <StringArrayInput
