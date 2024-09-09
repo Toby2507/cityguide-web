@@ -95,15 +95,24 @@ const RestaurantDetailReservation = ({
           <div className="flex flex-col">
             <p className="text-base font-semibold">{dayjs(reservation?.checkInDay).format('ddd, MMM DD, YYYY')}</p>
             <p className="text-xs text-accentGray">
-              From {dayjs(reservation?.checkInDay).format('hh:mm A')} Until{' '}
-              {dayjs(reservation?.checkOutDay).format('hh:mm A')}
+              From {dayjs(`2000-01-01 ${reservation?.checkInTime}`).format('hh:mm A')} Until{' '}
+              {dayjs(`2000-01-01 ${reservation?.checkOutTime}`).format('hh:mm A')}
             </p>
           </div>
         </div>
-        {dayjs(reservation?.checkInDay).diff(dayjs(), 'd') <= 3 ? (
+        {dayjs(`${dayjs(reservation?.checkInDay).format('YYYY-MM-DD')} ${reservation?.checkInTime}`).diff(
+          dayjs(),
+          'd'
+        ) <= 3 ? (
           <div className="flex items-center gap-2">
             <BsExclamationCircle className="text-danger" size={18} />
-            <p className="text-xs text-danger font-medium">Just {dayjs(reservation?.checkInDay).fromNow(true)} away</p>
+            <p className="text-xs text-danger font-medium">
+              Just{' '}
+              {dayjs(`${dayjs(reservation?.checkInDay).format('YYYY-MM-DD')} ${reservation?.checkInTime}`).fromNow(
+                true
+              )}{' '}
+              away
+            </p>
           </div>
         ) : null}
         <div className="border-b-2 w-full" />
