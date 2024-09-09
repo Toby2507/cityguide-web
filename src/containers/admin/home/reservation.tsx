@@ -193,7 +193,7 @@ const AdminReservation = () => {
     onSearchChange,
   ]);
   return (
-    <section className="flex flex-col gap-2" id="reservations">
+    <section className="flex flex-col gap-2 mt-6" id="reservations">
       <h2 className="text-2xl font-semibold">Reservations</h2>
       <Table
         removeWrapper
