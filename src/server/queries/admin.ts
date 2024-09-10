@@ -1,6 +1,6 @@
 'use server';
 
-import { INightLife, IReservationStats, IRestaurant, IStay, PropertyType } from '@/types';
+import { INightLife, IReservation, IReservationStats, IRestaurant, IStay, PropertyType } from '@/types';
 import { fetchWithReAuth } from '@/utils';
 
 interface IGetResAnalytics {
@@ -44,4 +44,11 @@ export const getPartnerNightlifes = async () => {
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
   return result.properties as INightLife[];
+};
+
+export const getPartnerReservation = async () => {
+  const res = await fetchWithReAuth('reservation/partner', { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.reservations as IReservation[];
 };

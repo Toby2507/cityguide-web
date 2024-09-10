@@ -21,7 +21,13 @@ export { createEstablishment, createUser, loginUser, upgradeUser, verifyOtp } fr
 export { getUser } from './actions/cookie';
 export { addFavouriteProperty, refetchPage, removeFavouriteProperty } from './actions/core';
 // Queries
-export { getPartnerNightlifes, getPartnerRestaurants, getPartnerStays, getReservationAnalytics } from './queries/admin';
+export {
+  getPartnerNightlifes,
+  getPartnerReservation,
+  getPartnerRestaurants,
+  getPartnerStays,
+  getReservationAnalytics,
+} from './queries/admin';
 export { getUserProfile, logout } from './queries/auth';
 export {
   getNightlifeById,
