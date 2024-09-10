@@ -34,9 +34,11 @@ const ReservationCell = ({ columnKey, reservation }: IReservationCell) => {
   if (columnKey === 'rooms') return <p className="text-xs text-center font-semibold">{reservation.reservationCount}</p>;
   if (columnKey === 'check')
     return (
-      <p className="text-xs font-semibold">{`${dayjs(reservation.checkInDay).format('MMM DD, YYYY')} | ${
-        reservation.checkInTime
-      } - ${dayjs(reservation.checkOutDay).format('MMM DD, YYYY')} | ${reservation.checkOutTime}`}</p>
+      <p className="text-xs font-semibold">{`${dayjs(reservation.checkInDay).format('MMM DD, YYYY')} | ${dayjs(
+        `2000-01-01 ${reservation.checkInTime}`
+      ).format('hh:mm A')} - ${dayjs(reservation.checkOutDay).format('MMM DD, YYYY')} | ${dayjs(
+        `2000-01-01 ${reservation.checkOutTime}`
+      ).format('hh:mm A')}`}</p>
     );
   if (columnKey === 'status')
     return (
