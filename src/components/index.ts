@@ -89,6 +89,8 @@ export { default as Map } from './misc/maps';
 export { default as SubmitForm } from './misc/submit-form';
 
 // Reservation
+export { default as ReservationDetails } from './reservations/reservation-details';
+export { default as ReservationProperty } from './reservations/reservation-property';
 export { default as UserDetailReservationAccommodation } from './reservations/user-detail-accommodation';
 
 // Search
