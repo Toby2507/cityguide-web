@@ -31,6 +31,8 @@ const path = {
   adminNightlifes: () => '/admin/nightlife',
   createNightlife: () => '/admin/nightlife/create',
   adminNightlife: (id: string) => `/admin/nightlife/${id}`,
+  adminReservations: () => '/admin/reservation',
+  adminReservation: (id: string) => `/admin/reservation/${id}`,
 };
 
 export default path;
