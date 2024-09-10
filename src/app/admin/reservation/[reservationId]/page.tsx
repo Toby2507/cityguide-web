@@ -1,6 +1,5 @@
-import { ReservationDetails, ReservationProperty } from '@/components';
+import { ErrorDisplay, ReservationDetails, ReservationProperty } from '@/components';
 import { getPropertyById, getReservationById } from '@/server';
-import toast from 'react-hot-toast';
 
 interface Props {
   params: {
@@ -20,8 +19,7 @@ const AdminReservationDetailPage = async ({ params: { reservationId } }: Props) 
       </div>
     );
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

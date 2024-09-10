@@ -1,11 +1,10 @@
-import { RestaurantCard } from '@/components';
+import { ErrorDisplay, RestaurantCard } from '@/components';
 import { getPartnerRestaurants, getUser } from '@/server';
 import { EntityType } from '@/types';
 import { paths } from '@/utils';
 import { Button } from '@nextui-org/react';
 import Link from 'next/link';
 import { redirect, RedirectType } from 'next/navigation';
-import toast from 'react-hot-toast';
 import { FiPlus } from 'react-icons/fi';
 
 const AdminRestaurantListPage = async () => {
@@ -38,8 +37,7 @@ const AdminRestaurantListPage = async () => {
       </section>
     );
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

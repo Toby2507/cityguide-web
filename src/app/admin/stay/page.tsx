@@ -1,9 +1,8 @@
-import { StayCard } from '@/components';
+import { ErrorDisplay, StayCard } from '@/components';
 import { getPartnerStays } from '@/server';
 import { paths } from '@/utils';
 import { Button } from '@nextui-org/react';
 import Link from 'next/link';
-import toast from 'react-hot-toast';
 import { FiPlus } from 'react-icons/fi';
 
 const AdminStayListPage = async () => {
@@ -34,8 +33,7 @@ const AdminStayListPage = async () => {
       </section>
     );
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

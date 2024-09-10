@@ -1,9 +1,8 @@
-import { HeaderNav } from '@/components';
+import { ErrorDisplay, HeaderNav } from '@/components';
 import { RestaurantDetailReservation, RestaurantUserDetailReservation } from '@/containers';
 import { getRestaurantById, getUser } from '@/server';
-import toast from 'react-hot-toast';
 import { IoCheckmarkCircle } from 'react-icons/io5';
-import { PiNumberCircleTwoBold, PiNumberCircleThreeBold } from 'react-icons/pi';
+import { PiNumberCircleThreeBold, PiNumberCircleTwoBold } from 'react-icons/pi';
 
 interface Props {
   params: {
@@ -51,8 +50,7 @@ const ReserveRestaurantPage = async ({ params: { resId } }: Props) => {
       </div>
     );
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

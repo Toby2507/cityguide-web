@@ -1,4 +1,4 @@
-import { StayDetailNav } from '@/components';
+import { ErrorDisplay, StayDetailNav } from '@/components';
 import {
   DetailPageAmenities,
   DetailPageOverview,
@@ -11,7 +11,6 @@ import {
 } from '@/containers';
 import { getStayById } from '@/server';
 import { PropertyType } from '@/types';
-import toast from 'react-hot-toast';
 
 interface IStayDetailPage {
   params: {
@@ -41,8 +40,7 @@ const StayDetailPage = async ({ params: { stayId } }: IStayDetailPage) => {
       </>
     );
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

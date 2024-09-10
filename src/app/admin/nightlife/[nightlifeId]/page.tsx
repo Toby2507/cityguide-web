@@ -1,6 +1,6 @@
+import { ErrorDisplay } from '@/components';
 import { AdminNightlifeDetail } from '@/containers';
 import { getNightlifeById } from '@/server';
-import toast from 'react-hot-toast';
 
 interface Props {
   params: {
@@ -14,8 +14,7 @@ const NightlifeDetailPage = async ({ params: { nightlifeId } }: Props) => {
     if (!nightlife) return null;
     return <AdminNightlifeDetail nightlife={nightlife} />;
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

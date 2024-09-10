@@ -1,7 +1,6 @@
-import { PlaceCard, SectionHeader } from '@/components';
+import { ErrorDisplay, PlaceCard, SectionHeader } from '@/components';
 import { getTrendingRestaurants } from '@/server';
 import { paths } from '@/utils';
-import toast from 'react-hot-toast';
 
 const RestaurantTrendingDestination = async () => {
   try {
@@ -21,8 +20,7 @@ const RestaurantTrendingDestination = async () => {
       </section>
     );
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

@@ -1,6 +1,6 @@
+import { ErrorDisplay } from '@/components';
 import { AdminRestaurantDetail } from '@/containers';
 import { getRestaurantById } from '@/server';
-import toast from 'react-hot-toast';
 
 interface Props {
   params: {
@@ -14,8 +14,7 @@ const AdminRestaurantDetailPage = async ({ params: { restaurantId } }: Props) =>
     if (!restaurant) return null;
     return <AdminRestaurantDetail restaurant={restaurant} />;
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

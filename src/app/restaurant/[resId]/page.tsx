@@ -1,4 +1,4 @@
-import { RestaurantDetailNav } from '@/components';
+import { ErrorDisplay, RestaurantDetailNav } from '@/components';
 import {
   DetailPageAmenities,
   DetailPageOverview,
@@ -11,7 +11,6 @@ import {
 } from '@/containers';
 import { getRestaurantById } from '@/server';
 import { PropertyType } from '@/types';
-import toast from 'react-hot-toast';
 
 interface Props {
   params: {
@@ -45,8 +44,7 @@ const RestaurantDetailPage = async ({ params: { resId } }: Props) => {
       </>
     );
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

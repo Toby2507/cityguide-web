@@ -1,7 +1,6 @@
-import { HeaderNav } from '@/components';
+import { ErrorDisplay, HeaderNav } from '@/components';
 import { Footer, StayDetailReservation, UserDetailReservation } from '@/containers';
 import { getStayById, getUser } from '@/server';
-import toast from 'react-hot-toast';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import { PiNumberCircleThreeBold, PiNumberCircleTwoBold } from 'react-icons/pi';
 
@@ -52,8 +51,7 @@ const ReserveStayPage = async ({ params: { stayId } }: Props) => {
       </div>
     );
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

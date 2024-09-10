@@ -1,6 +1,6 @@
+import { ErrorDisplay } from '@/components';
 import { AdminStayDetail } from '@/containers';
 import { getStayById } from '@/server';
-import toast from 'react-hot-toast';
 
 interface Props {
   params: {
@@ -14,8 +14,7 @@ const AdminStayDetailPage = async ({ params: { stayId } }: Props) => {
     if (!stay) return null;
     return <AdminStayDetail stay={stay} />;
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 

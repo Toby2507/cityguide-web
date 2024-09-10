@@ -1,4 +1,4 @@
-import { NightlifeDetailNav } from '@/components';
+import { ErrorDisplay, NightlifeDetailNav } from '@/components';
 import {
   DetailPageAmenities,
   DetailPageOverview,
@@ -9,7 +9,6 @@ import {
 } from '@/containers';
 import { getNightlifeById } from '@/server';
 import { PropertyType } from '@/types';
-import toast from 'react-hot-toast';
 
 interface Props {
   params: {
@@ -41,8 +40,7 @@ const NightlifeDetailPage = async ({ params: { nightlifeId } }: Props) => {
       </>
     );
   } catch (err: any) {
-    toast.error(err.message);
-    return null;
+    return <ErrorDisplay error={err.message} />;
   }
 };
 
