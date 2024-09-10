@@ -1,6 +1,10 @@
+'use client';
+
 import { IPartner, IReservation } from '@/types';
+import { paths } from '@/utils';
 import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from '@nextui-org/react';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 
 interface IReservationCell {
@@ -9,6 +13,7 @@ interface IReservationCell {
 }
 
 const ReservationCell = ({ columnKey, reservation }: IReservationCell) => {
+  const { push } = useRouter();
   const guestText = [];
   const user = reservation.user as IPartner;
   if (reservation.noOfGuests.adults)
@@ -56,7 +61,7 @@ const ReservationCell = ({ columnKey, reservation }: IReservationCell) => {
             </Button>
           </DropdownTrigger>
           <DropdownMenu>
-            <DropdownItem>View</DropdownItem>
+            <DropdownItem onPress={() => push(paths.adminReservation(reservation._id))}>View</DropdownItem>
             <DropdownItem>Edit</DropdownItem>
             <DropdownItem>Delete</DropdownItem>
           </DropdownMenu>
