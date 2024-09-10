@@ -1,8 +1,8 @@
 'use client';
 
 import { ReservationCell } from '@/components';
-import { reservations } from '@/data';
-import { IPartner, Status } from '@/types';
+import { reservationColumns } from '@/data';
+import { IPartner, IReservation, Status } from '@/types';
 import {
   Button,
   DatePicker,
@@ -30,20 +30,13 @@ import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { IoChevronDownOutline, IoCloseCircle } from 'react-icons/io5';
 
-const columns = [
-  { key: 'date', label: 'Date' },
-  { key: 'user', label: 'Customer' },
-  { key: 'phone', label: 'Phone' },
-  { key: 'guest', label: 'Guests' },
-  { key: 'rooms', label: 'Quantity' },
-  { key: 'check', label: 'Check-in - Check-out' },
-  { key: 'status', label: 'Status' },
-  { key: 'action', label: 'Action' },
-];
+interface Props {
+  reservations: IReservation[];
+}
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-const AdminReservation = () => {
+const AdminReservation = ({ reservations }: Props) => {
   const [page, setPage] = useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [searchValue, setSearchValue] = useState<string>('');
@@ -73,7 +66,7 @@ const AdminReservation = () => {
       );
     }
     return filteredRes;
-  }, [isSearching, searchValue, statusFilter, reserveDateFilter, checkDateFilter]);
+  }, [isSearching, searchValue, statusFilter, reserveDateFilter, checkDateFilter, reservations]);
   const pages = useMemo(() => Math.ceil(filteredItems.length / rowsPerPage), [filteredItems, rowsPerPage]);
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -187,6 +180,7 @@ const AdminReservation = () => {
     checkDateFilter,
     reserveDateFilter,
     isFiltering,
+    reservations,
     onClear,
     clearFilters,
     onRowsPerPageChange,
@@ -214,7 +208,7 @@ const AdminReservation = () => {
         topContent={topContent}
         topContentPlacement="outside"
       >
-        <TableHeader columns={columns}>
+        <TableHeader columns={reservationColumns}>
           {(columns) => (
             <TableColumn className="bg-primary text-white text-sm text-center py-4" key={columns.key}>
               {columns.label}
@@ -224,7 +218,7 @@ const AdminReservation = () => {
         <TableBody items={items}>
           {(item) => (
             <TableRow key={item._id}>
-              {columns.map(({ key }) => (
+              {reservationColumns.map(({ key }) => (
                 <TableCell key={key} className="justify-self-start bg-red p-4">
                   <ReservationCell columnKey={key} reservation={item} />
                 </TableCell>
