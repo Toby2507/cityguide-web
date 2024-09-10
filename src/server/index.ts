@@ -32,6 +32,8 @@ export { getUserProfile, logout } from './queries/auth';
 export {
   getNightlifeById,
   getNightlifeSearch,
+  getPropertyById,
+  getReservationById,
   getRestaurantById,
   getRestaurantSearch,
   getStayById,

@@ -1,7 +1,7 @@
 'use server';
 
-import { INightLife, IRestaurant, IStay, LatLng } from '@/types';
-import { fetchBaseQuery } from '@/utils';
+import { INightLife, IReservation, IRestaurant, IStay, LatLng, PropertyType } from '@/types';
+import { fetchBaseQuery, fetchWithReAuth } from '@/utils';
 
 // Stays
 export const getTrendingStays = async () => {
@@ -103,4 +103,17 @@ export const getNightlifeSearch = async (geoLocation?: LatLng, day?: string, tim
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
   return result.properties as INightLife[];
+};
+
+// Reservation
+export const getReservationById = async (id: string) => {
+  const res = await fetchWithReAuth(`reservation/${id}`, { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.reservation as IReservation;
+};
+
+export const getPropertyById = async (id: string, type: PropertyType) => {
+  if (type === PropertyType.STAY) return await getStayById(id);
+  return await getRestaurantById(id);
 };
