@@ -84,3 +84,14 @@ export const dateFilters = [
 ];
 
 export const intervals = ['daily', 'weekly', 'monthly'];
+
+export const reservationColumns = [
+  { key: 'date', label: 'Date' },
+  { key: 'user', label: 'Customer' },
+  { key: 'phone', label: 'Phone' },
+  { key: 'guest', label: 'Guests' },
+  { key: 'rooms', label: 'Quantity' },
+  { key: 'check', label: 'Check-in - Check-out' },
+  { key: 'status', label: 'Status' },
+  { key: 'action', label: 'Action' },
+];
