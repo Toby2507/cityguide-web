@@ -13,7 +13,7 @@ const AdminReservationDetailPage = async ({ params: { reservationId } }: Props) 
     if (!reservation) return null;
     const property = await getPropertyById(reservation.property, reservation.propertyType);
     return (
-      <div className="grid grid-cols-10 border rounded-2xl mt-6">
+      <div className="grid grid-cols-10 border rounded-2xl mt-5">
         <ReservationProperty property={property} reservation={reservation} />
         <ReservationDetails reservation={reservation} />
       </div>
