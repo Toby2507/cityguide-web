@@ -207,3 +207,6 @@ export const generateTimeRange = (from: string, to: string) => {
   }
   return times;
 };
+
+export const formatAddress = (address: IAddress) =>
+  address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
