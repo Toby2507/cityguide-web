@@ -33,8 +33,8 @@ const CreatePropertyImageUpload = ({ name, nextStep, setStep }: Props) => {
   const handleUpload = async () => {
     setIsLoading(true);
     try {
-      const isValidImgsLength = uploadedImages.length ? [...uploadedImages, ...images].length < 11 : images.length < 12;
-      if (isValidImgsLength) return toast.error('Atleast 12 Images are required');
+      const isValidImgsLength = uploadedImages.length ? [...uploadedImages, ...images].length < 7 : images.length < 8;
+      if (isValidImgsLength) return toast.error('Atleast 8 Images are required');
       if (!avatar) return toast.error('Please select an avatar');
       if (invalidImages.length)
         return toast.error(`${invalidImages.length} image(s) does not meet the minimum quality`);
@@ -89,7 +89,7 @@ const CreatePropertyImageUpload = ({ name, nextStep, setStep }: Props) => {
             <span className="font-semibold !text-primary cursor-pointer hover:underline">browse</span>
           </p>
           <span className="text-xs text-accentGray font-light">
-            Maximum size: 10MB, Minimum quality: 480p, Minimum of 12 images
+            Maximum size: 10MB, Minimum quality: 480p, Minimum of 8 images
           </span>
         </div>
         {value ? (
@@ -131,14 +131,6 @@ const CreatePropertyImageUpload = ({ name, nextStep, setStep }: Props) => {
         previous={() => setStep(nextStep - 2)}
         next={handleUpload}
       />
-      {/* {images.length || value ? (
-      <CreateNavButtons
-        isLoading={isLoading}
-        nextText={images.length ? 'Upload' : 'Next'}
-        previous={() => setStep(nextStep - 2)}
-        next={handleUpload}
-      />
-      ) : null} */}
     </div>
   );
 };
