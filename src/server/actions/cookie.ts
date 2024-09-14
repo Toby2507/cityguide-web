@@ -57,6 +57,14 @@ export const upgradeToPartner = (res: any) => {
   cookies().set('partner', 'true');
 };
 
+export const setCookie = async (key: string, value: string) => {
+  cookies().set(key, value);
+};
+
+export const getCookie = async (key: string) => {
+  return cookies().get(key)?.value;
+};
+
 export const _logout = async () => {
   cookies().delete('username');
   cookies().delete('useremail');
