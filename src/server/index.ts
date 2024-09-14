@@ -18,7 +18,7 @@ export {
   uploadImages,
 } from './actions/admin';
 export { createEstablishment, createUser, loginUser, upgradeUser, verifyOtp } from './actions/auth';
-export { getUser } from './actions/cookie';
+export { getCookie, getUser, setCookie, setCredentials } from './actions/cookie';
 export { addFavouriteProperty, refetchPage, removeFavouriteProperty } from './actions/core';
 // Queries
 export {
@@ -28,7 +28,7 @@ export {
   getPartnerStays,
   getReservationAnalytics,
 } from './queries/admin';
-export { getUserProfile, logout } from './queries/auth';
+export { getUserProfile, logout, refreshAccessToken } from './queries/auth';
 export {
   getNightlifeById,
   getNightlifeSearch,

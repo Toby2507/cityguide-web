@@ -20,7 +20,7 @@ export const getUser = async () => {
   return user;
 };
 
-export const setCookies = async (res: any, type: EntityType) => {
+export const setCredentials = async (res: any, type: EntityType) => {
   cookies().set('access-token', res.accessToken);
   cookies().set('refresh-token', res.refreshToken);
   cookies().set(

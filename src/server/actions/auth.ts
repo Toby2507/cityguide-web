@@ -19,7 +19,7 @@ import {
 } from '@/types';
 import { fetchBaseQuery, fetchWithReAuth, paths } from '@/utils';
 import { redirect, RedirectType } from 'next/navigation';
-import { setCookies, upgradeToPartner } from './cookie';
+import { setCredentials, upgradeToPartner } from './cookie';
 
 export const signInWithGoogle = async () => signIn('google');
 export const signInWithFacebook = async () => signIn('facebook');
@@ -46,7 +46,7 @@ export const createUser = async (
     });
     if (res.status === 409) return { errors: { _form: ['Email already exists'] } };
     const response = await res.json();
-    setCookies(response, EntityType.USER);
+    setCredentials(response, EntityType.USER);
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
@@ -76,7 +76,7 @@ export const createEstablishment = async (
     });
     if (res.status === 409) return { errors: { _form: ['Email already exists'] } };
     const response = await res.json();
-    setCookies(response, EntityType.ESTABLISHMENT);
+    setCredentials(response, EntityType.ESTABLISHMENT);
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
@@ -99,7 +99,7 @@ export const loginUser = async (_: IFormLoginUser, formData: FormData): Promise<
     });
     if (res.status === 401) return { errors: { _form: ['Invalid email or password'] } };
     const response = await res.json();
-    await setCookies(response, type);
+    await setCredentials(response, type);
   } catch (err: unknown) {
     if (err instanceof Error) return { errors: { _form: [err.message] } };
     else return { errors: { _form: ['Something went wrong...'] } };
