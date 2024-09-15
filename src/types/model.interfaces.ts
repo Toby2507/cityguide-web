@@ -270,6 +270,7 @@ export interface IReservationAccommodation {
 }
 export interface IReservation {
   _id: string;
+  reservationRef: string;
   property: string;
   propertyType: PropertyType;
   user: string | IReservationUser;
