@@ -1,6 +1,6 @@
 'use client';
 
-import { ReservationStoreProvider, SearchStoreProvider, SocketProvider } from '@/providers';
+import { AuthProvider, ReservationStoreProvider, SearchStoreProvider, SocketProvider } from '@/providers';
 import { NextUIProvider } from '@nextui-org/react';
 import { SessionProvider } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -13,13 +13,15 @@ const Providers = ({ children }: IProviders) => {
   const router = useRouter();
   return (
     <SessionProvider>
-      <SearchStoreProvider>
-        <ReservationStoreProvider>
-          <SocketProvider>
-            <NextUIProvider navigate={router.push}>{children}</NextUIProvider>
-          </SocketProvider>
-        </ReservationStoreProvider>
-      </SearchStoreProvider>
+      <AuthProvider>
+        <SearchStoreProvider>
+          <ReservationStoreProvider>
+            <SocketProvider>
+              <NextUIProvider navigate={router.push}>{children}</NextUIProvider>
+            </SocketProvider>
+          </ReservationStoreProvider>
+        </SearchStoreProvider>
+      </AuthProvider>
     </SessionProvider>
   );
 };
