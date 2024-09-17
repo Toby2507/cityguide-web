@@ -1,7 +1,7 @@
-import { getUser } from '@/server';
 import { TSocket } from '@/types';
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
+import { useAuth } from './auth.provider';
 
 interface ISocketProvider {
   children: ReactNode;
@@ -13,34 +13,33 @@ interface ISocketContext {
 
 const SocketContext = createContext<ISocketContext>({ socket: null, isConnected: false });
 export const SocketProvider = ({ children }: ISocketProvider) => {
-  const [socket, setSocket] = useState<TSocket | null>(null);
+  const socketRef = useRef<TSocket | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
+  const { user } = useAuth();
 
   const setUpSocket = useCallback(async () => {
-    const user = await getUser();
-    const userId = user?.id;
+    if (socketRef.current) socketRef.current.disconnect();
     const socket: TSocket = io(process.env.NEXT_PUBLIC_SERVER_URL!);
     socket.on('connect', () => {
       setIsConnected(true);
-      if (userId) socket.emit('add_user', userId);
+      if (user?.id) socket.emit('add_user', user.id);
     });
     socket.on('disconnect', () => {
       setIsConnected(false);
     });
-    setSocket(socket);
-    return socket;
-  }, []);
+    socketRef.current = socket;
+  }, [user?.id]);
 
   useEffect(() => {
-    let socketInstance: TSocket;
-    setUpSocket().then((newSocket) => {
-      socketInstance = newSocket;
-    });
+    setUpSocket();
     return () => {
-      if (socketInstance) socketInstance.disconnect();
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
     };
   }, [setUpSocket]);
-  return <SocketContext.Provider value={{ socket, isConnected }}>{children}</SocketContext.Provider>;
+  return <SocketContext.Provider value={{ socket: socketRef.current, isConnected }}>{children}</SocketContext.Provider>;
 };
 
 export const useSocket = () => useContext(SocketContext);
