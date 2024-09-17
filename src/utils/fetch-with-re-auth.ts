@@ -13,7 +13,7 @@ export const fetchBaseQuery = async (
   if (token) options.headers = { ...options.headers, Authorization: `Bearer ${token}` };
   options = { ...options, credentials: options.credentials || 'include' };
   if (!isMultipart) options.headers = { ...options.headers, 'Content-Type': 'application/json' };
-  const res = await fetch(`${baseQuery}/${url}`, options);
+  const res = await fetch(`${baseQuery}/api/v1/${url}`, options);
   return res;
 };
 
