@@ -298,3 +298,14 @@ export interface IReservationStats {
   Reservations: number;
   'Cancelled Reservations': string;
 }
+
+// Review
+export interface IReview {
+  _id: string;
+  property: string;
+  propertyType: PropertyType;
+  rating: Rating;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+}
