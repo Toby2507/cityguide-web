@@ -14,7 +14,7 @@ export const getUserProfile = async () => {
 
 export const logout = async () => {
   await _logout();
-  redirect(paths.login());
+  redirect(paths.home());
 };
 
 export const refreshAccessToken = async () => {
