@@ -1,6 +1,7 @@
 'use client';
 
 import { Map, SubmitForm } from '@/components';
+import { useAuthRefresh } from '@/hooks';
 import { createEstablishment } from '@/server';
 import { IAddress } from '@/types';
 import { Checkbox, Input, Popover, PopoverContent, PopoverTrigger, Textarea } from '@nextui-org/react';
@@ -17,11 +18,12 @@ const EstablishmentSignupForm = ({ referer }: Props) => {
   const [typingFields, setTypingFields] = useState<string[]>([]);
   const [address, setAddress] = useState<IAddress | null>(null);
   const [data, action] = useFormState(createEstablishment.bind(null, address!), { errors: {} });
+  const { refreshAfterAction } = useAuthRefresh();
   const errors = data?.errors || [];
 
-  const handleSubmit = (payload: FormData) => {
+  const handleSubmit = async (payload: FormData) => {
     payload.append('redirectUrl', referer);
-    return action(payload);
+    return await refreshAfterAction(() => action(payload));
   };
 
   const setTyping = (val: string) => {

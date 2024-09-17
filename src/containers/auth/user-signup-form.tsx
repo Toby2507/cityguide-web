@@ -1,6 +1,7 @@
 'use client';
 
 import { SubmitForm } from '@/components';
+import { useAuthRefresh } from '@/hooks';
 import { createUser } from '@/server';
 import { Checkbox, DatePicker, Input } from '@nextui-org/react';
 import { useState } from 'react';
@@ -17,11 +18,12 @@ const UserSignupForm = ({ referer, isPartnering = false }: Props) => {
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
   const [typingFields, setTypingFields] = useState<string[]>([]);
   const [data, action] = useFormState(createUser.bind(null, isPartnering), { errors: {} });
+  const { refreshAfterAction } = useAuthRefresh();
   const errors = data?.errors || [];
 
-  const handleSubmit = (payload: FormData) => {
+  const handleSubmit = async (payload: FormData) => {
     payload.append('redirectUrl', referer);
-    return action(payload);
+    return await refreshAfterAction(() => action(payload));
   };
   const setTyping = (val: string) => {
     if (!typingFields.includes(val)) setTypingFields([...typingFields, val]);

@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 import FormFooter from './form-footer';
+import { useAuthRefresh } from '@/hooks';
 
 interface Props {
   referer: string;
@@ -19,12 +20,13 @@ interface Props {
 const LoginForm = ({ referer, type }: Props) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [data, action] = useFormState(loginUser, { errors: {} });
+  const { refreshAfterAction } = useAuthRefresh();
   const errors = data?.errors || {};
 
-  const handleSubmit = (payload: FormData) => {
+  const handleSubmit = async (payload: FormData) => {
     payload.append('redirectUrl', referer);
     payload.append('type', type);
-    return action(payload);
+    return await refreshAfterAction(() => action(payload));
   };
   return (
     <form action={handleSubmit} className="flex flex-col gap-8">
