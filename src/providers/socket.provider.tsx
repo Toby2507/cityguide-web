@@ -1,5 +1,6 @@
+import { getUser } from '@/server';
 import { TSocket } from '@/types';
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
 interface ISocketProvider {
@@ -15,21 +16,30 @@ export const SocketProvider = ({ children }: ISocketProvider) => {
   const [socket, setSocket] = useState<TSocket | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  useEffect(() => {
+  const setUpSocket = useCallback(async () => {
+    const user = await getUser();
+    const userId = user?.id;
     const socket: TSocket = io(process.env.NEXT_PUBLIC_SERVER_URL!);
     socket.on('connect', () => {
-      console.log('Socket ', socket.id);
       setIsConnected(true);
+      if (userId) socket.emit('add_user', userId);
     });
     socket.on('disconnect', () => {
-      console.log('Socket disconnected');
       setIsConnected(false);
     });
     setSocket(socket);
-    return () => {
-      socket.disconnect();
-    };
+    return socket;
   }, []);
+
+  useEffect(() => {
+    let socketInstance: TSocket;
+    setUpSocket().then((newSocket) => {
+      socketInstance = newSocket;
+    });
+    return () => {
+      if (socketInstance) socketInstance.disconnect();
+    };
+  }, [setUpSocket]);
   return <SocketContext.Provider value={{ socket, isConnected }}>{children}</SocketContext.Provider>;
 };
 
