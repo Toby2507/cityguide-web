@@ -38,7 +38,6 @@ const CreateStayOptionalServices = () => {
             placeholder=" "
             size="sm"
             value={title}
-            isRequired
             onValueChange={setTitle}
             className="text-accentGray"
           />
@@ -49,7 +48,6 @@ const CreateStayOptionalServices = () => {
             placeholder=" "
             size="sm"
             value={description}
-            isRequired
             onValueChange={setDescription}
             className="text-accentGray"
           />
