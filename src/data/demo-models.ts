@@ -6,6 +6,7 @@ export const reservations: IReservation[] = [
     _id: 'abc123',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Luxury City View Suite',
     user: {
       _id: 'user 1',
@@ -35,6 +36,7 @@ export const reservations: IReservation[] = [
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
     property: 'Cozy Studio in Trendy Neighborhood',
+    reservationRef: 'reservation123',
     user: {
       _id: 'user123',
       firstName: 'John',
@@ -62,6 +64,7 @@ export const reservations: IReservation[] = [
     _id: 'ghi789',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Oceanfront Villa with Private Pool',
     user: {
       _id: 'user456',
@@ -90,6 +93,7 @@ export const reservations: IReservation[] = [
     _id: 'jkl012',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Charming Cabin in the Woods',
     user: {
       _id: 'user789',
@@ -118,6 +122,7 @@ export const reservations: IReservation[] = [
     _id: 'mno345',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Modern Loft Apartment in City Center',
     user: {
       _id: 'user012',
@@ -146,6 +151,7 @@ export const reservations: IReservation[] = [
     _id: 'pqr678',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Cozy Ski Chalet with Mountain Views',
     user: {
       _id: 'user345',
@@ -174,6 +180,7 @@ export const reservations: IReservation[] = [
     _id: 'vwx123',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Historic City Apartment with Balcony',
     user: {
       _id: 'user678',
@@ -202,6 +209,7 @@ export const reservations: IReservation[] = [
     _id: 'yzx456',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Romantic Glamping Experience Under the Stars',
     user: {
       _id: 'user901',
@@ -230,6 +238,7 @@ export const reservations: IReservation[] = [
     _id: 'abc789',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Private Vineyard Cottage with Stunning Views',
     user: {
       _id: 'user234',
@@ -258,6 +267,7 @@ export const reservations: IReservation[] = [
     _id: 'def012',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Modern Treehouse Retreat in the Forest',
     user: {
       _id: 'user567',
@@ -286,6 +296,7 @@ export const reservations: IReservation[] = [
     _id: 'ghi345',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Luxury Apartment with Panoramic City Views',
     user: {
       _id: 'user890',
@@ -314,6 +325,7 @@ export const reservations: IReservation[] = [
     _id: 'jkl678',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Quaint Bed and Breakfast in a Historic Town',
     user: {
       _id: 'user1234',
@@ -342,6 +354,7 @@ export const reservations: IReservation[] = [
     _id: 'mno901',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Cozy Beach Bungalow Steps from the Sand',
     user: {
       _id: 'user4567',
@@ -370,6 +383,7 @@ export const reservations: IReservation[] = [
     _id: 'pqr234',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Rustic Cabin Getaway in a Secluded Location',
     user: {
       _id: 'user789',
@@ -398,6 +412,7 @@ export const reservations: IReservation[] = [
     _id: 'stu567',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Designer Studio Apartment in Trendy District',
     user: {
       _id: 'user012',
@@ -426,6 +441,7 @@ export const reservations: IReservation[] = [
     _id: 'vwx890',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Unique Capsule Hotel Experience in City Center',
     user: {
       _id: 'user345',
@@ -454,6 +470,7 @@ export const reservations: IReservation[] = [
     _id: 'yzx123',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Charming Houseboat Adventure on Tranquil Lake',
     user: {
       _id: 'user678',
@@ -482,6 +499,7 @@ export const reservations: IReservation[] = [
     _id: 'abc456',
     partner: 'partner id',
     partnerType: EntityType.ESTABLISHMENT,
+    reservationRef: 'reservation123',
     property: 'Luxury Eco-Lodge Immersed in Nature',
     user: {
       _id: 'user901',
