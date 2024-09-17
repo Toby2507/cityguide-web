@@ -1,6 +1,6 @@
 'use client';
 
-import { logout } from '@/server';
+import { useAuthRefresh } from '@/hooks';
 import { IUserDetails } from '@/types';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from '@nextui-org/react';
 
@@ -9,6 +9,7 @@ interface IHeaderUser {
 }
 
 const HeaderUser = ({ user }: IHeaderUser) => {
+  const { refreshAfterLogout } = useAuthRefresh();
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
@@ -24,7 +25,7 @@ const HeaderUser = ({ user }: IHeaderUser) => {
           <p className="font-semibold">{user.email}</p>
         </DropdownItem>
         <DropdownItem key="settings">My Settings</DropdownItem>
-        <DropdownItem onClick={() => logout()} key="logout" color="danger">
+        <DropdownItem onClick={refreshAfterLogout} key="logout" color="danger">
           Log Out
         </DropdownItem>
       </DropdownMenu>
