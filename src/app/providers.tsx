@@ -16,6 +16,7 @@ interface IProviders {
 
 const Providers = ({ children }: IProviders) => {
   const router = useRouter();
+
   return (
     <ReactQueryProvider>
       <AuthProvider>
