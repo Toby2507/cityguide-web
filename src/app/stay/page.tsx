@@ -9,10 +9,19 @@ import {
   SubscribeBox,
   TopOffers,
 } from '@/containers';
+import { getTrendingStays } from '@/server';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
-const StayHomePage = () => {
+const StayHomePage = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['trending-stays'],
+    queryFn: getTrendingStays,
+  });
+
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <HomeHeader />
       <main className="flex flex-col gap-36 bg-white">
         <div className="container mx-auto px-10 flex flex-col gap-20 max-w-7xl">
@@ -28,7 +37,7 @@ const StayHomePage = () => {
         <SubscribeBox />
       </main>
       <Footer />
-    </>
+    </HydrationBoundary>
   );
 };
 
