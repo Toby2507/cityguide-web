@@ -64,7 +64,7 @@ const CreateStayStep7 = ({ setStep }: Props) => {
 
   const handleNext = async () => {
     setIsLoading(true);
-    const isValid = await trigger(['rules', 'maxDays']);
+    const isValid = await trigger(['rules', 'maxDays', 'paymentMethods']);
     setIsLoading(false);
     if (!isValid) return toast.error('Please fill out the required fields');
     setStep(8);
