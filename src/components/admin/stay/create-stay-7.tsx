@@ -252,8 +252,9 @@ const CreateStayStep7 = ({ setStep }: Props) => {
         />
         <StringArrayInput
           arr={paymentMethods || []}
-          label="Service Style"
-          placeholder="e.g. Fast-food, Drive-through"
+          label="Payment method"
+          placeholder="e.g. Cash, Debit card"
+          isRequired
           prevState={paymentMethods || []}
           setState={setPaymentMethod}
         />
