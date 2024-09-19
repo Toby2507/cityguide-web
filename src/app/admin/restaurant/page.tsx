@@ -1,18 +1,25 @@
-import { ErrorDisplay, RestaurantCard } from '@/components';
+import { AdminRestaurantList } from '@/containers';
 import { getPartnerRestaurants, getUser } from '@/server';
 import { EntityType } from '@/types';
 import { paths } from '@/utils';
 import { Button } from '@nextui-org/react';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { redirect, RedirectType } from 'next/navigation';
 import { FiPlus } from 'react-icons/fi';
 
 const AdminRestaurantListPage = async () => {
-  try {
-    const user = await getUser();
-    if (user?.type !== EntityType.ESTABLISHMENT) redirect(paths.admin(), RedirectType.replace);
-    const restaurants = await getPartnerRestaurants();
-    return (
+  const user = await getUser();
+  if (user?.type !== EntityType.ESTABLISHMENT) redirect(paths.admin(), RedirectType.replace);
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['restaurants', 'admin'],
+    queryFn: getPartnerRestaurants,
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <section className="flex flex-col gap-2">
         <div className="flex flex-col">
           <div className="flex items-center justify-between gap-20">
@@ -25,20 +32,10 @@ const AdminRestaurantListPage = async () => {
             </Link>
           </div>
         </div>
-        <div className="grid items-center px-2 py-6 gap-10 min-w-0 max-w-full">
-          {restaurants?.length ? (
-            restaurants.map((restaurant) => <RestaurantCard key={restaurant._id} {...restaurant} />)
-          ) : (
-            <div className="grid place-items-center h-[70vh]">
-              <p className="text-2xl text-accentGray text-center font-medium">No restaurants available</p>
-            </div>
-          )}
-        </div>
+        <AdminRestaurantList />
       </section>
-    );
-  } catch (err: any) {
-    return <ErrorDisplay error={err.message} />;
-  }
+    </HydrationBoundary>
+  );
 };
 
 export default AdminRestaurantListPage;

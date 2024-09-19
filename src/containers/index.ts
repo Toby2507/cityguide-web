@@ -5,6 +5,7 @@ export { default as AdminDashboard } from './admin/home/dashboard';
 export { default as AdminReservation } from './admin/home/reservation';
 // // Restaurant
 export { default as AdminRestaurantDetail } from './admin/restaurant/detail-page';
+export { default as AdminRestaurantList } from './admin/restaurant/list';
 // // Stay
 export { default as AdminStayDetail } from './admin/stay/detail-page';
 export { default as AdminStayList } from './admin/stay/list';
