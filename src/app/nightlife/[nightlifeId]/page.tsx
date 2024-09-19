@@ -1,14 +1,7 @@
-import { ErrorDisplay, NightlifeDetailNav } from '@/components';
-import {
-  DetailPageAmenities,
-  DetailPageOverview,
-  Footer,
-  Header,
-  NightlifeDetailInfo,
-  SubscribeBox,
-} from '@/containers';
+import { NightlifeDetailNav } from '@/components';
+import { Footer, Header, NightlifeDetailContainer, SubscribeBox } from '@/containers';
 import { getNightlifeById } from '@/server';
-import { PropertyType } from '@/types';
+import { QueryClient } from '@tanstack/react-query';
 
 interface Props {
   params: {
@@ -17,31 +10,25 @@ interface Props {
 }
 
 const NightlifeDetailPage = async ({ params: { nightlifeId } }: Props) => {
-  try {
-    const nightlife = await getNightlifeById(nightlifeId);
-    if (!nightlife) return null;
-    return (
-      <>
-        <Header />
-        <main className="flex flex-col gap-20 bg-white">
-          <div className="container mx-auto px-10 flex flex-col gap-6 max-w-7xl">
-            <NightlifeDetailNav />
-            <DetailPageOverview
-              amenities={nightlife.details.amenities}
-              propType={PropertyType.NIGHTLIFE}
-              {...nightlife}
-            />
-            <DetailPageAmenities amenities={nightlife.details.amenities} {...nightlife} />
-            <NightlifeDetailInfo nightlife={nightlife} />
-          </div>
-          <SubscribeBox />
-        </main>
-        <Footer />
-      </>
-    );
-  } catch (err: any) {
-    return <ErrorDisplay error={err.message} />;
-  }
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['nightlife', nightlifeId],
+    queryFn: async () => await getNightlifeById(nightlifeId),
+  });
+  return (
+    <>
+      <Header />
+      <main className="flex flex-col gap-20 bg-white">
+        <div className="container mx-auto px-10 flex flex-col gap-6 max-w-7xl">
+          <NightlifeDetailNav />
+          <NightlifeDetailContainer nightlifeId={nightlifeId} />
+        </div>
+        <SubscribeBox />
+      </main>
+      <Footer />
+    </>
+  );
 };
 
 export default NightlifeDetailPage;

@@ -36,6 +36,7 @@ export { default as StayDetailContainer } from './detail/stay/detail';
 export { default as StayDetailInfoReview } from './detail/stay/review';
 export { default as StayDetailRules } from './detail/stay/rules';
 // // Nightlife
+export { default as NightlifeDetailContainer } from './detail/nightlife/detail';
 export { default as NightlifeDetailInfo } from './detail/nightlife/info';
 
 // Home
