@@ -1,18 +1,24 @@
-import { ErrorDisplay, NightlifeCard } from '@/components';
+import { AdminNightlifeList } from '@/containers';
 import { getPartnerNightlifes, getUser } from '@/server';
 import { EntityType } from '@/types';
 import { paths } from '@/utils';
 import { Button } from '@nextui-org/react';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { redirect, RedirectType } from 'next/navigation';
 import { FiPlus } from 'react-icons/fi';
 
 const AdminNightlifeListPage = async () => {
-  try {
-    const user = await getUser();
-    if (user?.type !== EntityType.ESTABLISHMENT) redirect(paths.admin(), RedirectType.replace);
-    const nightlifes = await getPartnerNightlifes();
-    return (
+  const user = await getUser();
+  if (user?.type !== EntityType.ESTABLISHMENT) redirect(paths.admin(), RedirectType.replace);
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['nightlifes', 'admin'],
+    queryFn: getPartnerNightlifes,
+  });
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <section className="flex flex-col gap-2">
         <div className="flex flex-col">
           <div className="flex items-center justify-between gap-20">
@@ -25,20 +31,10 @@ const AdminNightlifeListPage = async () => {
             </Link>
           </div>
         </div>
-        <div className="grid items-center px-2 py-6 gap-10 min-w-0 max-w-full">
-          {nightlifes?.length ? (
-            nightlifes.map((nightlife) => <NightlifeCard key={nightlife._id} {...nightlife} />)
-          ) : (
-            <div className="grid place-items-center h-[70vh]">
-              <p className="text-2xl text-accentGray text-center font-medium">No nightlife available</p>
-            </div>
-          )}
-        </div>
+        <AdminNightlifeList />
       </section>
-    );
-  } catch (err: any) {
-    return <ErrorDisplay error={err.message} />;
-  }
+    </HydrationBoundary>
+  );
 };
 
 export default AdminNightlifeListPage;

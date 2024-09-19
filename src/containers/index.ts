@@ -11,6 +11,7 @@ export { default as AdminStayDetail } from './admin/stay/detail-page';
 export { default as AdminStayList } from './admin/stay/list';
 // // Night Life
 export { default as AdminNightlifeDetail } from './admin/nightlife/detail-page';
+export { default as AdminNightlifeList } from './admin/nightlife/list';
 
 // Auth
 export { default as EstablishmentSignupForm } from './auth/establishment-signup-form';
