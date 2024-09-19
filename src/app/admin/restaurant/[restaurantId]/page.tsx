@@ -1,6 +1,7 @@
 import { ErrorDisplay } from '@/components';
 import { AdminRestaurantDetail } from '@/containers';
 import { getRestaurantById } from '@/server';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
 interface Props {
   params: {
@@ -9,9 +10,17 @@ interface Props {
 }
 
 const AdminRestaurantDetailPage = async ({ params: { restaurantId } }: Props) => {
-  const restaurant = await getRestaurantById(restaurantId);
-  if (!restaurant) return null;
-  return <AdminRestaurantDetail restaurant={restaurant} />;
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['restaurant', restaurantId],
+    queryFn: async () => await getRestaurantById(restaurantId),
+  });
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <AdminRestaurantDetail restaurantId={restaurantId} />
+    </HydrationBoundary>
+  );
 };
 
 export default AdminRestaurantDetailPage;
