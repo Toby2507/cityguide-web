@@ -1,3 +1,5 @@
+'use client';
+
 import { getStayById } from '@/server';
 import { IUserDetails } from '@/types';
 import { useQuery } from '@tanstack/react-query';
@@ -10,7 +12,7 @@ interface Props {
   user: IUserDetails | null;
 }
 
-const ReservationDetails = ({ stayId, user }: Props) => {
+const StayReservationDetails = ({ stayId, user }: Props) => {
   const {
     data: stay,
     isPending,
@@ -35,4 +37,4 @@ const ReservationDetails = ({ stayId, user }: Props) => {
   );
 };
 
-export default ReservationDetails;
+export default StayReservationDetails;

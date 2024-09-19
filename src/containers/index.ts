@@ -66,6 +66,7 @@ export { default as Footer } from './misc/footer';
 
 // Reservation
 // // Restaurant
+export { default as RestaurantReservationDetail } from './reservation/restaurant/detail';
 export { default as RestaurantDetailReservation } from './reservation/restaurant/restaurant-detail';
 export { default as RestaurantUserDetailReservation } from './reservation/restaurant/user-detail';
 // // Stay
