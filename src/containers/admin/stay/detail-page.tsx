@@ -15,23 +15,36 @@ import {
   StayDetailInfoReview,
   StayDetailRules,
 } from '@/containers';
-import { deleteStay } from '@/server';
-import { IStay, PropertyType, Updates } from '@/types';
+import { deleteStay, getStayById } from '@/server';
+import { PropertyType, Updates } from '@/types';
 import { paths } from '@/utils';
 import { Button, Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface Props {
-  stay: IStay;
+  stayId: string;
 }
 
-const AdminStayDetailPage = ({ stay }: Props) => {
+const AdminStayDetailPage = ({ stayId }: Props) => {
   const { push } = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [updateType, setUpdateType] = useState<Updates>('details');
+  const {
+    data: stay,
+    isPending,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['stay', stayId],
+    queryFn: async () => await getStayById(stayId),
+  });
+
+  if (isPending) return null;
+  if (isError) return toast.error(error.message);
 
   const onUpdate = (type: Updates) => {
     setUpdateType(type);

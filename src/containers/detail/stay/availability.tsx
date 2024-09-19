@@ -57,7 +57,7 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
       checkOutDay,
       checkOutTime: dayjs(checkOutDay).format('HH:mm'),
       noOfGuests,
-      reservationCount,
+      reservationCount: 0,
     };
     setReservation(reservation);
   }, [checkInDay, checkOutDay, noOfGuests, reservationCount, stay, setReservation]);

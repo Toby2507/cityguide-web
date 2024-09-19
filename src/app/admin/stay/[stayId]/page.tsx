@@ -1,6 +1,6 @@
-import { ErrorDisplay } from '@/components';
 import { AdminStayDetail } from '@/containers';
 import { getStayById } from '@/server';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
 interface Props {
   params: {
@@ -9,13 +9,18 @@ interface Props {
 }
 
 const AdminStayDetailPage = async ({ params: { stayId } }: Props) => {
-  try {
-    const stay = await getStayById(stayId);
-    if (!stay) return null;
-    return <AdminStayDetail stay={stay} />;
-  } catch (err: any) {
-    return <ErrorDisplay error={err.message} />;
-  }
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['stay', stayId],
+    queryFn: async () => await getStayById(stayId),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <AdminStayDetail stayId={stayId} />
+    </HydrationBoundary>
+  );
 };
 
 export default AdminStayDetailPage;
