@@ -1,6 +1,6 @@
-import { ErrorDisplay } from '@/components';
 import { AdminNightlifeDetail } from '@/containers';
 import { getNightlifeById } from '@/server';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
 interface Props {
   params: {
@@ -9,13 +9,18 @@ interface Props {
 }
 
 const NightlifeDetailPage = async ({ params: { nightlifeId } }: Props) => {
-  try {
-    const nightlife = await getNightlifeById(nightlifeId);
-    if (!nightlife) return null;
-    return <AdminNightlifeDetail nightlife={nightlife} />;
-  } catch (err: any) {
-    return <ErrorDisplay error={err.message} />;
-  }
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['nightlife', nightlifeId],
+    queryFn: async () => await getNightlifeById(nightlifeId),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <AdminNightlifeDetail nightlifeId={nightlifeId} />
+    </HydrationBoundary>
+  );
 };
 
 export default NightlifeDetailPage;

@@ -4,23 +4,36 @@ import { UpdatePropertyAddress, UpdatePropertyAmenities, UpdatePropertyImages } 
 import UpdateNightlifeDetails from '@/components/admin/nightlife/update-nightlife-details';
 import UpdateNightlifeInfo from '@/components/admin/nightlife/update-nightlife-info';
 import { DetailPageAmenities, DetailPageOverview, NightlifeDetailInfo } from '@/containers';
-import { deleteNightlife } from '@/server';
-import { INightLife, PropertyType, Updates } from '@/types';
+import { deleteNightlife, getNightlifeById } from '@/server';
+import { PropertyType, Updates } from '@/types';
 import { paths } from '@/utils';
 import { Button, Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface Props {
-  nightlife: INightLife;
+  nightlifeId: string;
 }
 
-const AdminNightlifeDetailPage = ({ nightlife }: Props) => {
+const AdminNightlifeDetailPage = ({ nightlifeId }: Props) => {
   const { push } = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [updateType, setUpdateType] = useState<Updates>('details');
+  const {
+    data: nightlife,
+    isPending,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['nightlife', nightlifeId],
+    queryFn: async () => await getNightlifeById(nightlifeId),
+  });
+
+  if (isPending) return null;
+  if (isError) return toast.error(error.message);
 
   const onUpdate = (type: Updates) => {
     setUpdateType(type);
