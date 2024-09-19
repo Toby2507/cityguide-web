@@ -1,3 +1,5 @@
+'use client';
+
 import { TSocket } from '@/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
