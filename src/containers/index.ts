@@ -26,6 +26,7 @@ export { default as Header } from './common/header';
 export { default as DetailPageAmenities } from './detail/common/amenities';
 export { default as DetailPageOverview } from './detail/common/overview';
 // // Restaurant
+export { default as RestaurantDetailContainer } from './detail/restaurant/detail';
 export { default as RestaurantDetailInfo } from './detail/restaurant/info';
 export { default as RestaurantDetailMenu } from './detail/restaurant/menu';
 export { default as RestaurantDetailReserveBtn } from './detail/restaurant/reserve-button';
