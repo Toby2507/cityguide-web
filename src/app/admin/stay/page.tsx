@@ -1,14 +1,21 @@
-import { ErrorDisplay, StayCard } from '@/components';
+import { AdminStayList } from '@/containers';
 import { getPartnerStays } from '@/server';
 import { paths } from '@/utils';
 import { Button } from '@nextui-org/react';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { FiPlus } from 'react-icons/fi';
 
 const AdminStayListPage = async () => {
-  try {
-    const stays = await getPartnerStays();
-    return (
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['stays', 'admin'],
+    queryFn: getPartnerStays,
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <section className="flex flex-col gap-2">
         <div className="flex flex-col">
           <div className="flex items-center justify-between gap-20">
@@ -20,21 +27,11 @@ const AdminStayListPage = async () => {
               </Button>
             </Link>
           </div>
-          <div className="grid items-center px-2 py-6 gap-10 min-w-0 max-w-full">
-            {stays.length ? (
-              stays?.map((stay) => <StayCard key={stay._id} {...stay} />)
-            ) : (
-              <div className="grid place-items-center h-[70vh]">
-                <p className="text-2xl text-accentGray text-center font-medium">No stays available</p>
-              </div>
-            )}
-          </div>
+          <AdminStayList />
         </div>
       </section>
-    );
-  } catch (err: any) {
-    return <ErrorDisplay error={err.message} />;
-  }
+    </HydrationBoundary>
+  );
 };
 
 export default AdminStayListPage;

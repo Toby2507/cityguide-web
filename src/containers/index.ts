@@ -7,6 +7,7 @@ export { default as AdminReservation } from './admin/home/reservation';
 export { default as AdminRestaurantDetail } from './admin/restaurant/detail-page';
 // // Stay
 export { default as AdminStayDetail } from './admin/stay/detail-page';
+export { default as AdminStayList } from './admin/stay/list';
 // // Night Life
 export { default as AdminNightlifeDetail } from './admin/nightlife/detail-page';
 
