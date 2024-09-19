@@ -1,14 +1,19 @@
-import { ErrorDisplay } from '@/components';
 import { AdminReservation } from '@/containers';
 import { getPartnerReservation } from '@/server';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
 const AdminReservationsPage = async () => {
-  try {
-    const reservations = await getPartnerReservation();
-    return <AdminReservation reservations={reservations} />;
-  } catch (err: any) {
-    return <ErrorDisplay error={err.message} />;
-  }
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['reservations', 'admin'],
+    queryFn: getPartnerReservation,
+  });
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <AdminReservation />
+    </HydrationBoundary>
+  );
 };
 
 export default AdminReservationsPage;

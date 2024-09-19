@@ -2,7 +2,8 @@
 
 import { ReservationCell } from '@/components';
 import { reservationColumns } from '@/data';
-import { IPartner, IReservation, Status } from '@/types';
+import { getPartnerReservation } from '@/server';
+import { IPartner, Status } from '@/types';
 import {
   Button,
   DatePicker,
@@ -23,27 +24,34 @@ import {
   TableHeader,
   TableRow,
 } from '@nextui-org/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import { BsSearch } from 'react-icons/bs';
 import { IoChevronDownOutline, IoCloseCircle } from 'react-icons/io5';
 
-interface Props {
-  reservations: IReservation[];
-}
-
 dayjs.extend(utc);
 dayjs.extend(timezone);
-const AdminReservation = ({ reservations }: Props) => {
+const AdminReservation = () => {
   const [page, setPage] = useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [searchValue, setSearchValue] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<Selection>('all');
   const [reserveDateFilter, setReserveDateFilter] = useState<DateValue>();
   const [checkDateFilter, setCheckDateFilter] = useState<RangeValue<DateValue>>();
+  const {
+    data: reservations,
+    isError,
+    error,
+  } = useSuspenseQuery({
+    queryKey: ['reservations', 'admin'],
+    queryFn: getPartnerReservation,
+  });
 
+  if (isError) toast.error(error?.message || 'Error fetching reservations');
   const isSearching = useMemo(() => Boolean(searchValue), [searchValue]);
   const filteredItems = useMemo(() => {
     let filteredRes = [...reservations];
