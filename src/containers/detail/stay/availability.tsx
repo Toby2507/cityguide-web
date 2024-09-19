@@ -6,6 +6,7 @@ import { useReservationStore, useSearchStore } from '@/providers';
 import { IAccommodation, ICreateReservation, IStay, PropertyType } from '@/types';
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import dayjs from 'dayjs';
+import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 
 interface IProps {
@@ -24,7 +25,7 @@ const columns = [
 const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
   const { setReservation } = useReservationStore();
   const { checkInDay, checkOutDay, noOfGuests, reservationCount } = useSearchStore();
-  const [tableKey, setTableKey] = useState<number>(0);
+  const [tableKey, setTableKey] = useState<string>('0');
   const [accommodations, setAccommodations] = useState<IAccommodation[]>(stay.accommodation);
   const firstStayId = accommodations.length ? accommodations[0].id : '';
   const lastStayId = accommodations.length ? accommodations[accommodations.length - 1].id : '';
@@ -42,7 +43,7 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
         !(noOfGuests.children && !a.children && !a.infants)
     );
     setAccommodations(acc.filter(Boolean));
-    setTableKey((prev) => prev + 1);
+    setTableKey(nanoid());
   };
 
   useEffect(() => {
@@ -62,7 +63,7 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
   }, [checkInDay, checkOutDay, noOfGuests, reservationCount, stay, setReservation]);
   useEffect(() => {
     setAccommodations(stay.accommodation);
-    setTableKey((prev) => prev + 1);
+    setTableKey(nanoid());
   }, [stay]);
   useEffect(() => {
     if (!onUpdate) handleSearch();
