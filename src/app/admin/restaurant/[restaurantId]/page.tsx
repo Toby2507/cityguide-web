@@ -9,13 +9,9 @@ interface Props {
 }
 
 const AdminRestaurantDetailPage = async ({ params: { restaurantId } }: Props) => {
-  try {
-    const restaurant = await getRestaurantById(restaurantId);
-    if (!restaurant) return null;
-    return <AdminRestaurantDetail restaurant={restaurant} />;
-  } catch (err: any) {
-    return <ErrorDisplay error={err.message} />;
-  }
+  const restaurant = await getRestaurantById(restaurantId);
+  if (!restaurant) return null;
+  return <AdminRestaurantDetail restaurant={restaurant} />;
 };
 
 export default AdminRestaurantDetailPage;

@@ -9,23 +9,36 @@ import {
   UpdateRestaurantMenu,
 } from '@/components';
 import { DetailPageAmenities, DetailPageOverview, RestaurantDetailInfo, RestaurantDetailMenu } from '@/containers';
-import { deleteRestaurant } from '@/server';
-import { IRestaurant, PropertyType, Updates } from '@/types';
+import { deleteRestaurant, getRestaurantById } from '@/server';
+import { PropertyType, Updates } from '@/types';
 import { paths } from '@/utils';
 import { Button, Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface Props {
-  restaurant: IRestaurant;
+  restaurantId: string;
 }
 
-const AdminRestaurantDetailPage = ({ restaurant }: Props) => {
+const AdminRestaurantDetailPage = ({ restaurantId }: Props) => {
   const { push } = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [updateType, setUpdateType] = useState<Updates>('details');
+  const {
+    data: restaurant,
+    isPending,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['restaurant', restaurantId],
+    queryFn: async () => await getRestaurantById(restaurantId),
+  });
+
+  if (isPending) return null;
+  if (isError) return toast.error(error.message);
 
   const onUpdate = (type: Updates) => {
     setUpdateType(type);
