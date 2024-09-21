@@ -6,7 +6,7 @@ import { IStay, IUpdateStay } from '@/types';
 import { getObjDiff } from '@/utils';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { useState } from 'react';
-import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateStayOptionalServices from './create-stay-optional';
 
@@ -17,13 +17,13 @@ interface Props {
 
 const UpdateStayDetails = ({ stay, onClose }: Props) => {
   const method = useForm<IUpdateStay>({ defaultValues: stay, mode: 'onChange' });
-  const { control, handleSubmit, reset } = method;
+  const { control, watch, reset } = method;
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const onSubmit: SubmitHandler<IUpdateStay> = async (data) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     try {
-      const updateBody = getObjDiff(data, stay);
+      const updateBody = getObjDiff(watch(), stay);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
@@ -218,7 +218,7 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
             className="text-sm font-semibold px-14 py-6 my-6"
             color="primary"
             radius="full"
-            onPress={() => handleSubmit(onSubmit)()}
+            onPress={() => onSubmit()}
             isLoading={isLoading}
           >
             Update Stay
