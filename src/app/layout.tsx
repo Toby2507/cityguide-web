@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-primary">
       <body className={inter.className}>
-        <Toaster position="bottom-left" />
+        <Toaster toastOptions={{ style: { zIndex: 999999999999 } }} position="bottom-left" />
         <Providers>{children}</Providers>
         <SpeedInsights />
       </body>
