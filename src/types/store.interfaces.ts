@@ -1,6 +1,6 @@
-import { Server } from 'http';
+import { Socket } from 'socket.io-client';
 import { NavTabs, PropertyType, Status } from './enums';
-import { ICreateReservation } from './form.interfaces';
+import { ICreateNightlife, ICreateReservation, ICreateRestaurant, ICreateStay } from './form.interfaces';
 import {
   IAccommodation,
   IAddress,
@@ -13,13 +13,11 @@ import {
   IReview,
   IStay,
 } from './model.interfaces';
-import { Socket } from 'socket.io-client';
 
 // Reservation
 export interface IReservationState {
   reservation: Partial<ICreateReservation> | null;
 }
-
 export interface IReservationStore extends IReservationState {
   setReservation: (reservation: Partial<ICreateReservation>) => void;
   updateAccommodations: (accommodation: IReservationAccommodation, unitPrice?: number) => void;
@@ -35,10 +33,25 @@ export interface ISearch {
   minAge: number;
   activeTab: NavTabs;
 }
-
 export interface ISearchStore extends ISearch {
   setActiveTab: (activeTab: NavTabs) => void;
   setState: (search: Partial<ISearch>) => void;
+}
+
+// Create Property
+interface IPropertyBase {
+  step: number;
+  topStep: number;
+}
+export interface IProperty {
+  stay: (IPropertyBase & { property: ICreateStay }) | null;
+  restaurant: (IPropertyBase & { property: ICreateRestaurant }) | null;
+  nightlife: (IPropertyBase & { property: ICreateNightlife }) | null;
+}
+export interface IPropertyStore extends IProperty {
+  setStay: (info: IProperty['stay']) => void;
+  setRestaurant: (info: IProperty['restaurant']) => void;
+  setNightlife: (info: IProperty['nightlife']) => void;
 }
 
 // Socket
