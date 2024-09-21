@@ -12,7 +12,7 @@ const AdminStayDetailPage = async ({ params: { stayId } }: Props) => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['stay', stayId],
+    queryKey: ['stay', 'admin', stayId],
     queryFn: async () => await getStayById(stayId),
   });
 

@@ -28,7 +28,7 @@ const AdminNightlifeDetailPage = ({ nightlifeId }: Props) => {
     isError,
     error,
   } = useQuery({
-    queryKey: ['nightlife', nightlifeId],
+    queryKey: ['nightlife', 'admin', nightlifeId],
     queryFn: async () => await getNightlifeById(nightlifeId),
   });
 

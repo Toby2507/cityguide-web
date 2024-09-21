@@ -33,7 +33,7 @@ const AdminRestaurantDetailPage = ({ restaurantId }: Props) => {
     isError,
     error,
   } = useQuery({
-    queryKey: ['restaurant', restaurantId],
+    queryKey: ['restaurant', 'admin', restaurantId],
     queryFn: async () => await getRestaurantById(restaurantId),
   });
 

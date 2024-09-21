@@ -39,7 +39,7 @@ const AdminStayDetailPage = ({ stayId }: Props) => {
     isError,
     error,
   } = useQuery({
-    queryKey: ['stay', stayId],
+    queryKey: ['stay', 'admin', stayId],
     queryFn: async () => await getStayById(stayId),
   });
 

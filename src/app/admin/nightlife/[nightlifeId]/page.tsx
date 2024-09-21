@@ -12,7 +12,7 @@ const NightlifeDetailPage = async ({ params: { nightlifeId } }: Props) => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['nightlife', nightlifeId],
+    queryKey: ['nightlife', 'admin', nightlifeId],
     queryFn: async () => await getNightlifeById(nightlifeId),
   });
 
