@@ -4,7 +4,7 @@ import { nativeEnum, number, object, strictObject, string } from 'zod';
 export const createNightlifeSchema = object({
   type: nativeEnum(NightLifeType, {
     required_error: 'NightLife type is required',
-    invalid_type_error: 'NightLife type should be a Club | Bar | Lounge | Other',
+    invalid_type_error: 'NightLife type should be a Club | Bar | Lounge | Attraction | Other',
   }),
   name: string({ required_error: 'NightLife Name is required' }).min(3, 'NightLife name requires atleast 3 characters'),
   summary: string({ required_error: 'Summary of the NightLife is required' }).min(
@@ -103,7 +103,7 @@ export const createNightlifeSchema = object({
 
 export const updateNightlifeSchema = strictObject({
   type: nativeEnum(NightLifeType, {
-    invalid_type_error: 'NightLife type should be a Club | Bar | Lounge | Other',
+    invalid_type_error: 'NightLife type should be a Club | Bar | Lounge | Attraction | Other',
   }).optional(),
   name: string().min(3, 'NightLife name requires atleast 3 characters').optional(),
   summary: string().min(10, 'Summary should be atleast 10 characters').optional(),
