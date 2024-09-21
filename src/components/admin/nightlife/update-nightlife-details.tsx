@@ -109,6 +109,7 @@ const UpdateNightlifeDetails = ({ nightlife, onClose }: Props) => {
                 <SelectItem key={NightLifeType.BAR}>{NightLifeType.BAR}</SelectItem>
                 <SelectItem key={NightLifeType.CLUB}>{NightLifeType.CLUB}</SelectItem>
                 <SelectItem key={NightLifeType.LOUNGE}>{NightLifeType.LOUNGE}</SelectItem>
+                <SelectItem key={NightLifeType.ATTRACTION}>{NightLifeType.ATTRACTION}</SelectItem>
                 <SelectItem key={NightLifeType.OTHER}>{NightLifeType.OTHER}</SelectItem>
               </Select>
             )}
