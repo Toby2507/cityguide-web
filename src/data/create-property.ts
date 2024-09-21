@@ -1,5 +1,13 @@
 import { NightLifeType, PriceRange, StayType } from '@/types';
-import { FaCouch, FaGlassMartiniAlt, FaHotel, FaMusic, FaRegLightbulb, FaUmbrellaBeach } from 'react-icons/fa';
+import {
+  FaCouch,
+  FaGlassMartiniAlt,
+  FaHotel,
+  FaMapMarkerAlt,
+  FaMusic,
+  FaRegLightbulb,
+  FaUmbrellaBeach,
+} from 'react-icons/fa';
 import { GiBunkBeds } from 'react-icons/gi';
 import { IoBed, IoHome } from 'react-icons/io5';
 import { MdOutlineApartment } from 'react-icons/md';
@@ -79,6 +87,12 @@ export const nightLifeTypes = [
     name: 'Lounge',
     desc: 'Upscale, relaxed settings with comfortable seating, often featuring cocktails, ambient music, and a sophisticated atmosphere.',
     Icon: FaCouch,
+  },
+  {
+    key: NightLifeType.ATTRACTION,
+    name: 'Attraction',
+    desc: 'Popular nightlife spots that draw large crowds for entertainment, sightseeing, or cultural experiences, such as live performances, rooftop bars, or night markets.',
+    Icon: FaMapMarkerAlt,
   },
   {
     key: NightLifeType.OTHER,
