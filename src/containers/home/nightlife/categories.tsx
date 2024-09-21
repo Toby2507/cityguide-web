@@ -1,6 +1,7 @@
 import { SectionHeader } from '@/components';
 import { NightLifeType } from '@/types';
 import { paths } from '@/utils';
+import attractionImg from '@images/attraction-banner.jpg';
 import barImg from '@images/bar-banner.webp';
 import clubImg from '@images/club-banner.jpg';
 import loungeImg from '@images/lounge-banner.jpg';
@@ -12,7 +13,7 @@ const NightlifeCategories = () => {
   return (
     <section className="flex flex-col gap-4">
       <SectionHeader title="Nightlife Categories" desc="From bars to lounges, we have it all" />
-      <div className="gap-2 grid grid-cols-6 grid-rows-2">
+      <div className="gap-2 grid grid-cols-3 grid-rows-2">
         <div className="col-span-2 h-[300px]">
           <Link href={paths.searchNightlife([NightLifeType.BAR])}>
             <Card isPressable className="w-full h-full">
@@ -29,7 +30,7 @@ const NightlifeCategories = () => {
             </Card>
           </Link>
         </div>
-        <div className="col-span-4 h-[300px]">
+        <div className="h-[300px]">
           <Link href={paths.searchNightlife([NightLifeType.CLUB])}>
             <Card isPressable className="w-full h-full">
               <Image
@@ -45,7 +46,7 @@ const NightlifeCategories = () => {
             </Card>
           </Link>
         </div>
-        <div className="col-span-4 h-[300px]">
+        <div className="h-[300px]">
           <Link href={paths.searchNightlife([NightLifeType.LOUNGE])}>
             <Card isPressable className="w-full h-full">
               <Image
@@ -61,7 +62,23 @@ const NightlifeCategories = () => {
             </Card>
           </Link>
         </div>
-        <div className="col-span-2 h-[300px]">
+        <div className="h-[300px]">
+          <Link href={paths.searchNightlife([NightLifeType.ATTRACTION])}>
+            <Card isPressable className="w-full h-full">
+              <Image
+                isZoomed
+                removeWrapper
+                alt="Card background"
+                className="z-0 w-full h-full object-cover"
+                src={attractionImg.src}
+              />
+              <CardFooter className="absolute bg-gradient-to-t from-black/60 to-transparent pt-4 bottom-0 z-10">
+                <h4 className="text-white font-medium text-3xl">Attractions</h4>
+              </CardFooter>
+            </Card>
+          </Link>
+        </div>
+        <div className="h-[300px]">
           <Link href={paths.searchNightlife([NightLifeType.OTHER])}>
             <Card isPressable className="w-full h-full">
               <Image
