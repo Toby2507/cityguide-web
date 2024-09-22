@@ -1,20 +1,22 @@
 'use client';
 
+import { usePropertyStore } from '@/providers';
 import { createNightlifeSchema } from '@/schemas';
 import { ICreateNightlife } from '@/types';
 import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateNavButtons from '../common/create-nav-buttons';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateNightlifeStep3 = ({ setStep }: Props) => {
-  const { control, trigger, setFocus } = useFormContext<ICreateNightlife>();
+  const { control, trigger, setFocus, watch } = useFormContext<ICreateNightlife>();
+  const { setNightlife } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleNext = async () => {
@@ -23,6 +25,7 @@ const CreateNightlifeStep3 = ({ setStep }: Props) => {
     setIsLoading(false);
     if (!isValid) return toast.error('Please fill in the required fields');
     setStep(4);
+    setNightlife({ property: watch() });
   };
 
   useEffect(() => {

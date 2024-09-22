@@ -10,26 +10,34 @@ import {
   CreatePropertyAddress,
   CreatePropertyImageUpload,
 } from '@/components';
-import { ICreateNightlife } from '@/types';
+import { useStepManagement } from '@/hooks';
+import { usePropertyStore } from '@/providers';
+import { ICreateNightlife, PropertyType } from '@/types';
 import { Pagination } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 const CreateNightlifePage = () => {
-  const [step, setStep] = useState<number>(1);
-  const [topStep, setTopStep] = useState<number>(1);
+  const { setNightlife, nightlife } = usePropertyStore();
+  const { step, topStep, setStep } = useStepManagement(setNightlife, nightlife);
   const methods = useForm<ICreateNightlife>();
+  const initialRender = useRef<boolean>(true);
 
   useEffect(() => {
-    setTopStep((prev) => Math.max(prev, step));
-  }, [step]);
+    if (nightlife?.property && initialRender.current) {
+      methods.reset(nightlife.property);
+      initialRender.current;
+    }
+  }, [nightlife?.property, methods]);
   return (
     <FormProvider {...methods}>
       {step === 1 ? <CreateNightlifeStep1 setStep={setStep} /> : null}
-      {step === 2 ? <CreatePropertyAddress setStep={setStep} /> : null}
+      {step === 2 ? <CreatePropertyAddress setStep={setStep} type={PropertyType.NIGHTLIFE} /> : null}
       {step === 3 ? <CreateNightlifeStep3 setStep={setStep} /> : null}
       {step === 4 ? <CreateNightlifeStep4 setStep={setStep} /> : null}
-      {step === 5 ? <CreatePropertyImageUpload name="Nightlife" nextStep={6} setStep={setStep} /> : null}
+      {step === 5 ? (
+        <CreatePropertyImageUpload name="Nightlife" nextStep={6} setStep={setStep} type={PropertyType.NIGHTLIFE} />
+      ) : null}
       {step === 6 ? <CreateNightlifeStep6 setStep={setStep} /> : null}
       {step === 7 ? <CreateNightlifeStep7 setStep={setStep} /> : null}
       {step === 8 ? <CreateNightlifeReview setStep={setStep} /> : null}

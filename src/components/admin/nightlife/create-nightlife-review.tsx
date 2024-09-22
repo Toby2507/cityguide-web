@@ -1,19 +1,21 @@
 'use client';
 
 import { DetailPageAmenities, DetailPageOverview, NightlifeDetailInfo } from '@/containers';
+import { usePropertyStore } from '@/providers';
 import { createNightlife } from '@/server';
 import { ICreateNightlife, ICustomAvailability, INightLife, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Link, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateNightlifeReview = ({ setStep }: Props) => {
+  const { setNightlife } = usePropertyStore();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { handleSubmit, watch } = useFormContext<ICreateNightlife>();
@@ -33,6 +35,7 @@ const CreateNightlifeReview = ({ setStep }: Props) => {
     onOpen();
     await createNightlife(data);
     setIsLoading(false);
+    setNightlife(null);
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

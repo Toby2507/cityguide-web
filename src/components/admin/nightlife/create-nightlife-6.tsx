@@ -1,22 +1,24 @@
 'use client';
 
+import { usePropertyStore } from '@/providers';
 import { createNightlifeSchema } from '@/schemas';
 import { DayOfWeek, ICreateNightlife } from '@/types';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateNavButtons from '../common/create-nav-buttons';
 import StringArrayInput from '../common/string-array-input';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateNightlifeStep6 = ({ setStep }: Props) => {
   const { control, getValues, setValue, watch, trigger } = useFormContext<ICreateNightlife>();
+  const { setNightlife } = usePropertyStore();
   const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -66,6 +68,7 @@ const CreateNightlifeStep6 = ({ setStep }: Props) => {
       );
     }
     setStep(7);
+    setNightlife({ property: watch() });
   };
 
   useEffect(() => {

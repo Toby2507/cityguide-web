@@ -1,20 +1,22 @@
 'use client';
 
+import { nightlifeAmenities } from '@/data';
 import { createNightlifeSchema } from '@/schemas';
 import { ICreateNightlife } from '@/types';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateNavButtons from '../common/create-nav-buttons';
 import CreatePropertyAmenities from '../common/create-property-amenities';
-import { nightlifeAmenities } from '@/data';
+import { usePropertyStore } from '@/providers';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateNightlifeStep4 = ({ setStep }: Props) => {
   const { watch } = useFormContext<ICreateNightlife>();
+  const { setNightlife } = usePropertyStore();
   const [isLoading, setisLoading] = useState<boolean>(false);
 
   const handleNext = async () => {
@@ -24,6 +26,7 @@ const CreateNightlifeStep4 = ({ setStep }: Props) => {
     setisLoading(false);
     if (!isValid.success) return toast.error(isValid.error.flatten().formErrors.join(', '));
     setStep(5);
+    setNightlife({ property: watch() });
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

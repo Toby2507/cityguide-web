@@ -1,18 +1,19 @@
 'use client';
 
 import { nightLifeTypes } from '@/data';
+import { usePropertyStore } from '@/providers';
 import { createNightlifeSchema } from '@/schemas';
 import { ICreateNightlife, NightLifeType } from '@/types';
 import { Button } from '@nextui-org/react';
-import { Dispatch, SetStateAction } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateNightlifeStep1 = ({ setStep }: Props) => {
-  const { control } = useFormContext<ICreateNightlife>();
+  const { control, watch } = useFormContext<ICreateNightlife>();
+  const { setNightlife } = usePropertyStore();
   const {
     field: { onChange },
   } = useController({ control, name: 'type' });
@@ -22,6 +23,7 @@ const CreateNightlifeStep1 = ({ setStep }: Props) => {
     if (!isValid.success) return;
     onChange(key);
     setStep(2);
+    setNightlife({ property: watch() });
   };
   return (
     <div className="flex flex-col justify-center gap-14 pt-4">

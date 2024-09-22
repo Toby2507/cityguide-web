@@ -1,22 +1,24 @@
 'use client';
 
 import { CreateNavButtons } from '@/components';
+import { usePropertyStore } from '@/providers';
 import { createNightlifeSchema, createRestaurantSchema } from '@/schemas';
 import { ICreateNightlife, ISocialLink, Parking } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoAdd } from 'react-icons/io5';
 import CreateRestaurantSocial from '../restaurant/create-restaurant-social';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateNightlifeStep7 = ({ setStep }: Props) => {
   const { control, getValues, setFocus, setValue, trigger, watch } = useFormContext<ICreateNightlife>();
+  const { setNightlife } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const addNewSocial = () => {
@@ -50,6 +52,7 @@ const CreateNightlifeStep7 = ({ setStep }: Props) => {
       );
     }
     setStep(8);
+    setNightlife({ property: watch() });
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
