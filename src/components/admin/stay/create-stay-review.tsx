@@ -1,21 +1,23 @@
 'use client';
 
 import { DetailPageAmenities, DetailPageOverview, StayDetailAvailability, StayDetailRules } from '@/containers';
+import { usePropertyStore } from '@/providers';
 import { createStay } from '@/server';
 import { EntityType, ICreateStay, IStay, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import Link from 'next/link';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 
 interface IProps {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateStayReview = ({ setStep }: IProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { setStay } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { watch, handleSubmit } = useFormContext<ICreateStay>();
   const stay: IStay = {
@@ -35,6 +37,7 @@ const CreateStayReview = ({ setStep }: IProps) => {
     onOpen();
     await createStay(data);
     setIsLoading(false);
+    setStay(null);
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

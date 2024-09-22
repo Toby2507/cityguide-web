@@ -4,18 +4,20 @@ import { createStaySchema } from '@/schemas';
 import { ICreateStay, Rating, StayType } from '@/types';
 import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CustomStars from '../../common/custom-stars';
 import CreateNavButtons from '../common/create-nav-buttons';
+import { usePropertyStore } from '@/providers';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateStayStep3 = ({ setStep }: Props) => {
   const { control, trigger, watch, setFocus } = useFormContext<ICreateStay>();
+  const { setStay } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleNext = async () => {
@@ -28,6 +30,7 @@ const CreateStayStep3 = ({ setStep }: Props) => {
     if (!isValidS.success || !isValidT)
       return toast.error(isValidS.error?.flatten().formErrors.join(', ') || 'Please fill in the required fields');
     setStep(4);
+    setStay({ property: watch() });
   };
 
   useEffect(() => {

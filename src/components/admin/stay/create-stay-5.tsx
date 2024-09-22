@@ -2,19 +2,21 @@
 
 import { CreatePropertyAmenities } from '@/components';
 import { stayAmenities } from '@/data';
+import { usePropertyStore } from '@/providers';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay } from '@/types';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateNavButtons from '../common/create-nav-buttons';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateStayStep5 = ({ setStep }: Props) => {
   const { watch } = useFormContext<ICreateStay>();
+  const { setStay } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleNext = async () => {
@@ -24,6 +26,7 @@ const CreateStayStep5 = ({ setStep }: Props) => {
     setIsLoading(false);
     if (!isValid.success) return toast.error(isValid.error.flatten().formErrors.join(', '));
     setStep(6);
+    setStay({ property: watch() });
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

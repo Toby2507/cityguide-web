@@ -1,19 +1,23 @@
 'use client';
 
 import { CreateNavButtons, Map } from '@/components';
+import { usePropertyStore } from '@/providers';
 import { createRestaurantSchema } from '@/schemas';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { PropertyType } from '@/types';
+import { useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
   mainText?: string;
   subText?: string;
-  setStep: Dispatch<SetStateAction<number>>;
+  type: PropertyType;
+  setStep: (newStep: number) => void;
 }
 
-const CreatePropertyAddress = ({ mainText, subText, setStep }: Props) => {
-  const { control } = useFormContext();
+const CreatePropertyAddress = ({ mainText, subText, type, setStep }: Props) => {
+  const { control, watch } = useFormContext();
+  const { setStay, setRestaurant, setNightlife } = usePropertyStore();
   const {
     field: { onChange, value },
   } = useController({ control, name: 'address' });
@@ -24,6 +28,9 @@ const CreatePropertyAddress = ({ mainText, subText, setStep }: Props) => {
     setIsLoading(false);
     if (!isValid.success) return toast.error('Please select a valid address');
     setStep(3);
+    if (type === PropertyType.STAY) setStay({ property: watch() });
+    if (type === PropertyType.RESTAURANT) setRestaurant({ property: watch() });
+    if (type === PropertyType.NIGHTLIFE) setNightlife({ property: watch() });
   };
 
   return (

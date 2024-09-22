@@ -1,19 +1,27 @@
 'use client';
 
+import { usePropertyStore } from '@/providers';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay } from '@/types';
 import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import CreateNavButtons from '../common/create-nav-buttons';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateStayStep4 = ({ setStep }: Props) => {
-  const { control, setFocus } = useFormContext<ICreateStay>();
+  const { control, setFocus, watch } = useFormContext<ICreateStay>();
+  const { setStay } = usePropertyStore();
+
+  const handleNext = async () => {
+    setStep(5);
+    setStay({ property: watch() });
+  };
+
   useEffect(() => {
     setFocus('extraInfo.host.name');
   }, [setFocus]);
@@ -123,7 +131,7 @@ const CreateStayStep4 = ({ setStep }: Props) => {
           }}
         />
       </div>
-      <CreateNavButtons isLoading={false} previous={() => setStep(3)} next={() => setStep(5)} />
+      <CreateNavButtons isLoading={false} previous={() => setStep(3)} next={handleNext} />
     </div>
   );
 };

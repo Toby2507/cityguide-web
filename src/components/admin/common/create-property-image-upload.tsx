@@ -1,10 +1,12 @@
 'use client';
 
 import { useCustomImageSelect } from '@/hooks';
+import { usePropertyStore } from '@/providers';
 import { uploadImages } from '@/server';
+import { PropertyType } from '@/types';
 import { createUploadDatas, formatFileSize } from '@/utils';
 import { Button, Image } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoClose, IoCloudUploadOutline } from 'react-icons/io5';
@@ -13,10 +15,12 @@ import CreateNavButtons from './create-nav-buttons';
 interface Props {
   name?: string;
   nextStep: number;
-  setStep: Dispatch<SetStateAction<number>>;
+  type: PropertyType;
+  setStep: (newStep: number) => void;
 }
-const CreatePropertyImageUpload = ({ name, nextStep, setStep }: Props) => {
-  const { control } = useFormContext();
+const CreatePropertyImageUpload = ({ name, nextStep, type, setStep }: Props) => {
+  const { control, watch } = useFormContext();
+  const { setStay, setRestaurant, setNightlife } = usePropertyStore();
   const {
     field: { onChange: changeAvatar, value },
   } = useController({ control, name: 'avatar' });
@@ -57,14 +61,16 @@ const CreatePropertyImageUpload = ({ name, nextStep, setStep }: Props) => {
           changeImages([...uploadedImages, ...imgUrls]);
         }
         setImgIds([...imgIds, ...images.map((i) => i.id)]);
-        setStep(7);
+        setStep(nextStep);
+        if (type === PropertyType.STAY) setStay({ property: watch() });
+        if (type === PropertyType.RESTAURANT) setRestaurant({ property: watch() });
+        if (type === PropertyType.NIGHTLIFE) setNightlife({ property: watch() });
       } catch (err: any) {
         toast.error(err.message);
       }
     } finally {
       setIsLoading(false);
     }
-    setStep(nextStep);
   };
 
   return (

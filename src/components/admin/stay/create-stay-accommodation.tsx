@@ -3,19 +3,21 @@
 import { createStaySchema } from '@/schemas';
 import { ICreateStay } from '@/types';
 import { Button, Pagination } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoAdd, IoRemove } from 'react-icons/io5';
 import CreateNavButtons from '../common/create-nav-buttons';
 import AccommodationInputs from './accommodation-inputs';
+import { usePropertyStore } from '@/providers';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateStayAccommodation = ({ setStep }: Props) => {
   const { control, watch, trigger } = useFormContext<ICreateStay>();
+  const { setStay } = usePropertyStore();
   const [accIdx, setAccIdx] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(watch('accommodation')?.length || 1);
@@ -40,6 +42,7 @@ const CreateStayAccommodation = ({ setStep }: Props) => {
     if (!isValidT) return toast.error('Please fill out the required fields');
     if (!isValidS.success) return toast.error('Please fill out the required fields in the other accommodations');
     setStep(9);
+    setStay({ property: watch() });
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

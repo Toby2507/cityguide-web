@@ -6,18 +6,20 @@ import { ICreateStay, MaxDays } from '@/types';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateNavButtons from '../common/create-nav-buttons';
 import CreateStayOptionalServices from './create-stay-optional';
+import { usePropertyStore } from '@/providers';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateStayStep7 = ({ setStep }: Props) => {
-  const { control, trigger } = useFormContext<ICreateStay>();
+  const { control, trigger, watch } = useFormContext<ICreateStay>();
+  const { setStay } = usePropertyStore();
   const {
     field: { onChange: setCheckIn, value: checkIn },
     fieldState: { error: checkinErr },
@@ -68,6 +70,7 @@ const CreateStayStep7 = ({ setStep }: Props) => {
     setIsLoading(false);
     if (!isValid) return toast.error('Please fill out the required fields');
     setStep(8);
+    setStay({ property: watch() });
   };
 
   useEffect(() => {

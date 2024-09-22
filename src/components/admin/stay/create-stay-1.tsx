@@ -1,18 +1,19 @@
 'use client';
 
 import { stayTypes } from '@/data';
+import { usePropertyStore } from '@/providers';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay, StayType } from '@/types';
 import { Button } from '@nextui-org/react';
-import { Dispatch, SetStateAction } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateStayStep1 = ({ setStep }: Props) => {
-  const { control } = useFormContext<ICreateStay>();
+  const { control, watch } = useFormContext<ICreateStay>();
+  const { setStay } = usePropertyStore();
   const {
     field: { onChange },
   } = useController({ control, name: 'type' });
@@ -20,6 +21,7 @@ const CreateStayStep1 = ({ setStep }: Props) => {
     const isValid = createStaySchema.shape.type.safeParse(key);
     if (!isValid.success) return;
     onChange(key);
+    setStay({ property: watch() });
     setStep(2);
   };
   return (
