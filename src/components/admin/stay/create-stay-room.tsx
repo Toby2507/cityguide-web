@@ -3,6 +3,7 @@
 import { IFurniture, IRoom } from '@/types';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { IoIosRemoveCircle } from 'react-icons/io';
 import { IoAdd, IoRemoveCircleOutline } from 'react-icons/io5';
 
@@ -17,6 +18,9 @@ const CreateStayRoomCard = ({ room: { name, furnitures }, setBed, removeRoom }: 
   const [bedCount, setBedCount] = useState<number>(0);
 
   const addRoomBed = () => {
+    if (!bedType.trim()) return toast.error('Furniture type cannot be empty');
+    if (bedType.length < 3) return toast.error('Furniture type should be atleast 3 characters');
+    if (!bedCount) return toast.error('Furniture count should be atleast 1');
     setBed(name, { type: bedType, count: bedCount });
     setBedType('');
     setBedCount(0);
