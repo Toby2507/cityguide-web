@@ -44,14 +44,14 @@ interface IPropertyBase {
   topStep: number;
 }
 export interface IProperty {
-  stay: (IPropertyBase & { property: ICreateStay }) | null;
-  restaurant: (IPropertyBase & { property: ICreateRestaurant }) | null;
-  nightlife: (IPropertyBase & { property: ICreateNightlife }) | null;
+  stay: (IPropertyBase & { property: Partial<ICreateStay> }) | null;
+  restaurant: (IPropertyBase & { property: Partial<ICreateRestaurant> }) | null;
+  nightlife: (IPropertyBase & { property: Partial<ICreateNightlife> }) | null;
 }
 export interface IPropertyStore extends IProperty {
-  setStay: (info: IProperty['stay']) => void;
-  setRestaurant: (info: IProperty['restaurant']) => void;
-  setNightlife: (info: IProperty['nightlife']) => void;
+  setStay: (info: Partial<IProperty['stay']>) => void;
+  setRestaurant: (info: Partial<IProperty['restaurant']>) => void;
+  setNightlife: (info: Partial<IProperty['nightlife']>) => void;
 }
 
 // Socket
