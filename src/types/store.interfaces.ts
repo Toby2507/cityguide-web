@@ -53,6 +53,8 @@ export interface IPropertyStore extends IProperty {
   setRestaurant: (info: Partial<IProperty['restaurant']>) => void;
   setNightlife: (info: Partial<IProperty['nightlife']>) => void;
 }
+export type IPropertyValues = IProperty['stay'] | IProperty['restaurant'] | IProperty['nightlife'];
+export type ISetProperty = IPropertyStore['setStay'] | IPropertyStore['setRestaurant'] | IPropertyStore['setNightlife'];
 
 // Socket
 export interface ClientToServerEvents {
