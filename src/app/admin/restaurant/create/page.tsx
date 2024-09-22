@@ -11,26 +11,41 @@ import {
   CreateRestaurantStep7,
   CreateRestaurantStep8,
 } from '@/components';
-import { ICreateRestaurant } from '@/types';
+import { useStepManagement } from '@/hooks';
+import { usePropertyStore } from '@/providers';
+import { ICreateRestaurant, PropertyType } from '@/types';
 import { Pagination } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 const CreateRestaurantPage = () => {
-  const [step, setStep] = useState<number>(1);
-  const [topStep, setTopStep] = useState<number>(1);
+  const { setRestaurant, restaurant } = usePropertyStore();
+  const { step, topStep, setStep } = useStepManagement(setRestaurant, restaurant);
   const methods = useForm<ICreateRestaurant>();
+  const initialRender = useRef<boolean>(true);
 
   useEffect(() => {
-    setTopStep((prev) => Math.max(prev, step));
-  }, [step]);
+    if (restaurant?.property && initialRender.current) {
+      methods.reset(restaurant.property);
+      initialRender.current = false;
+    }
+  }, [restaurant?.property, methods]);
   return (
     <FormProvider {...methods}>
       {step === 1 ? <CreateRestaurantStep1 setStep={setStep} /> : null}
-      {step === 2 ? <CreatePropertyAddress mainText="restaurant" subText="diners" setStep={setStep} /> : null}
+      {step === 2 ? (
+        <CreatePropertyAddress
+          mainText="restaurant"
+          subText="diners"
+          setStep={setStep}
+          type={PropertyType.RESTAURANT}
+        />
+      ) : null}
       {step === 3 ? <CreateRestaurantStep3 setStep={setStep} /> : null}
       {step === 4 ? <CreateRestaurantStep4 setStep={setStep} /> : null}
-      {step === 5 ? <CreatePropertyImageUpload name="Restaurant" nextStep={6} setStep={setStep} /> : null}
+      {step === 5 ? (
+        <CreatePropertyImageUpload name="Restaurant" nextStep={6} setStep={setStep} type={PropertyType.RESTAURANT} />
+      ) : null}
       {step === 6 ? <CreateRestaurantStep6 setStep={setStep} /> : null}
       {step === 7 ? <CreateRestaurantStep7 setStep={setStep} /> : null}
       {step === 8 ? <CreateRestaurantStep8 setStep={setStep} /> : null}

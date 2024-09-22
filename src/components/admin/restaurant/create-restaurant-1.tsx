@@ -1,19 +1,20 @@
 'use client';
 
 import { priceRanges } from '@/data';
+import { usePropertyStore } from '@/providers';
 import { createRestaurantSchema } from '@/schemas';
 import { ICreateRestaurant, PriceRange } from '@/types';
 import { Button } from '@nextui-org/react';
-import { Dispatch, SetStateAction } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { RiMoneyDollarCircleFill } from 'react-icons/ri';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateRestaurantStep1 = ({ setStep }: Props) => {
-  const { control } = useFormContext<ICreateRestaurant>();
+  const { control, watch } = useFormContext<ICreateRestaurant>();
+  const { setRestaurant } = usePropertyStore();
   const {
     field: { onChange },
   } = useController({ control, name: 'priceRange' });
@@ -23,6 +24,7 @@ const CreateRestaurantStep1 = ({ setStep }: Props) => {
     if (!isValid.success) return;
     onChange(key);
     setStep(2);
+    setRestaurant({ property: watch() });
   };
   return (
     <div className="flex flex-col justify-center gap-14 pt-4">

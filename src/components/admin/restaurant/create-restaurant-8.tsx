@@ -1,9 +1,10 @@
 'use client';
 
+import { usePropertyStore } from '@/providers';
 import { createRestaurantSchema } from '@/schemas';
 import { ICreateRestaurant } from '@/types';
 import { Button, Pagination } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoAdd, IoRemove } from 'react-icons/io5';
@@ -11,11 +12,12 @@ import CreateNavButtons from '../common/create-nav-buttons';
 import MenuInputs from './menu-inputs';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateRestaurantStep8 = ({ setStep }: Props) => {
   const { control, trigger, watch } = useFormContext<ICreateRestaurant>();
+  const { setRestaurant } = usePropertyStore();
   const [menuIdx, setMenuIdx] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -41,6 +43,7 @@ const CreateRestaurantStep8 = ({ setStep }: Props) => {
     if (!isValidT) return toast.error('Please fill all the required fields');
     if (!isValidS.success) return toast.error('Please fill all the required fields in all menu items');
     setStep(9);
+    setRestaurant({ property: watch() });
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

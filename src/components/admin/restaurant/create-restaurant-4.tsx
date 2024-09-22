@@ -2,18 +2,20 @@
 
 import { CreateNavButtons, CreatePropertyAmenities } from '@/components';
 import { restaurantAmenities } from '@/data';
+import { usePropertyStore } from '@/providers';
 import { createRestaurantSchema } from '@/schemas';
 import { ICreateRestaurant } from '@/types';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateRestaurantStep4 = ({ setStep }: Props) => {
   const { watch } = useFormContext<ICreateRestaurant>();
+  const { setRestaurant } = usePropertyStore();
   const [isLoading, setisLoading] = useState<boolean>(false);
 
   const handleNext = async () => {
@@ -23,6 +25,7 @@ const CreateRestaurantStep4 = ({ setStep }: Props) => {
     setisLoading(false);
     if (!isValid.success) return toast.error(isValid.error.flatten().formErrors.join(', '));
     setStep(5);
+    setRestaurant({ property: watch() });
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

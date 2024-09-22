@@ -1,19 +1,21 @@
 'use client';
 
 import { DetailPageAmenities, DetailPageOverview, RestaurantDetailInfo, RestaurantDetailMenu } from '@/containers';
+import { usePropertyStore } from '@/providers';
 import { createRestaurant } from '@/server';
 import { ICreateRestaurant, ICustomAvailability, IRestaurant, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Link, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateRestaurantReview = ({ setStep }: Props) => {
+  const { setRestaurant } = usePropertyStore();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { handleSubmit, watch } = useFormContext<ICreateRestaurant>();
@@ -33,6 +35,7 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
     onOpen();
     await createRestaurant(data);
     setIsLoading(false);
+    setRestaurant(null);
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

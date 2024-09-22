@@ -1,22 +1,24 @@
 'use client';
 
 import { CreateNavButtons, StringArrayInput } from '@/components';
+import { usePropertyStore } from '@/providers';
 import { createRestaurantSchema } from '@/schemas';
 import { ICreateRestaurant, ISocialLink } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoAdd } from 'react-icons/io5';
 import CreateRestaurantSocial from './create-restaurant-social';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateRestaurantStep7 = ({ setStep }: Props) => {
   const { control, getValues, setFocus, setValue, trigger, watch } = useFormContext<ICreateRestaurant>();
+  const { setRestaurant } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [reservation, setReservation] = useState<boolean>(!!getValues('details.reservation') || false);
   const {
@@ -64,6 +66,7 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
       return toast.error([...formErrors, ...fieldErrors].join(', ') || 'Please fill in the required fields');
     }
     setStep(8);
+    setRestaurant({ property: watch() });
   };
 
   useEffect(() => {

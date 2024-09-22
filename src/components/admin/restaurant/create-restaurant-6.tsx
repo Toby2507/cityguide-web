@@ -1,21 +1,23 @@
 'use client';
 
 import { CreateNavButtons, StringArrayInput } from '@/components';
+import { usePropertyStore } from '@/providers';
 import { createRestaurantSchema } from '@/schemas';
 import { DayOfWeek, ICreateRestaurant } from '@/types';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateRestaurantStep6 = ({ setStep }: Props) => {
   const { control, getValues, setValue, watch } = useFormContext<ICreateRestaurant>();
+  const { setRestaurant } = usePropertyStore();
   const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -48,6 +50,7 @@ const CreateRestaurantStep6 = ({ setStep }: Props) => {
       return toast.error(errors.formErrors.join(', ') || Object.values(errors.fieldErrors).join(', '));
     }
     setStep(7);
+    setRestaurant({ property: watch() });
   };
 
   useEffect(() => {

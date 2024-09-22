@@ -1,20 +1,22 @@
 'use client';
 
 import { CreateNavButtons } from '@/components';
+import { usePropertyStore } from '@/providers';
 import { createRestaurantSchema } from '@/schemas';
 import { ICreateRestaurant } from '@/types';
 import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: (newStep: number) => void;
 }
 
 const CreateRestaurantStep3 = ({ setStep }: Props) => {
-  const { control, setFocus, trigger } = useFormContext<ICreateRestaurant>();
+  const { control, setFocus, trigger, watch } = useFormContext<ICreateRestaurant>();
+  const { setRestaurant } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleNext = async () => {
@@ -23,6 +25,7 @@ const CreateRestaurantStep3 = ({ setStep }: Props) => {
     setIsLoading(false);
     if (!isValid) return toast.error('Please fill in the required fields');
     setStep(4);
+    setRestaurant({ property: watch() });
   };
 
   useEffect(() => {
