@@ -3,7 +3,6 @@
 import { getStayById } from '@/server';
 import { IUserDetails } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import StayDetailReservation from './stay-detail';
 import UserDetailReservation from './user-detail';
 
@@ -13,18 +12,12 @@ interface Props {
 }
 
 const StayReservationDetails = ({ stayId, user }: Props) => {
-  const {
-    data: stay,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
+  const { data: stay, isPending } = useQuery({
     queryKey: ['stay', stayId],
     queryFn: async () => await getStayById(stayId),
   });
 
-  if (isPending) return null;
-  if (isError) return toast.error(error.message);
+  if (!stay || isPending) return null;
   return (
     <div className="grid grid-cols-10 gap-4">
       <div className="col-span-3">

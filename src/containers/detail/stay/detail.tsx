@@ -3,7 +3,6 @@
 import { getStayById } from '@/server';
 import { PropertyType } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import DetailPageAmenities from '../common/amenities';
 import DetailPageOverview from '../common/overview';
 import StayDetailAvailability from './availability';
@@ -15,18 +14,12 @@ interface Props {
 }
 
 const StayDetailContainer = ({ stayId }: Props) => {
-  const {
-    data: stay,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
+  const { data: stay, isPending } = useQuery({
     queryKey: ['stay', stayId],
     queryFn: async () => await getStayById(stayId),
   });
 
-  if (isPending) return null;
-  if (isError) return toast.error(error.message);
+  if (!stay || isPending) return null;
   return (
     <>
       <DetailPageOverview propType={PropertyType.STAY} {...stay} />

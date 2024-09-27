@@ -4,20 +4,14 @@ import { PlaceCard, SectionHeader } from '@/components';
 import { getTrendingStays } from '@/server';
 import { paths } from '@/utils';
 import { useQuery } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 
 const TrendingDestinations = () => {
-  const {
-    data: stays,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
+  const { data: stays, isPending } = useQuery({
     queryKey: ['trending-stays'],
     queryFn: getTrendingStays,
   });
-  if (isPending) return null;
-  if (isError) return toast.error(error.message);
+
+  if (!stays?.length || isPending) return null;
   return (
     <section className="flex flex-col gap-4">
       <SectionHeader

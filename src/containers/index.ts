@@ -23,6 +23,7 @@ export { default as UserSignupForm } from './auth/user-signup-form';
 
 // Common
 export { default as Header } from './common/header';
+export { default as Notification } from './common/notification';
 
 // Detail
 // // Common

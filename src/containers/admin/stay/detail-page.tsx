@@ -33,19 +33,12 @@ const AdminStayDetailPage = ({ stayId }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [updateType, setUpdateType] = useState<Updates>('details');
-  const {
-    data: stay,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
+  const { data: stay, isPending } = useQuery({
     queryKey: ['stay', 'admin', stayId],
     queryFn: async () => await getStayById(stayId),
   });
 
-  if (isPending) return null;
-  if (isError) return toast.error(error.message);
-
+  if (!stay || isPending) return null;
   const onUpdate = (type: Updates) => {
     setUpdateType(type);
     onOpen();

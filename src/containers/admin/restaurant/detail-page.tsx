@@ -27,18 +27,12 @@ const AdminRestaurantDetailPage = ({ restaurantId }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [updateType, setUpdateType] = useState<Updates>('details');
-  const {
-    data: restaurant,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
+  const { data: restaurant, isPending } = useQuery({
     queryKey: ['restaurant', 'admin', restaurantId],
     queryFn: async () => await getRestaurantById(restaurantId),
   });
 
-  if (isPending) return null;
-  if (isError) return toast.error(error.message);
+  if (!restaurant || isPending) return null;
 
   const onUpdate = (type: Updates) => {
     setUpdateType(type);

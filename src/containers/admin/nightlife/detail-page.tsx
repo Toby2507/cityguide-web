@@ -22,18 +22,12 @@ const AdminNightlifeDetailPage = ({ nightlifeId }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [updateType, setUpdateType] = useState<Updates>('details');
-  const {
-    data: nightlife,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
+  const { data: nightlife, isPending } = useQuery({
     queryKey: ['nightlife', 'admin', nightlifeId],
     queryFn: async () => await getNightlifeById(nightlifeId),
   });
 
-  if (isPending) return null;
-  if (isError) return toast.error(error.message);
+  if (!nightlife || isPending) return null;
 
   const onUpdate = (type: Updates) => {
     setUpdateType(type);

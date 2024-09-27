@@ -3,21 +3,14 @@
 import { RestaurantCard } from '@/components';
 import { getPartnerRestaurants } from '@/server';
 import { useQuery } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 
 const AdminRestaurantList = () => {
-  const {
-    data: restaurants,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
+  const { data: restaurants, isPending } = useQuery({
     queryKey: ['restaurants', 'admin'],
     queryFn: getPartnerRestaurants,
   });
 
-  if (isPending) return null;
-  if (isError) return toast.error(error.message);
+  if (!restaurants?.length || isPending) return null;
   return (
     <div className="grid items-center px-2 py-6 gap-10 min-w-0 max-w-full">
       {restaurants?.length ? (

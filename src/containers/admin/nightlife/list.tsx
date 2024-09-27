@@ -3,21 +3,14 @@
 import { NightlifeCard } from '@/components';
 import { getPartnerNightlifes } from '@/server';
 import { useQuery } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 
 const AdminNightlifeList = () => {
-  const {
-    data: nightlifes,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
+  const { data: nightlifes, isPending } = useQuery({
     queryKey: ['nightlifes', 'admin'],
     queryFn: getPartnerNightlifes,
   });
 
-  if (isPending) return null;
-  if (isError) return toast.error(error.message);
+  if (!nightlifes?.length || isPending) return null;
   return (
     <div className="grid items-center px-2 py-6 gap-10 min-w-0 max-w-full">
       {nightlifes?.length ? (
