@@ -4,6 +4,7 @@ import {
   EntityType,
   MaxDays,
   NightLifeType,
+  NotificationType,
   Parking,
   PriceRange,
   PropertyType,
@@ -306,6 +307,19 @@ export interface IReview {
   propertyType: PropertyType;
   rating: Rating;
   message: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Notification
+export interface INotification {
+  _id: string;
+  recipient: string;
+  recipientType: EntityType;
+  type: NotificationType;
+  title: string;
+  message: string;
+  isRead: boolean;
   createdAt: string;
   updatedAt: string;
 }

@@ -83,6 +83,11 @@ export enum EngagementType {
   REVIEW = 'Review',
 }
 
+export enum NotificationType {
+  RESERVATION = 'Reservation',
+  REVIEW = 'Review',
+}
+
 export type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities' | 'menu' | 'info';
 
 export type NavTabs = 'Stay' | 'Restaurant' | 'Nightlife' | 'Airtime';
