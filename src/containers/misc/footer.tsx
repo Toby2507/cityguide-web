@@ -4,7 +4,7 @@ import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter, IoLogoYoutube } from 'r
 
 const Footer = () => {
   return (
-    <footer className="bg-primary py-28">
+    <footer className="bg-primary py-20">
       <div className="container px-10 mx-auto max-w-7xl">
         <div className="flex justify-between gap-10 pb-20">
           <div className="flex flex-col">

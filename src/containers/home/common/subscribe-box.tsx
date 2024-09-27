@@ -2,7 +2,7 @@ import { Button, Input } from '@nextui-org/react';
 
 const SubscribeBox = () => {
   return (
-    <section className="bg-bgLightBlue py-28">
+    <section className="bg-bgLightBlue py-20">
       <div className="container px-10 mx-auto max-w-4xl">
         <div className="flex flex-col items-center gap-4">
           <h2 className="text-primary text-4xl font-bold">Subscribe to our newsletter</h2>
