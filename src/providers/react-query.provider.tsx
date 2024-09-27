@@ -11,6 +11,8 @@ const makeQueryClient = () =>
   new QueryClient({
     defaultOptions: {
       queries: {
+        retry: (failureCount) => failureCount < 3,
+        retryDelay: (retryCount) => Math.min(1000 * 2 ** retryCount, 30000),
         staleTime: 60 * 1000,
       },
     },
