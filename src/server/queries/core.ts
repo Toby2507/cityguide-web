@@ -1,6 +1,6 @@
 'use server';
 
-import { INightLife, IReservation, IRestaurant, IStay, LatLng, PropertyType } from '@/types';
+import { INightLife, INotification, IReservation, IRestaurant, IStay, LatLng, PropertyType } from '@/types';
 import { fetchBaseQuery, fetchWithReAuth } from '@/utils';
 
 // Stays
@@ -116,4 +116,12 @@ export const getReservationById = async (id: string) => {
 export const getPropertyById = async (id: string, type: PropertyType) => {
   if (type === PropertyType.STAY) return await getStayById(id);
   return await getRestaurantById(id);
+};
+
+// Notifications
+export const getNotifications = async () => {
+  const res = await fetchWithReAuth('notification', { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.notifications as INotification[];
 };
