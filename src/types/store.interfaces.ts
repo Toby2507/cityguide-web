@@ -7,6 +7,7 @@ import {
   IGuests,
   IMenu,
   INightLife,
+  INotification,
   IReservation,
   IReservationAccommodation,
   IRestaurant,
@@ -67,8 +68,9 @@ export interface ServerToClientEvents {
   delete_property: (data: { id: string; type: PropertyType }) => void;
   new_reservation: (reservation: Partial<IReservation>) => void;
   update_reservation: (data: { reservationId: string; status: Status }) => void;
-  new_review: (data: { establishmentId: string; review: Partial<IReview> }) => void;
-  delete_review: (data: { establishmentId: string; reviewId: string }) => void;
+  new_review: (data: { property: string; type: PropertyType; review: Partial<IReview> }) => void;
+  delete_review: (data: { property: string; type: PropertyType; reviewId: string }) => void;
+  new_notification: (notification: Partial<INotification>) => void;
 }
 export type TAction = 'add' | 'update' | 'remove';
 
