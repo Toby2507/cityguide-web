@@ -80,8 +80,7 @@ export const formatStayBody = (body: ICreateStay) => {
   };
   if (body.hotelRating) stay.hotelRating = body.hotelRating;
   const extras = body.extraInfo;
-  if ((extras?.host?.info && extras.host.name) || extras?.property || extras?.neighborhood?.info)
-    stay.extraInfo = body.extraInfo;
+  if (extras?.property || extras?.neighborhood?.info) stay.extraInfo = body.extraInfo;
   if (body.optionalServices?.length) stay.optionalServices = body.optionalServices;
   return stay;
 };

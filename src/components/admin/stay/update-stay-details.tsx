@@ -98,52 +98,6 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
           <Controller
             control={control}
             render={({ field: { onChange, ref, value } }) => (
-              <Input
-                name="host_name"
-                label="Host Name"
-                labelPlacement="outside"
-                placeholder=" "
-                radius="full"
-                value={value}
-                onChange={onChange}
-                ref={ref}
-                className="text-accentGray"
-              />
-            )}
-            name="extraInfo.host.name"
-            rules={{
-              validate: (val) => {
-                const isValid = updateStaySchema.shape.extraInfo.unwrap().shape.host.unwrap().shape.name.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
-          />
-          <Controller
-            control={control}
-            render={({ field: { onChange, ref, value } }) => (
-              <Textarea
-                name="host_summary"
-                label="Host Summary"
-                labelPlacement="outside"
-                placeholder=" "
-                radius="full"
-                value={value}
-                onChange={onChange}
-                ref={ref}
-                className="text-accentGray"
-              />
-            )}
-            name="extraInfo.host.info"
-            rules={{
-              validate: (val) => {
-                const isValid = updateStaySchema.shape.extraInfo.unwrap().shape.host.unwrap().shape.info.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
-          />
-          <Controller
-            control={control}
-            render={({ field: { onChange, ref, value } }) => (
               <Textarea
                 name="property_description"
                 label="Property Extra Details"
