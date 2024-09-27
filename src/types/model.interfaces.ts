@@ -184,7 +184,6 @@ export interface IRoom {
 }
 
 export interface IExtraInfo {
-  host?: { name: string; info: string };
   property?: string;
   neighborhood?: {
     info?: string;

@@ -1,6 +1,7 @@
 'use client';
 
 import { StringArrayInput } from '@/components';
+import { usePropertyStore } from '@/providers';
 import { createStaySchema } from '@/schemas';
 import { ICreateStay, MaxDays } from '@/types';
 import { parseAbsoluteToLocal } from '@internationalized/date';
@@ -11,13 +12,12 @@ import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateNavButtons from '../common/create-nav-buttons';
 import CreateStayOptionalServices from './create-stay-optional';
-import { usePropertyStore } from '@/providers';
 
 interface Props {
   setStep: (newStep: number) => void;
 }
 
-const CreateStayStep7 = ({ setStep }: Props) => {
+const CreateStayStep6 = ({ setStep }: Props) => {
   const { control, trigger, watch } = useFormContext<ICreateStay>();
   const { setStay } = usePropertyStore();
   const {
@@ -69,7 +69,7 @@ const CreateStayStep7 = ({ setStep }: Props) => {
     const isValid = await trigger(['rules', 'maxDays', 'paymentMethods']);
     setIsLoading(false);
     if (!isValid) return toast.error('Please fill out the required fields');
-    setStep(8);
+    setStep(7);
     setStay({ property: watch() });
   };
 
@@ -267,4 +267,4 @@ const CreateStayStep7 = ({ setStep }: Props) => {
   );
 };
 
-export default CreateStayStep7;
+export default CreateStayStep6;

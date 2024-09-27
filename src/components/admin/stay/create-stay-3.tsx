@@ -110,7 +110,7 @@ const CreateStayStep3 = ({ setStep }: Props) => {
               radius="full"
               isRequired
               onChange={(e) => onChange(e.target.value.split(',').map((i) => i.trim()))}
-              onKeyDown={(e) => onEnter(e, () => watch('type') !== StayType.HOTEL && handleNext())}
+              onKeyDown={(e) => onEnter(e, () => setFocus('extraInfo.property'))}
               isInvalid={!!error}
               errorMessage={error?.message}
               ref={ref}
@@ -122,6 +122,54 @@ const CreateStayStep3 = ({ setStep }: Props) => {
           rules={{
             validate: (val) => {
               const isValid = createStaySchema.shape.language.safeParse(val);
+              return isValid.success || isValid.error.flatten().formErrors.join(', ');
+            },
+          }}
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, ref, value } }) => (
+            <Textarea
+              name="property_description"
+              label="Property Extra Details"
+              labelPlacement="outside"
+              placeholder=" "
+              radius="full"
+              value={value}
+              onChange={onChange}
+              onKeyDown={(e) => onEnter(e, () => setFocus('extraInfo.neighborhood.info'))}
+              ref={ref}
+              className="text-accentGray"
+            />
+          )}
+          name="extraInfo.property"
+          rules={{
+            validate: (val) => {
+              const isValid = createStaySchema.shape.extraInfo.unwrap().shape.property.safeParse(val);
+              return isValid.success || isValid.error.flatten().formErrors.join(', ');
+            },
+          }}
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, ref, value } }) => (
+            <Textarea
+              name="neighborhood_description"
+              label="Neighborhood Description"
+              labelPlacement="outside"
+              placeholder=" "
+              radius="full"
+              value={value}
+              onChange={onChange}
+              onKeyDown={(e) => onEnter(e, () => watch('type') !== StayType.HOTEL && handleNext())}
+              ref={ref}
+              className="text-accentGray"
+            />
+          )}
+          name="extraInfo.neighborhood.info"
+          rules={{
+            validate: (val) => {
+              const isValid = createStaySchema.shape.extraInfo.unwrap().shape.neighborhood.safeParse(val);
               return isValid.success || isValid.error.flatten().formErrors.join(', ');
             },
           }}
