@@ -1,11 +1,11 @@
+import { Notification } from '@/containers';
 import { getUser } from '@/server';
-import { Badge, Button, Input, Navbar, NavbarContent, NavbarItem } from '@nextui-org/react';
-import Link from 'next/link';
-import { BsSearch } from 'react-icons/bs';
-import { FaBell } from 'react-icons/fa';
-import HeaderUser from '../common/header-user';
 import { EntityType } from '@/types';
 import { paths } from '@/utils';
+import { Button, Input, Navbar, NavbarContent, NavbarItem } from '@nextui-org/react';
+import Link from 'next/link';
+import { BsSearch } from 'react-icons/bs';
+import HeaderUser from '../common/header-user';
 
 const AdminHeader = async () => {
   const user = await getUser();
@@ -47,13 +47,7 @@ const AdminHeader = async () => {
           </NavbarItem>
         ) : null}
         <NavbarItem>
-          <Button aria-label="notifications" isIconOnly radius="sm" variant="light">
-            <Link href="admin" className="text-white">
-              <Badge content="" size="sm" color="danger">
-                <FaBell className="text-white" size={24} />
-              </Badge>
-            </Link>
-          </Button>
+          <Notification />
         </NavbarItem>
         <HeaderUser user={user!} />
       </NavbarContent>
