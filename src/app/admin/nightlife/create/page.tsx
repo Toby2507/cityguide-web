@@ -43,7 +43,7 @@ const CreateNightlifePage = () => {
       {step === 8 ? <CreateNightlifeReview setStep={setStep} /> : null}
       <div className="absolute bottom-10 flex flex-col gap-2">
         <p className="text-xs">Go to step</p>
-        <Pagination className="z-50" total={topStep} page={step} onChange={(val) => setStep(val)} />
+        <Pagination className="z-100" total={topStep} page={step} onChange={(val) => setStep(val)} />
       </div>
     </FormProvider>
   );
