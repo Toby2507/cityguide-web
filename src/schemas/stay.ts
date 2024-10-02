@@ -1,4 +1,4 @@
-import { MaxDays, Parking, Rating, StayType } from '@/types';
+import { HotelRating, MaxDays, Parking, StayType } from '@/types';
 import { boolean, nativeEnum, number, object, strictObject, string } from 'zod';
 
 export const createStaySchema = object({
@@ -49,7 +49,9 @@ export const createStaySchema = object({
   })
     .array()
     .min(1, 'Atleast one amenity is required'),
-  hotelRating: nativeEnum(Rating, { invalid_type_error: 'Hotel rating should be 0 | 1 | 2 | 3 | 4 | 5' }).optional(),
+  hotelRating: nativeEnum(HotelRating, {
+    invalid_type_error: 'Hotel rating should be 0 | 1 | 2 | 3 | 4 | 5',
+  }).optional(),
   rules: object(
     {
       checkIn: string({ required_error: 'Check-in time is required' }),
@@ -231,7 +233,7 @@ export const updateStaySchema = strictObject({
     .array()
     .min(1, 'Atleast one amenity is required')
     .optional(),
-  hotelRating: nativeEnum(Rating, {
+  hotelRating: nativeEnum(HotelRating, {
     invalid_type_error: 'Hotel rating should be 0 | 1 | 2 | 3 | 4 | 5',
   }).optional(),
   rules: object({

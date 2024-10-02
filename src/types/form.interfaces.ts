@@ -1,4 +1,4 @@
-import { EntityType, MaxDays, NightLifeType, PriceRange, PropertyType, Rating, StayType } from './enums';
+import { EntityType, HotelRating, MaxDays, NightLifeType, PriceRange, PropertyType, StayType } from './enums';
 import {
   IAccommodation,
   IAddress,
@@ -24,7 +24,7 @@ export interface ICreateStay {
   avatar: string;
   images: string[];
   amenities: string[];
-  hotelRating?: Rating;
+  hotelRating?: HotelRating;
   rules: {
     checkIn: string;
     checkOut: string;
@@ -97,7 +97,7 @@ export interface IUpdateStay {
   avatar?: string;
   images?: string[];
   amenities?: string[];
-  hotelRating?: Rating;
+  hotelRating?: HotelRating;
   rules?: {
     checkIn: string;
     checkOut: string;

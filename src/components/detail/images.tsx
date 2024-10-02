@@ -1,6 +1,6 @@
 'use client';
 
-import { IAccommodation, Rating } from '@/types';
+import { HotelRating, IAccommodation } from '@/types';
 import { Button, Image, useDisclosure } from '@nextui-org/react';
 import ImageModal from '../common/image-modal';
 
@@ -8,7 +8,7 @@ interface Props {
   images: string[];
   avatar: string;
   name: string;
-  hotelRating?: Rating;
+  hotelRating?: HotelRating;
   accommodation?: IAccommodation[];
 }
 

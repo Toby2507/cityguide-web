@@ -1,6 +1,6 @@
 'use server';
 
-import { IUser } from '@/types';
+import { IFullUser } from '@/types';
 import { fetchBaseQuery, fetchWithReAuth, paths } from '@/utils';
 import { redirect } from 'next/navigation';
 import { _logout, getCookie, setCookie } from '../actions/cookie';
@@ -9,7 +9,7 @@ export const getUserProfile = async () => {
   const res = await fetchWithReAuth('user/profile', { method: 'GET' });
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
-  return result.user as IUser;
+  return result.user as IFullUser;
 };
 
 export const logout = async () => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { IAccommodation, Rating } from '@/types';
+import { HotelRating, IAccommodation } from '@/types';
 import { Button, Image, Link, Modal, ModalBody, ModalContent } from '@nextui-org/react';
 import { useState } from 'react';
 import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi';
@@ -13,7 +13,7 @@ interface Props {
   images: string[];
   avatar: string;
   accommodation?: IAccommodation[];
-  hotelRating?: Rating;
+  hotelRating?: HotelRating;
   onOpenChange: () => void;
 }
 

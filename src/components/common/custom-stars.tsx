@@ -1,15 +1,15 @@
-import { Rating } from '@/types';
+import { HotelRating } from '@/types';
 import { Button } from '@nextui-org/react';
 import { IoStar, IoStarOutline } from 'react-icons/io5';
 
 interface Props {
-  value?: Rating;
-  onChange?: (val: string | Rating) => void;
+  value?: HotelRating;
+  onChange?: (val: string | HotelRating) => void;
   size?: number;
 }
 
 const CustomStars = ({ value, size, onChange }: Props) => {
-  const rateArray = Object.values(Rating).filter((i) => Number(i));
+  const rateArray = Object.values(HotelRating).filter((i) => Number(i));
   return (
     <div className={`flex items-center ${onChange ? 'gap-4' : 'gap-1'}`}>
       {rateArray.map((rating) => {

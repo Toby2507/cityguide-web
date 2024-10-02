@@ -46,7 +46,7 @@ export interface IFormVerifyOtp {
   };
 }
 
-export interface IUser {
+export interface IFullUser {
   _id: string;
   firstName: string;
   lastName: string;

@@ -39,13 +39,27 @@ export enum Status {
   CANCELLED = 'Cancelled',
 }
 
-export enum Rating {
+export enum HotelRating {
   NO_RATING,
   ONE,
   TWO,
   THREE,
   FOUR,
   FIVE,
+}
+
+export enum Rating {
+  ZERO,
+  ONE,
+  TWO,
+  THREE,
+  FOUR,
+  FIVE,
+  SIX,
+  SEVEN,
+  EIGHT,
+  NINE,
+  TEN,
 }
 
 export enum Parking {

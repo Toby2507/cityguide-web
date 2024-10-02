@@ -27,3 +27,12 @@ export interface LatLng {
   lat: number;
   lng: number;
 }
+
+export interface IUser {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  imgUrl: string | null;
+}

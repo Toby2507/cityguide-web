@@ -1,7 +1,9 @@
-import { LatLng } from './common.interfaces';
+import { IFullUser } from './auth.interfaces';
+import { IUser, LatLng } from './common.interfaces';
 import {
   DayOfWeek,
   EntityType,
+  HotelRating,
   MaxDays,
   NightLifeType,
   NotificationType,
@@ -242,7 +244,7 @@ export interface IStay {
   avatar: string;
   images: string[];
   amenities: string[];
-  hotelRating?: Rating;
+  hotelRating?: HotelRating;
   rules: IStayRules;
   accommodation: IAccommodation[];
   maxDays: MaxDays;
@@ -255,14 +257,7 @@ export interface IStay {
 }
 
 // Reservations
-export interface IReservationUser {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  imgUrl: string | null;
-}
+
 export interface IReservationAccommodation {
   accommodationId: string;
   reservationCount: number;
@@ -273,7 +268,7 @@ export interface IReservation {
   reservationRef: string;
   property: string;
   propertyType: PropertyType;
-  user: string | IReservationUser;
+  user: string | IFullUser;
   partner: string;
   partnerType: EntityType;
   isAgent?: boolean;
@@ -293,18 +288,14 @@ export interface IReservation {
   updatedAt: string;
 }
 
-export interface IReservationStats {
-  name: string;
-  Reservations: number;
-  'Cancelled Reservations': string;
-}
-
 // Review
 export interface IReview {
   _id: string;
   property: string;
   propertyType: PropertyType;
-  rating: Rating;
+  user: string | IUser;
+  categoryRatings: { [key: string]: Rating };
+  rating: number;
   message: string;
   createdAt: string;
   updatedAt: string;

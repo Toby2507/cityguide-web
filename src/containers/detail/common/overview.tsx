@@ -2,7 +2,7 @@
 
 import { DetailImages, DetailInfo, RatingCard } from '@/components';
 import { addFavouriteProperty, getUser, removeFavouriteProperty } from '@/server';
-import { IAccommodation, IAddress, PropertyType, Rating, Updates } from '@/types';
+import { HotelRating, IAccommodation, IAddress, PropertyType, Updates } from '@/types';
 import mapBanner from '@images/map-banner.png';
 import { Button, Divider, User } from '@nextui-org/react';
 import NextImage from 'next/image';
@@ -27,7 +27,7 @@ interface Props {
   reviewCount: number;
   propType: PropertyType;
   language?: string[];
-  hotelRating?: Rating;
+  hotelRating?: HotelRating;
   accommodation?: IAccommodation[];
   onUpdate?: (type: Updates) => void;
 }

@@ -1,7 +1,8 @@
 'use client';
 
+import { usePropertyStore } from '@/providers';
 import { createStaySchema } from '@/schemas';
-import { ICreateStay, Rating, StayType } from '@/types';
+import { HotelRating, ICreateStay, StayType } from '@/types';
 import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
@@ -9,7 +10,6 @@ import { Controller, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CustomStars from '../../common/custom-stars';
 import CreateNavButtons from '../common/create-nav-buttons';
-import { usePropertyStore } from '@/providers';
 
 interface Props {
   setStep: (newStep: number) => void;
@@ -186,7 +186,7 @@ const CreateStayStep3 = ({ setStep }: Props) => {
               </div>
             )}
             name="hotelRating"
-            defaultValue={Rating.NO_RATING}
+            defaultValue={HotelRating.NO_RATING}
           />
         ) : null}
       </div>
