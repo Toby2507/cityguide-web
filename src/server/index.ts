@@ -22,6 +22,7 @@ export { getCookie, getUser, setCookie, setCredentials } from './actions/cookie'
 export { addFavouriteProperty, refetchPage, removeFavouriteProperty } from './actions/core';
 // Queries
 export {
+  getAdminAnalytics,
   getPartnerNightlifes,
   getPartnerReservation,
   getPartnerRestaurants,

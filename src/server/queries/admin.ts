@@ -67,14 +67,24 @@ export const getAdminAnalytics = async () => {
   const res = await fetchWithReAuth('account/admin', { method: 'GET' });
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
-  let analytics = result.analytics;
-  analytics = analytics.map((a: any) => {
-    if (a.hasOwnProperty('categoryRatings')) return { ...a, type: EngagementType.REVIEW, href: '' };
-    return {
-      ...a,
-      type: a.status === Status.CANCELLED ? EngagementType.CANCELLED : EngagementType.NEW,
-      href: paths.adminReservation(a.id),
-    };
-  });
+  let data = result.analytics;
+
+  const analytics: IAnalytics = {
+    totalProperties: data.stays + data.restaurants + data.nightlifes,
+    availableStays: data.stays,
+    availableRestaurants: data.restaurants,
+    availableNightlife: data.nightlife,
+    totalReservations: Object.values<number>(data.reservation).reduce((a, b) => a + b, 0),
+    pendingReservations: data.reservation[Status.PENDING],
+    cancelledReservations: data.reservation[Status.CANCELLED],
+    engagements: data.engagements.map((a: any) => {
+      if (a.hasOwnProperty('categoryRatings')) return { ...a, type: EngagementType.REVIEW, href: '' };
+      return {
+        ...a,
+        type: a.status === Status.CANCELLED ? EngagementType.CANCELLED : EngagementType.NEW,
+        href: paths.adminReservation(a._id),
+      };
+    }),
+  };
   return analytics as IAnalytics;
 };

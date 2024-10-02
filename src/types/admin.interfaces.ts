@@ -17,9 +17,12 @@ export interface IReservationStats {
 }
 
 export interface IAnalytics {
-  stays: number;
-  restaurants: number;
-  nightlife: number;
-  reservation: Record<Status, number>;
+  totalProperties: number;
+  availableStays: number;
+  availableRestaurants: number;
+  availableNightlife: number;
+  totalReservations: number;
+  pendingReservations: number;
+  cancelledReservations: number;
   engagements: (IReviewEngagement | IReservationEngagement)[];
 }

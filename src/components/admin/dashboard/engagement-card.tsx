@@ -1,11 +1,12 @@
-import { EngagementType, IEngagement } from '@/types';
+import { EngagementType, IAnalytics, IUser } from '@/types';
 import { Avatar, Chip } from '@nextui-org/react';
 import Link from 'next/link';
 
-const EngagementCard = ({ id, type, imgUrl, name, href }: IEngagement) => {
+const EngagementCard = ({ type, href, user }: IAnalytics['engagements'][0]) => {
+  const { firstName, lastName, imgUrl } = user as IUser;
   return (
     <div className="flex items-center gap-2">
-      <Avatar src={imgUrl} className="w-16 h-16" />
+      <Avatar src={imgUrl ? imgUrl : undefined} className="w-16 h-16" />
       <div className="flex flex-col">
         <Chip
           size="sm"
@@ -14,10 +15,14 @@ const EngagementCard = ({ id, type, imgUrl, name, href }: IEngagement) => {
         >
           {type}
         </Chip>
-        <p className="text-base font-semibold">{name}</p>
-        <Link href={href}>
-          <p className="text-[10px] font-light underline">View Engagement</p>
-        </Link>
+        <p className="text-base font-semibold">
+          {firstName} {lastName}
+        </p>
+        {href ? (
+          <Link href={href}>
+            <p className="text-[10px] font-light underline">View Engagement</p>
+          </Link>
+        ) : null}
       </div>
     </div>
   );
