@@ -28,13 +28,7 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
   const [tableKey, setTableKey] = useState<string>('0');
   const [accommodations, setAccommodations] = useState<IAccommodation[]>(stay.accommodation);
   const firstStayId = accommodations.length ? accommodations[0].id : '';
-  const lastStayId = accommodations.length ? accommodations[accommodations.length - 1].id : '';
 
-  const actionClass = (id: string) => {
-    if (id === firstStayId && accommodations.length > 1) return 'border-b-0';
-    if (id === lastStayId && accommodations.length !== 1) return 'border-t-0';
-    if (![firstStayId, lastStayId].includes(id)) return 'border-y-0';
-  };
   const handleSearch = () => {
     const acc = stay.accommodation.filter(
       (a) =>
@@ -103,8 +97,9 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
                 <TableCell
                   key={key}
                   className={`justify-self-start bg-red align-top p-4 border ${
-                    key === 'actions' ? actionClass(item.id) : ''
+                    key === 'actions' ? (item.id !== firstStayId ? 'hidden' : '') : ''
                   }`}
+                  rowSpan={key === 'actions' && item.id === firstStayId ? 0 : 1}
                 >
                   <StayDetailTableCell
                     columnKey={key}
