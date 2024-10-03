@@ -27,7 +27,6 @@ const RestaurantDetailReservation = ({
   serviceStyle,
   dietaryProvisions,
   cuisine,
-  partner,
   cancellationPolicy,
   details: { amenities, children, delivery, paymentOptions },
 }: IRestaurant) => {
