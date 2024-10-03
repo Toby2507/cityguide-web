@@ -2,7 +2,7 @@
 
 import { UserDetailReservationAccommodation } from '@/components';
 import { useReservationStore, useSearchStore } from '@/providers';
-import { IPartner, IStay, IUserDetails, StayType } from '@/types';
+import { IStay, IUserDetails, StayType } from '@/types';
 import { generateTimeRange, paths } from '@/utils';
 import {
   Button,
@@ -31,7 +31,7 @@ interface Props {
   stay: IStay;
 }
 
-const UserDetailReservation = ({ stay: { accommodation, rules, type, partner }, user }: Props) => {
+const UserDetailReservation = ({ stay: { accommodation, rules, type, cancellationPolicy }, user }: Props) => {
   const { push } = useRouter();
   const pathname = usePathname();
   const { checkInDay, checkOutDay } = useSearchStore();
@@ -42,11 +42,11 @@ const UserDetailReservation = ({ stay: { accommodation, rules, type, partner }, 
     { name: 'Email Address', value: user?.email },
     { name: 'Phone Number', value: user?.phoneNumber },
   ];
-  const cancellation = (partner as IPartner).cancellationPolicy;
-  const cancellationDeadline = cancellation && dayjs(checkInDay).subtract(cancellation.daysFromReservation - 1, 'd');
+  const cancellationDeadline =
+    cancellationPolicy && dayjs(checkInDay).subtract(cancellationPolicy.daysFromReservation - 1, 'd');
   const goodToKnow = useMemo(
     () => [
-      ...(!cancellation
+      ...(!cancellationPolicy
         ? ['Stay flexible: You can cancel for free anytime']
         : dayjs(cancellationDeadline).isBefore(dayjs())
         ? []
@@ -62,7 +62,7 @@ const UserDetailReservation = ({ stay: { accommodation, rules, type, partner }, 
         ? ["No payment needed today, You'll pay at the property"]
         : []),
     ],
-    [cancellation, cancellationDeadline, type]
+    [cancellationPolicy, cancellationDeadline, type]
   );
   const accommodations =
     reservation?.accommodations

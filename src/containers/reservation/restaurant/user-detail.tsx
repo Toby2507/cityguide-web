@@ -1,7 +1,7 @@
 'use client';
 
 import { useReservationStore } from '@/providers';
-import { IPartner, IRestaurant, IUserDetails } from '@/types';
+import { IRestaurant, IUserDetails } from '@/types';
 import { generateTimeRange, paths } from '@/utils';
 import { Button, Input, Radio, RadioGroup, Select, SelectItem, Textarea, User } from '@nextui-org/react';
 import dayjs from 'dayjs';
@@ -17,7 +17,7 @@ interface Props {
   restaurant: IRestaurant;
 }
 
-const RestaurantUserDetailReservation = ({ restaurant: { availability, partner }, user }: Props) => {
+const RestaurantUserDetailReservation = ({ restaurant: { availability, cancellationPolicy }, user }: Props) => {
   const { push } = useRouter();
   const pathname = usePathname();
   const { reservation, setReservation } = useReservationStore();
@@ -27,12 +27,11 @@ const RestaurantUserDetailReservation = ({ restaurant: { availability, partner }
     { name: 'Email Address', value: user?.email },
     { name: 'Phone Number', value: user?.phoneNumber },
   ];
-  const cancellation = (partner as IPartner).cancellationPolicy;
   const cancellationDeadline =
-    cancellation && dayjs(reservation?.checkInDay).subtract(cancellation.daysFromReservation - 1, 'd');
+    cancellationPolicy && dayjs(reservation?.checkInDay).subtract(cancellationPolicy.daysFromReservation - 1, 'd');
   const goodToKnow = useMemo(
     () => [
-      ...(!cancellation
+      ...(!cancellationPolicy
         ? ['Stay flexible: You can cancel for free anytime']
         : dayjs(cancellationDeadline).isBefore(dayjs())
         ? []
@@ -45,7 +44,7 @@ const RestaurantUserDetailReservation = ({ restaurant: { availability, partner }
           ]),
       "You'll get the entire table to your self",
     ],
-    [cancellation, cancellationDeadline]
+    [cancellationPolicy, cancellationDeadline]
   );
   const timeRange = availability.find((a) => a.day === dayjs(reservation?.checkInDay).format('dddd'));
   const times = timeRange

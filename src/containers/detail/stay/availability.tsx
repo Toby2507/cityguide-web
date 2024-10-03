@@ -112,6 +112,7 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
                     showAction={item.id === firstStayId}
                     type={stay.type}
                     isAdmin={!!onUpdate}
+                    cancellationPolicy={stay.cancellationPolicy}
                   />
                 </TableCell>
               ))}

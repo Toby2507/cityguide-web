@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi';
 import { RxCaretLeft } from 'react-icons/rx';
 import CustomStars from './custom-stars';
+import React from 'react';
 
 interface Props {
   isOpen: boolean;
@@ -14,10 +15,11 @@ interface Props {
   avatar: string;
   accommodation?: IAccommodation[];
   hotelRating?: HotelRating;
+  noBook?: boolean;
   onOpenChange: () => void;
 }
 
-const ImageModal = ({ isOpen, onOpenChange, name, hotelRating, avatar, images, accommodation }: Props) => {
+const ImageModal = ({ isOpen, onOpenChange, name, noBook, hotelRating, avatar, images, accommodation }: Props) => {
   const [activeTab, setActiveTab] = useState<string>('General');
   const [viewType, setViewType] = useState<string>('grid');
   const [activeImage, setActiveImage] = useState<number>(0);
@@ -48,11 +50,13 @@ const ImageModal = ({ isOpen, onOpenChange, name, hotelRating, avatar, images, a
               <div className="relative flex items-center justify-center gap-2 border-b py-2">
                 <h3 className="text-xl font-semibold tracking-wide">{name}</h3>
                 {hotelRating && <CustomStars value={hotelRating} />}
-                <Link href="#availability">
-                  <Button color="primary" className="px-10 font-semibold" radius="sm" size="sm" onPress={onClose}>
-                    Book now
-                  </Button>
-                </Link>
+                {!noBook && (
+                  <Link href="#availability">
+                    <Button color="primary" className="px-10 font-semibold" radius="sm" size="sm" onPress={onClose}>
+                      Book now
+                    </Button>
+                  </Link>
+                )}
                 {viewType === 'cinema' && (
                   <Button
                     className="absolute left-0 pr-4 gap-0"

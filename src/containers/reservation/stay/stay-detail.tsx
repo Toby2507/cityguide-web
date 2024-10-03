@@ -2,7 +2,7 @@
 
 import { CustomStars, RatingCard } from '@/components';
 import { useReservationStore, useSearchStore } from '@/providers';
-import { IPartner, IStay } from '@/types';
+import { IStay } from '@/types';
 import { numberToCurrency, paths } from '@/utils';
 import { Button, Chip } from '@nextui-org/react';
 import dayjs from 'dayjs';
@@ -24,7 +24,7 @@ const StayDetailReservation = ({
   accommodation,
   amenities,
   _id,
-  partner,
+  cancellationPolicy,
   rules: { checkIn, checkOut },
 }: IStay) => {
   const { push } = useRouter();
@@ -41,8 +41,8 @@ const StayDetailReservation = ({
       .filter(Boolean) || [];
   const validAddr =
     address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
-  const cancellation = (partner as IPartner).cancellationPolicy;
-  const cancellationDeadline = cancellation && dayjs(checkInDay).subtract(cancellation.daysFromReservation, 'd');
+  const cancellationDeadline =
+    cancellationPolicy && dayjs(checkInDay).subtract(cancellationPolicy.daysFromReservation, 'd');
   return (
     <section className="flex flex-col gap-2">
       {/* Propery Details */}
@@ -153,7 +153,7 @@ const StayDetailReservation = ({
       <article className="flex flex-col gap-4 border-2 rounded-xl p-3">
         <h3 className="text-lg font-bold tracking-wide">How much will it cost to cancel?</h3>
         <div className="flex flex-col gap-1">
-          {cancellation ? (
+          {cancellationPolicy ? (
             <div className="flex flex-col gap-2">
               {cancellationDeadline?.isBefore(dayjs(), 'd') ? null : cancellationDeadline?.isSame(dayjs(), 'd') ? (
                 <div className="flex items-center gap-2">
@@ -171,13 +171,13 @@ const StayDetailReservation = ({
               <div className="flex justify-between gap-4">
                 <p className="text-xs">
                   If you cancel
-                  {dayjs(checkInDay).diff(dayjs(), 'd') >= cancellation.daysFromReservation
+                  {dayjs(checkInDay).diff(dayjs(), 'd') >= cancellationPolicy.daysFromReservation
                     ? ` after ${cancellationDeadline?.format('ddd, MMM DD, YYYY')}`
                     : ''}
                   , you will pay
                 </p>
                 <p className="text-sm font-semibold">
-                  {numberToCurrency((reservation?.price || 0) * (1 - cancellation.percentRefundable))}
+                  {numberToCurrency((reservation?.price || 0) * (1 - cancellationPolicy.percentRefundable))}
                 </p>
               </div>
             </div>

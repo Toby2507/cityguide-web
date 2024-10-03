@@ -1,4 +1,4 @@
-import { INightLife, IPartner, IRestaurant, IStay, NightLifeType, PriceRange, StayType } from '@/types';
+import { INightLife, IRestaurant, IStay, NightLifeType, PriceRange, StayType } from '@/types';
 
 interface IFilter {
   [key: string]: number;
@@ -90,7 +90,7 @@ const paymentFormat = (stays: (IStay | IRestaurant | INightLife)[]): IFilter => 
 
 const policyFormat = (stays: IStay[]): IFilter => {
   return stays.reduce((acc: IFilter, stay) => {
-    if (!(stay.partner as IPartner).cancellationPolicy) acc['Free cancellation'] = (acc['Free cancellation'] || 0) + 1;
+    if (!stay.cancellationPolicy) acc['Free cancellation'] = (acc['Free cancellation'] || 0) + 1;
     if (![StayType.APARTMENT, StayType.BnB].includes(stay.type)) acc['No prepayment'] = (acc['No prepayment'] || 0) + 1;
     if (stay.paymentMethods.some((p) => p.toLowerCase().includes('credit')))
       acc['Reserve without credit card'] = (acc['Reserve without credit card'] || 0) + 1;
@@ -156,7 +156,7 @@ const filterByPayment = (stays: (IStay | IRestaurant | INightLife)[], filterBy: 
 
 const filterByPolicy = (stays: IStay[], filterBy: string) => {
   return stays.filter((stay) => {
-    if (filterBy === 'Free cancellation' && !(stay.partner as IPartner).cancellationPolicy) return true;
+    if (filterBy === 'Free cancellation' && !stay.cancellationPolicy) return true;
     if (filterBy === 'No prepayment' && ![StayType.APARTMENT, StayType.BnB].includes(stay.type)) return true;
     if (
       filterBy === 'Reserve without credit card' &&

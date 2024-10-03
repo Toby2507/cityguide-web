@@ -1,14 +1,24 @@
 'use client';
 
 import { useReservationStore } from '@/providers';
-import { IAccommodation, IGuests, StayType } from '@/types';
+import { IAccommodation, ICancellation, IGuests, StayType } from '@/types';
 import { formatAccomodationDetails, numberToCurrency, paths } from '@/utils';
-import { Button, ButtonGroup, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
+import {
+  Button,
+  ButtonGroup,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  useDisclosure,
+} from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { BsDot } from 'react-icons/bs';
 import { FaUserAlt } from 'react-icons/fa';
 import { IoCaretDownOutline, IoCheckmark } from 'react-icons/io5';
+import React from 'react';
+import ImageModal from '../common/image-modal';
 
 interface Props {
   columnKey: string;
@@ -16,12 +26,14 @@ interface Props {
   showAction: boolean;
   type: StayType;
   isAdmin?: boolean;
+  cancellationPolicy: ICancellation | null;
 }
 const GUEST: IGuests = { adults: 1, children: 0 };
 
-const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin }: Props) => {
+const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, cancellationPolicy }: Props) => {
   const { push } = useRouter();
   const { reservation, updateAccommodations } = useReservationStore();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const quantity = useMemo(
     () => reservation?.accommodations?.find((a) => a.accommodationId === user.id)?.reservationCount || 0,
     [reservation, user.id]
@@ -66,38 +78,50 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin }: Pro
   };
   if (columnKey === 'name')
     return (
-      <div className="flex flex-col gap-2">
-        <h4 className="text-xl text-black font-semibold">{user.name}</h4>
-        <ul className="flex flex-col gap-1">
-          {user.rooms.map((room, idx) => (
-            <li key={idx}>
-              <span className="text-sm font-medium">{room.name}: </span>
-              <span className="text-xs">{room.furnitures.map((bed) => `${bed.count} ${bed.type} bed`).join(', ')}</span>
-            </li>
-          ))}
-        </ul>
-        <hr />
-        <p className="text-sm">{user?.description}</p>
-        <hr />
-        <div className="flex flex-wrap items-center gap-2">
-          {formatAccomodationDetails(user).map(({ title, value, Icon }) => (
-            <div key={title} className="flex items-center gap-1">
-              <Icon size={16} />
-              <p className="text-xs font-medium">{value}</p>
-            </div>
-          ))}
-        </div>
-        {user.amenities ? (
-          <div className="flex flex-wrap items-center gap-2 pt-2">
-            {user.amenities?.map((amenity, idx) => (
-              <div key={idx} className="flex items-center gap-1">
-                <IoCheckmark size={16} />
-                <p className="text-xs font-medium">{amenity}</p>
+      <>
+        <ImageModal
+          isOpen={isOpen}
+          name={user.name}
+          images={user.images.slice(1)}
+          avatar={user.images[0]}
+          onOpenChange={onOpenChange}
+          noBook
+        />
+        <div className="flex flex-col gap-2">
+          <h4 className="text-xl text-black font-semibold cursor-pointer hover:underline" onClick={onOpen}>
+            {user.name}
+          </h4>
+          <ul className="flex flex-col gap-1">
+            {user.rooms.map((room, idx) => (
+              <li key={idx}>
+                <span className="text-sm font-medium">{room.name}: </span>
+                <span className="text-xs">{room.furnitures.map((bed) => `${bed.count} ${bed.type}`).join(', ')}</span>
+              </li>
+            ))}
+          </ul>
+          <hr />
+          <p className="text-sm">{user?.description}</p>
+          <hr />
+          <div className="flex flex-wrap items-center gap-2">
+            {formatAccomodationDetails(user).map(({ title, value, Icon }) => (
+              <div key={title} className="flex items-center gap-1">
+                <Icon size={16} />
+                <p className="text-xs font-medium">{value}</p>
               </div>
             ))}
           </div>
-        ) : null}
-      </div>
+          {user.amenities ? (
+            <div className="flex flex-wrap items-center gap-2 pt-2">
+              {user.amenities?.map((amenity, idx) => (
+                <div key={idx} className="flex items-center gap-1">
+                  <IoCheckmark size={16} />
+                  <p className="text-xs font-medium">{amenity}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </>
     );
   if (columnKey === 'maxGuests')
     return (

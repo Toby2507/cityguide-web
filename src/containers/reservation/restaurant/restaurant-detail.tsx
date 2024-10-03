@@ -2,7 +2,7 @@
 
 import { RatingCard } from '@/components';
 import { useReservationStore } from '@/providers';
-import { IPartner, IRestaurant } from '@/types';
+import { IRestaurant } from '@/types';
 import { numberToCurrency, paths } from '@/utils';
 import { Button, Chip } from '@nextui-org/react';
 import dayjs from 'dayjs';
@@ -28,6 +28,7 @@ const RestaurantDetailReservation = ({
   dietaryProvisions,
   cuisine,
   partner,
+  cancellationPolicy,
   details: { amenities, children, delivery, paymentOptions },
 }: IRestaurant) => {
   const { reservation } = useReservationStore();
@@ -53,9 +54,8 @@ const RestaurantDetailReservation = ({
       Icon: IoCard,
     },
   ];
-  const cancellation = (partner as IPartner).cancellationPolicy;
   const cancellationDeadline =
-    cancellation && dayjs(reservation?.checkInDay).subtract(cancellation.daysFromReservation, 'd');
+    cancellationPolicy && dayjs(reservation?.checkInDay).subtract(cancellationPolicy.daysFromReservation, 'd');
   return (
     <section className="flex flex-col gap-2">
       {/* Propery Details */}
@@ -149,7 +149,7 @@ const RestaurantDetailReservation = ({
       <article className="flex flex-col gap-4 border-2 rounded-xl p-3">
         <h3 className="text-lg font-bold tracking-wide">How much will it cost to cancel?</h3>
         <div className="flex flex-col gap-1">
-          {cancellation ? (
+          {cancellationPolicy ? (
             <div className="flex flex-col gap-2">
               {cancellationDeadline?.isBefore(dayjs(), 'd') ? null : cancellationDeadline?.isSame(dayjs(), 'd') ? (
                 <div className="flex items-center gap-2">
@@ -167,13 +167,13 @@ const RestaurantDetailReservation = ({
               <div className="flex justify-between gap-4">
                 <p className="text-xs">
                   If you cancel
-                  {dayjs(reservation?.checkInDay).diff(dayjs(), 'd') >= cancellation.daysFromReservation
+                  {dayjs(reservation?.checkInDay).diff(dayjs(), 'd') >= cancellationPolicy.daysFromReservation
                     ? ` after ${cancellationDeadline?.format('ddd, MMM DD, YYYY')}`
                     : ''}
                   , you will pay
                 </p>
                 <p className="text-sm font-semibold">
-                  {numberToCurrency((reservation?.price || 0) * (1 - cancellation.percentRefundable))}
+                  {numberToCurrency((reservation?.price || 0) * (1 - cancellationPolicy.percentRefundable))}
                 </p>
               </div>
             </div>

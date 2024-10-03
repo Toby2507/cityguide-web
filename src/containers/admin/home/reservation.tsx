@@ -3,7 +3,7 @@
 import { ReservationCell } from '@/components';
 import { reservationColumns } from '@/data';
 import { getPartnerReservation } from '@/server';
-import { IPartner, Status } from '@/types';
+import { IFullUser, Status } from '@/types';
 import {
   Button,
   DatePicker,
@@ -57,7 +57,7 @@ const AdminReservation = () => {
     let filteredRes = [...reservations];
     if (isSearching) {
       filteredRes = filteredRes.filter((res) =>
-        `${(res.user as IPartner).firstName} ${(res.user as IPartner).lastName}`
+        `${(res.user as IFullUser).firstName} ${(res.user as IFullUser).lastName}`
           .toLowerCase()
           .includes(searchValue.toLowerCase())
       );

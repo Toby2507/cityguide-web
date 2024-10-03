@@ -1,6 +1,6 @@
 'use client';
 
-import { IPartner, IReservation } from '@/types';
+import { IFullUser, IReservation } from '@/types';
 import { paths } from '@/utils';
 import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from '@nextui-org/react';
 import dayjs from 'dayjs';
@@ -15,7 +15,7 @@ interface IReservationCell {
 const ReservationCell = ({ columnKey, reservation }: IReservationCell) => {
   const { push } = useRouter();
   const guestText = [];
-  const user = reservation.user as IPartner;
+  const user = reservation.user as IFullUser;
   if (reservation.noOfGuests.adults)
     guestText.push(`${reservation.noOfGuests.adults} Adult${reservation.noOfGuests.adults > 1 ? 's' : ''}`);
   if (reservation.noOfGuests.children)

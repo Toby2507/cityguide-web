@@ -1,3 +1,4 @@
+import { IFullUser } from './auth.interfaces';
 import { IUser, LatLng } from './common.interfaces';
 import {
   DayOfWeek,
@@ -162,6 +163,7 @@ export interface IRestaurant {
   menu: IMenu[];
   details: IRestaurantDetails;
   contact: IContact;
+  cancellationPolicy: ICancellation | null;
   locationInfo?: ILocationInfo;
   createdAt: string;
   updatedAt: string;
@@ -250,6 +252,7 @@ export interface IStay {
   language: string[];
   paymentMethods: string[];
   optionalServices: IOptionalService[];
+  cancellationPolicy: ICancellation | null;
   locationInfo?: ILocationInfo;
   createdAt: string;
   updatedAt: string;
@@ -267,7 +270,7 @@ export interface IReservation {
   reservationRef: string;
   property: string;
   propertyType: PropertyType;
-  user: string | IPartner;
+  user: string | IFullUser;
   partner: string;
   partnerType: EntityType;
   isAgent?: boolean;

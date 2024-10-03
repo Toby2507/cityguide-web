@@ -8,6 +8,7 @@ import DetailPageOverview from '../common/overview';
 import StayDetailAvailability from './availability';
 import StayDetailInfoReview from './review';
 import StayDetailRules from './rules';
+import React from 'react';
 
 interface Props {
   stayId: string;
