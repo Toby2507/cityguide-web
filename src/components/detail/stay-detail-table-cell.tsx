@@ -19,6 +19,7 @@ import { FaUserAlt } from 'react-icons/fa';
 import { IoCaretDownOutline, IoCheckmark } from 'react-icons/io5';
 import React from 'react';
 import ImageModal from '../common/image-modal';
+import dayjs from 'dayjs';
 
 interface Props {
   columnKey: string;
@@ -42,14 +43,31 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, cance
     () => reservation?.accommodations?.find((a) => a.accommodationId === user.id)?.noOfGuests || GUEST,
     [reservation, user.id]
   );
+  const cancelDeadline = useMemo(
+    () => cancellationPolicy && dayjs(reservation?.checkInDay).subtract(cancellationPolicy.daysFromReservation, 'd'),
+    [cancellationPolicy, reservation?.checkInDay]
+  );
+  const cancellationInfo = useMemo(() => {
+    if (!cancelDeadline || !cancellationPolicy) return 'Free Cancellation';
+    return cancelDeadline.isBefore(dayjs(), 'd')
+      ? `Free cancellation is no longer available (ended on ${dayjs(cancelDeadline).format('MMM DD, YYYY')})`
+      : `Free Cancellation until ${dayjs(cancelDeadline).format('MMM DD, YYYY')}`;
+  }, [cancelDeadline, cancellationPolicy]);
+  const cancellationDesc = useMemo(() => {
+    if (!cancelDeadline?.isBefore(dayjs(), 'd') || !cancellationPolicy) return [];
+    return [
+      `Cancellation fee: ${cancellationPolicy.percentRefundable * 100}% of the total amount`,
+      `Refund amount: ${(1 - cancellationPolicy.percentRefundable) * 100}% of the total amount`,
+    ];
+  }, [cancelDeadline, cancellationPolicy]);
+  console.log({ cancellationPolicy, cancelDeadline });
   const prepayment = [StayType.APARTMENT, StayType.BnB].includes(type);
-
   const reservationInfo = [
-    { id: 'cancellation', title: 'Free Cancellation', description: '' },
+    { id: 'cancellation', title: cancellationInfo, description: cancellationDesc },
     ...(!prepayment
       ? [
-          { id: 'confirmation', title: 'Confirmation is immediate', description: '' },
-          { id: 'prepayment', title: 'No Prepayment needed', description: 'pay at the property' },
+          { id: 'confirmation', title: 'Confirmation is immediate', description: [] },
+          { id: 'prepayment', title: 'No Prepayment needed', description: ['pay at the property'] },
         ]
       : []),
   ];
@@ -252,10 +270,18 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, cance
           {reservationInfo.map(({ id, title, description }) => (
             <li key={id} className="flex gap-2">
               <IoCheckmark size={16} />
-              <p className="flex-1 text-xs font-medium">
-                <span className="font-semibold">{title}</span>
-                {description ? <span className="font-light"> - {description}</span> : null}
-              </p>
+              <div className="flex-1 flex flex-col gap-1">
+                <p className="text-xs font-semibold">{title}</p>
+                {description.length ? (
+                  <ul className="flex flex-col gap-1">
+                    {description.map((desc, idx) => (
+                      <li key={idx} className="text-xs font-light">
+                        - {desc}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
             </li>
           ))}
         </ul>
