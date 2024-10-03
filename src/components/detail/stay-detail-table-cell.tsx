@@ -60,7 +60,6 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, cance
       `Refund amount: ${(1 - cancellationPolicy.percentRefundable) * 100}% of the total amount`,
     ];
   }, [cancelDeadline, cancellationPolicy]);
-  console.log({ cancellationPolicy, cancelDeadline });
   const prepayment = [StayType.APARTMENT, StayType.BnB].includes(type);
   const reservationInfo = [
     { id: 'cancellation', title: cancellationInfo, description: cancellationDesc },
