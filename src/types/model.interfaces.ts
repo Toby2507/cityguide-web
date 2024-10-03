@@ -1,4 +1,3 @@
-import { IFullUser } from './auth.interfaces';
 import { IUser, LatLng } from './common.interfaces';
 import {
   DayOfWeek,
@@ -268,7 +267,7 @@ export interface IReservation {
   reservationRef: string;
   property: string;
   propertyType: PropertyType;
-  user: string | IFullUser;
+  user: string | IPartner;
   partner: string;
   partnerType: EntityType;
   isAgent?: boolean;
