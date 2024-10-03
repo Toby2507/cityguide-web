@@ -6,7 +6,6 @@ import {
   StayCategories,
   StaySearchBar,
   StayTrendingDestinations,
-  SubscribeBox,
   TopOffers,
 } from '@/containers';
 import { getTrendingStays } from '@/server';
@@ -34,7 +33,6 @@ const StayHomePage = async () => {
           <StayCategories />
           <Destinations />
         </div>
-        <SubscribeBox />
       </main>
       <Footer />
     </HydrationBoundary>

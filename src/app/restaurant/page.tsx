@@ -6,7 +6,6 @@ import {
   RestaurantCategories,
   RestaurantSearchBar,
   RestaurantTrendingDestinations,
-  SubscribeBox,
   TopOffers,
 } from '@/containers';
 import { getTrendingRestaurants } from '@/server';
@@ -34,7 +33,6 @@ const RestaurantHomePage = async () => {
           <RestaurantCategories />
           <Destinations />
         </div>
-        <SubscribeBox />
       </main>
       <Footer />
     </HydrationBoundary>

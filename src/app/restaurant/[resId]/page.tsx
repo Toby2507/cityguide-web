@@ -1,5 +1,5 @@
 import { RestaurantDetailNav } from '@/components';
-import { Footer, Header, RestaurantDetailContainer, SubscribeBox } from '@/containers';
+import { Footer, Header, RestaurantDetailContainer } from '@/containers';
 import { getRestaurantById } from '@/server';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
@@ -24,7 +24,6 @@ const RestaurantDetailPage = async ({ params: { resId } }: Props) => {
           <RestaurantDetailNav />
           <RestaurantDetailContainer resId={resId} />
         </div>
-        <SubscribeBox />
       </main>
       <Footer />
     </HydrationBoundary>

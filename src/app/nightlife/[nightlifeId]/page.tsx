@@ -1,7 +1,8 @@
 import { NightlifeDetailNav } from '@/components';
-import { Footer, Header, NightlifeDetailContainer, SubscribeBox } from '@/containers';
+import { Footer, Header, NightlifeDetailContainer } from '@/containers';
 import { getNightlifeById } from '@/server';
 import { QueryClient } from '@tanstack/react-query';
+import React from 'react';
 
 interface Props {
   params: {
@@ -24,7 +25,6 @@ const NightlifeDetailPage = async ({ params: { nightlifeId } }: Props) => {
           <NightlifeDetailNav />
           <NightlifeDetailContainer nightlifeId={nightlifeId} />
         </div>
-        <SubscribeBox />
       </main>
       <Footer />
     </>

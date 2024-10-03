@@ -6,7 +6,6 @@ import {
   NightlifeCategories,
   NightlifeSearchBar,
   NightlifeTrendingDestinations,
-  SubscribeBox,
   TopOffers,
 } from '@/containers';
 import { getTrendingNightlifes } from '@/server';
@@ -33,7 +32,6 @@ const NightlifeHomePage = async () => {
           <NightlifeCategories />
           <Destinations />
         </div>
-        <SubscribeBox />
       </main>
       <Footer />
     </HydrationBoundary>

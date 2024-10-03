@@ -1,4 +1,5 @@
-import { Destinations, DiscoverHome, Footer, HomeHeader, StaySearchBar, SubscribeBox } from '@/containers';
+import { Destinations, DiscoverHome, Footer, HomeHeader, StaySearchBar } from '@/containers';
+import React from 'react';
 
 const AirtimePage = () => {
   return (
@@ -12,7 +13,6 @@ const AirtimePage = () => {
         <div className="container mx-auto px-10 flex flex-col gap-10 max-w-7xl">
           <Destinations />
         </div>
-        <SubscribeBox />
       </main>
       <Footer />
     </>

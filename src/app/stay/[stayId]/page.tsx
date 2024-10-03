@@ -1,7 +1,7 @@
 import { StayDetailNav } from '@/components';
-import { Footer, Header, StayDetailContainer, SubscribeBox } from '@/containers';
+import { Footer, Header, StayDetailContainer } from '@/containers';
 import { getStayById } from '@/server';
-import { dehydrate, hydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
 interface IStayDetailPage {
   params: {
@@ -24,7 +24,6 @@ const StayDetailPage = async ({ params: { stayId } }: IStayDetailPage) => {
           <StayDetailNav />
           <StayDetailContainer stayId={stayId} />
         </div>
-        <SubscribeBox />
       </main>
       <Footer />
     </HydrationBoundary>
