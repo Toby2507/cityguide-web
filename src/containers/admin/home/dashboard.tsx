@@ -1,7 +1,7 @@
 'use client';
 
 import { DashboardChart, EngagementCard, MetricCard } from '@/components';
-import { dateFilters, engagements, intervals } from '@/data';
+import { dateFilters, intervals } from '@/data';
 import { getAdminAnalytics, getReservationAnalytics } from '@/server';
 import { IReservationStats } from '@/types';
 import {
