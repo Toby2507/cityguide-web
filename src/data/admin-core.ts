@@ -1,4 +1,3 @@
-import { EngagementType, IEngagement } from '@/types';
 import { BiSupport } from 'react-icons/bi';
 import { BsBarChartLine, BsListCheck } from 'react-icons/bs';
 import { CiCreditCard1 } from 'react-icons/ci';
@@ -27,51 +26,6 @@ export const metrics = [
   { id: 'totalRes', title: 'Total Reservations', value: 0, href: '/admin', Icon: BsListCheck },
   { id: 'pendingRes', title: 'Pending Reservations', value: 0, href: '/admin', Icon: MdPendingActions },
   { id: 'cancelledRes', title: 'Cancelled Reservations', value: 0, href: '/admin', Icon: MdFreeCancellation },
-];
-
-export const engagements: IEngagement[] = [
-  {
-    id: '1',
-    imgUrl: 'https://www.w3schools.com/howto/img_avatar2.png',
-    name: 'John Doe',
-    type: EngagementType.NEW,
-    href: '/admin',
-  },
-  {
-    id: '2',
-    imgUrl: 'https://www.w3schools.com/howto/img_avatar2.png',
-    name: 'John Doe',
-    type: EngagementType.CANCELLED,
-    href: '/admin',
-  },
-  {
-    id: '3',
-    imgUrl: 'https://www.w3schools.com/howto/img_avatar2.png',
-    name: 'John Doe',
-    type: EngagementType.NEW,
-    href: '/admin',
-  },
-  {
-    id: '4',
-    imgUrl: 'https://www.w3schools.com/howto/img_avatar2.png',
-    name: 'John Doe',
-    type: EngagementType.REVIEW,
-    href: '/admin',
-  },
-  {
-    id: '5',
-    imgUrl: 'https://www.w3schools.com/howto/img_avatar2.png',
-    name: 'John Doe',
-    type: EngagementType.NEW,
-    href: '/admin',
-  },
-  {
-    id: '6',
-    imgUrl: 'https://www.w3schools.com/howto/img_avatar2.png',
-    name: 'John Doe',
-    type: EngagementType.REVIEW,
-    href: '/admin',
-  },
 ];
 
 export const dateFilters = [
