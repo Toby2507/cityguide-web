@@ -70,10 +70,12 @@ export { default as Footer } from './misc/footer';
 
 // Reservation
 // // Restaurant
+export { default as RestaurantReservationComplete } from './reservation/restaurant/complete';
 export { default as RestaurantReservationDetail } from './reservation/restaurant/detail';
 export { default as RestaurantDetailReservation } from './reservation/restaurant/restaurant-detail';
 export { default as RestaurantUserDetailReservation } from './reservation/restaurant/user-detail';
 // // Stay
+export { default as StayReservationComplete } from './reservation/stay/complete';
 export { default as StayReservationDetail } from './reservation/stay/detail';
 export { default as StayDetailReservation } from './reservation/stay/stay-detail';
 export { default as UserDetailReservation } from './reservation/stay/user-detail';

@@ -8,10 +8,15 @@ import { Button, Chip } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 import { useState } from 'react';
 import { BsExclamationCircle } from 'react-icons/bs';
 import { IoCaretDownOutline, IoCaretUpOutline, IoCheckmark } from 'react-icons/io5';
 import { PiCheckCircleFill } from 'react-icons/pi';
+
+interface Props extends IStay {
+  onlyInfo?: boolean;
+}
 
 dayjs.extend(relativeTime);
 const StayDetailReservation = ({
@@ -25,8 +30,9 @@ const StayDetailReservation = ({
   amenities,
   _id,
   cancellationPolicy,
+  onlyInfo,
   rules: { checkIn, checkOut },
-}: IStay) => {
+}: Props) => {
   const { push } = useRouter();
   const { checkInDay, checkOutDay } = useSearchStore();
   const { reservation } = useReservationStore();
@@ -100,38 +106,42 @@ const StayDetailReservation = ({
           <p className="text-xs">Total length of stay:</p>
           <p className="text-sm font-semibold">{dayjs(checkOutDay).diff(checkInDay, 'd')} night(s)</p>
         </div>
-        <div className="border-b-2 w-full" />
-        <div className="flex flex-col">
-          <p className="text-sm font-medium">You selected</p>
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-sm text-left font-semibold w-full">
-              {reservation?.reservationCount} accommodation(s) for {reservation?.noOfGuests?.adults} adult(s)
-              {reservation?.noOfGuests?.children ? `and ${reservation.noOfGuests.children} child(ren)` : ''}
-            </p>
-            <Button onPress={() => setShowAccs(!showAccs)} isIconOnly size="sm" variant="light">
-              {showAccs ? <IoCaretDownOutline /> : <IoCaretUpOutline />}
-            </Button>
-          </div>
-          {showAccs && (
-            <div className="flex flex-col gap-1">
-              {accommodations.map((a) => (
-                <p className="text-sm" key={a?.quantity}>
-                  {a?.quantity}x {a?.name}
+        {!onlyInfo && (
+          <>
+            <div className="border-b-2 w-full" />
+            <div className="flex flex-col">
+              <p className="text-sm font-medium">You selected</p>
+              <div className="flex items-center justify-between gap-4">
+                <p className="text-sm text-left font-semibold w-full">
+                  {reservation?.reservationCount} accommodation(s) for {reservation?.noOfGuests?.adults} adult(s)
+                  {reservation?.noOfGuests?.children ? `and ${reservation.noOfGuests.children} child(ren)` : ''}
                 </p>
-              ))}
+                <Button onPress={() => setShowAccs(!showAccs)} isIconOnly size="sm" variant="light">
+                  {showAccs ? <IoCaretDownOutline /> : <IoCaretUpOutline />}
+                </Button>
+              </div>
+              {showAccs && (
+                <div className="flex flex-col gap-1">
+                  {accommodations.map((a) => (
+                    <p className="text-sm" key={a?.quantity}>
+                      {a?.quantity}x {a?.name}
+                    </p>
+                  ))}
+                </div>
+              )}
+              <Button
+                className="font-semibold text-primary mt-2 w-fit"
+                color="secondary"
+                onPress={() => push(paths.stayDetail(_id))}
+                radius="sm"
+                size="sm"
+                variant="light"
+              >
+                Change your selection
+              </Button>
             </div>
-          )}
-          <Button
-            className="font-semibold text-primary mt-2 w-fit"
-            color="secondary"
-            onPress={() => push(paths.stayDetail(_id))}
-            radius="sm"
-            size="sm"
-            variant="light"
-          >
-            Change your selection
-          </Button>
-        </div>
+          </>
+        )}
       </article>
       {/* Price Summary */}
       <article className="flex flex-col gap-3 border-2 rounded-xl pt-3">
