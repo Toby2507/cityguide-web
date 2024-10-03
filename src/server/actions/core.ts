@@ -30,3 +30,14 @@ export const removeFavouriteProperty = async (propertyId: string) => {
   }
   removeFromFavourites(propertyId);
 };
+
+export const readNotifications = async (notificationIds: string[]) => {
+  const res = await fetchWithReAuth('notification', {
+    method: 'PATCH',
+    body: JSON.stringify({ notificationIds }),
+  });
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
+  }
+};
