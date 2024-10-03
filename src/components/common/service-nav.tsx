@@ -29,7 +29,7 @@ const ServiceNav = () => {
     push(`/${key.toLowerCase()}`);
   };
   return (
-    <ul className="flex items-center justify-center flex-wrap gap-4 pb-16">
+    <ul className="flex items-center justify-center flex-wrap gap-4 pb-10">
       {services.map(({ name, icon, key }) => (
         <Button
           key={key}

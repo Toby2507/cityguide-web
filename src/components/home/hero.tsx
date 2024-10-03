@@ -1,8 +1,8 @@
 const Hero = () => {
   return (
-    <div className="container mx-auto px-4 py-6 max-w-6xl bg-primary">
-      <div className="flex flex-col gap-6 justify-center pb-10">
-        <h1 className="text-white text-6xl font-bold text-center leading-tight">
+    <div className="container mx-auto px-4 max-w-6xl bg-primary">
+      <div className="flex flex-col gap-10 justify-center pb-6">
+        <h1 className="text-white text-6xl font-semibold text-center leading-none">
           Discover the best
           <br />
           accomodations, dining and <br />

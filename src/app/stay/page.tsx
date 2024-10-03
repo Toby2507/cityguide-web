@@ -22,9 +22,9 @@ const StayHomePage = async () => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <HomeHeader />
-      <main className="flex flex-col gap-14 bg-white">
+      <main className="flex flex-col gap-14 bg-white pb-20">
         <div className="container mx-auto px-10 flex flex-col gap-10 max-w-7xl">
-          <StaySearchBar extraClass="-mt-9" isMain />
+          <StaySearchBar extraClass="-mt-7" isMain />
           <TopOffers />
           <StayTrendingDestinations />
         </div>
