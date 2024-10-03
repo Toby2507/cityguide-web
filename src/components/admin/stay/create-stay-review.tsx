@@ -30,6 +30,7 @@ const CreateStayReview = ({ setStep }: IProps) => {
     rating: 4.9,
     reviewCount: 500,
     optionalServices: [],
+    cancellationPolicy: null,
   };
 
   const onSubmit: SubmitHandler<ICreateStay> = async (data) => {
