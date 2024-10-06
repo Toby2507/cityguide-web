@@ -60,7 +60,6 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
       setAutoComplete(
         new google.maps.places.Autocomplete(placesRef.current!, {
           fields: ['address_components', 'formatted_address', 'geometry', 'name', 'place_id'],
-          componentRestrictions: { country: ['ng'] },
         })
       );
     }

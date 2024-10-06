@@ -55,7 +55,6 @@ const NightlifeSearchBar = ({ extraClass, isMain, noLocation, search }: Props) =
       setAutoComplete(
         new google.maps.places.Autocomplete(placesRef.current!, {
           fields: ['address_components', 'formatted_address', 'geometry', 'name', 'place_id'],
-          componentRestrictions: { country: ['ng'] },
         })
       );
     }
@@ -81,55 +80,53 @@ const NightlifeSearchBar = ({ extraClass, isMain, noLocation, search }: Props) =
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <>
-      <div className={`relative flex items-center gap-1 bg-accentLightBlue p-1 rounded-xl shadow-xl ${extraClass}`}>
-        {!noLocation ? (
-          <Input
-            className="flex-1 h-full"
-            label="Set destination"
-            startContent={<MdOutlineLocationSearching />}
-            size="sm"
-            radius="sm"
-            placeholder={location?.fullAddress || ''}
-            ref={placesRef}
-            isClearable
-            onClear={clearLocation}
-          />
-        ) : null}
-        <DatePicker
-          className="flex-1"
-          label="Set reservation date"
-          radius="sm"
-          size="sm"
-          onChange={setCheckDate}
-          hideTimeZone
-          value={resDate}
-          minValue={today(getLocalTimeZone())}
-          suppressHydrationWarning
-        />
+    <div className={`relative flex items-center gap-1 bg-accentLightBlue p-1 rounded-xl shadow-xl ${extraClass}`}>
+      {!noLocation ? (
         <Input
           className="flex-1 h-full"
-          label="Minimum age in group"
-          startContent={<PiCalendarDots />}
+          label="Set destination"
+          startContent={<MdOutlineLocationSearching />}
           size="sm"
           radius="sm"
-          value={minAge?.toString() || '0'}
-          onValueChange={(val) => /^[\d.]*$/.test(val) && setState({ minAge: +val })}
+          placeholder={location?.fullAddress || ''}
+          ref={placesRef}
+          isClearable
+          onClear={clearLocation}
         />
-        {!!search || isMain ? (
-          <Button
-            className="font-semibold"
-            size="lg"
-            color="primary"
-            isLoading={isLoading}
-            onPress={handleSearch}
-            radius="sm"
-          >
-            Search
-          </Button>
-        ) : null}
-      </div>
-    </>
+      ) : null}
+      <DatePicker
+        className="flex-1"
+        label="Set reservation date"
+        radius="sm"
+        size="sm"
+        onChange={setCheckDate}
+        hideTimeZone
+        value={resDate}
+        minValue={today(getLocalTimeZone())}
+        suppressHydrationWarning
+      />
+      <Input
+        className="flex-1 h-full"
+        label="Minimum age in group"
+        startContent={<PiCalendarDots />}
+        size="sm"
+        radius="sm"
+        value={minAge?.toString() || '0'}
+        onValueChange={(val) => /^[\d.]*$/.test(val) && setState({ minAge: +val })}
+      />
+      {!!search || isMain ? (
+        <Button
+          className="font-semibold"
+          size="lg"
+          color="primary"
+          isLoading={isLoading}
+          onPress={handleSearch}
+          radius="sm"
+        >
+          Search
+        </Button>
+      ) : null}
+    </div>
   );
 };
 
