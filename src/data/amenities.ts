@@ -2,16 +2,19 @@ import { BsFillSpeakerFill } from 'react-icons/bs';
 import { CgGym } from 'react-icons/cg';
 import { CiParking1 } from 'react-icons/ci';
 import { FaWineBottle } from 'react-icons/fa6';
-import { GiPoolTableCorner } from 'react-icons/gi';
+import { GiPoolTableCorner, GiShower, GiSwan } from 'react-icons/gi';
 import { GrSwim } from 'react-icons/gr';
-import { IoBeerOutline, IoWifi } from 'react-icons/io5';
+import { IoBeerOutline, IoSnowOutline, IoWifi } from 'react-icons/io5';
+import { LiaLandmarkSolid } from 'react-icons/lia';
 import {
   MdOutlineEmojiPeople,
   MdOutlineFamilyRestroom,
   MdOutlineFreeBreakfast,
+  MdOutlinePool,
   MdOutlineSmokeFree,
   MdPets,
 } from 'react-icons/md';
+import { PiCityLight, PiTree } from 'react-icons/pi';
 import { RiRestaurantLine } from 'react-icons/ri';
 import { TbDisabled } from 'react-icons/tb';
 
@@ -32,6 +35,13 @@ export const coreAmenities = [
   { name: 'Bottle service', Icon: FaWineBottle },
   { name: 'Pool table', Icon: GiPoolTableCorner },
   { name: 'Sound system', Icon: BsFillSpeakerFill },
+  { name: 'Air conditioning', Icon: IoSnowOutline },
+  { name: 'Private Bathroom', Icon: GiShower },
+  { name: 'City view', Icon: PiCityLight },
+  { name: 'Lake view', Icon: GiSwan },
+  { name: 'Pool view', Icon: MdOutlinePool },
+  { name: 'Landmark view', Icon: LiaLandmarkSolid },
+  { name: 'Inner Courtyard view', Icon: PiTree },
 ];
 
 export const stayAmenities = [
@@ -55,6 +65,11 @@ export const stayAmenities = [
   'Microwave',
   'Refrigerator',
   'Linens',
+  'City view',
+  'Lake view',
+  'Pool view',
+  'Landmark view',
+  'Inner Courtyard view',
   'Wardrobe or closet',
   'Toilet paper',
   'Towels',
