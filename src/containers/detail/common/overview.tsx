@@ -2,7 +2,7 @@
 
 import { DetailImages, DetailInfo, RatingCard } from '@/components';
 import { addFavouriteProperty, getUser, removeFavouriteProperty } from '@/server';
-import { HotelRating, IAccommodation, IAddress, PropertyType, Updates } from '@/types';
+import { HotelRating, IAccommodation, IAddress, IPartner, PropertyType, Updates } from '@/types';
 import mapBanner from '@images/map-banner.png';
 import { Button, Divider, User } from '@nextui-org/react';
 import NextImage from 'next/image';
@@ -29,6 +29,7 @@ interface Props {
   language?: string[];
   hotelRating?: HotelRating;
   accommodation?: IAccommodation[];
+  partner?: string | IPartner;
   onUpdate?: (type: Updates) => void;
 }
 
@@ -46,6 +47,7 @@ const DetailPageOverview = ({
   language,
   accommodation,
   summary,
+  partner,
   onUpdate,
 }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -174,7 +176,7 @@ const DetailPageOverview = ({
           </div>
         </aside>
       </div>
-      <DetailInfo amenities={amenities} summary={summary} language={language} />
+      <DetailInfo amenities={amenities} summary={summary} language={language} partner={partner} />
     </section>
   );
 };
