@@ -63,6 +63,7 @@ export { default as RatingCard } from './common/rating-card';
 export { default as ServiceNav } from './common/service-nav';
 
 // Detail
+export { default as AccommodationModal } from './detail/accommodation-modal';
 export { default as DetailImages } from './detail/images';
 export { default as DetailInfo } from './detail/info';
 export { default as MenuItemCard } from './detail/menu-item-card';
