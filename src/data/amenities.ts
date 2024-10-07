@@ -14,7 +14,7 @@ import {
   MdOutlineSmokeFree,
   MdPets,
 } from 'react-icons/md';
-import { PiCityLight, PiTree } from 'react-icons/pi';
+import { PiBathtubLight, PiCityLight, PiTree } from 'react-icons/pi';
 import { RiRestaurantLine } from 'react-icons/ri';
 import { TbDisabled } from 'react-icons/tb';
 
@@ -37,6 +37,10 @@ export const coreAmenities = [
   { name: 'Sound system', Icon: BsFillSpeakerFill },
   { name: 'Air conditioning', Icon: IoSnowOutline },
   { name: 'Private Bathroom', Icon: GiShower },
+  { name: 'Ensuite Bathroom', Icon: GiShower },
+  { name: 'Bath', Icon: PiBathtubLight },
+  { name: 'Bath or Shower', Icon: PiBathtubLight },
+  { name: 'Bathtub or Shower', Icon: PiBathtubLight },
   { name: 'City view', Icon: PiCityLight },
   { name: 'Lake view', Icon: GiSwan },
   { name: 'Pool view', Icon: MdOutlinePool },
