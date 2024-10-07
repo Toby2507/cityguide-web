@@ -12,14 +12,13 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from '@nextui-org/react';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { BsDot } from 'react-icons/bs';
 import { FaUserAlt } from 'react-icons/fa';
 import { IoCaretDownOutline, IoCheckmark } from 'react-icons/io5';
-import React from 'react';
-import ImageModal from '../common/image-modal';
-import dayjs from 'dayjs';
+import AccommodationModal from './accommodation-modal';
 
 interface Props {
   columnKey: string;
@@ -96,13 +95,11 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, cance
   if (columnKey === 'name')
     return (
       <>
-        <ImageModal
+        <AccommodationModal
           isOpen={isOpen}
-          name={user.name}
-          images={user.images.slice(1)}
-          avatar={user.images[0]}
           onOpenChange={onOpenChange}
-          noBook
+          accommodation={user}
+          reservationInfo={reservationInfo}
         />
         <div className="flex flex-col gap-2">
           <h4 className="text-xl text-black font-semibold cursor-pointer hover:underline" onClick={onOpen}>
