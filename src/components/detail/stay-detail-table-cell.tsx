@@ -19,6 +19,7 @@ import { BsDot } from 'react-icons/bs';
 import { FaUserAlt } from 'react-icons/fa';
 import { IoCaretDownOutline, IoCheckmark } from 'react-icons/io5';
 import AccommodationModal from './accommodation-modal';
+import React from 'react';
 
 interface Props {
   columnKey: string;
