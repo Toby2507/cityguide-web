@@ -18,7 +18,7 @@ const DetailPageAmenities = ({ amenities, name, onUpdate }: Props) => {
   let core: ICore[] = [];
   let custom: string[] = [];
   amenities?.forEach((amenity) => {
-    const isCore = coreAmenities.find((a) => a.name === amenity);
+    const isCore = coreAmenities.find((a) => a.name.toLowerCase() === amenity.toLowerCase());
     if (isCore) core.push(isCore);
     else custom.push(amenity);
   });
