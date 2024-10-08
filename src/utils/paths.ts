@@ -15,6 +15,7 @@ const path = {
   nightlifes: () => '/nightlife',
   nightlifeDetail: (id: string) => `/nightlife/${id}`,
   searchNightlife: (params?: string[]) => `search/nightlife/${params?.join('/') || ''}`,
+  airtime: () => '/airtime',
   listProperty: () => '/listproperty',
   partner: () => '/listproperty/partner',
   profile: () => '#',
