@@ -19,11 +19,8 @@ import {
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useMemo } from 'react';
-import toast from 'react-hot-toast';
-import { IoCarSportOutline } from 'react-icons/io5';
-import { LiaShuttleVanSolid } from 'react-icons/lia';
-import { PiCheckCircle, PiTaxi, PiUserLight } from 'react-icons/pi';
+import { useEffect, useMemo } from 'react';
+import { PiCheckCircle, PiUserLight } from 'react-icons/pi';
 import { SlArrowRight } from 'react-icons/sl';
 
 interface Props {
@@ -31,7 +28,10 @@ interface Props {
   stay: IStay;
 }
 
-const UserDetailReservation = ({ stay: { accommodation, rules, type, cancellationPolicy }, user }: Props) => {
+const UserDetailReservation = ({
+  stay: { accommodation, rules, type, cancellationPolicy, optionalServices },
+  user,
+}: Props) => {
   const { push } = useRouter();
   const pathname = usePathname();
   const { checkInDay, checkOutDay } = useSearchStore();
@@ -72,16 +72,24 @@ const UserDetailReservation = ({ stay: { accommodation, rules, type, cancellatio
         return;
       })
       .filter(Boolean) || [];
-  const [checkInFrom, checkInTo] = rules.checkIn.split('-');
-  const [checkOutFrom, checkOutTo] = rules.checkOut.split('-');
-  const [inTimes, outTimes] = [generateTimeRange(checkInFrom, checkInTo), generateTimeRange(checkOutFrom, checkOutTo)];
+  const [checkInFrom, checkInTo, inTimes, outTimes] = useMemo(() => {
+    const [checkInFrom, checkInTo] = rules.checkIn.split('-');
+    const [checkOutFrom, checkOutTo] = rules.checkOut.split('-');
+    const [inTimes, outTimes] = [
+      generateTimeRange(checkInFrom, checkInTo),
+      generateTimeRange(checkOutFrom, checkOutTo),
+    ];
+    return [checkInFrom, checkInTo, inTimes, outTimes];
+  }, [rules]);
 
   const goToFinal = () => {
-    if (!reservation?.checkInTime) return toast.error('Please select your estimated check-in time');
-    if (!reservation?.checkOutTime) return toast.error('Please select your estimated check-out time');
     setReservation({ checkInDay, checkOutDay });
     push(`${pathname}/complete`);
   };
+
+  useEffect(() => {
+    setReservation({ checkInTime: inTimes[0].key, checkOutTime: outTimes[0].key });
+  }, [inTimes, outTimes, setReservation]);
   return (
     <section className="flex flex-col gap-2">
       <article className="flex flex-col gap-3 border-2 rounded-xl px-6 py-4">
@@ -180,47 +188,26 @@ const UserDetailReservation = ({ stay: { accommodation, rules, type, cancellatio
       {accommodations.map((a) => (
         <UserDetailReservationAccommodation key={a?.details.id} {...a!} />
       ))}
-      <article className="flex flex-col gap-2 border-2 rounded-xl px-6 py-4 pb-8">
-        <h3 className="text-lg font-bold tracking-wide">Add to your stay</h3>
-        <div className="flex flex-col gap-4">
-          <CheckboxGroup value={reservation?.requests || []} onValueChange={(requests) => setReservation({ requests })}>
-            <Checkbox className="w-full" value="I'm interested in requesting an airport shuttle">
-              <div className="grid grid-cols-10 items-center gap-12 pl-2 w-full">
-                <div className="col-span-9">
-                  <p className="text-sm">I&apos;m interested in requesting an airport shuttle</p>
-                  <p className="text-sm font-light">
-                    We’ll tell your accommodations that you’re interested, so they can provide details and costs.
-                  </p>
-                </div>
-                <LiaShuttleVanSolid size={50} />
-              </div>
-            </Checkbox>
-            <Checkbox className="w-full" value="I'm interested in renting a car">
-              <div className="grid grid-cols-10 items-center gap-12 pl-2 w-full">
-                <div className="col-span-9">
-                  <p className="text-sm">I&apos;m interested in renting a car</p>
-                  <p className="text-sm font-light">
-                    Make the most of your trip – check out car rental options in your booking confirmation.
-                  </p>
-                </div>
-                <IoCarSportOutline size={50} />
-              </div>
-            </Checkbox>
-            <Checkbox className="w-full" value="I'm interested in booking a taxi">
-              <div className="grid grid-cols-10 items-center gap-12 pl-2 w-full">
-                <div className="col-span-9">
-                  <p className="text-sm">I&apos;m interested in booking a taxi</p>
-                  <p className="text-sm font-light">
-                    Avoid surprises – get from the airport to your accommodations without any hassle. We&apos;ll add
-                    taxi options to your booking confirmation.
-                  </p>
-                </div>
-                <PiTaxi size={50} />
-              </div>
-            </Checkbox>
-          </CheckboxGroup>
-        </div>
-      </article>
+      {optionalServices.length ? (
+        <article className="flex flex-col gap-2 border-2 rounded-xl px-6 py-4 pb-8">
+          <h3 className="text-lg font-bold tracking-wide">Add to your stay</h3>
+          <div className="flex flex-col gap-4">
+            <CheckboxGroup
+              value={reservation?.requests || []}
+              onValueChange={(requests) => setReservation({ requests })}
+            >
+              {optionalServices.map(({ title, description }) => (
+                <Checkbox key={title} className="w-full" value={title}>
+                  <div className="gap-2 pl-2 w-full">
+                    <p className="text-sm">{title}</p>
+                    <p className="text-sm font-light">{description}</p>
+                  </div>
+                </Checkbox>
+              ))}
+            </CheckboxGroup>
+          </div>
+        </article>
+      ) : null}
       <article className="flex flex-col gap-2 border-2 rounded-xl px-6 py-4 pb-8">
         <h3 className="text-lg font-bold tracking-wide">Special request</h3>
         <p className="text-xs font-medium">
