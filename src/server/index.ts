@@ -21,6 +21,7 @@ export { createEstablishment, createUser, loginUser, upgradeUser, verifyOtp } fr
 export { getCookie, getUser, setCookie, setCredentials } from './actions/cookie';
 export {
   addFavouriteProperty,
+  createReservation,
   initiatePayment,
   readNotifications,
   refetchPage,
