@@ -3,9 +3,9 @@
 import CustomStars from '@/components/common/custom-stars';
 import RatingCard from '@/components/common/rating-card';
 import { useSearchStore } from '@/providers';
-import { removeFavouriteProperty, addFavouriteProperty, getUser } from '@/server';
+import { addFavouriteProperty, getUser, removeFavouriteProperty } from '@/server';
 import { IStay, PropertyType } from '@/types';
-import { formatAccomodationDetails, numberToCurrency, paths } from '@/utils';
+import { formatAccomodationDetails, formatAddress, numberToCurrency, paths } from '@/utils';
 import { Button, Chip, Image, Link } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
@@ -31,9 +31,8 @@ const SearchStayCard = ({
 
   const nights = checkInDay && checkOutDay ? dayjs(checkOutDay).diff(dayjs(checkInDay), 'd') : 1;
   const guests = noOfGuests.adults + noOfGuests.children;
-  const validAddr =
-    address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
-  const acc = accommodation.filter(
+  const validAddr = formatAddress(address);
+  let acc = accommodation.filter(
     (a) =>
       reservationCount <= a.available &&
       noOfGuests.adults + noOfGuests.children <= a.maxGuests &&
