@@ -20,6 +20,7 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
+import toast from 'react-hot-toast';
 import { PiCheckCircle, PiUserLight } from 'react-icons/pi';
 import { SlArrowRight } from 'react-icons/sl';
 
@@ -83,6 +84,8 @@ const UserDetailReservation = ({
   }, [rules]);
 
   const goToFinal = () => {
+    if (!reservation?.checkInTime) return toast.error('Please select your estimated arrival time');
+    if (!reservation?.checkOutTime) return toast.error('Please select your estimated departure time');
     setReservation({ checkInDay, checkOutDay });
     push(`${pathname}/complete`);
   };
