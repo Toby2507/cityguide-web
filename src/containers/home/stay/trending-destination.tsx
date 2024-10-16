@@ -17,7 +17,7 @@ const TrendingDestinations = () => {
       <SectionHeader
         title="Trending stays"
         desc="Most popular choices for travelers from Nigeria"
-        viewUrl={stays.length > 6 ? '#' : ''}
+        viewUrl={stays.length > 6 ? paths.trendingStays() : ''}
       />
       <div className="grid grid-cols-3 gap-4 px-2">
         {stays?.slice(0, 6).map((place) => (

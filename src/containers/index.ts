@@ -47,10 +47,12 @@ export { default as NightlifeDetailInfo } from './detail/nightlife/info';
 // // Nightlife
 export { default as NightlifeCategories } from './home/nightlife/categories';
 export { default as NightlifeSearchBar } from './home/nightlife/search';
+export { default as AllTrendingNightlifes } from './home/nightlife/trending';
 export { default as NightlifeTrendingDestinations } from './home/nightlife/trending-destination';
 // // Restaurant
 export { default as RestaurantCategories } from './home/restaurant/categories';
 export { default as RestaurantSearchBar } from './home/restaurant/search';
+export { default as AllTrendingRestaurants } from './home/restaurant/trending';
 export { default as RestaurantTrendingDestinations } from './home/restaurant/trending-destinations';
 // // Stay
 export { default as DiscoverHome } from './home/common/discover-home';
@@ -60,6 +62,7 @@ export { default as TopOffers } from './home/common/top-offers';
 export { default as StayCategories } from './home/stay/categories';
 export { default as Destinations } from './home/stay/destinations';
 export { default as StaySearchBar } from './home/stay/search';
+export { default as AllTrendingStays } from './home/stay/trending';
 export { default as StayTrendingDestinations } from './home/stay/trending-destination';
 
 // List Property
