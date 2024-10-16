@@ -3,7 +3,7 @@ import { Footer, StayReservationComplete } from '@/containers';
 import { getStayById } from '@/server';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { IoCheckmarkCircle } from 'react-icons/io5';
-import { PiNumberCircleThreeBold, PiNumberCircleTwoBold } from 'react-icons/pi';
+import { PiNumberCircleThreeBold } from 'react-icons/pi';
 
 interface Props {
   params: {

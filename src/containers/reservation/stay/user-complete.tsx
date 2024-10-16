@@ -1,17 +1,17 @@
 'use client';
 
 import { useReservationStore } from '@/providers';
+import { createReservationSchema } from '@/schemas';
 import { initiatePayment } from '@/server';
 import { IStay, StayType } from '@/types';
 import { numberToCurrency } from '@/utils';
 import { Button } from '@nextui-org/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { SlArrowRight } from 'react-icons/sl';
-import PaystackPopup from '@paystack/inline-js';
-import { createReservationSchema } from '@/schemas';
 
 const UserCompleteReservation = ({ type }: IStay) => {
+  const [PaystackPopup, setPaystackPopup] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPayed, setIsPayed] = useState<boolean>(false);
   const { reservation, setReservation } = useReservationStore();
@@ -36,6 +36,15 @@ const UserCompleteReservation = ({ type }: IStay) => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const loadPaystackPopup = async () => {
+      const Paystack = (await import('@paystack/inline-js')).default;
+      setPaystackPopup(() => Paystack);
+    };
+
+    loadPaystackPopup();
+  }, []);
   return (
     <section className="flex flex-col gap-2">
       <article className="flex flex-col gap-1 border-2 rounded-xl px-6 py-4">
