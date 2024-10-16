@@ -36,3 +36,9 @@ export interface IUser {
   phoneNumber: string;
   imgUrl: string | null;
 }
+
+export interface IPayment {
+  authorization_url: string;
+  access_code: string;
+  reference: string;
+}

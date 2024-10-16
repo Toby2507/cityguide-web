@@ -80,12 +80,13 @@ export interface ICreateReservation {
   accommodations?: IReservationAccommodation[];
   reservationCount: number;
   noOfGuests: IGuests;
-  price?: number;
+  price: number;
   isAgent?: boolean;
   guestFullName?: string;
   guestEmail?: string;
   requests?: string[];
   specialRequest?: string;
+  payReference?: string;
 }
 
 // Update Forms
