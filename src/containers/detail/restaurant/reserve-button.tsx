@@ -58,6 +58,7 @@ const RestaurantDetailReserveBtn = ({ restaurant }: Props) => {
       checkOutTime: dayjs(checkOutDay).format('HH:mm'),
       noOfGuests,
       reservationCount,
+      price: (restaurant.details.reservation?.price ?? 0) * reservationCount,
     };
     setReservation(reservation);
   }, [checkInDay, checkOutDay, restaurant, noOfGuests, reservationCount, setReservation]);
