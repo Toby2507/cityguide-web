@@ -1,6 +1,6 @@
 'use server';
 
-import { PropertyType } from '@/types';
+import { IPayment, PropertyType } from '@/types';
 import { fetchWithReAuth } from '@/utils';
 import { revalidatePath } from 'next/cache';
 import { addToFavourites, removeFromFavourites } from './cookie';
@@ -40,4 +40,14 @@ export const readNotifications = async (notificationIds: string[]) => {
     const result = await res.json();
     throw new Error(result.message);
   }
+};
+
+export const initiatePayment = async (amount: number, currency: string = 'NGN') => {
+  const res = await fetchWithReAuth('payment/initiate', {
+    method: 'POST',
+    body: JSON.stringify({ amount, currency }),
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result as IPayment;
 };

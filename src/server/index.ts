@@ -19,7 +19,13 @@ export {
 } from './actions/admin';
 export { createEstablishment, createUser, loginUser, upgradeUser, verifyOtp } from './actions/auth';
 export { getCookie, getUser, setCookie, setCredentials } from './actions/cookie';
-export { addFavouriteProperty, readNotifications, refetchPage, removeFavouriteProperty } from './actions/core';
+export {
+  addFavouriteProperty,
+  initiatePayment,
+  readNotifications,
+  refetchPage,
+  removeFavouriteProperty,
+} from './actions/core';
 // Queries
 export {
   getAdminAnalytics,
