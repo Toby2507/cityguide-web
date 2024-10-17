@@ -53,12 +53,12 @@ export const initiatePayment = async (amount: number, currency: string = 'NGN') 
   return result as IPayment;
 };
 
-export const createReservation = async (reservation: ICreateReservation) => {
+export const createReservation = async (reservation: Partial<ICreateReservation>) => {
   const { specialRequest, ...body } = reservation;
   if (specialRequest) body.requests = [...(body.requests || []), specialRequest];
   const data = createReservationSchema.safeParse(body);
   if (!data.success) throw new Error(data.error.flatten().formErrors.join(', '));
-  const res = await fetchWithReAuth('reservation/create', { method: 'POST', body: JSON.stringify(data.data) });
+  const res = await fetchWithReAuth('reservation', { method: 'POST', body: JSON.stringify(data.data) });
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
   return result.reservation as IReservation;
