@@ -35,7 +35,7 @@ export const createReservationStore = () => {
             const previousCount =
               reservation.accommodations?.find((a) => a.accommodationId === accommodation.accommodationId)
                 ?.reservationCount || 0;
-            price -= previousCount * unitPrice;
+            if (price > 0) price -= previousCount * unitPrice;
             price += accommodation.reservationCount * unitPrice;
           }
           return set({ reservation: { ...reservation, accommodations, reservationCount, noOfGuests, price } });
