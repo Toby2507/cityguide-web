@@ -98,8 +98,8 @@ const StayDetailReservation = ({
         </div>
         {dayjs(checkInDay).diff(dayjs(), 'd') <= 3 ? (
           <div className="flex items-center gap-2">
-            <BsExclamationCircle className="text-danger" size={24} />
-            <p className="text-sm text-danger font-medium">Just {dayjs(checkInDay).fromNow(true)} away</p>
+            <BsExclamationCircle className="text-danger" size={20} />
+            <p className="text-sm text-danger font-medium">Just {dayjs(checkInDay).fromNow()}</p>
           </div>
         ) : null}
         <div className="flex flex-col">
