@@ -17,7 +17,7 @@ import { SlArrowRight } from 'react-icons/sl';
 const UserCompleteReservation = ({ type, name }: IStay) => {
   const { back } = useRouter();
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-  const { reservation, setReservation } = useReservationStore();
+  const { reservation, clearReservation, setReservation } = useReservationStore();
   const [PaystackPopup, setPaystackPopup] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isReserving, setIsReserving] = useState<boolean>(false);
@@ -35,8 +35,6 @@ const UserCompleteReservation = ({ type, name }: IStay) => {
       setReservation({ payReference: reference });
       const popup = new PaystackPopup();
       popup.resumeTransaction(access_code);
-      setIsPayed(true);
-      console.log({ access_code, reference, authorization_url });
     } catch (err: any) {
       toast.error(err.message);
     } finally {
@@ -50,8 +48,8 @@ const UserCompleteReservation = ({ type, name }: IStay) => {
       if (dayjs(reservation?.checkInDay).isBefore(dayjs()))
         throw new Error('Your checkin date is in the past! Kindly choose a date in the future');
       onOpen();
-      console.log({ reservation });
       await createReservation(reservation!);
+      clearReservation();
       toast.success('Your reservation has been created successfully');
     } catch (err: any) {
       onClose();
@@ -69,6 +67,9 @@ const UserCompleteReservation = ({ type, name }: IStay) => {
 
     loadPaystackPopup();
   }, []);
+  useEffect(() => {
+    setIsPayed(!!reservation?.payReference);
+  }, [reservation?.payReference]);
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
