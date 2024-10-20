@@ -84,6 +84,8 @@ const UserDetailReservation = ({
   }, [rules]);
 
   const goToFinal = () => {
+    if (dayjs(reservation?.checkInDay).isBefore(dayjs()))
+      return toast.error('Your checkin date is in the past! Kindly choose a date in the future');
     if (!reservation?.checkInTime) return toast.error('Please select your estimated arrival time');
     if (!reservation?.checkOutTime) return toast.error('Please select your estimated departure time');
     setReservation({ checkInDay, checkOutDay });
