@@ -20,6 +20,8 @@ import { TbDisabled } from 'react-icons/tb';
 
 export const coreAmenities = [
   { name: 'Indoor Swimming Pool', Icon: GrSwim },
+  { name: 'Outdoor Swimming Pool', Icon: GrSwim },
+  { name: 'Swimming Pool', Icon: GrSwim },
   { name: 'Free Parking', Icon: CiParking1 },
   { name: 'Free Wi-Fi', Icon: IoWifi },
   { name: 'Non-smoking rooms', Icon: MdOutlineSmokeFree },
@@ -66,6 +68,7 @@ export const stayAmenities = [
   'Electric kettle',
   'Kitchen',
   'Washing machine',
+  'Outdoor Swimming Pool',
   'Microwave',
   'Refrigerator',
   'Linens',
