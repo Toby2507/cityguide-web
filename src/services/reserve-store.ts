@@ -18,6 +18,9 @@ export const createReservationStore = () => {
             return { reservation: { ...state.reservation, ...reservation } };
           });
         },
+        clearReservation() {
+          return set({ reservation: null });
+        },
         updateAccommodations(accommodation, unitPrice) {
           const reservation = get().reservation;
           if (!reservation?.property && reservation?.propertyType !== PropertyType.STAY) return;
