@@ -21,6 +21,7 @@ export interface IReservationState {
 }
 export interface IReservationStore extends IReservationState {
   setReservation: (reservation: Partial<ICreateReservation>) => void;
+  clearReservation: () => void;
   updateAccommodations: (accommodation: IReservationAccommodation, unitPrice?: number) => void;
 }
 
