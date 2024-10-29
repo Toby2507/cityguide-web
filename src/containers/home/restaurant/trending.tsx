@@ -20,7 +20,12 @@ const AllTrendingRestaurants = () => {
         <SectionHeader title="Trending stays" desc="Most popular choices for travelers from Nigeria" />
         <div className="grid grid-cols-3 gap-4 px-2">
           {restaurants.map((restaurant) => (
-            <PlaceCard key={restaurant._id} {...restaurant} refPath={paths.restaurantDetail} />
+            <PlaceCard
+              key={restaurant._id}
+              {...restaurant}
+              linkText={restaurant.details.reservation ? 'Reserve a table' : 'Visit us'}
+              refPath={paths.restaurantDetail}
+            />
           ))}
         </div>
       </div>

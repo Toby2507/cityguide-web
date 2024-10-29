@@ -20,7 +20,7 @@ const AllTrendingNightlifes = () => {
         <SectionHeader title="Trending stays" desc="Most popular choices for travelers from Nigeria" />
         <div className="grid grid-cols-3 gap-4 px-2">
           {nightlifes.map((nightlife) => (
-            <PlaceCard key={nightlife._id} {...nightlife} refPath={paths.nightlifeDetail} />
+            <PlaceCard key={nightlife._id} {...nightlife} linkText="Visit us" refPath={paths.nightlifeDetail} />
           ))}
         </div>
       </div>

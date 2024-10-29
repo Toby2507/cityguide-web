@@ -3,10 +3,11 @@ import { Card, CardBody, CardFooter, Image } from '@nextui-org/react';
 import Link from 'next/link';
 
 type Props = (IStay | IRestaurant | INightLife) & {
+  linkText?: string;
   refPath: (id: string) => string;
 };
 
-const PlaceCard = ({ _id, name, summary, avatar, refPath }: Props) => {
+const PlaceCard = ({ _id, name, summary, avatar, linkText, refPath }: Props) => {
   return (
     <Card shadow="none" className="grid grid-rows-2">
       <CardBody className="p-0">
@@ -26,7 +27,9 @@ const PlaceCard = ({ _id, name, summary, avatar, refPath }: Props) => {
           <p className="text-xs font-normal">{summary.split('\n')[0].substring(0, 350)}...</p>
         </div>
         <Link href={refPath(_id)}>
-          <p className="text-xs text-primary font-semibold hover:underline">See more {' >'}</p>
+          <p className="text-xs text-primary font-semibold hover:underline">
+            {linkText ?? 'See more'} {' >'}
+          </p>
         </Link>
       </CardFooter>
     </Card>
