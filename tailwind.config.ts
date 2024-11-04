@@ -8,6 +8,8 @@ const config: Config = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-linear': 'linear-gradient(to right, #007991, #78FFD6)',
+        'main-bg': 'url("/images/bg-gradient.png")',
       },
       colors: {
         accentBlue: '#89C0FF',
@@ -17,10 +19,13 @@ const config: Config = {
         bgAccentBlue: '#F0F7FF',
         bgLightBlue: '#C4DFFF',
         brandBlue: '#0075FF',
+        brandBlueMain: '#000428',
+        brandBlueAccent: '#004E92',
         accentGray: '#898888',
         accentGray2: '#9A9A9A',
-        bgGray: '#F2F2F2',
+        bgGray: '#E5F0FD',
         accentGold: '#FFC107',
+        accentYellow: '#FFE187',
       },
       flexBasis: {
         'card-3': 'calc((100% / 3) - (40 / 3))px',

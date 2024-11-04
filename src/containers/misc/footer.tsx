@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <footer className="bg-primary py-20">
+    <footer className="bg-transparent py-20">
       <div className="container px-10 mx-auto max-w-7xl">
         <div className="flex justify-between gap-10 pb-20">
           {footerLinks.map(({ category, links }) => (

@@ -13,6 +13,9 @@ export { default as AdminStayList } from './admin/stay/list';
 export { default as AdminNightlifeDetail } from './admin/nightlife/detail-page';
 export { default as AdminNightlifeList } from './admin/nightlife/list';
 
+// Airtime
+export { default as AirtimeHero } from './airtime/hero';
+
 // Auth
 export { default as EstablishmentSignupForm } from './auth/establishment-signup-form';
 export { default as FormFooter } from './auth/form-footer';

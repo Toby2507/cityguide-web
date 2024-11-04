@@ -66,13 +66,15 @@ const SearchStayCard = ({
   return (
     <article className="grid grid-cols-10 gap-4 border rounded-xl p-2 bg-white shadow-lg">
       <figure className="relative col-span-3 h-full w-full">
-        <Image
-          src={avatar}
-          width="full"
-          alt={name}
-          radius="sm"
-          className="aspect-square object-cover rounded-xl w-full"
-        />
+        <Link href={paths.stayDetail(_id)}>
+          <Image
+            src={avatar}
+            width="full"
+            alt={name}
+            radius="sm"
+            className="aspect-square object-cover rounded-xl w-full"
+          />
+        </Link>
         <Button
           color="primary"
           className="absolute top-1 right-1 bg-white z-[99999]"
@@ -98,7 +100,9 @@ const SearchStayCard = ({
           <header className="flex justify-between gap-6 w-full">
             <div className="flex flex-col max-w-fit">
               <div className="flex items-center gap-4">
-                <h3 className="text-xl text-primary font-semibold tracking-wide">{name}</h3>
+                <Link href={paths.stayDetail(_id)}>
+                  <h3 className="text-xl text-primary font-semibold tracking-wide">{name}</h3>
+                </Link>
                 {hotelRating && <CustomStars value={hotelRating} />}
               </div>
               <p className="text-xs text-primary underline">{validAddr}</p>

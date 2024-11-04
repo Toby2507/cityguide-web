@@ -1,9 +1,10 @@
 import { getUser } from '@/server';
 import { paths } from '@/utils';
-import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react';
+import { Button, Image, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react';
 import Link from 'next/link';
 import { MdOutlineContactSupport } from 'react-icons/md';
 import HeaderAuth from '../misc/header-auth';
+import logo from '@icons/logo.svg';
 
 interface IHeaderNav {
   noList?: boolean;
@@ -13,10 +14,10 @@ interface IHeaderNav {
 const HeaderNav = async ({ noList, noAuth }: IHeaderNav) => {
   const user = await getUser();
   return (
-    <Navbar position="static" className="bg-primary" maxWidth="full">
+    <Navbar position="static" className="bg-transparent" isBlurred={false} maxWidth="full">
       <NavbarBrand>
         <Link href={paths.home()} className="font-bold text-2xl text-white">
-          CityGuideX
+          <Image src={logo.src} width="full" height={logo.height} alt="logo" removeWrapper className="object-contain" />
         </Link>
       </NavbarBrand>
       <NavbarContent justify="end">

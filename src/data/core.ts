@@ -53,3 +53,21 @@ export const footerLinks = [
     ],
   },
 ];
+
+export const airtimeData = [
+  {
+    title: 'Excellent Customer Support',
+    description:
+      'Our well trained customer support agents are always available 24/7 to help you resolve any issues. We provide you with multiple ways to reach us and get fast help.',
+  },
+  {
+    title: 'Fast Service Delivery',
+    description:
+      'Enjoy prompt delivery of services purchased through Cityguidex. Our promise to you is to deliver value for every transaction made on-time, every time.',
+  },
+  {
+    title: 'Safe and Secure Payment',
+    description:
+      'Payment on Cityguidex is fast and 100% secured. Enjoy seamless payment processes with zero glitches. Pay with wallet, bank transfer or card.',
+  },
+];

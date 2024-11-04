@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-primary">
-      <body className={inter.className}>
+    <html lang="en" className="bg-brandBlueMain">
+      <body className={`${inter.className} bg-main-bg bg-fixed bg-center bg-no-repeat bg-cover`}>
         <Toaster toastOptions={{ style: { zIndex: 999999999999 } }} position="bottom-left" />
         <Providers>{children}</Providers>
         <SpeedInsights />
