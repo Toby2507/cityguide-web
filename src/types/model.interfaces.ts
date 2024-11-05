@@ -1,6 +1,7 @@
 import { IFullUser } from './auth.interfaces';
 import { IUser, LatLng } from './common.interfaces';
 import {
+  AirtimeTransactionStatus,
   DayOfWeek,
   EntityType,
   HotelRating,
@@ -314,4 +315,15 @@ export interface INotification {
   isRead: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+// Airtime Transaction
+export interface IAirtimeTransaction {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  amount: number;
+  currency: string;
+  status: AirtimeTransactionStatus;
+  createdAt: string;
 }

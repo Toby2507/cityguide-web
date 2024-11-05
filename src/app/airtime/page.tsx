@@ -7,8 +7,12 @@ import infoBanner from '@images/airtime-info-banner.png';
 import { airtimeData } from '@/data';
 import Link from 'next/link';
 import { paths } from '@/utils';
+import { getUser } from '@/server';
+import { redirect } from 'next/navigation';
 
-const AirtimePage = () => {
+const AirtimePage = async () => {
+  const user = await getUser();
+  if (user) redirect(paths.airtimeDashboard());
   return (
     <>
       <AirtimeHero />
@@ -39,7 +43,7 @@ const AirtimePage = () => {
               <li className="text-xl text-center font-medium">Airtel VTU</li>
               <li className="text-xl text-center font-medium">9mobile VTU</li>
             </ul>
-            <Link href={paths.login('airtime')}>
+            <Link href={paths.login('airtime/dashboard')}>
               <Button className="bg-black text-white px-20 py-6" radius="full">
                 Purchase
               </Button>
@@ -57,7 +61,7 @@ const AirtimePage = () => {
                 <li className="text-xl text-center font-medium">Airtel Data</li>
                 <li className="text-xl text-center font-medium">9mobile Data</li>
               </ul>
-              <Link href={paths.login('airtime')}>
+              <Link href={paths.login('airtime/dashboard')}>
                 <Button className="bg-black text-white px-20 py-6" radius="full">
                   Purchase
                 </Button>

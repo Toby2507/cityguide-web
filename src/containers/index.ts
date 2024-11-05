@@ -14,7 +14,10 @@ export { default as AdminNightlifeDetail } from './admin/nightlife/detail-page';
 export { default as AdminNightlifeList } from './admin/nightlife/list';
 
 // Airtime
+export { default as AirtimeHeader } from './airtime/header';
 export { default as AirtimeHero } from './airtime/hero';
+export { default as AirtimeSidebar } from './airtime/sidebar';
+export { default as AirtimeTransactions } from './airtime/transactions';
 
 // Auth
 export { default as EstablishmentSignupForm } from './auth/establishment-signup-form';

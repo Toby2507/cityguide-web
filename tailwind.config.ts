@@ -18,12 +18,12 @@ const config: Config = {
         bgLightRed: '#f0d6d6',
         bgAccentBlue: '#F0F7FF',
         bgLightBlue: '#C4DFFF',
-        brandBlue: '#0075FF',
-        brandBlueMain: '#000428',
+        brandBlue: '#000428',
         brandBlueAccent: '#004E92',
         accentGray: '#898888',
         accentGray2: '#9A9A9A',
         bgGray: '#E5F0FD',
+        gray100: '#F2F2F2',
         accentGold: '#FFC107',
         accentYellow: '#FFE187',
       },
@@ -49,18 +49,18 @@ const config: Config = {
           colors: {
             primary: {
               foreground: '#FFFFFF',
-              DEFAULT: '#0075FF',
+              DEFAULT: '#000428',
             },
-            secondary: '#AED4FF',
+            secondary: '#1A85FF',
           },
         },
         dark: {
           colors: {
             primary: {
               foreground: '#FFFFFF',
-              DEFAULT: '#0075FF',
+              DEFAULT: '#000428',
             },
-            secondary: '#AED4FF',
+            secondary: '#1A85FF',
           },
         },
       },

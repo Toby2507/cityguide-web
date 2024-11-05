@@ -23,7 +23,7 @@ const AirtimeHero = () => {
               We offer quick, seamless way to top up airtime and internet data for various service providers.{' '}
             </p>
             <div className="flex flex-col gap-3 w-7/12">
-              <Link href={paths.login('airtime')}>
+              <Link href={paths.login('airtime/dashboard')}>
                 <Button
                   className="bg-gradient-linear text-white px-20 py-6 w-full"
                   endContent={<LuArrowUpRightFromCircle color="#FFF" />}

@@ -40,12 +40,12 @@ export const numberFormat = (number: number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
-export const numberToCurrency = (value: number, prefix: boolean = false) => {
+export const numberToCurrency = (value: number, currencyCode: string = 'NGN', prefix: boolean = false) => {
   const number = (+value || 0).toFixed(2);
   const [currency, decimal] = number.split('.');
-  if (prefix && value < 1000000) return `₦${Math.ceil(value / 1000)}K`;
-  if (prefix && value >= 1000000) return `₦${Math.ceil(value / 1000000)}M`;
-  return `₦${numberFormat(+currency)}.${decimal}`;
+  if (prefix && value < 1000000) return `${currencyCode}${Math.ceil(value / 1000)}K`;
+  if (prefix && value >= 1000000) return `${currencyCode}${Math.ceil(value / 1000000)}M`;
+  return `${currencyCode}${numberFormat(+currency)}.${decimal}`;
 };
 
 export const onEnter = (e: KeyboardEvent<HTMLInputElement>, cb: Function) => {

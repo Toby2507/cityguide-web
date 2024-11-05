@@ -48,6 +48,9 @@ export { default as CreateNightlifeStep7 } from './admin/nightlife/create-nightl
 export { default as CreateNightlifeReview } from './admin/nightlife/create-nightlife-review';
 export { default as updateNightlifeDetails } from './admin/nightlife/update-nightlife-details';
 
+// Airtime
+export { default as AirtimeTransactionCell } from './airtime/transaction-cell';
+
 // Auth
 export { default as LoginTab } from './auth/login-tab';
 export { default as SignUpTab } from './auth/signup-tab';

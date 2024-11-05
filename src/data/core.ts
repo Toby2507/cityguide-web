@@ -71,3 +71,17 @@ export const airtimeData = [
       'Payment on Cityguidex is fast and 100% secured. Enjoy seamless payment processes with zero glitches. Pay with wallet, bank transfer or card.',
   },
 ];
+
+export const airtimeNav = [
+  { title: 'Dashboard', href: '/airtime/dashboard' },
+  { title: 'Transaction History', href: '/airtime/dashboard/history' },
+  { title: 'Saved Receivers', href: '/airtime/dashboard/receivers' },
+  { title: 'Purchase Airtime', href: '/airtime/dashboard/purchase/airtime' },
+  { title: 'Purchase Data', href: '/airtime/dashboard/purchase/data' },
+];
+
+export const airtimeTransactionsColumns = [
+  { key: 'user', label: 'User' },
+  { key: 'amount', label: 'Amount' },
+  { key: 'status', label: 'Status' },
+];

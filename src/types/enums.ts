@@ -102,6 +102,12 @@ export enum NotificationType {
   REVIEW = 'Review',
 }
 
+export enum AirtimeTransactionStatus {
+  SUCCESSFUL = 'Successful',
+  PENDING = 'Pending',
+  FAILED = 'Failed',
+}
+
 export type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities' | 'menu' | 'info';
 
 export type NavTabs = 'Stay' | 'Restaurant' | 'Nightlife' | 'Airtime';

@@ -14,10 +14,10 @@ interface IServices {
   icon: JSX.Element;
 }
 const services: IServices[] = [
-  { name: 'Stays', key: 'Stay', icon: <IoBedOutline /> },
-  { name: 'Restaurants', key: 'Restaurant', icon: <IoRestaurantOutline /> },
-  { name: 'Night Life', key: 'Nightlife', icon: <PiWine /> },
-  { name: 'Airtime Topup', key: 'Airtime', icon: <RiShareCircleLine /> },
+  { name: 'Stays', key: 'Stay', icon: <IoBedOutline size={20} /> },
+  { name: 'Restaurants', key: 'Restaurant', icon: <IoRestaurantOutline size={20} /> },
+  { name: 'Night Life', key: 'Nightlife', icon: <PiWine size={20} /> },
+  { name: 'Airtime Topup', key: 'Airtime', icon: <RiShareCircleLine size={20} /> },
 ];
 
 const ServiceNav = () => {
@@ -29,7 +29,7 @@ const ServiceNav = () => {
     push(`/${key.toLowerCase()}`);
   };
   return (
-    <ul className="flex items-center justify-center flex-wrap gap-4 pb-10">
+    <ul className="flex items-center justify-center flex-wrap gap-4 pb-2">
       {services.map(({ name, icon, key }) => (
         <Button
           key={key}
