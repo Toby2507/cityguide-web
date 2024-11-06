@@ -14,6 +14,7 @@ export { default as AdminNightlifeDetail } from './admin/nightlife/detail-page';
 export { default as AdminNightlifeList } from './admin/nightlife/list';
 
 // Airtime
+export { default as AirtimeAddReceiver } from './airtime/add-receiver';
 export { default as AirtimeHeader } from './airtime/header';
 export { default as AirtimeHero } from './airtime/hero';
 export { default as AirtimeReceivers } from './airtime/receivers';

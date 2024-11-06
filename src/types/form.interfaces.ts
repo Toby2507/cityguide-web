@@ -1,4 +1,13 @@
-import { EntityType, HotelRating, MaxDays, NightLifeType, PriceRange, PropertyType, StayType } from './enums';
+import {
+  AirtimeNetworks,
+  EntityType,
+  HotelRating,
+  MaxDays,
+  NightLifeType,
+  PriceRange,
+  PropertyType,
+  StayType,
+} from './enums';
 import {
   IAccommodation,
   IAddress,
@@ -147,4 +156,12 @@ export interface IAccommodationForm {
 
 export interface IMenuForm {
   menu: IMenu[];
+}
+
+// Airtime
+export interface IAirtimeReceiverForm {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  network: AirtimeNetworks;
 }

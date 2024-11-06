@@ -4,12 +4,13 @@ import { AirtimeReceiverCell } from '@/components';
 import { airtimeReceivers, airtimeReceiversColumns } from '@/data';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 
-const AirtimeReceivers = () => {
+interface Props {
+  handleEdit: (id: string) => void;
+}
+
+const AirtimeReceivers = ({ handleEdit }: Props) => {
   const receivers = airtimeReceivers;
 
-  const onEdit = (id: string) => {
-    console.log(id);
-  };
   const onDelete = (id: string) => {
     console.log(id);
   };
@@ -38,7 +39,7 @@ const AirtimeReceivers = () => {
                       <AirtimeReceiverCell
                         columnKey={key}
                         receiver={item}
-                        editReceiver={onEdit}
+                        editReceiver={handleEdit}
                         deleteReceiver={onDelete}
                       />
                     </TableCell>

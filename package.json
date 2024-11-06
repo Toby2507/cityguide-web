@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.6",
+    "@hookform/resolvers": "^3.9.1",
     "@internationalized/date": "^3.5.4",
     "@nextui-org/react": "^2.3.6",
     "@paystack/inline-js": "^2.22.0",
