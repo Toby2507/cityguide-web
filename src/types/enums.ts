@@ -108,6 +108,13 @@ export enum AirtimeTransactionStatus {
   FAILED = 'Failed',
 }
 
+export enum AirtimeNetworks {
+  MTN = 'MTN',
+  GLO = 'GLO',
+  AIRTEL = 'Airtel',
+  ETISALAT = '9Mobile',
+}
+
 export type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities' | 'menu' | 'info';
 
 export type NavTabs = 'Stay' | 'Restaurant' | 'Nightlife' | 'Airtime';

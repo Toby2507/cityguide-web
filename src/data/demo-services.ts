@@ -1,6 +1,7 @@
-import { AirtimeTransactionStatus, IOffers } from '@/types';
+import { AirtimeNetworks, AirtimeTransactionStatus, IOffers } from '@/types';
 import offer1 from '@images/offer1.png';
 import offer2 from '@images/offer2.png';
+import { LuAsterisk } from 'react-icons/lu';
 
 export const offers: IOffers[] = [
   {
@@ -146,5 +147,78 @@ export const airtimeTransactions = [
     currency: 'NGN',
     status: AirtimeTransactionStatus.FAILED,
     createdAt: '2022-09-01T12:00:00Z',
+  },
+];
+
+export const airtimeReceivers = [
+  {
+    _id: '1',
+    firstName: 'Faith',
+    lastName: 'Anthony',
+    phoneNumber: '+2348012345678',
+    network: AirtimeNetworks.MTN,
+  },
+  {
+    _id: '2',
+    firstName: 'John',
+    lastName: 'Doe',
+    phoneNumber: '+2347012345678',
+    network: AirtimeNetworks.AIRTEL,
+  },
+  {
+    _id: '3',
+    firstName: 'Jane',
+    lastName: 'Doe',
+    phoneNumber: '+2349012345678',
+    network: AirtimeNetworks.GLO,
+  },
+  {
+    _id: '4',
+    firstName: 'Toby',
+    lastName: 'Salau',
+    phoneNumber: '+2346012345678',
+    network: AirtimeNetworks.ETISALAT,
+  },
+  {
+    _id: '5',
+    firstName: 'Tom',
+    lastName: 'Wright',
+    phoneNumber: '+2345012345678',
+    network: AirtimeNetworks.MTN,
+  },
+  {
+    _id: '6',
+    firstName: 'Cecilia',
+    lastName: 'Morgan',
+    phoneNumber: '+2344012345678',
+    network: AirtimeNetworks.AIRTEL,
+  },
+  {
+    _id: '7',
+    firstName: 'Victoria',
+    lastName: 'Ogunleye',
+    phoneNumber: '+2343012345678',
+    network: AirtimeNetworks.GLO,
+  },
+  {
+    _id: '8',
+    firstName: 'Sam',
+    lastName: 'Dugan',
+    phoneNumber: '+2342012345678',
+    network: AirtimeNetworks.ETISALAT,
+  },
+  {
+    _id: '9',
+    firstName: 'Mary',
+    lastName: 'Jane',
+    phoneNumber: '+2341012345678',
+    network: AirtimeNetworks.MTN,
+  },
+  {
+    _id: '10',
+    firstName: 'Andrew',
+    lastName: 'Mosley',
+    phoneNumber: '+2340012345678',
+    network: AirtimeNetworks.AIRTEL,
   },
 ];

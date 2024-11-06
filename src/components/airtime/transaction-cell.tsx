@@ -1,7 +1,6 @@
 import { AirtimeTransactionStatus, IAirtimeTransaction } from '@/types';
 import { numberToCurrency } from '@/utils';
 import { Button } from '@nextui-org/react';
-import dayjs from 'dayjs';
 import { GoArrowDownRight, GoArrowUpRight } from 'react-icons/go';
 
 interface Props {

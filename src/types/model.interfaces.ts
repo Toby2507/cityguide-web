@@ -1,6 +1,7 @@
 import { IFullUser } from './auth.interfaces';
 import { IUser, LatLng } from './common.interfaces';
 import {
+  AirtimeNetworks,
   AirtimeTransactionStatus,
   DayOfWeek,
   EntityType,
@@ -326,4 +327,12 @@ export interface IAirtimeTransaction {
   currency: string;
   status: AirtimeTransactionStatus;
   createdAt: string;
+}
+
+export interface IAirtimeReceiver {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  network: AirtimeNetworks;
 }

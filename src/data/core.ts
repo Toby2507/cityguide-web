@@ -85,3 +85,9 @@ export const airtimeTransactionsColumns = [
   { key: 'amount', label: 'Amount' },
   { key: 'status', label: 'Status' },
 ];
+
+export const airtimeReceiversColumns = [
+  { key: 'name', label: 'Name' },
+  { key: 'phone', label: 'Phone' },
+  { key: 'action', label: 'Action' },
+];

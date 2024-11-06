@@ -49,6 +49,7 @@ export { default as CreateNightlifeReview } from './admin/nightlife/create-night
 export { default as updateNightlifeDetails } from './admin/nightlife/update-nightlife-details';
 
 // Airtime
+export { default as AirtimeReceiverCell } from './airtime/receivers-cell';
 export { default as AirtimeTransactionCell } from './airtime/transaction-cell';
 
 // Auth
