@@ -17,6 +17,8 @@ export { default as AdminNightlifeList } from './admin/nightlife/list';
 export { default as AirtimeAddReceiver } from './airtime/add-receiver';
 export { default as AirtimeHeader } from './airtime/header';
 export { default as AirtimeHero } from './airtime/hero';
+export { default as AirtimePurchaseAmount } from './airtime/purchase-amount';
+export { default as AirtimePurchaseReceiver } from './airtime/purchase-receiver';
 export { default as AirtimeReceivers } from './airtime/receivers';
 export { default as AirtimeSidebar } from './airtime/sidebar';
 export { default as AirtimeTransactions } from './airtime/transactions';

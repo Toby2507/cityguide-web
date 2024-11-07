@@ -24,6 +24,7 @@ const config: Config = {
         accentGray2: '#9A9A9A',
         bgGray: '#E5F0FD',
         gray100: '#F2F2F2',
+        gray150: '#F5F7FA',
         accentGold: '#FFC107',
         accentYellow: '#FFE187',
       },

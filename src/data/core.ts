@@ -1,5 +1,10 @@
+import { AirtimeNetworks } from '@/types';
 import { paths } from '@/utils';
 import { Library } from '@googlemaps/js-api-loader';
+import airtel from '@icons/airtel.svg';
+import glo from '@icons/glo.svg';
+import mtn from '@icons/mtn.svg';
+import etisalat from '@icons/9mobile.svg';
 
 export const LIBS: Library[] = ['core', 'maps', 'places', 'marker'];
 
@@ -90,4 +95,32 @@ export const airtimeReceiversColumns = [
   { key: 'name', label: 'Name' },
   { key: 'phone', label: 'Phone' },
   { key: 'action', label: 'Action' },
+];
+
+export const airtimeNetworks = [
+  { value: AirtimeNetworks.AIRTEL, label: 'AIRTEL', icon: airtel, color: '#E42424' },
+  { value: AirtimeNetworks.MTN, label: 'MTN', icon: mtn, color: '#FFC107' },
+  { value: AirtimeNetworks.GLO, label: 'GLO', icon: glo, color: '#308E34' },
+  { value: AirtimeNetworks.ETISALAT, label: '9MOBILE', icon: etisalat, color: '#EBEBEB' },
+];
+
+export const airtimeVTUAmounts = [
+  { value: 50, data: '50 NGN' },
+  { value: 100, data: '100 NGN' },
+  { value: 200, data: '200 NGN' },
+  { value: 500, data: '500 NGN' },
+  { value: 1000, data: '1000 NGN' },
+  { value: 2000, data: '2000 NGN' },
+  { value: 5000, data: '5000 NGN' },
+  { value: 10000, data: '10000 NGN' },
+];
+export const airtimeDataAmounts = [
+  { value: 500, data: '500MB' },
+  { value: 1000, data: '1GB' },
+  { value: 2000, data: '2GB' },
+  { value: 5000, data: '5GB' },
+  { value: 10000, data: '10GB' },
+  { value: 20000, data: '20GB' },
+  { value: 50000, data: '50GB' },
+  { value: 100000, data: '100GB' },
 ];

@@ -115,6 +115,11 @@ export enum AirtimeNetworks {
   ETISALAT = '9Mobile',
 }
 
+export enum AirtimePurchaseTypes {
+  VTU = 'VTU',
+  DATA = 'Data',
+}
+
 export type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities' | 'menu' | 'info';
 
 export type NavTabs = 'Stay' | 'Restaurant' | 'Nightlife' | 'Airtime';

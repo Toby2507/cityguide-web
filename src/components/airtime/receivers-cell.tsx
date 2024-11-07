@@ -9,11 +9,12 @@ import { HiOutlineDotsVertical } from 'react-icons/hi';
 interface Props {
   columnKey: string;
   receiver: IAirtimeReceiver;
-  editReceiver: (id: string) => void;
-  deleteReceiver: (id: string) => void;
+  selectReceiver?: (id: string) => void;
+  editReceiver?: (id: string) => void;
+  deleteReceiver?: (id: string) => void;
 }
 
-const RecieversCell = ({ columnKey, receiver, editReceiver, deleteReceiver }: Props) => {
+const RecieversCell = ({ columnKey, receiver, editReceiver, deleteReceiver, selectReceiver }: Props) => {
   let networkIcon = airtel;
   if (receiver.network === AirtimeNetworks.MTN) networkIcon = mtn;
   if (receiver.network === AirtimeNetworks.GLO) networkIcon = glo;
@@ -45,8 +46,21 @@ const RecieversCell = ({ columnKey, receiver, editReceiver, deleteReceiver }: Pr
             </Button>
           </DropdownTrigger>
           <DropdownMenu>
-            <DropdownItem onPress={() => editReceiver(receiver._id)}>Edit</DropdownItem>
-            <DropdownItem onPress={() => deleteReceiver(receiver._id)}>Delete</DropdownItem>
+            {selectReceiver ? (
+              <DropdownItem onPress={() => selectReceiver(receiver._id)}>Select</DropdownItem>
+            ) : (
+              <DropdownItem className="hidden" />
+            )}
+            {editReceiver ? (
+              <DropdownItem onPress={() => editReceiver(receiver._id)}>Edit</DropdownItem>
+            ) : (
+              <DropdownItem className="hidden" />
+            )}
+            {deleteReceiver ? (
+              <DropdownItem onPress={() => deleteReceiver(receiver._id)}>Delete</DropdownItem>
+            ) : (
+              <DropdownItem className="hidden" />
+            )}
           </DropdownMenu>
         </Dropdown>
       </div>

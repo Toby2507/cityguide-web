@@ -5,20 +5,24 @@ import { airtimeReceivers, airtimeReceiversColumns } from '@/data';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 
 interface Props {
-  handleEdit: (id: string) => void;
+  extraTableClass?: string;
+  handleEdit?: (id: string) => void;
+  handleSelect?: (id: string) => void;
 }
 
-const AirtimeReceivers = ({ handleEdit }: Props) => {
+const AirtimeReceivers = ({ extraTableClass, handleEdit, handleSelect }: Props) => {
   const receivers = airtimeReceivers;
 
-  const onDelete = (id: string) => {
-    console.log(id);
-  };
+  const onDelete = !!handleEdit
+    ? (id: string) => {
+        console.log(id);
+      }
+    : undefined;
   return (
     <section className="flex flex-col gap-4">
-      <h2 className="text-2xl font-semibold">Saved Receivers</h2>
+      {!handleSelect ? <h2 className="text-2xl font-semibold">Saved Receivers</h2> : null}
       <div className="bg-gray100 rounded-lg py-2">
-        <div className="px-4 overflow-auto max-h-[45vh]">
+        <div className={`px-4 overflow-auto max-h-[45vh] ${extraTableClass}`}>
           <Table
             removeWrapper
             hideHeader
@@ -41,6 +45,7 @@ const AirtimeReceivers = ({ handleEdit }: Props) => {
                         receiver={item}
                         editReceiver={handleEdit}
                         deleteReceiver={onDelete}
+                        selectReceiver={handleSelect}
                       />
                     </TableCell>
                   ))}
