@@ -69,7 +69,7 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
             <div
               key={value}
               style={{ backgroundColor: color }}
-              className="flex flex-col gap-2 rounded-lg px-6 py-8"
+              className="flex flex-col gap-2 rounded-lg px-6 py-8 cursor-pointer"
               onClick={() => setValue('receiver.network', value)}
             >
               <Image src={icon.src} width="full" height={icon.height} alt={label} removeWrapper className="h-16 w-16" />
