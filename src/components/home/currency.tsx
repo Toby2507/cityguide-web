@@ -1,10 +1,12 @@
 'use client';
 
 import { useGeneralStore } from '@/providers';
-import { getCurrencies } from '@/server';
+import { getCurrencies, getCurrencyExchangeRates } from '@/server';
 import { ICurrency } from '@/types';
+import { getCountryByIp } from '@/utils';
 import { Button, Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
+import { useCallback, useEffect } from 'react';
 import { IoCheckmark } from 'react-icons/io5';
 
 const CurrencySelector = () => {
@@ -15,13 +17,23 @@ const CurrencySelector = () => {
     queryFn: getCurrencies,
     staleTime: 1000 * 60 * 60 * 24,
   });
-  const selectCurrency = (currency: ICurrency) => {
+
+  const selectCurrency = async (currency: ICurrency) => {
     setCurrency(currency);
-    console.log(currency);
+    const rates = await getCurrencyExchangeRates(currency.code);
+    setExchangeRates(rates);
     onClose();
   };
+  const selectDefaultCurrency = useCallback(async () => {
+    if (!currencies?.length) return;
+    const country = await getCountryByIp();
+    const currencyData = currencies.find((curr) => curr.country === country)!;
+    setCurrency(currencyData);
+  }, [currencies, setCurrency]);
 
-  console.log({ currency });
+  useEffect(() => {
+    if (!currency) selectDefaultCurrency();
+  }, [selectDefaultCurrency, currency]);
 
   if (!currencies?.length || isPending) return null;
   return (
