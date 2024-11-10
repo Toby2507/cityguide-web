@@ -42,3 +42,9 @@ export interface IPayment {
   access_code: string;
   reference: string;
 }
+
+export interface ICurrency {
+  code: string;
+  name: string;
+  country: string;
+}

@@ -14,6 +14,7 @@ import {
   IReview,
   IStay,
 } from './model.interfaces';
+import { ICurrency } from './common.interfaces';
 
 // Reservation
 export interface IReservationState {
@@ -76,3 +77,14 @@ export interface ServerToClientEvents {
 export type TAction = 'add' | 'update' | 'remove';
 
 export type TSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
+
+// General
+export interface IGeneral {
+  currency: ICurrency | null;
+  exchangeRates: Record<string, number> | null;
+}
+
+export interface IGeneralStore extends IGeneral {
+  setCurrency: (currency: ICurrency) => void;
+  setExchangeRates: (exchangeRates: Record<string, number>) => void;
+}
