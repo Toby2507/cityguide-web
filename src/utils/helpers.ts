@@ -209,3 +209,15 @@ export const generateTimeRange = (from: string, to: string) => {
 
 export const formatAddress = (address: IAddress) =>
   address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
+
+export const getCountryByIp = async () => {
+  try {
+    const ipRes = await fetch('https://api.ipify.org?format=json');
+    const ipData = await ipRes.json();
+    const countryRes = await fetch(`http://ip-api.com/json/${ipData.ip}`);
+    const countryData = await countryRes.json();
+    return countryData.country;
+  } catch (error) {
+    return '';
+  }
+};
