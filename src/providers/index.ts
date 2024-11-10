@@ -1,4 +1,5 @@
 export * from './auth.provider';
+export * from './general.provider';
 export * from './property.provider';
 export * from './react-query.provider';
 export * from './reservation-provider';
