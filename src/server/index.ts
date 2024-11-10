@@ -38,6 +38,8 @@ export {
 } from './queries/admin';
 export { getUserProfile, logout, refreshAccessToken } from './queries/auth';
 export {
+  getCurrencies,
+  getCurrencyExchangeRates,
   getNightlifeById,
   getNightlifeSearch,
   getNotifications,
@@ -50,5 +52,4 @@ export {
   getTrendingNightlifes,
   getTrendingRestaurants,
   getTrendingStays,
-  getCurrencies,
 } from './queries/core';

@@ -133,3 +133,11 @@ export const getCurrencies = async () => {
   if (!res.ok) throw new Error(result.message);
   return result.currencies as ICurrency[];
 };
+
+export const getCurrencyExchangeRates = async (currency: string) => {
+  if (!currency || currency === '€$£') return null;
+  const res = await fetchWithReAuth(`payment/exchange-rate?base=${currency}`, { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.exchangeRate as Record<string, number>;
+};
