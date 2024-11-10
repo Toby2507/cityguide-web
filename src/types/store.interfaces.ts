@@ -86,5 +86,5 @@ export interface IGeneral {
 
 export interface IGeneralStore extends IGeneral {
   setCurrency: (currency: ICurrency) => void;
-  setExchangeRates: (exchangeRates: Record<string, number>) => void;
+  setExchangeRates: (exchangeRates: Record<string, number> | null) => void;
 }
