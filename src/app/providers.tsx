@@ -2,6 +2,7 @@
 
 import {
   AuthProvider,
+  GeneralStoreProvider,
   PropertyStoreProvider,
   ReactQueryProvider,
   ReservationStoreProvider,
@@ -21,15 +22,17 @@ const Providers = ({ children }: IProviders) => {
   return (
     <ReactQueryProvider>
       <AuthProvider>
-        <SearchStoreProvider>
-          <ReservationStoreProvider>
-            <PropertyStoreProvider>
-              <SocketProvider>
-                <NextUIProvider navigate={router.push}>{children}</NextUIProvider>
-              </SocketProvider>
-            </PropertyStoreProvider>
-          </ReservationStoreProvider>
-        </SearchStoreProvider>
+        <GeneralStoreProvider>
+          <SearchStoreProvider>
+            <ReservationStoreProvider>
+              <PropertyStoreProvider>
+                <SocketProvider>
+                  <NextUIProvider navigate={router.push}>{children}</NextUIProvider>
+                </SocketProvider>
+              </PropertyStoreProvider>
+            </ReservationStoreProvider>
+          </SearchStoreProvider>
+        </GeneralStoreProvider>
       </AuthProvider>
     </ReactQueryProvider>
   );
