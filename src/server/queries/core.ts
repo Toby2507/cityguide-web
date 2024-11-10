@@ -1,6 +1,6 @@
 'use server';
 
-import { INightLife, INotification, IReservation, IRestaurant, IStay, LatLng, PropertyType } from '@/types';
+import { ICurrency, INightLife, INotification, IReservation, IRestaurant, IStay, LatLng, PropertyType } from '@/types';
 import { fetchBaseQuery, fetchWithReAuth } from '@/utils';
 
 // Stays
@@ -124,4 +124,12 @@ export const getNotifications = async () => {
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
   return result.notifications as INotification[];
+};
+
+// Miscellanous
+export const getCurrencies = async () => {
+  const res = await fetchWithReAuth('payment/currencies', { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.currencies as ICurrency[];
 };

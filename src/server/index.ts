@@ -50,4 +50,5 @@ export {
   getTrendingNightlifes,
   getTrendingRestaurants,
   getTrendingStays,
+  getCurrencies,
 } from './queries/core';
