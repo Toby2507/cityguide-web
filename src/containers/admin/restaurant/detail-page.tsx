@@ -83,7 +83,7 @@ const AdminRestaurantDetailPage = ({ restaurantId }: Props) => {
           name={restaurant.name}
           onUpdate={() => onUpdate('amenities')}
         />
-        <RestaurantDetailMenu menu={restaurant.menu} onUpdate={() => onUpdate('menu')} />
+        <RestaurantDetailMenu menu={restaurant.menu} currency={restaurant.currency} onUpdate={() => onUpdate('menu')} />
         <RestaurantDetailInfo restaurant={restaurant} onUpdate={() => onUpdate('info')} />
         <Button className="mt-4" color="danger" isLoading={isLoading} onPress={onDelete} variant="flat">
           Delete Restaurant
