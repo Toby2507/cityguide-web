@@ -134,10 +134,14 @@ export const getCurrencies = async () => {
   return result.currencies as ICurrency[];
 };
 
-export const getCurrencyExchangeRates = async (currency: string) => {
-  if (!currency || currency === '€$£') return null;
-  const res = await fetchWithReAuth(`payment/exchange-rate?base=${currency}`, { method: 'GET' });
+export const getCurrencyExchangeRates = async (base: string, quote?: string, amount?: number) => {
+  if (!base || base === '€$£') return null;
+  let url = `payment/exchange-rate?base=${base}`;
+  if (quote) url += `&currency=${quote}`;
+  if (amount) url += `&amount=${amount}`;
+  const res = await fetchWithReAuth(url, { method: 'GET' });
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
+  if (quote) return result as Record<string, number>;
   return result.exchangeRate as Record<string, number>;
 };
