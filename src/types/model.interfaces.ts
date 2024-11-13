@@ -121,6 +121,8 @@ export interface INightLife {
   createdAt: string;
   updatedAt: string;
   partner: string | IPartner;
+  categoryRatings: Record<string, number>;
+  currency: string;
 }
 
 // Restaurants
@@ -170,6 +172,9 @@ export interface IRestaurant {
   createdAt: string;
   updatedAt: string;
   partner: string | IPartner;
+  categoryRatings: Record<string, number>;
+  currency: string;
+  proxyPaymentEnabled: boolean;
 }
 
 // Stays
@@ -258,6 +263,9 @@ export interface IStay {
   locationInfo?: ILocationInfo;
   createdAt: string;
   updatedAt: string;
+  categoryRatings: Record<string, number>;
+  currency: string;
+  proxyPaymentEnabled: boolean;
 }
 
 // Reservations
