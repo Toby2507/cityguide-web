@@ -1,3 +1,5 @@
+'use client';
+
 import { useAuth } from '@/providers';
 import { logout } from '@/server';
 

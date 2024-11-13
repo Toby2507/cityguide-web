@@ -1,10 +1,11 @@
 'use client';
 
 import { RatingCard } from '@/components';
+import { usePriceConversion } from '@/hooks';
 import { useSearchStore } from '@/providers';
 import { addFavouriteProperty, getUser, removeFavouriteProperty } from '@/server';
 import { IRestaurant, PropertyType } from '@/types';
-import { numberToCurrency, paths } from '@/utils';
+import { paths } from '@/utils';
 import { Button, Chip, Image } from '@nextui-org/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -27,8 +28,10 @@ const SearchRestaurantCard = ({
   serviceStyle,
   dietaryProvisions,
   cuisine,
+  currency,
   details: { children, delivery, paymentOptions, reservation },
 }: IRestaurant) => {
+  const { convertPrice } = usePriceConversion();
   const { noOfGuests, reservationCount } = useSearchStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
@@ -143,7 +146,7 @@ const SearchRestaurantCard = ({
               </p>
               {reservation ? (
                 <p className="text-2xl tracking-tighter font-medium">
-                  {numberToCurrency(reservationCount * reservation.price)}
+                  {convertPrice(reservationCount * reservation.price, currency)}
                 </p>
               ) : null}
               <Link href={paths.restaurantDetail(_id)}>

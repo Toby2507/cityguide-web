@@ -24,7 +24,7 @@ const RestaurantDetailContainer = ({ resId }: Props) => {
     <>
       <DetailPageOverview amenities={restaurant.details.amenities} propType={PropertyType.RESTAURANT} {...restaurant} />
       <DetailPageAmenities amenities={restaurant.details.amenities} {...restaurant} />
-      <RestaurantDetailMenu menu={restaurant.menu} />
+      <RestaurantDetailMenu menu={restaurant.menu} currency={restaurant.currency} />
       <RestaurantDetailInfo restaurant={restaurant} />
       {restaurant.details.reservation ? <RestaurantDetailReserveBtn restaurant={restaurant} /> : null}
     </>

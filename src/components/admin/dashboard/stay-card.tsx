@@ -1,6 +1,7 @@
 import { CustomStars, RatingCard } from '@/components';
+import { usePriceConversion } from '@/hooks';
 import { IStay } from '@/types';
-import { formatAccomodationDetails, numberToCurrency, paths } from '@/utils';
+import { formatAccomodationDetails, paths } from '@/utils';
 import { Button, Chip, Image } from '@nextui-org/react';
 import Link from 'next/link';
 
@@ -16,7 +17,9 @@ const StayCard = ({
   reviewCount,
   hotelRating,
   _id,
+  currency,
 }: IStay) => {
+  const { convertPrice } = usePriceConversion();
   const validAddr =
     address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
   let neighborhood = '';
@@ -73,7 +76,7 @@ const StayCard = ({
           </div>
           <div className="flex flex-col items-end gap-2">
             <p className="text-xs font-light">1 night, {accommodation[0].maxGuests} guests</p>
-            <p className="text-3xl tracking-tighter font-medium">{numberToCurrency(accommodation[0].price)}</p>
+            <p className="text-3xl tracking-tighter font-medium">{convertPrice(accommodation[0].price, currency)}</p>
             <Link href={paths.adminStay(_id)}>
               <Button color="primary" radius="sm" className="font-medium tracking-wide px-12">
                 View Stay

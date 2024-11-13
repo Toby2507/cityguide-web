@@ -1,14 +1,14 @@
 'use client';
 
 import { CustomStars, RatingCard } from '@/components';
+import { usePriceConversion } from '@/hooks';
 import { useReservationStore, useSearchStore } from '@/providers';
 import { IStay } from '@/types';
-import { numberToCurrency, paths } from '@/utils';
+import { paths } from '@/utils';
 import { Button, Chip } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import { useState } from 'react';
 import { BsExclamationCircle } from 'react-icons/bs';
 import { IoCaretDownOutline, IoCaretUpOutline, IoCheckmark } from 'react-icons/io5';
@@ -30,10 +30,12 @@ const StayDetailReservation = ({
   amenities,
   _id,
   cancellationPolicy,
+  currency,
   onlyInfo,
   rules: { checkIn, checkOut },
 }: Props) => {
   const { push } = useRouter();
+  const { convertPrice } = usePriceConversion();
   const { checkInDay, checkOutDay } = useSearchStore();
   const { reservation } = useReservationStore();
   const [showAccs, setShowAccs] = useState<boolean>(false);
@@ -150,13 +152,15 @@ const StayDetailReservation = ({
           {accommodations.map((a) => (
             <div key={a?.name} className="flex items-center justify-between gap-4">
               <p className="text-xs font-medium">{a?.name}</p>
-              <p className="text-sm font-semibold">{numberToCurrency((a?.quantity || 0) * (a?.unitPrice || 0))}</p>
+              <p className="text-sm font-semibold">
+                {convertPrice((a?.quantity || 0) * (a?.unitPrice || 0), currency)}
+              </p>
             </div>
           ))}
         </div>
         <div className="flex items-center justify-between gap-6 bg-bgLightBlue/50 px-3 py-8">
           <p className="text-xl font-bold">Total</p>
-          <p className="text-2xl font-bold">{numberToCurrency(reservation?.price || 0)}</p>
+          <p className="text-2xl font-bold">{convertPrice(reservation?.price || 0, currency)}</p>
         </div>
       </article>
       {/* Cancellation Info */}
@@ -187,7 +191,7 @@ const StayDetailReservation = ({
                   , you will pay
                 </p>
                 <p className="text-sm font-semibold">
-                  {numberToCurrency((reservation?.price || 0) * (1 - cancellationPolicy.percentRefundable))}
+                  {convertPrice((reservation?.price || 0) * (1 - cancellationPolicy.percentRefundable), currency)}
                 </p>
               </div>
             </div>

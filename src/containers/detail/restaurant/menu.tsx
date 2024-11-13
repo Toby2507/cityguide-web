@@ -4,10 +4,11 @@ import { Button } from '@nextui-org/react';
 
 interface Props {
   menu: IMenu[];
+  currency: string;
   onUpdate?: () => void;
 }
 
-const RestaurantDetailMenu = ({ menu, onUpdate }: Props) => {
+const RestaurantDetailMenu = ({ menu, currency, onUpdate }: Props) => {
   return (
     <section className="flex flex-col gap-4 pb-10" id="menu">
       <header className="flex items-center justify-between gap-10">
@@ -25,7 +26,7 @@ const RestaurantDetailMenu = ({ menu, onUpdate }: Props) => {
       </header>
       <div className="grid grid-cols-2 gap-4">
         {menu.map((menu) => (
-          <MenuItemCard key={menu.id} {...menu} />
+          <MenuItemCard key={menu.id} {...menu} currency={currency} />
         ))}
       </div>
     </section>

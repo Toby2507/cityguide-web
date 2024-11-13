@@ -29,6 +29,9 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
     rating: 4.9,
     reviewCount: 500,
     cancellationPolicy: null,
+    categoryRatings: {},
+    currency: 'USD',
+    proxyPaymentEnabled: false,
   };
 
   const onSubmit: SubmitHandler<ICreateRestaurant> = async (data) => {

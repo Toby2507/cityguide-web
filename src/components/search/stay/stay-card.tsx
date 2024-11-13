@@ -2,10 +2,11 @@
 
 import CustomStars from '@/components/common/custom-stars';
 import RatingCard from '@/components/common/rating-card';
+import { usePriceConversion } from '@/hooks';
 import { useSearchStore } from '@/providers';
 import { addFavouriteProperty, getUser, removeFavouriteProperty } from '@/server';
 import { IStay, PropertyType } from '@/types';
-import { formatAccomodationDetails, formatAddress, numberToCurrency, paths } from '@/utils';
+import { formatAccomodationDetails, formatAddress, paths } from '@/utils';
 import { Button, Chip, Image, Link } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
@@ -24,7 +25,9 @@ const SearchStayCard = ({
   reviewCount,
   hotelRating,
   locationInfo,
+  currency,
 }: IStay) => {
+  const { convertPrice } = usePriceConversion();
   const { noOfGuests, reservationCount, checkInDay, checkOutDay } = useSearchStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
@@ -136,7 +139,7 @@ const SearchStayCard = ({
               <p className="text-xs font-light">
                 {nights} night, {guests} guests
               </p>
-              <p className="text-2xl tracking-tighter font-medium">{numberToCurrency(nights * acc[0].price)}</p>
+              <p className="text-2xl tracking-tighter font-medium">{convertPrice(nights * acc[0].price, currency)}</p>
               <Link href={paths.stayDetail(_id)}>
                 <Button color="primary" radius="sm" size="sm" className="font-medium tracking-wide px-8">
                   View Stay

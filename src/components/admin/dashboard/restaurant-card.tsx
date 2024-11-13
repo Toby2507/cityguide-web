@@ -1,6 +1,9 @@
+'use client';
+
 import { RatingCard } from '@/components';
+import { usePriceConversion } from '@/hooks';
 import { IRestaurant } from '@/types';
-import { numberToCurrency, paths } from '@/utils';
+import { paths } from '@/utils';
 import { Button, Chip, Image } from '@nextui-org/react';
 import Link from 'next/link';
 import { FaChildren } from 'react-icons/fa6';
@@ -21,8 +24,10 @@ const RestaurantCard = ({
   reviewCount,
   serviceStyle,
   summary,
+  currency,
   details: { amenities, children, delivery, paymentOptions, reservation },
 }: IRestaurant) => {
+  const { convertPrice } = usePriceConversion();
   const validAddr =
     address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
   const restaurantDetails = [
@@ -92,7 +97,7 @@ const RestaurantCard = ({
             <p className="text-xs font-light">{reservation ? 'Reservation required.' : 'No reservations available'}</p>
             {reservation ? (
               <p className="text-2xl tracking-tighter font-medium">
-                {numberToCurrency(reservation.price)}
+                {convertPrice(reservation.price, currency)}
                 <span className="text-xs tracking-normal"> / Table</span>
               </p>
             ) : null}

@@ -1,9 +1,10 @@
 'use client';
 
 import { RatingCard } from '@/components';
+import { usePriceConversion } from '@/hooks';
 import { useReservationStore } from '@/providers';
 import { IRestaurant } from '@/types';
-import { numberToCurrency, paths } from '@/utils';
+import { paths } from '@/utils';
 import { Button, Chip } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -28,8 +29,10 @@ const RestaurantDetailReservation = ({
   dietaryProvisions,
   cuisine,
   cancellationPolicy,
+  currency,
   details: { amenities, children, delivery, paymentOptions },
 }: IRestaurant) => {
+  const { convertPrice } = usePriceConversion();
   const { reservation } = useReservationStore();
   const validAddr =
     address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
@@ -141,7 +144,7 @@ const RestaurantDetailReservation = ({
         <h3 className="text-lg font-bold tracking-wide px-3">Your price summary</h3>
         <div className="flex items-center justify-between gap-6 bg-bgLightBlue/50 px-3 py-8">
           <p className="text-xl font-bold">Total</p>
-          <p className="text-2xl font-bold">{numberToCurrency(reservation?.price || 0)}</p>
+          <p className="text-2xl font-bold">{convertPrice(reservation?.price || 0, currency)}</p>
         </div>
       </article>
       {/* Cancellation Info */}
@@ -172,7 +175,7 @@ const RestaurantDetailReservation = ({
                   , you will pay
                 </p>
                 <p className="text-sm font-semibold">
-                  {numberToCurrency((reservation?.price || 0) * (1 - cancellationPolicy.percentRefundable))}
+                  {convertPrice((reservation?.price || 0) * (1 - cancellationPolicy.percentRefundable), currency)}
                 </p>
               </div>
             </div>

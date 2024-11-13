@@ -1,9 +1,10 @@
 'use client';
 
 import { RatingCard } from '@/components';
+import { usePriceConversion } from '@/hooks';
 import { addFavouriteProperty, getUser, removeFavouriteProperty } from '@/server';
 import { INightLife, PropertyType } from '@/types';
-import { numberToCurrency, paths } from '@/utils';
+import { paths } from '@/utils';
 import { Button, Chip, Image, Link } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -22,9 +23,11 @@ const SearchNightlifeCard = ({
   reviewCount,
   name,
   type,
+  currency,
   details: { entryFee, paymentOptions },
   rules: { minAge, parking, dressCode, musicGenre },
 }: INightLife) => {
+  const { convertPrice } = usePriceConversion();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
 
@@ -122,7 +125,7 @@ const SearchNightlifeCard = ({
               <p className="text-xs font-light">{entryFee ? 'Entry fee required' : 'No entry fee required'}</p>
               {entryFee ? (
                 <p className="text-2xl tracking-tighter font-medium">
-                  {numberToCurrency(entryFee)}
+                  {convertPrice(entryFee, currency)}
                   <span className="text-xs tracking-normal"> / Person</span>
                 </p>
               ) : null}

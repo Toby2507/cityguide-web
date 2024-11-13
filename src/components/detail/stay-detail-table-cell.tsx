@@ -1,8 +1,9 @@
 'use client';
 
+import { usePriceConversion } from '@/hooks';
 import { useReservationStore } from '@/providers';
 import { IAccommodation, ICancellation, IGuests, StayType } from '@/types';
-import { formatAccomodationDetails, numberToCurrency, paths } from '@/utils';
+import { formatAccomodationDetails, paths } from '@/utils';
 import {
   Button,
   ButtonGroup,
@@ -19,7 +20,6 @@ import { BsDot } from 'react-icons/bs';
 import { FaUserAlt } from 'react-icons/fa';
 import { IoCaretDownOutline, IoCheckmark } from 'react-icons/io5';
 import AccommodationModal from './accommodation-modal';
-import React from 'react';
 
 interface Props {
   columnKey: string;
@@ -28,13 +28,16 @@ interface Props {
   type: StayType;
   isAdmin?: boolean;
   cancellationPolicy: ICancellation | null;
+  currency: string;
 }
 const GUEST: IGuests = { adults: 1, children: 0 };
 
-const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, cancellationPolicy }: Props) => {
+const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, currency, cancellationPolicy }: Props) => {
   const { push } = useRouter();
-  const { reservation, updateAccommodations } = useReservationStore();
+  const { convertPrice } = usePriceConversion();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { reservation, updateAccommodations } = useReservationStore();
+
   const quantity = useMemo(
     () => reservation?.accommodations?.find((a) => a.accommodationId === user.id)?.reservationCount || 0,
     [reservation, user.id]
@@ -60,6 +63,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, cance
       `Refund amount: ${(1 - cancellationPolicy.percentRefundable) * 100}% of the total amount`,
     ];
   }, [cancelDeadline, cancellationPolicy]);
+
   const prepayment = [StayType.APARTMENT, StayType.BnB].includes(type);
   const reservationInfo = [
     { id: 'cancellation', title: cancellationInfo, description: cancellationDesc },
@@ -72,7 +76,10 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, cance
   ];
   const quantities = Array(user.available + 1)
     .fill(0)
-    .map((_, i) => ({ key: i.toString(), label: i ? `${i} (${numberToCurrency(i * user.price)})` : i.toString() }));
+    .map((_, i) => ({
+      key: i.toString(),
+      label: i ? `${i} (${convertPrice(i * user.price, currency)})` : i.toString(),
+    }));
   const adultList = Array(user.maxGuests - noOfGuests.children)
     .fill(0)
     .map((_, i) => ({ key: (i + 1).toString(), label: (i + 1).toString() }));
@@ -151,7 +158,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, cance
         )}
       </div>
     );
-  if (columnKey === 'price') return <p className="font-semibold">{numberToCurrency(user.price)}</p>;
+  if (columnKey === 'price') return <p className="font-semibold">{convertPrice(user.price, currency)}</p>;
   if (columnKey === 'options')
     return (
       <div className="flex flex-col gap-1 w-40">
@@ -246,7 +253,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, cance
             <p className="text-sm">
               <span className="font-bold">{reservation.reservationCount}</span> accommodation(s) for
             </p>
-            <p className="text-2xl font-semibold">{numberToCurrency(reservation.price || 0)}</p>
+            <p className="text-2xl font-semibold">{convertPrice(reservation.price || 0, currency)}</p>
           </div>
         ) : null}
         <div className="flex flex-col gap-1">

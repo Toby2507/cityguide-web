@@ -31,6 +31,9 @@ const CreateStayReview = ({ setStep }: IProps) => {
     reviewCount: 500,
     optionalServices: [],
     cancellationPolicy: null,
+    categoryRatings: {},
+    currency: 'USD',
+    proxyPaymentEnabled: false,
   };
 
   const onSubmit: SubmitHandler<ICreateStay> = async (data) => {

@@ -28,6 +28,8 @@ const CreateNightlifeReview = ({ setStep }: Props) => {
     updatedAt: '2024-06-04T08:50:15.956Z',
     rating: 4.9,
     reviewCount: 500,
+    categoryRatings: {},
+    currency: 'USD',
   };
 
   const onSubmit: SubmitHandler<ICreateNightlife> = async (data) => {

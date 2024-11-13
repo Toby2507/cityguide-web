@@ -1,7 +1,7 @@
 'use client';
 
+import { usePriceConversion } from '@/hooks';
 import { IRestaurant } from '@/types';
-import { numberToCurrency } from '@/utils';
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { FaClipboardList } from 'react-icons/fa';
@@ -22,11 +22,13 @@ const RestaurantDetailsInfo = ({
     dietaryProvisions,
     priceRange,
     serviceStyle,
+    currency,
     details: { children, delivery, reservation, paymentOptions },
     contact: { email, phone, socialMedia },
   },
   onUpdate,
 }: Props) => {
+  const { convertPrice } = usePriceConversion();
   return (
     <section className="flex flex-col gap-4 pb-10" id="info">
       <header className="flex items-center justify-between gap-10">
@@ -123,7 +125,7 @@ const RestaurantDetailsInfo = ({
             </TableCell>
             <TableCell className="py-4 text-accentGray w-9/12">
               {reservation
-                ? `Reservation required. Fee: ${numberToCurrency(reservation.price)} per table.`
+                ? `Reservation required. Fee: ${convertPrice(reservation.price, currency)} per table.`
                 : 'No reservations available. Walk-ins welcome.'}
             </TableCell>
           </TableRow>

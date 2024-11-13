@@ -109,6 +109,7 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
                     type={stay.type}
                     isAdmin={!!onUpdate}
                     cancellationPolicy={stay.cancellationPolicy}
+                    currency={stay.currency}
                   />
                 </TableCell>
               ))}

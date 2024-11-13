@@ -1,10 +1,11 @@
 'use client';
 
+import { usePriceConversion } from '@/hooks';
 import { useReservationStore } from '@/providers';
 import { createReservationSchema } from '@/schemas';
 import { createReservation, initiatePayment } from '@/server';
 import { IStay, StayType } from '@/types';
-import { numberToCurrency, paths } from '@/utils';
+import { paths } from '@/utils';
 import { Button, CircularProgress, Link, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
@@ -14,8 +15,9 @@ import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 import { PiLockKeyBold } from 'react-icons/pi';
 import { SlArrowRight } from 'react-icons/sl';
 
-const UserCompleteReservation = ({ type, name }: IStay) => {
+const UserCompleteReservation = ({ type, name, currency }: IStay) => {
   const { back } = useRouter();
+  const { convertPrice } = usePriceConversion();
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const { reservation, clearReservation, setReservation } = useReservationStore();
   const [PaystackPopup, setPaystackPopup] = useState<any>(null);
@@ -133,7 +135,7 @@ const UserCompleteReservation = ({ type, name }: IStay) => {
               radius="sm"
               size="lg"
             >
-              Make Payment: {numberToCurrency(reservation?.price!)}
+              Make Payment: {convertPrice(reservation?.price!, currency)}
             </Button>
           </article>
         ) : (

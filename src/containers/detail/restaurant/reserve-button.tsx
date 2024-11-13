@@ -1,8 +1,9 @@
 'use client';
 
+import { usePriceConversion } from '@/hooks';
 import { useReservationStore, useSearchStore } from '@/providers';
 import { EntityType, ICreateReservation, IGuests, IRestaurant, PropertyType } from '@/types';
-import { numberToCurrency, paths } from '@/utils';
+import { paths } from '@/utils';
 import { Button, ButtonGroup, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
@@ -17,13 +18,17 @@ interface Props {
 
 const RestaurantDetailReserveBtn = ({ restaurant }: Props) => {
   const { push } = useRouter();
+  const { convertPrice } = usePriceConversion();
   const { reservation, setReservation } = useReservationStore();
   const { checkInDay, checkOutDay, noOfGuests, reservationCount } = useSearchStore();
   const { max, available, price } = restaurant.details.reservation!;
 
   const quantities = Array(available + 1)
     .fill(0)
-    .map((_, i) => ({ key: i.toString(), label: i ? `${i} (${numberToCurrency(i * price)})` : i.toString() }));
+    .map((_, i) => ({
+      key: i.toString(),
+      label: i ? `${i} (${convertPrice(i * price, restaurant.currency)})` : i.toString(),
+    }));
   const adultList = Array(max - noOfGuests.children)
     .fill(0)
     .map((_, i) => ({ key: (i + 1).toString(), label: (i + 1).toString() }));
@@ -63,7 +68,7 @@ const RestaurantDetailReserveBtn = ({ restaurant }: Props) => {
     setReservation(reservation);
   }, [checkInDay, checkOutDay, restaurant, noOfGuests, reservationCount, setReservation]);
   return (
-    <div className="sticky bottom-10 bg-white border mx-10 rounded-full shadow-2xl z-[9999]">
+    <div className="sticky bottom-10 bg-white border mx-10 rounded-full shadow-2xl z-100">
       <div className="grid grid-cols-3 gap-2">
         <div className="flex flex-col gap-1 py-4 px-10 bg-primary rounded-l-full">
           <h4 className="text-white text-base font-semibold tracking-wide">RESERVE A TABLE</h4>
@@ -74,7 +79,7 @@ const RestaurantDetailReserveBtn = ({ restaurant }: Props) => {
             </div>
             <div className="flex items-center gap-2">
               <IoPricetagsOutline className="text-white" size={20} />
-              <p className="text-white text-xs font-light">{numberToCurrency(price)}</p>
+              <p className="text-white text-xs font-light">{convertPrice(price, restaurant.currency)}</p>
             </div>
             <div className="flex items-center gap-2">
               <MdOutlineTableRestaurant className="text-white" size={20} />

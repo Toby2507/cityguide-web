@@ -1,6 +1,9 @@
+'use client';
+
 import { RatingCard } from '@/components';
+import { usePriceConversion } from '@/hooks';
 import { INightLife } from '@/types';
-import { numberToCurrency, paths } from '@/utils';
+import { paths } from '@/utils';
 import { Button, Chip, Image, Link } from '@nextui-org/react';
 import { GiDress } from 'react-icons/gi';
 import { IoCalendarSharp, IoCard, IoCheckmark } from 'react-icons/io5';
@@ -16,9 +19,11 @@ const NightlifeCard = ({
   reviewCount,
   type,
   summary,
+  currency,
   details: { amenities, entryFee, paymentOptions },
   rules: { minAge, parking, dressCode, musicGenre },
 }: INightLife) => {
+  const { convertPrice } = usePriceConversion();
   const validAddr =
     address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
   const nightlifeDetails = [
@@ -75,7 +80,7 @@ const NightlifeCard = ({
             <p className="text-xs font-light">{entryFee ? 'Entry fee required' : 'No entry fee required'}</p>
             {entryFee ? (
               <p className="text-2xl tracking-tighter font-medium">
-                {numberToCurrency(entryFee)}
+                {convertPrice(entryFee, currency)}
                 <span className="text-xs tracking-normal"> / Person</span>
               </p>
             ) : null}

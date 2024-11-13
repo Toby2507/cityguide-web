@@ -1,3 +1,5 @@
+'use client';
+
 import { useGeneralStore } from '@/providers';
 import { numberToCurrency } from '@/utils';
 

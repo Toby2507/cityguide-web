@@ -1,7 +1,7 @@
 'use client';
 
+import { usePriceConversion } from '@/hooks';
 import { INightLife } from '@/types';
-import { numberToCurrency } from '@/utils';
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { GiDress } from 'react-icons/gi';
@@ -19,12 +19,14 @@ const NightlifeDetailInfo = ({
   nightlife: {
     availability,
     type,
+    currency,
     contact: { email, phone, socialMedia },
     details: { entryFee, paymentOptions },
     rules: { dressCode, minAge, musicGenre, parking },
   },
   onUpdate,
 }: Props) => {
+  const { convertPrice } = usePriceConversion();
   return (
     <section className="flex flex-col gap-4 pb-10" id="info">
       <header className="flex items-center justify-between gap-10">
@@ -99,7 +101,7 @@ const NightlifeDetailInfo = ({
               <IoPricetags className="text-xl" />
               Entry Fee
             </TableCell>
-            <TableCell className="py-4 text-accentGray w-9/12">{numberToCurrency(entryFee ?? 0)}</TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">{convertPrice(entryFee ?? 0, currency)}</TableCell>
           </TableRow>
           <TableRow className="border-b border-default">
             <TableCell className="flex items-center gap-2 py-4 font-medium">

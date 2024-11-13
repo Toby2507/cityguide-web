@@ -1,8 +1,15 @@
+'use client';
+
+import { usePriceConversion } from '@/hooks';
 import { IMenu } from '@/types';
-import { numberToCurrency } from '@/utils';
 import { Chip, Image } from '@nextui-org/react';
 
-const MenuItemCard = ({ imgUrl, name, category, description, price, dietaryProvisions }: IMenu) => {
+interface Props extends IMenu {
+  currency: string;
+}
+
+const MenuItemCard = ({ imgUrl, name, category, description, price, dietaryProvisions, currency }: Props) => {
+  const { convertPrice } = usePriceConversion();
   return (
     <article className="grid grid-cols-10 gap-6 border rounded-xl p-3 bg-white shadow-xl">
       <figure className="h-full col-span-3 w-full">
@@ -24,7 +31,7 @@ const MenuItemCard = ({ imgUrl, name, category, description, price, dietaryProvi
         </div>
         <h4 className="text-lg font-semibold tracking-wide">{name}</h4>
         <p className="flex-1 text-xs">{description}</p>
-        {price ? <p className="text-2xl font-semibold">{numberToCurrency(price)}</p> : null}
+        {price ? <p className="text-2xl font-semibold">{convertPrice(price, currency)}</p> : null}
         <p className="text-xs text-accentGray font-medium">{dietaryProvisions?.join(', ')}</p>
       </div>
     </article>
