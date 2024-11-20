@@ -7,6 +7,7 @@ import {
   IReservation,
   IRestaurant,
   IStay,
+  IVtuReceiver,
   IVtuTransaction,
   LatLng,
   PropertyType,
@@ -142,6 +143,13 @@ export const getVtuTransactions = async () => {
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
   return result.transactions as IVtuTransaction[];
+};
+
+export const getVtuSavedReceivers = async () => {
+  const res = await fetchWithReAuth('vtu/receivers', { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.receivers as IVtuReceiver[];
 };
 
 // Miscellanous
