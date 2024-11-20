@@ -26,6 +26,7 @@ export {
   readNotifications,
   refetchPage,
   removeFavouriteProperty,
+  saveVTUReceiver,
 } from './actions/core';
 // Queries
 export {
@@ -52,6 +53,6 @@ export {
   getTrendingNightlifes,
   getTrendingRestaurants,
   getTrendingStays,
-  getVtuTransactions,
   getVtuSavedReceivers,
+  getVtuTransactions,
 } from './queries/core';

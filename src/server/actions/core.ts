@@ -1,7 +1,7 @@
 'use server';
 
 import { createReservationSchema } from '@/schemas';
-import { ICreateReservation, IPayment, IReservation, PropertyType } from '@/types';
+import { ICreateReservation, IPayment, IReservation, ISavedReceiverForm, PropertyType } from '@/types';
 import { fetchWithReAuth } from '@/utils';
 import { revalidatePath } from 'next/cache';
 import { addToFavourites, removeFromFavourites } from './cookie';
@@ -62,4 +62,16 @@ export const createReservation = async (reservation: Partial<ICreateReservation>
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
   return result.reservation as IReservation;
+};
+
+// VTU
+export const saveVTUReceiver = async (receiver: ISavedReceiverForm, activeId?: string) => {
+  const res = await fetchWithReAuth(`vtu/receivers${activeId ? `/${activeId}` : ''}`, {
+    method: activeId ? 'PUT' : 'POST',
+    body: JSON.stringify(receiver),
+  });
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
+  }
 };
