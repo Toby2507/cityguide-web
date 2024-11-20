@@ -102,21 +102,21 @@ export enum NotificationType {
   REVIEW = 'Review',
 }
 
-export enum AirtimeTransactionStatus {
-  SUCCESSFUL = 'Successful',
+export enum ISPs {
+  MTN = 'MTN',
+  GLO = 'GLO',
+  AIRTEL = 'AIRTEL',
+  ETISALAT = '9MOBILE',
+}
+
+export enum VTUStatus {
   PENDING = 'Pending',
+  SUCCESSFUL = 'Successful',
   FAILED = 'Failed',
 }
 
-export enum AirtimeNetworks {
-  MTN = 'MTN',
-  GLO = 'GLO',
-  AIRTEL = 'Airtel',
-  ETISALAT = '9Mobile',
-}
-
-export enum AirtimePurchaseTypes {
-  VTU = 'VTU',
+export enum VTUType {
+  AIRTIME = 'Airtime',
   DATA = 'Data',
 }
 

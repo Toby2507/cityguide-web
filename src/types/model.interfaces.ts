@@ -1,11 +1,10 @@
 import { IFullUser } from './auth.interfaces';
 import { IUser, LatLng } from './common.interfaces';
 import {
-  AirtimeNetworks,
-  AirtimeTransactionStatus,
   DayOfWeek,
   EntityType,
   HotelRating,
+  ISPs,
   MaxDays,
   NightLifeType,
   NotificationType,
@@ -15,6 +14,8 @@ import {
   Rating,
   Status,
   StayType,
+  VTUStatus,
+  VTUType,
 } from './enums';
 
 // General
@@ -327,20 +328,26 @@ export interface INotification {
 }
 
 // Airtime Transaction
-export interface IAirtimeTransaction {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  amount: number;
-  currency: string;
-  status: AirtimeTransactionStatus;
-  createdAt: string;
-}
-
-export interface IAirtimeReceiver {
+export interface IVtuTransaction {
   _id: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  network: AirtimeNetworks;
+  amount: number;
+  currency: string;
+  status: VTUStatus;
+  network: ISPs;
+  type: VTUType;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IVtuReceiver {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  network: ISPs;
+  createdAt: string;
+  updatedAt: string;
 }
