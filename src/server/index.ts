@@ -52,4 +52,5 @@ export {
   getTrendingNightlifes,
   getTrendingRestaurants,
   getTrendingStays,
+  getVtuTransactions,
 } from './queries/core';

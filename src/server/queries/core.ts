@@ -1,6 +1,16 @@
 'use server';
 
-import { ICurrency, INightLife, INotification, IReservation, IRestaurant, IStay, LatLng, PropertyType } from '@/types';
+import {
+  ICurrency,
+  INightLife,
+  INotification,
+  IReservation,
+  IRestaurant,
+  IStay,
+  IVtuTransaction,
+  LatLng,
+  PropertyType,
+} from '@/types';
 import { fetchBaseQuery, fetchWithReAuth } from '@/utils';
 
 // Stays
@@ -124,6 +134,14 @@ export const getNotifications = async () => {
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
   return result.notifications as INotification[];
+};
+
+// VTU
+export const getVtuTransactions = async () => {
+  const res = await fetchWithReAuth('vtu/transactions', { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.transactions as IVtuTransaction[];
 };
 
 // Miscellanous
