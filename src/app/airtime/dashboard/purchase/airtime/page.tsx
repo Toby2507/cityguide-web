@@ -2,7 +2,7 @@
 
 import { AirtimePurchaseAmount, AirtimePurchaseReceiver } from '@/containers';
 import { airtimePurchaseSchema, AirtimePurchaseType } from '@/schemas';
-import { AirtimePurchaseTypes } from '@/types';
+import { VTUType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -15,17 +15,13 @@ const AirtimePurchaseAirtimePage = () => {
   });
 
   useEffect(() => {
-    methods.setValue('type', AirtimePurchaseTypes.VTU);
+    methods.setValue('type', VTUType.AIRTIME);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <FormProvider {...methods}>
-      {page === 'main' ? (
-        <AirtimePurchaseReceiver type={AirtimePurchaseTypes.VTU} goNext={() => setPage('amount')} />
-      ) : null}
-      {page === 'amount' ? (
-        <AirtimePurchaseAmount type={AirtimePurchaseTypes.VTU} goBack={() => setPage('main')} />
-      ) : null}
+      {page === 'main' ? <AirtimePurchaseReceiver type={VTUType.AIRTIME} goNext={() => setPage('amount')} /> : null}
+      {page === 'amount' ? <AirtimePurchaseAmount type={VTUType.AIRTIME} goBack={() => setPage('main')} /> : null}
     </FormProvider>
   );
 };
