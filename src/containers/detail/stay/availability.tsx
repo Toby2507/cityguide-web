@@ -53,9 +53,10 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
       noOfGuests,
       reservationCount: 0,
       price: 0,
+      accommodations: [],
     };
     setReservation(reservation);
-  }, [checkInDay, checkOutDay, noOfGuests, reservationCount, stay, setReservation]);
+  }, [checkInDay, checkOutDay, noOfGuests, stay, setReservation]);
   useEffect(() => {
     setAccommodations(stay.accommodation);
     setTableKey(nanoid());

@@ -46,6 +46,11 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, curre
     () => reservation?.accommodations?.find((a) => a.accommodationId === user.id)?.noOfGuests || GUEST,
     [reservation, user.id]
   );
+  const noOfNights = useMemo(
+    () => dayjs(reservation?.checkOutDay).diff(dayjs(reservation?.checkInDay), 'd'),
+    [reservation?.checkInDay, reservation?.checkOutDay]
+  );
+  const totalStayPrice = useMemo(() => user.price * noOfNights, [user.price, noOfNights]);
   const cancelDeadline = useMemo(
     () => cancellationPolicy && dayjs(reservation?.checkInDay).subtract(cancellationPolicy.daysFromReservation, 'd'),
     [cancellationPolicy, reservation?.checkInDay]
@@ -78,7 +83,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, curre
     .fill(0)
     .map((_, i) => ({
       key: i.toString(),
-      label: i ? `${i} (${convertPrice(i * user.price, currency)})` : i.toString(),
+      label: i ? `${i} (${convertPrice(i * totalStayPrice, currency)})` : i.toString(),
     }));
   const adultList = Array(user.maxGuests - noOfGuests.children)
     .fill(0)
@@ -88,7 +93,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, curre
     .map((_, i) => ({ key: i.toString(), label: i.toString() }));
 
   const changeQuantity = (reservationCount: number) => {
-    updateAccommodations({ accommodationId: user.id, reservationCount, noOfGuests }, user.price);
+    updateAccommodations({ accommodationId: user.id, reservationCount, noOfGuests }, totalStayPrice);
   };
   const changeNoOfGuests = ({ adults, children }: Partial<IGuests>) => {
     updateAccommodations({
@@ -121,8 +126,12 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, curre
               </li>
             ))}
           </ul>
-          <hr />
-          <p className="text-sm">{user?.description}</p>
+          {user?.description ? (
+            <>
+              <hr />
+              <p className="text-sm">{user.description}</p>
+            </>
+          ) : null}
           <hr />
           <div className="flex flex-wrap items-center gap-2">
             {formatAccomodationDetails(user).map(({ title, value, Icon }) => (
@@ -158,7 +167,7 @@ const StayDetailTableCell = ({ columnKey, user, showAction, type, isAdmin, curre
         )}
       </div>
     );
-  if (columnKey === 'price') return <p className="font-semibold">{convertPrice(user.price, currency)}</p>;
+  if (columnKey === 'price') return <p className="font-semibold">{convertPrice(totalStayPrice, currency)}</p>;
   if (columnKey === 'options')
     return (
       <div className="flex flex-col gap-1 w-40">
