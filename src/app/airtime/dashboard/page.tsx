@@ -3,9 +3,8 @@ import { paths } from '@/utils';
 import Link from 'next/link';
 import { IoCellular } from 'react-icons/io5';
 import { RiWifiFill } from 'react-icons/ri';
-import { airtimeTransactions } from '@/data';
 
-const AirtimeDashboardPage = () => {
+const AirtimeDashboardPage = async () => {
   return (
     <div className="flex flex-col gap-10">
       <div className="flex items-center gap-4">
@@ -26,7 +25,7 @@ const AirtimeDashboardPage = () => {
           </div>
         </Link>
       </div>
-      <AirtimeTransactions transactions={airtimeTransactions.slice(0, 5)} />
+      <AirtimeTransactions />
     </div>
   );
 };

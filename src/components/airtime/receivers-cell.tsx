@@ -1,4 +1,4 @@
-import { AirtimeNetworks, IAirtimeReceiver } from '@/types';
+import { ISPs, IVtuReceiver } from '@/types';
 import etisalat from '@icons/9mobile.svg';
 import airtel from '@icons/airtel.svg';
 import glo from '@icons/glo.svg';
@@ -8,7 +8,7 @@ import { HiOutlineDotsVertical } from 'react-icons/hi';
 
 interface Props {
   columnKey: string;
-  receiver: IAirtimeReceiver;
+  receiver: IVtuReceiver;
   selectReceiver?: (id: string) => void;
   editReceiver?: (id: string) => void;
   deleteReceiver?: (id: string) => void;
@@ -16,9 +16,9 @@ interface Props {
 
 const RecieversCell = ({ columnKey, receiver, editReceiver, deleteReceiver, selectReceiver }: Props) => {
   let networkIcon = airtel;
-  if (receiver.network === AirtimeNetworks.MTN) networkIcon = mtn;
-  if (receiver.network === AirtimeNetworks.GLO) networkIcon = glo;
-  if (receiver.network === AirtimeNetworks.ETISALAT) networkIcon = etisalat;
+  if (receiver.network === ISPs.MTN) networkIcon = mtn;
+  if (receiver.network === ISPs.GLO) networkIcon = glo;
+  if (receiver.network === ISPs.ETISALAT) networkIcon = etisalat;
   if (columnKey === 'name')
     return (
       <div className="flex items-center gap-2">

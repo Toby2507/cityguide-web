@@ -11,7 +11,7 @@ const AirtimeHero = () => {
       <div className="relative container mx-auto px-4 pt-3 max-w-7xl flex flex-col justify-center pb-12 overflow-hidden">
         <HeaderNav />
         <ServiceNav />
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2 pt-10">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col">
               <h1 className="text-7xl text-white font-semibold">Airtime & Internet</h1>

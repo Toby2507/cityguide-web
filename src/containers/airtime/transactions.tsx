@@ -2,7 +2,8 @@
 
 import { AirtimeTransactionCell } from '@/components';
 import { airtimeTransactionsColumns } from '@/data';
-import { AirtimeTransactionStatus, IAirtimeTransaction } from '@/types';
+import { getVtuTransactions } from '@/server';
+import { VTUStatus } from '@/types';
 import {
   Button,
   Dropdown,
@@ -19,17 +20,21 @@ import {
   TableHeader,
   TableRow,
 } from '@nextui-org/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { IoChevronDownOutline, IoCloseCircle } from 'react-icons/io5';
 
 interface Props {
-  transactions: IAirtimeTransaction[];
   showPagination?: boolean;
   showFilters?: boolean;
 }
 
-const AirtimeTransactions = ({ transactions, showPagination, showFilters }: Props) => {
+const AirtimeTransactions = ({ showPagination, showFilters }: Props) => {
+  const { data: transactions } = useSuspenseQuery({
+    queryKey: ['vtu-transactions'],
+    queryFn: getVtuTransactions,
+  });
   const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<Selection>('all');
@@ -102,7 +107,7 @@ const AirtimeTransactions = ({ transactions, showPagination, showFilters }: Prop
               selectionMode="multiple"
               onSelectionChange={setStatusFilter}
             >
-              {Object.values(AirtimeTransactionStatus).map((status) => (
+              {Object.values(VTUStatus).map((status) => (
                 <DropdownItem key={status} className="capitalize">
                   {status}
                 </DropdownItem>

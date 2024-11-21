@@ -1,8 +1,12 @@
 'use client';
 
 import { AirtimeReceiverCell } from '@/components';
-import { airtimeReceivers, airtimeReceiversColumns } from '@/data';
+import { airtimeReceiversColumns } from '@/data';
+import { deleteVTUReceiver, getVtuSavedReceivers } from '@/server';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface Props {
   extraTableClass?: string;
@@ -11,11 +15,24 @@ interface Props {
 }
 
 const AirtimeReceivers = ({ extraTableClass, handleEdit, handleSelect }: Props) => {
-  const receivers = airtimeReceivers;
+  const { data: receivers, isPending } = useQuery({
+    queryKey: ['vtu-receivers'],
+    queryFn: getVtuSavedReceivers,
+  });
+  const queryClient = useQueryClient();
+  const { refresh } = useRouter();
+  if (!receivers?.length || isPending) return null;
 
   const onDelete = !!handleEdit
-    ? (id: string) => {
-        console.log(id);
+    ? async (id: string) => {
+        try {
+          await deleteVTUReceiver(id);
+          queryClient.invalidateQueries({ queryKey: ['vtu-receivers'] });
+          refresh();
+          toast.success('Receiver deleted');
+        } catch (err: any) {
+          toast.error(err.message);
+        }
       }
     : undefined;
   return (

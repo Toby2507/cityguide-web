@@ -2,7 +2,7 @@
 
 import { airtimeDataAmounts, airtimeVTUAmounts } from '@/data';
 import { AirtimePurchaseType } from '@/schemas';
-import { AirtimePurchaseTypes } from '@/types';
+import { VTUType } from '@/types';
 import { paths } from '@/utils';
 import { Button, Input } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
@@ -11,14 +11,14 @@ import toast from 'react-hot-toast';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
 interface Props {
-  type: AirtimePurchaseTypes;
+  type: VTUType;
   goBack: () => void;
 }
 
 const AirtimePurchaseAmount = ({ type, goBack }: Props) => {
   const { push } = useRouter();
   const { handleSubmit, setValue, watch } = useFormContext<AirtimePurchaseType>();
-  const amounts = type === AirtimePurchaseTypes.VTU ? airtimeVTUAmounts : airtimeDataAmounts;
+  const amounts = type === VTUType.AIRTIME ? airtimeVTUAmounts : airtimeDataAmounts;
 
   const onSubmit: SubmitHandler<AirtimePurchaseType> = async (data) => {
     toast.success('Airtime purchase is being processed');

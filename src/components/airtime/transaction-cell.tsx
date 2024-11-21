@@ -1,17 +1,17 @@
-import { AirtimeTransactionStatus, IAirtimeTransaction } from '@/types';
+import { IVtuTransaction, VTUStatus } from '@/types';
 import { numberToCurrency } from '@/utils';
 import { Button } from '@nextui-org/react';
 import { GoArrowDownRight, GoArrowUpRight } from 'react-icons/go';
 
 interface Props {
   columnKey: string;
-  transaction: IAirtimeTransaction;
+  transaction: IVtuTransaction;
 }
 
 const TransactionCell = ({ columnKey, transaction }: Props) => {
   let statusColor: 'secondary' | 'default' | 'warning' | 'danger' | 'primary' | 'success' | undefined = 'secondary';
-  if (transaction.status === AirtimeTransactionStatus.PENDING) statusColor = 'warning';
-  if (transaction.status === AirtimeTransactionStatus.FAILED) statusColor = 'danger';
+  if (transaction.status === VTUStatus.PENDING) statusColor = 'warning';
+  if (transaction.status === VTUStatus.FAILED) statusColor = 'danger';
   if (columnKey === 'status')
     return (
       <div className="flex items-center gap-1">
@@ -24,11 +24,7 @@ const TransactionCell = ({ columnKey, transaction }: Props) => {
     return (
       <div className="flex items-center gap-2">
         <Button isIconOnly aria-label="User" isDisabled size="lg" color={statusColor} variant="flat">
-          {transaction.status === AirtimeTransactionStatus.FAILED ? (
-            <GoArrowDownRight size={20} />
-          ) : (
-            <GoArrowUpRight size={20} />
-          )}
+          {transaction.status === VTUStatus.FAILED ? <GoArrowDownRight size={20} /> : <GoArrowUpRight size={20} />}
         </Button>
         <div className="flex flex-col justify-center">
           <p className="text-xs text-accentGray font-medium">Sent to</p>

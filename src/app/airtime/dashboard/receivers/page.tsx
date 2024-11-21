@@ -1,10 +1,12 @@
 'use client';
 
 import { AirtimeAddReceiver, AirtimeReceivers } from '@/containers';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 
 const AirtimeReceiversPage = () => {
+  const { refresh } = useRouter();
   const [page, setPage] = useState<string>('main');
   const [activeReceiver, setActiveReceiver] = useState<string>('');
 
@@ -15,6 +17,7 @@ const AirtimeReceiversPage = () => {
   const goBack = () => {
     setActiveReceiver('');
     setPage('main');
+    refresh();
   };
 
   return (

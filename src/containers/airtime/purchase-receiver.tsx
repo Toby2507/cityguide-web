@@ -1,33 +1,39 @@
 'use client';
 
-import { airtimeNetworks, airtimeReceivers } from '@/data';
+import { airtimeNetworks } from '@/data';
 import { AirtimePurchaseType } from '@/schemas';
-import { AirtimeNetworks, AirtimePurchaseTypes } from '@/types';
+import { getVtuSavedReceivers } from '@/server';
+import { ISPs, VTUType } from '@/types';
 import { onEnter } from '@/utils';
 import etisalat from '@icons/9mobile.svg';
 import airtel from '@icons/airtel.svg';
 import glo from '@icons/glo.svg';
 import mtn from '@icons/mtn.svg';
 import { Button, Image, Input } from '@nextui-org/react';
+import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import AirtimeReceivers from './receivers';
 
 interface Props {
-  type: AirtimePurchaseTypes;
+  type: VTUType;
   goNext: () => void;
 }
 
 const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
+  const { data: savedReceivers } = useQuery({
+    queryKey: ['vtu-receivers'],
+    queryFn: getVtuSavedReceivers,
+  });
   const { control, setFocus, setValue, trigger, watch } = useFormContext<AirtimePurchaseType>();
   const [showSaved, setShowSaved] = useState<boolean>(false);
 
   const network = watch('receiver.network');
   const StartContent = useMemo(() => {
     let image = airtel;
-    if (network === AirtimeNetworks.MTN) image = mtn;
-    if (network === AirtimeNetworks.GLO) image = glo;
-    if (network === AirtimeNetworks.ETISALAT) image = etisalat;
+    if (network === ISPs.MTN) image = mtn;
+    if (network === ISPs.GLO) image = glo;
+    if (network === ISPs.ETISALAT) image = etisalat;
     return (
       <Image
         src={image.src}
@@ -42,7 +48,7 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
   }, [network]);
 
   const handleSelect = (id: string) => {
-    const savedReceiver = airtimeReceivers.find((r) => r._id === id);
+    const savedReceiver = savedReceivers?.find((r) => r._id === id);
     if (savedReceiver) {
       const { _id, ...receiver } = savedReceiver;
       setValue('receiver', receiver);
@@ -73,7 +79,7 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
               onClick={() => setValue('receiver.network', value)}
             >
               <Image src={icon.src} width="full" height={icon.height} alt={label} removeWrapper className="h-16 w-16" />
-              <p className={`text-lg ${value === AirtimeNetworks.ETISALAT ? 'text-black' : 'text-white'} font-medium`}>
+              <p className={`text-lg ${value === ISPs.ETISALAT ? 'text-black' : 'text-white'} font-medium`}>
                 {label} {type}
               </p>
             </div>

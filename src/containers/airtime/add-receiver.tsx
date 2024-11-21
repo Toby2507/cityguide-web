@@ -1,11 +1,13 @@
 'use client';
 
-import { airtimeReceivers } from '@/data';
-import { airtimeReceiverSchema } from '@/schemas';
-import { AirtimeNetworks, IAirtimeReceiverForm } from '@/types';
+import { savedReceiverSchema } from '@/schemas';
+import { getVtuSavedReceivers, saveVTUReceiver } from '@/server';
+import { ISavedReceiverForm, ISPs } from '@/types';
 import { onEnter } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMemo, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoIosArrowRoundBack } from 'react-icons/io';
@@ -16,17 +18,35 @@ interface Props {
 }
 
 const AddAirtimeReceiver = ({ activeId, goBack }: Props) => {
-  const defaultValues = activeId ? airtimeReceivers.find((receive) => receive._id === activeId) : undefined;
-  const { control, handleSubmit, setFocus } = useForm<IAirtimeReceiverForm>({
+  const { data: savedReceivers } = useQuery({
+    queryKey: ['vtu-receivers'],
+    queryFn: getVtuSavedReceivers,
+    enabled: !!activeId,
+  });
+  const queryclient = useQueryClient();
+  const defaultValues = useMemo(
+    () => (activeId ? savedReceivers?.find((receive) => receive._id === activeId) : undefined),
+    [activeId, savedReceivers]
+  );
+  const { control, handleSubmit, setFocus } = useForm<ISavedReceiverForm>({
     mode: 'onChange',
-    resolver: zodResolver(airtimeReceiverSchema),
+    resolver: zodResolver(savedReceiverSchema),
     defaultValues,
   });
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const onSubmit: SubmitHandler<IAirtimeReceiverForm> = async (data) => {
-    toast.success('New receiver added');
-    console.log(data);
-    goBack();
+  const onSubmit: SubmitHandler<ISavedReceiverForm> = async (data) => {
+    setIsSubmitting(true);
+    try {
+      await saveVTUReceiver(data, activeId);
+      toast.success('New receiver added');
+      queryclient.invalidateQueries({ queryKey: ['vtu-receivers'] });
+      goBack();
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <div className="flex flex-col gap-4">
@@ -96,10 +116,10 @@ const AddAirtimeReceiver = ({ activeId, goBack }: Props) => {
                   isInvalid={!!error}
                   errorMessage={error?.message}
                 >
-                  <SelectItem key={AirtimeNetworks.AIRTEL}>{AirtimeNetworks.AIRTEL}</SelectItem>
-                  <SelectItem key={AirtimeNetworks.GLO}>{AirtimeNetworks.GLO}</SelectItem>
-                  <SelectItem key={AirtimeNetworks.MTN}>{AirtimeNetworks.MTN}</SelectItem>
-                  <SelectItem key={AirtimeNetworks.ETISALAT}>{AirtimeNetworks.ETISALAT}</SelectItem>
+                  <SelectItem key={ISPs.AIRTEL}>{ISPs.AIRTEL}</SelectItem>
+                  <SelectItem key={ISPs.GLO}>{ISPs.GLO}</SelectItem>
+                  <SelectItem key={ISPs.MTN}>{ISPs.MTN}</SelectItem>
+                  <SelectItem key={ISPs.ETISALAT}>{ISPs.ETISALAT}</SelectItem>
                 </Select>
               )}
               name="network"
@@ -127,6 +147,7 @@ const AddAirtimeReceiver = ({ activeId, goBack }: Props) => {
         </div>
         <Button
           className="bg-gradient-linear text-white text-base font-semibold px-20 py-6 mt-2 w-full"
+          isLoading={isSubmitting}
           onPress={() => handleSubmit(onSubmit)()}
           radius="full"
         >
