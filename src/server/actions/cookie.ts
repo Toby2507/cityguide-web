@@ -1,6 +1,6 @@
 'use server';
 
-import { EntityType, IFavProperties, IUserDetails } from '@/types';
+import { EntityType, ICardDetails, IFavProperties, IUserDetails } from '@/types';
 import { cookies } from 'next/headers';
 
 export const getUser = async () => {
@@ -10,13 +10,26 @@ export const getUser = async () => {
   const id = cookies().get('userid')?.value;
   const type = cookies().get('type')?.value as EntityType;
   const favProperties = cookies().get('userfavproperties')?.value;
+  const cardInfo = cookies().get('cardDetails')?.value;
   const phoneNumber = cookies().get('userphone')?.value!;
   let favouriteProperties: IFavProperties[] = [];
+  let cardDetails: ICardDetails | null = null;
   if (favProperties) favouriteProperties = JSON.parse(favProperties) as IFavProperties[];
+  if (cardInfo) cardDetails = JSON.parse(cardInfo) as ICardDetails;
   const partner = cookies().get('partner')?.value;
   if (!fullName || !id || !partner) return null;
   const isPartner = partner === 'true' ? true : false;
-  const user: IUserDetails = { id, fullName, email, phoneNumber, imgUrl, isPartner, type, favouriteProperties };
+  const user: IUserDetails = {
+    id,
+    fullName,
+    email,
+    phoneNumber,
+    imgUrl,
+    isPartner,
+    type,
+    favouriteProperties,
+    cardDetails,
+  };
   return user;
 };
 
@@ -33,6 +46,7 @@ export const setCredentials = async (res: any, type: EntityType) => {
   cookies().set('userid', type === EntityType.USER ? res.user._id : res.establishment._id);
   cookies().set('partner', type === EntityType.USER ? res.user.isPartner : true);
   cookies().set('type', type);
+  res.paymentAuth && cookies().set('cardDetails', JSON.stringify(res.paymentAuth));
   type === EntityType.USER && cookies().set('userfavproperties', JSON.stringify(res.user.favouriteProperties));
 };
 

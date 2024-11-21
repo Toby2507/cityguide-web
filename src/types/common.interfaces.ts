@@ -12,6 +12,17 @@ export interface IUserDetails {
   isPartner: boolean;
   type: EntityType;
   favouriteProperties?: IFavProperties[];
+  cardDetails: ICardDetails | null;
+}
+
+export interface ICardDetails {
+  bin: string;
+  last4: string;
+  exp_month: string;
+  exp_year: string;
+  card_type: string;
+  bank: string;
+  brand: string;
 }
 
 // External Data
