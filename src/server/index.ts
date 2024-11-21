@@ -22,6 +22,7 @@ export { getCookie, getUser, setCookie, setCredentials } from './actions/cookie'
 export {
   addFavouriteProperty,
   createReservation,
+  deleteVTUReceiver,
   initiatePayment,
   readNotifications,
   refetchPage,

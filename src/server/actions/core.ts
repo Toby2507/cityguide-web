@@ -75,3 +75,11 @@ export const saveVTUReceiver = async (receiver: ISavedReceiverForm, activeId?: s
     throw new Error(result.message);
   }
 };
+
+export const deleteVTUReceiver = async (receiverId: string) => {
+  const res = await fetchWithReAuth(`vtu/receivers/${receiverId}`, { method: 'DELETE' });
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
+  }
+};
