@@ -1,10 +1,10 @@
-import { AirtimeNetworks } from '@/types';
+import { ISPs } from '@/types';
 import { paths } from '@/utils';
 import { Library } from '@googlemaps/js-api-loader';
+import etisalat from '@icons/9mobile.svg';
 import airtel from '@icons/airtel.svg';
 import glo from '@icons/glo.svg';
 import mtn from '@icons/mtn.svg';
-import etisalat from '@icons/9mobile.svg';
 
 export const LIBS: Library[] = ['core', 'maps', 'places', 'marker'];
 
@@ -98,10 +98,10 @@ export const airtimeReceiversColumns = [
 ];
 
 export const airtimeNetworks = [
-  { value: AirtimeNetworks.AIRTEL, label: 'AIRTEL', icon: airtel, color: '#E42424' },
-  { value: AirtimeNetworks.MTN, label: 'MTN', icon: mtn, color: '#FFC107' },
-  { value: AirtimeNetworks.GLO, label: 'GLO', icon: glo, color: '#308E34' },
-  { value: AirtimeNetworks.ETISALAT, label: '9MOBILE', icon: etisalat, color: '#EBEBEB' },
+  { value: ISPs.AIRTEL, label: 'AIRTEL', icon: airtel, color: '#E42424' },
+  { value: ISPs.MTN, label: 'MTN', icon: mtn, color: '#FFC107' },
+  { value: ISPs.GLO, label: 'GLO', icon: glo, color: '#308E34' },
+  { value: ISPs.ETISALAT, label: '9MOBILE', icon: etisalat, color: '#EBEBEB' },
 ];
 
 export const airtimeVTUAmounts = [
