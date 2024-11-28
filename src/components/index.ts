@@ -92,6 +92,7 @@ export { default as ListPropertyRetain } from './listproperty/retain';
 // Misc
 export { default as HeaderAuth } from './misc/header-auth';
 export { default as Map } from './misc/maps';
+export { default as PaymentBox } from './misc/payment-box';
 export { default as SubmitForm } from './misc/submit-form';
 
 // Reservation
