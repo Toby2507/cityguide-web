@@ -3,6 +3,8 @@
 import { getRestaurantById } from '@/server';
 import { useQuery } from '@tanstack/react-query';
 import RestaurantDetailReservation from './restaurant-detail';
+import UserCompleteReservation from '../user-complete';
+import { PropertyType } from '@/types';
 
 interface Props {
   resId: string;
@@ -18,9 +20,11 @@ const RestaurantReservationComplete = ({ resId }: Props) => {
   return (
     <div className="grid grid-cols-10 gap-4">
       <div className="col-span-3">
-        <RestaurantDetailReservation {...restaurant} />
+        <RestaurantDetailReservation onlyInfo {...restaurant} />
       </div>
-      <div className="col-span-7"></div>
+      <div className="col-span-7">
+        <UserCompleteReservation data={restaurant} type={PropertyType.RESTAURANT} />
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { useReservationStore } from '@/providers';
+import { useReservationStore, useSearchStore } from '@/providers';
 import { IRestaurant, IUserDetails } from '@/types';
 import { generateTimeRange, paths } from '@/utils';
 import { Button, Input, Radio, RadioGroup, Select, SelectItem, Textarea, User } from '@nextui-org/react';
@@ -17,9 +17,13 @@ interface Props {
   restaurant: IRestaurant;
 }
 
-const RestaurantUserDetailReservation = ({ restaurant: { availability, cancellationPolicy }, user }: Props) => {
+const RestaurantUserDetailReservation = ({
+  restaurant: { availability, cancellationPolicy, proxyPaymentEnabled },
+  user,
+}: Props) => {
   const { push } = useRouter();
   const pathname = usePathname();
+  const { checkInDay, checkOutDay } = useSearchStore();
   const { reservation, setReservation } = useReservationStore();
   const userDetails = [
     { name: 'First Name', value: user?.fullName.split(' ')[0] },
@@ -43,8 +47,9 @@ const RestaurantUserDetailReservation = ({ restaurant: { availability, cancellat
             }`,
           ]),
       "You'll get the entire table to your self",
+      ...(!proxyPaymentEnabled ? ["No payment needed today, You'll pay at the property"] : []),
     ],
-    [cancellationPolicy, cancellationDeadline]
+    [cancellationPolicy, cancellationDeadline, proxyPaymentEnabled]
   );
   const timeRange = availability.find((a) => a.day === dayjs(reservation?.checkInDay).format('dddd'));
   const times = timeRange
@@ -56,8 +61,12 @@ const RestaurantUserDetailReservation = ({ restaurant: { availability, cancellat
     setReservation({ checkInTime: time, checkOutTime: outTime });
   };
   const goToFinal = () => {
+    if (!user) return toast.error('Please Log in / Sign up before proceeding');
+    if (dayjs(reservation?.checkInDay).isBefore(dayjs(), 'd'))
+      return toast.error('Your checkin date is in the past! Kindly choose a date in the future');
     if (!reservation?.checkInTime) return toast.error('Please select your estimated check-in time');
     if (!reservation?.checkOutTime) return toast.error('Please select your estimated check-out time');
+    setReservation({ checkInDay, checkOutDay });
     push(`${pathname}/complete`);
   };
   return (
