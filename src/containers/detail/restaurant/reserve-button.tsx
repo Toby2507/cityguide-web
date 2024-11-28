@@ -72,7 +72,7 @@ const RestaurantDetailReserveBtn = ({ restaurant }: Props) => {
     setReservation(reservation);
   }, [checkInDay, checkOutDay, restaurant, noOfGuests, reservationCount, setReservation]);
   return (
-    <div className="sticky bottom-10 bg-white border mx-10 rounded-full shadow-2xl z-100">
+    <div className="sticky bottom-10 bg-white border mx-10 mb-10 rounded-full shadow-2xl z-[99999]">
       <div className="grid grid-cols-3 gap-2">
         <div className="flex flex-col gap-1 py-4 px-10 bg-primary rounded-l-full">
           <h4 className="text-white text-base font-semibold tracking-wide">RESERVE A TABLE</h4>
