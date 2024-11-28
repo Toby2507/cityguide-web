@@ -4,7 +4,7 @@ import { RatingCard } from '@/components';
 import { usePriceConversion } from '@/hooks';
 import { useReservationStore } from '@/providers';
 import { IRestaurant } from '@/types';
-import { paths } from '@/utils';
+import { formatAddress, paths } from '@/utils';
 import { Button, Chip } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -16,6 +16,10 @@ import { IoCard, IoCheckmark, IoPricetags } from 'react-icons/io5';
 import { LuVegan } from 'react-icons/lu';
 import { MdFoodBank, MdRoomService } from 'react-icons/md';
 import { PiCheckCircleFill } from 'react-icons/pi';
+
+interface Props extends IRestaurant {
+  onlyInfo?: boolean;
+}
 
 dayjs.extend(relativeTime);
 const RestaurantDetailReservation = ({
@@ -30,12 +34,12 @@ const RestaurantDetailReservation = ({
   cuisine,
   cancellationPolicy,
   currency,
+  onlyInfo,
   details: { amenities, children, delivery, paymentOptions },
-}: IRestaurant) => {
+}: Props) => {
   const { convertPrice } = usePriceConversion();
   const { reservation } = useReservationStore();
-  const validAddr =
-    address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
+  const validAddr = formatAddress(address);
   const restaurantDetails = [
     { title: 'Service Style', value: serviceStyle?.join(', '), Icon: MdRoomService },
     { title: 'Dietary Provisions', value: dietaryProvisions?.join(', '), Icon: LuVegan },
@@ -62,16 +66,16 @@ const RestaurantDetailReservation = ({
     <section className="flex flex-col gap-2">
       {/* Propery Details */}
       <article className="flex flex-col gap-3 border-2 rounded-xl p-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-2">
           <Chip size="sm" className="text-sm" color="primary" radius="sm" variant="flat" startContent={<IoPricetags />}>
             <span className="text-xs font-medium tracking-wider">{priceRange}</span>
           </Chip>
+          <RatingCard rating={rating} reviewCount={reviewCount} size="sm" reversed />
         </div>
         <div className="flex flex-col gap-1">
           <h3 className="text-lg font-bold tracking-wide">{name}</h3>
           <p className="text-sm font-medium leading-tight">{validAddr}</p>
         </div>
-        <RatingCard rating={rating} reviewCount={reviewCount} size="sm" reversed />
         <div className="flex flex-wrap items-center gap-2">
           {amenities.slice(0, 5).map((name, idx) => (
             <div key={idx} className="flex items-center gap-1">
@@ -117,27 +121,31 @@ const RestaurantDetailReservation = ({
             </p>
           </div>
         ) : null}
-        <div className="border-b-2 w-full" />
-        <div className="flex flex-col">
-          <p className="text-xs font-medium">You selected</p>
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-sm text-left font-semibold w-full">
-              {reservation?.reservationCount} tables(s) for {reservation?.noOfGuests?.adults} adult(s)
-              {reservation?.noOfGuests?.children ? `and ${reservation.noOfGuests.children} child(ren)` : ''}
-            </p>
-          </div>
-          <Link href={paths.restaurantDetail(_id)}>
-            <Button
-              className="font-semibold text-primary mt-2 w-fit"
-              color="secondary"
-              radius="sm"
-              size="sm"
-              variant="light"
-            >
-              Change your selection
-            </Button>
-          </Link>
-        </div>
+        {!onlyInfo && (
+          <>
+            <div className="border-b-2 w-full" />
+            <div className="flex flex-col">
+              <p className="text-xs font-medium">You selected</p>
+              <div className="flex items-center justify-between gap-4">
+                <p className="text-sm text-left font-semibold w-full">
+                  {reservation?.reservationCount} tables(s) for {reservation?.noOfGuests?.adults} adult(s)
+                  {reservation?.noOfGuests?.children ? `and ${reservation.noOfGuests.children} child(ren)` : ''}
+                </p>
+              </div>
+              <Link href={paths.restaurantDetail(_id)}>
+                <Button
+                  className="font-semibold text-primary mt-2 w-fit"
+                  color="secondary"
+                  radius="sm"
+                  size="sm"
+                  variant="light"
+                >
+                  Change your selection
+                </Button>
+              </Link>
+            </div>
+          </>
+        )}
       </article>
       {/* Price Summary */}
       <article className="flex flex-col gap-3 border-2 rounded-xl pt-3">
