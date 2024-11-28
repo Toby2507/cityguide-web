@@ -353,6 +353,7 @@ export interface IVtuReceiver {
 }
 
 export interface IVtuService {
+  id: string;
   amount: number;
   type: VTUType;
   value: string;
