@@ -32,9 +32,9 @@ const StaySearchBar = ({ extraClass, isMain, noLocation, search }: Props) => {
     libraries: LIBS,
   });
   const validCheckIn =
-    dayjs(checkInDay).isValid() && dayjs().diff(dayjs(checkInDay), 'd') < 0 ? dayjs(checkInDay) : dayjs();
+    dayjs(checkInDay).isValid() && dayjs().diff(dayjs(checkInDay), 'd') <= 0 ? dayjs(checkInDay) : dayjs();
   const validCheckOut =
-    dayjs(checkOutDay).isValid() && dayjs().diff(dayjs(checkOutDay), 'd') < 0
+    dayjs(checkOutDay).isValid() && dayjs().diff(dayjs(checkOutDay), 'd') <= 0
       ? dayjs(checkOutDay)
       : dayjs().add(1, 'd');
   const checkDate = {
