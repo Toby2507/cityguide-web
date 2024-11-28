@@ -54,6 +54,10 @@ const StayDetailAvailability = ({ stay, onUpdate }: IProps) => {
       reservationCount: 0,
       price: 0,
       accommodations: [],
+      saveCard: true,
+      useSavedCard: false,
+      payByProxy: stay.proxyPaymentEnabled,
+      currency: stay.currency,
     };
     setReservation(reservation);
   }, [checkInDay, checkOutDay, noOfGuests, stay, setReservation]);

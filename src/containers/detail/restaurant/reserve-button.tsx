@@ -64,6 +64,10 @@ const RestaurantDetailReserveBtn = ({ restaurant }: Props) => {
       noOfGuests,
       reservationCount,
       price: (restaurant.details.reservation?.price ?? 0) * reservationCount,
+      currency: restaurant.currency,
+      payByProxy: restaurant.proxyPaymentEnabled,
+      saveCard: true,
+      useSavedCard: false,
     };
     setReservation(reservation);
   }, [checkInDay, checkOutDay, restaurant, noOfGuests, reservationCount, setReservation]);
