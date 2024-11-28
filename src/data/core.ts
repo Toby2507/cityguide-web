@@ -103,24 +103,3 @@ export const airtimeNetworks = [
   { value: ISPs.GLO, label: 'GLO', icon: glo, color: '#308E34' },
   { value: ISPs.ETISALAT, label: '9MOBILE', icon: etisalat, color: '#EBEBEB' },
 ];
-
-export const airtimeVTUAmounts = [
-  { value: 50, data: '50 NGN' },
-  { value: 100, data: '100 NGN' },
-  { value: 200, data: '200 NGN' },
-  { value: 500, data: '500 NGN' },
-  { value: 1000, data: '1000 NGN' },
-  { value: 2000, data: '2000 NGN' },
-  { value: 5000, data: '5000 NGN' },
-  { value: 10000, data: '10000 NGN' },
-];
-export const airtimeDataAmounts = [
-  { value: 500, data: '500MB' },
-  { value: 1000, data: '1GB' },
-  { value: 2000, data: '2GB' },
-  { value: 5000, data: '5GB' },
-  { value: 10000, data: '10GB' },
-  { value: 20000, data: '20GB' },
-  { value: 50000, data: '50GB' },
-  { value: 100000, data: '100GB' },
-];

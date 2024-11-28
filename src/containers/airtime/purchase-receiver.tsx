@@ -13,6 +13,7 @@ import { Button, Image, Input } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import AirtimeReceivers from './receivers';
 
 interface Props {
@@ -47,6 +48,10 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
     );
   }, [network]);
 
+  const toggleShowSaved = () => {
+    if (!savedReceivers?.length) return toast.error('No saved receiver');
+    setShowSaved(!showSaved);
+  };
   const handleSelect = (id: string) => {
     const savedReceiver = savedReceivers?.find((r) => r._id === id);
     if (savedReceiver) {
@@ -64,7 +69,7 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-20">
         <h1 className="text-xl font-semibold">Add Airtime Receiver</h1>
-        <Button color="secondary" variant="flat" radius="sm" size="sm" onPress={() => setShowSaved(!showSaved)}>
+        <Button color="secondary" variant="flat" radius="sm" size="sm" onPress={toggleShowSaved}>
           {showSaved ? 'Hide' : 'Show'} saved receivers
         </Button>
       </div>
