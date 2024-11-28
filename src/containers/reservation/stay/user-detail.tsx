@@ -2,7 +2,7 @@
 
 import { UserDetailReservationAccommodation } from '@/components';
 import { useReservationStore, useSearchStore } from '@/providers';
-import { IStay, IUserDetails, StayType } from '@/types';
+import { IStay, IUserDetails } from '@/types';
 import { generateTimeRange, paths } from '@/utils';
 import {
   Button,
@@ -30,7 +30,7 @@ interface Props {
 }
 
 const UserDetailReservation = ({
-  stay: { accommodation, rules, type, cancellationPolicy, optionalServices },
+  stay: { accommodation, rules, cancellationPolicy, optionalServices, proxyPaymentEnabled },
   user,
 }: Props) => {
   const { push } = useRouter();
@@ -59,11 +59,9 @@ const UserDetailReservation = ({
             }`,
           ]),
       "You'll get the entire accommodation to your self",
-      ...(![StayType.APARTMENT, StayType.BnB].includes(type)
-        ? ["No payment needed today, You'll pay at the property"]
-        : []),
+      ...(!proxyPaymentEnabled ? ["No payment needed today, You'll pay at the property"] : []),
     ],
-    [cancellationPolicy, cancellationDeadline, type]
+    [cancellationPolicy, cancellationDeadline, proxyPaymentEnabled]
   );
   const accommodations =
     reservation?.accommodations
@@ -84,7 +82,8 @@ const UserDetailReservation = ({
   }, [rules]);
 
   const goToFinal = () => {
-    if (dayjs(reservation?.checkInDay).isBefore(dayjs()))
+    if (!user) return toast.error('Please Log in / Sign up before proceeding');
+    if (dayjs(reservation?.checkInDay).isBefore(dayjs(), 'd'))
       return toast.error('Your checkin date is in the past! Kindly choose a date in the future');
     if (!reservation?.checkInTime) return toast.error('Please select your estimated arrival time');
     if (!reservation?.checkOutTime) return toast.error('Please select your estimated departure time');

@@ -4,7 +4,7 @@ import { CustomStars, RatingCard } from '@/components';
 import { usePriceConversion } from '@/hooks';
 import { useReservationStore, useSearchStore } from '@/providers';
 import { IStay } from '@/types';
-import { paths } from '@/utils';
+import { formatAddress, paths } from '@/utils';
 import { Button, Chip } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -47,8 +47,7 @@ const StayDetailReservation = ({
         return;
       })
       .filter(Boolean) || [];
-  const validAddr =
-    address.fullAddress || [address.name, address.city, address.state, address.country].filter(Boolean).join(', ');
+  const validAddr = formatAddress(address);
   const cancellationDeadline =
     cancellationPolicy && dayjs(checkInDay).subtract(cancellationPolicy.daysFromReservation, 'd');
   return (
@@ -153,7 +152,7 @@ const StayDetailReservation = ({
             <div key={a?.name} className="flex items-center justify-between gap-4">
               <p className="text-xs font-medium">{a?.name}</p>
               <p className="text-sm font-semibold">
-                {convertPrice((a?.quantity || 0) * (a?.unitPrice || 0), currency)}
+                {convertPrice((a?.quantity || 0) * (a?.unitPrice || 0), currency)} / night
               </p>
             </div>
           ))}

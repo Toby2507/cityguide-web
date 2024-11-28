@@ -3,7 +3,8 @@
 import { getStayById } from '@/server';
 import { useQuery } from '@tanstack/react-query';
 import StayDetailReservation from './stay-detail';
-import UserCompleteReservation from './user-complete';
+import UserCompleteReservation from '../user-complete';
+import { PropertyType } from '@/types';
 
 interface Props {
   stayId: string;
@@ -22,7 +23,7 @@ const StayReservationComplete = ({ stayId }: Props) => {
         <StayDetailReservation onlyInfo {...stay} />
       </div>
       <div className="col-span-7">
-        <UserCompleteReservation {...stay} />
+        <UserCompleteReservation data={stay} type={PropertyType.STAY} />
       </div>
     </div>
   );
