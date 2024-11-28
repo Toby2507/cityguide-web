@@ -34,7 +34,7 @@ const AirtimePurchaseAmount = ({ type, goBack, goNext }: Props) => {
     if (!service) return toast.error('Please select a service to purchase');
     setValue('serviceId', service.id);
     setValue('amount', service.amount);
-    if (type === VTUType.DATA) setValue('dataValue', service.value);
+    setValue('value', service.value);
     goNext();
   };
 

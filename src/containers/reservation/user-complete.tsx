@@ -35,7 +35,10 @@ const UserCompleteReservation = ({ data: { name, currency, proxyPaymentEnabled }
 
   const paymentValidator = () => {
     const data = createReservationSchema.safeParse(reservation);
-    if (!data.success) throw new Error(data.error.flatten().formErrors.join(', '));
+    if (!data.success) {
+      const error = data.error.flatten();
+      throw new Error(error.formErrors.join(', ') || Object.values(error.fieldErrors ?? {}).join(', '));
+    }
   };
   const completeReservation = async () => {
     setIsReserving(true);
