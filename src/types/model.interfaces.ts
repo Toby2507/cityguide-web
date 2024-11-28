@@ -351,3 +351,9 @@ export interface IVtuReceiver {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IVtuService {
+  amount: number;
+  type: VTUType;
+  value: string;
+}

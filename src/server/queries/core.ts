@@ -6,11 +6,14 @@ import {
   INotification,
   IReservation,
   IRestaurant,
+  ISPs,
   IStay,
   IVtuReceiver,
+  IVtuService,
   IVtuTransaction,
   LatLng,
   PropertyType,
+  VTUType,
 } from '@/types';
 import { fetchBaseQuery, fetchWithReAuth } from '@/utils';
 
@@ -150,6 +153,13 @@ export const getVtuSavedReceivers = async () => {
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
   return result.receivers as IVtuReceiver[];
+};
+
+export const getVTUServices = async (type: VTUType, isp: ISPs) => {
+  const res = await fetchWithReAuth(`vtu/services?type=${type}&isp=${isp}`, { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.services as IVtuService[];
 };
 
 // Miscellanous
