@@ -49,9 +49,13 @@ export interface IUser {
 }
 
 export interface IPayment {
-  authorization_url: string;
-  access_code: string;
+  access_code?: string;
+  amountPayed?: number;
+  authorization_url?: string;
+  convertedAmount?: number;
+  message: string;
   reference: string;
+  status: string;
 }
 
 export interface ICurrency {

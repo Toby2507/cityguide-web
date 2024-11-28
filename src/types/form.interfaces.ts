@@ -81,12 +81,17 @@ export interface ICreateReservation {
   reservationCount: number;
   noOfGuests: IGuests;
   price: number;
+  currency: string;
+  convertedPriceNGN?: number;
   isAgent?: boolean;
   guestFullName?: string;
   guestEmail?: string;
   requests?: string[];
   specialRequest?: string;
   payReference?: string;
+  useSavedCard?: boolean;
+  saveCard?: boolean;
+  payByProxy: boolean;
 }
 
 // Update Forms
