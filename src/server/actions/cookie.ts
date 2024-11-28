@@ -46,7 +46,7 @@ export const setCredentials = async (res: any, type: EntityType) => {
   cookies().set('userid', type === EntityType.USER ? res.user._id : res.establishment._id);
   cookies().set('partner', type === EntityType.USER ? res.user.isPartner : true);
   cookies().set('type', type);
-  res.paymentAuth && cookies().set('cardDetails', JSON.stringify(res.paymentAuth));
+  res.user.paymentAuth && cookies().set('cardDetails', JSON.stringify(res.user.paymentAuth));
   type === EntityType.USER && cookies().set('userfavproperties', JSON.stringify(res.user.favouriteProperties));
 };
 

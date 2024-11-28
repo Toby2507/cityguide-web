@@ -10,6 +10,7 @@ export const refetchPage = async (path: string) => {
   revalidatePath(path);
 };
 
+// Favourites
 export const addFavouriteProperty = async (propertyId: string, propertyType: PropertyType) => {
   const data = { propertyId, propertyType };
   const res = await fetchWithReAuth('user/favproperty/add', { method: 'PATCH', body: JSON.stringify(data) });
@@ -32,6 +33,7 @@ export const removeFavouriteProperty = async (propertyId: string) => {
   removeFromFavourites(propertyId);
 };
 
+// Notification
 export const readNotifications = async (notificationIds: string[]) => {
   const res = await fetchWithReAuth('notification', {
     method: 'PATCH',
@@ -43,25 +45,40 @@ export const readNotifications = async (notificationIds: string[]) => {
   }
 };
 
-export const initiatePayment = async (amount: number, currency: string = 'NGN') => {
+// Reservation
+export const createReservation = async (reservation: Partial<ICreateReservation>) => {
+  const { specialRequest, ...body } = reservation;
+  if (specialRequest) body.requests = [...(body.requests || []), specialRequest];
+  const data = createReservationSchema.safeParse(body);
+  if (!data.success)
+    throw new Error(
+      data.error.flatten().formErrors.join(', ') || Object.values(data.error.flatten().fieldErrors ?? {}).join(', ')
+    );
+  const res = await fetchWithReAuth('reservation', { method: 'POST', body: JSON.stringify(data.data) });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.reservation as IReservation;
+};
+
+// Payment
+export const initiatePayment = async (amount?: number, currency?: string, useSavedCard?: boolean) => {
   const res = await fetchWithReAuth('payment/initiate', {
     method: 'POST',
-    body: JSON.stringify({ amount, currency }),
+    body: JSON.stringify({ amount, currency, useSavedCard }),
   });
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
   return result as IPayment;
 };
 
-export const createReservation = async (reservation: Partial<ICreateReservation>) => {
-  const { specialRequest, ...body } = reservation;
-  if (specialRequest) body.requests = [...(body.requests || []), specialRequest];
-  const data = createReservationSchema.safeParse(body);
-  if (!data.success) throw new Error(data.error.flatten().formErrors.join(', '));
-  const res = await fetchWithReAuth('reservation', { method: 'POST', body: JSON.stringify(data.data) });
+export const completePayment = async (data: Record<string, any>) => {
+  const res = await fetchWithReAuth('payment/complete', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
   const result = await res.json();
   if (!res.ok) throw new Error(result.message);
-  return result.reservation as IReservation;
+  return result as IPayment;
 };
 
 // VTU
