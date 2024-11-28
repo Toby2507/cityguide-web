@@ -154,7 +154,7 @@ export interface IMenuForm {
   menu: IMenu[];
 }
 
-// Airtime
+// VTU
 export interface ISavedReceiverForm {
   firstName: string;
   lastName: string;

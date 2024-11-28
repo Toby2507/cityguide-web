@@ -327,7 +327,7 @@ export interface INotification {
   updatedAt: string;
 }
 
-// Airtime Transaction
+// VTU Transaction
 export interface IVtuTransaction {
   _id: string;
   firstName: string;

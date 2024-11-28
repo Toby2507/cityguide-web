@@ -17,7 +17,7 @@ const services: IServices[] = [
   { name: 'Stays', key: 'Stay', icon: <IoBedOutline size={20} /> },
   { name: 'Restaurants', key: 'Restaurant', icon: <IoRestaurantOutline size={20} /> },
   { name: 'Night Life', key: 'Nightlife', icon: <PiWine size={20} /> },
-  { name: 'Airtime Topup', key: 'Airtime', icon: <RiShareCircleLine size={20} /> },
+  { name: 'Airtime Topup', key: 'VTU', icon: <RiShareCircleLine size={20} /> },
 ];
 
 const ServiceNav = () => {

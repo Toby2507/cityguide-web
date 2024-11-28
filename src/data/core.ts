@@ -26,7 +26,7 @@ export const footerLinks = [
       { title: 'Stays', href: paths.stays() },
       { title: 'Restaurants', href: paths.restaurants() },
       { title: 'Night Clubs', href: paths.nightlifes() },
-      { title: 'Airtime Topup', href: paths.airtime() },
+      { title: 'Airtime Topup', href: paths.vtu() },
     ],
   },
   {
@@ -78,11 +78,11 @@ export const airtimeData = [
 ];
 
 export const airtimeNav = [
-  { title: 'Dashboard', href: '/airtime/dashboard' },
-  { title: 'Transaction History', href: '/airtime/dashboard/history' },
-  { title: 'Saved Receivers', href: '/airtime/dashboard/receivers' },
-  { title: 'Purchase Airtime', href: '/airtime/dashboard/purchase/airtime' },
-  { title: 'Purchase Data', href: '/airtime/dashboard/purchase/data' },
+  { title: 'Dashboard', href: '/vtu/dashboard' },
+  { title: 'Transaction History', href: '/vtu/dashboard/history' },
+  { title: 'Saved Receivers', href: '/vtu/dashboard/receivers' },
+  { title: 'Purchase Airtime', href: '/vtu/dashboard/purchase/airtime' },
+  { title: 'Purchase Data', href: '/vtu/dashboard/purchase/data' },
 ];
 
 export const airtimeTransactionsColumns = [

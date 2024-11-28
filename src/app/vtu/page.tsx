@@ -1,21 +1,21 @@
-import { AirtimeHero, Footer } from '@/containers';
-import { Button, Image } from '@nextui-org/react';
-import { IoCellular } from 'react-icons/io5';
-import { RiWifiFill } from 'react-icons/ri';
+import { Footer, VtuHero } from '@/containers';
+import { airtimeData } from '@/data';
+import { getUser } from '@/server';
+import { paths } from '@/utils';
 import heroImg from '@images/airtime-hero.png';
 import infoBanner from '@images/airtime-info-banner.png';
-import { airtimeData } from '@/data';
+import { Button, Image } from '@nextui-org/react';
 import Link from 'next/link';
-import { paths } from '@/utils';
-import { getUser } from '@/server';
 import { redirect } from 'next/navigation';
+import { IoCellular } from 'react-icons/io5';
+import { RiWifiFill } from 'react-icons/ri';
 
 const AirtimePage = async () => {
   const user = await getUser();
-  if (user) redirect(paths.airtimeDashboard());
+  if (user) redirect(paths.vtuDashboard());
   return (
     <>
-      <AirtimeHero />
+      <VtuHero />
       <main className="flex flex-col gap-14 bg-white pb-20">
         {/* Welcome secion */}
         <div className="bg-bgGray py-16">
@@ -43,7 +43,7 @@ const AirtimePage = async () => {
               <li className="text-xl text-center font-medium">Airtel VTU</li>
               <li className="text-xl text-center font-medium">9mobile VTU</li>
             </ul>
-            <Link href={paths.login('airtime/dashboard')}>
+            <Link href={paths.login('vtu/dashboard')}>
               <Button className="bg-black text-white px-20 py-6" radius="full">
                 Purchase
               </Button>
@@ -61,7 +61,7 @@ const AirtimePage = async () => {
                 <li className="text-xl text-center font-medium">Airtel Data</li>
                 <li className="text-xl text-center font-medium">9mobile Data</li>
               </ul>
-              <Link href={paths.login('airtime/dashboard')}>
+              <Link href={paths.login('vtu/dashboard')}>
                 <Button className="bg-black text-white px-20 py-6" radius="full">
                   Purchase
                 </Button>

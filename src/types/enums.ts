@@ -122,4 +122,4 @@ export enum VTUType {
 
 export type Updates = 'details' | 'images' | 'rules' | 'accommodation' | 'map' | 'amenities' | 'menu' | 'info';
 
-export type NavTabs = 'Stay' | 'Restaurant' | 'Nightlife' | 'Airtime';
+export type NavTabs = 'Stay' | 'Restaurant' | 'Nightlife' | 'VTU';

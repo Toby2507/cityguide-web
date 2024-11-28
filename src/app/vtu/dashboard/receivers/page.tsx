@@ -1,11 +1,11 @@
 'use client';
 
-import { AirtimeAddReceiver, AirtimeReceivers } from '@/containers';
+import { VtuAddReceiver, VtuReceivers } from '@/containers';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 
-const AirtimeReceiversPage = () => {
+const VtuReceiversPage = () => {
   const { refresh } = useRouter();
   const [page, setPage] = useState<string>('main');
   const [activeReceiver, setActiveReceiver] = useState<string>('');
@@ -34,12 +34,12 @@ const AirtimeReceiversPage = () => {
             </div>
             <p className="text-lg text-secondary font-semibold">Add new receipient</p>
           </div>
-          <AirtimeReceivers handleEdit={onEdit} />
+          <VtuReceivers handleEdit={onEdit} />
         </div>
       ) : null}
-      {page === 'create' ? <AirtimeAddReceiver activeId={activeReceiver} goBack={goBack} /> : null}
+      {page === 'create' ? <VtuAddReceiver activeId={activeReceiver} goBack={goBack} /> : null}
     </>
   );
 };
 
-export default AirtimeReceiversPage;
+export default VtuReceiversPage;
