@@ -1,7 +1,7 @@
 'use client';
 
 import { airtimeNetworks } from '@/data';
-import { AirtimePurchaseType } from '@/schemas';
+import { VtuPurchaseType } from '@/schemas';
 import { getVtuSavedReceivers } from '@/server';
 import { ISPs, VTUType } from '@/types';
 import { onEnter } from '@/utils';
@@ -26,10 +26,10 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
     queryKey: ['vtu-receivers'],
     queryFn: getVtuSavedReceivers,
   });
-  const { control, setFocus, setValue, trigger, watch } = useFormContext<AirtimePurchaseType>();
+  const { control, setFocus, setValue, trigger, watch } = useFormContext<VtuPurchaseType>();
   const [showSaved, setShowSaved] = useState<boolean>(false);
 
-  const network = watch('receiver.network');
+  const network = watch('network');
   const StartContent = useMemo(() => {
     let image = airtel;
     if (network === ISPs.MTN) image = mtn;
@@ -55,13 +55,16 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
   const handleSelect = (id: string) => {
     const savedReceiver = savedReceivers?.find((r) => r._id === id);
     if (savedReceiver) {
-      const { _id, ...receiver } = savedReceiver;
-      setValue('receiver', receiver);
+      const { firstName, lastName, phoneNumber, network } = savedReceiver;
+      setValue('firstName', firstName);
+      setValue('lastName', lastName);
+      setValue('phoneNumber', phoneNumber);
+      setValue('network', network);
     }
     setShowSaved(false);
   };
   const handleNext = async () => {
-    const isValid = await trigger('receiver');
+    const isValid = await trigger(['firstName', 'lastName', 'network', 'phoneNumber']);
     if (!isValid) return;
     goNext();
   };
@@ -74,14 +77,14 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
         </Button>
       </div>
       {showSaved ? <AirtimeReceivers handleSelect={handleSelect} extraTableClass="!max-h-[31vh]" /> : null}
-      {!watch('receiver.network') ? (
+      {!watch('network') ? (
         <div className="grid grid-cols-4 gap-2">
           {airtimeNetworks.map(({ value, label, color, icon }) => (
             <div
               key={value}
               style={{ backgroundColor: color }}
               className="flex flex-col gap-2 rounded-lg px-6 py-8 cursor-pointer"
-              onClick={() => setValue('receiver.network', value)}
+              onClick={() => setValue('network', value)}
             >
               <Image src={icon.src} width="full" height={icon.height} alt={label} removeWrapper className="h-16 w-16" />
               <p className={`text-lg ${value === ISPs.ETISALAT ? 'text-black' : 'text-white'} font-medium`}>
@@ -105,14 +108,14 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
                   value={value}
                   onBlur={onBlur}
                   onChange={onChange}
-                  onKeyDown={(e) => onEnter(e, () => setFocus('receiver.lastName'))}
+                  onKeyDown={(e) => onEnter(e, () => setFocus('lastName'))}
                   isInvalid={!!error}
                   errorMessage={error?.message}
                   ref={ref}
                   className="text-accentGray"
                 />
               )}
-              name="receiver.firstName"
+              name="firstName"
             />
             <Controller
               control={control}
@@ -126,14 +129,14 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
                   value={value}
                   onBlur={onBlur}
                   onChange={onChange}
-                  onKeyDown={(e) => onEnter(e, () => setFocus('receiver.phoneNumber'))}
+                  onKeyDown={(e) => onEnter(e, () => setFocus('phoneNumber'))}
                   isInvalid={!!error}
                   errorMessage={error?.message}
                   ref={ref}
                   className="text-accentGray"
                 />
               )}
-              name="receiver.lastName"
+              name="lastName"
             />
             <div className="flex items-center gap-2">
               {StartContent}
@@ -155,7 +158,7 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
                     className="col-span-3 text-accentGray"
                   />
                 )}
-                name="receiver.phoneNumber"
+                name="phoneNumber"
               />
             </div>
           </div>

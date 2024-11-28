@@ -13,16 +13,6 @@ export { default as AdminStayList } from './admin/stay/list';
 export { default as AdminNightlifeDetail } from './admin/nightlife/detail-page';
 export { default as AdminNightlifeList } from './admin/nightlife/list';
 
-// Airtime
-export { default as AirtimeAddReceiver } from './airtime/add-receiver';
-export { default as AirtimeHeader } from './airtime/header';
-export { default as AirtimeHero } from './airtime/hero';
-export { default as AirtimePurchaseAmount } from './airtime/purchase-amount';
-export { default as AirtimePurchaseReceiver } from './airtime/purchase-receiver';
-export { default as AirtimeReceivers } from './airtime/receivers';
-export { default as AirtimeSidebar } from './airtime/sidebar';
-export { default as AirtimeTransactions } from './airtime/transactions';
-
 // Auth
 export { default as EstablishmentSignupForm } from './auth/establishment-signup-form';
 export { default as FormFooter } from './auth/form-footer';
@@ -97,3 +87,14 @@ export { default as UserDetailReservation } from './reservation/stay/user-detail
 export { default as NightlifeSearch } from './search/nightlife/nightlife-search';
 export { default as RestaurantSearch } from './search/restaurant/restaurant-search';
 export { default as StaySearch } from './search/stay/stay-search';
+
+// vtu
+export { default as VtuAddReceiver } from './vtu/add-receiver';
+export { default as VtuHeader } from './vtu/header';
+export { default as VtuHero } from './vtu/hero';
+export { default as VtuPurchaseAmount } from './vtu/purchase-amount';
+export { default as VtuPurchasePayment } from './vtu/purchase-payment';
+export { default as VtuPurchaseReceiver } from './vtu/purchase-receiver';
+export { default as VtuReceivers } from './vtu/receivers';
+export { default as VtuSidebar } from './vtu/sidebar';
+export { default as VtuTransactions } from './vtu/transactions';
