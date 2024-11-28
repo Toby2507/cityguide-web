@@ -221,3 +221,14 @@ export const getCountryByIp = async () => {
     return '';
   }
 };
+
+export const isInvalidDate = (date?: string, time?: string) => {
+  if (!date || !time) return true;
+  if (dayjs(date).isBefore(dayjs(), 'd')) return true;
+  const [hour, minute] = time.split(':');
+  if (dayjs(date).isSame(dayjs(), 'd')) {
+    if (+hour < dayjs().hour()) return true;
+    if (+hour === dayjs().hour() && +minute <= dayjs().minute()) return true;
+  }
+  return false;
+};
