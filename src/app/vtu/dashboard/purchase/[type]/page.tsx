@@ -1,6 +1,6 @@
 'use client';
 
-import { VtuPurchaseAmount, VtuPurchaseReceiver } from '@/containers';
+import { VtuPurchaseAmount, VtuPurchasePayment, VtuPurchaseReceiver } from '@/containers';
 import { vtuPurchaseSchema, VtuPurchaseType } from '@/schemas';
 import { VTUType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,6 +35,7 @@ const VtuPurchasePage = ({ params: { type } }: Props) => {
       {page === 'amount' ? (
         <VtuPurchaseAmount type={vtuType} goBack={() => setPage('main')} goNext={() => setPage('payment')} />
       ) : null}
+      {page === 'payment' ? <VtuPurchasePayment type={vtuType} goBack={() => setPage('amount')} /> : null}
     </FormProvider>
   );
 };

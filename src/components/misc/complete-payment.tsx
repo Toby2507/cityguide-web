@@ -38,7 +38,6 @@ const CompletePayment = ({ reference, type, onClose }: Props) => {
 
   useEffect(() => {
     if (birthday) setValue('birthday', dayjs(birthday.toString()).toDate());
-    console.log(watch());
   }, [birthday, setValue, watch]);
   useEffect(() => {
     setValue('reference', reference);
