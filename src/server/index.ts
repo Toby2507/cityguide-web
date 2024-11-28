@@ -23,6 +23,7 @@ export {
   addFavouriteProperty,
   completePayment,
   createReservation,
+  createTransaction,
   deleteVTUReceiver,
   initiatePayment,
   readNotifications,

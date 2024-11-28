@@ -1,7 +1,7 @@
 'use server';
 
-import { createReservationSchema } from '@/schemas';
-import { ICreateReservation, IPayment, IReservation, ISavedReceiverForm, PropertyType } from '@/types';
+import { createReservationSchema, VtuPurchaseType } from '@/schemas';
+import { ICreateReservation, IPayment, IReservation, ISavedReceiverForm, IVtuTransaction, PropertyType } from '@/types';
 import { fetchWithReAuth } from '@/utils';
 import { revalidatePath } from 'next/cache';
 import { addToFavourites, removeFromFavourites } from './cookie';
@@ -99,4 +99,14 @@ export const deleteVTUReceiver = async (receiverId: string) => {
     const result = await res.json();
     throw new Error(result.message);
   }
+};
+
+export const createTransaction = async (transaction: VtuPurchaseType) => {
+  const res = await fetchWithReAuth('vtu/transactions', {
+    method: 'POST',
+    body: JSON.stringify(transaction),
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.transaction as IVtuTransaction;
 };
