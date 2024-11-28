@@ -71,7 +71,7 @@ const AirtimePurchaseReceiver = ({ type, goNext }: Props) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-20">
-        <h1 className="text-xl font-semibold">Add Airtime Receiver</h1>
+        <h1 className="text-xl font-semibold">Add VTU Purchase Receiver</h1>
         <Button color="secondary" variant="flat" radius="sm" size="sm" onPress={toggleShowSaved}>
           {showSaved ? 'Hide' : 'Show'} saved receivers
         </Button>
