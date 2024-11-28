@@ -1,5 +1,5 @@
 import { EntityType, PropertyType } from '@/types';
-import { object, string, nativeEnum, coerce, number, boolean, ZodIssueCode } from 'zod';
+import { boolean, coerce, nativeEnum, number, object, string, ZodIssueCode } from 'zod';
 
 export const createReservationSchema = object({
   property: string({ required_error: 'Property ID is required' }),
@@ -71,9 +71,17 @@ export const createReservationSchema = object({
     { required_error: 'Number of guests is required', invalid_type_error: 'Number of guests should be an object' }
   ),
   price: number({ required_error: 'Price is required', invalid_type_error: 'Price is a number' }),
+  currency: string({ required_error: 'Currency is required' }).regex(/^[A-Z]{3}$/, 'Invalid currency'),
+  convertedPriceNGN: number({ invalid_type_error: 'Converted Price NGN is a number' }).optional(),
   guestFullName: string().min(3, 'Guest full name should be atleast 3 characters long').optional(),
   guestEmail: string().email('Invalid guest email').optional(),
   payReference: string().optional(),
+  payByProxy: boolean({
+    required_error: 'Payed by proxy is required',
+    invalid_type_error: 'Payed by proxy should be true or false',
+  }),
+  useSavedCard: boolean({ invalid_type_error: 'Save card should be true or false' }).optional().default(false),
+  saveCard: boolean({ invalid_type_error: 'Save card should be true or false' }).optional().default(true),
   requests: string().array().min(1, 'Atleast 1 request').optional(),
   isAgent: boolean({
     invalid_type_error: 'isAgent should be true if reservation is for someone else and false otherwise',
