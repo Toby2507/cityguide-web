@@ -46,8 +46,10 @@ export const setCredentials = async (res: any, type: EntityType) => {
   cookies().set('userid', type === EntityType.USER ? res.user._id : res.establishment._id);
   cookies().set('partner', type === EntityType.USER ? res.user.isPartner : true);
   cookies().set('type', type);
-  res.user.paymentAuth && cookies().set('cardDetails', JSON.stringify(res.user.paymentAuth));
-  type === EntityType.USER && cookies().set('userfavproperties', JSON.stringify(res.user.favouriteProperties));
+  if (type === EntityType.USER) {
+    res.user.paymentAuth && cookies().set('cardDetails', JSON.stringify(res.user.paymentAuth));
+    cookies().set('userfavproperties', JSON.stringify(res.user.favouriteProperties));
+  }
 };
 
 export const addToFavourites = async (data: IFavProperties) => {
