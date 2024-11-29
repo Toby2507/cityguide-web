@@ -142,6 +142,10 @@ export const createRestaurantSchema = object({
     },
     { required_error: 'Contact is required' }
   ),
+  currency: string({ required_error: 'Currency is required' }).regex(/^[A-Z]{3}$/, 'Invalid currency'),
+  proxyPaymentEnabled: boolean({ invalid_type_error: 'Proxy payment enabled should be true or false' })
+    .optional()
+    .default(true),
 });
 
 export const updateRestaurantSchema = strictObject({
@@ -242,6 +246,20 @@ export const updateRestaurantSchema = strictObject({
     )
       .array()
       .optional(),
+  }).optional(),
+  currency: string()
+    .regex(/^[A-Z]{3}$/, 'Invalid currency')
+    .optional(),
+  proxyPaymentEnabled: boolean({ invalid_type_error: 'Proxy payment enabled should be true or false' }).optional(),
+  cancellationPolicy: object({
+    daysFromReservation: number({
+      required_error: 'Days from reservation is required',
+      invalid_type_error: 'Days from reservation should be a number',
+    }).nonnegative(),
+    percentRefundable: number({
+      required_error: 'Percent refundable is required',
+      invalid_type_error: 'Percent refundable should be a number',
+    }).refine((val) => val >= 0 && val <= 1, { message: 'Percent refundable should be between 0 and 1' }),
   }).optional(),
 });
 

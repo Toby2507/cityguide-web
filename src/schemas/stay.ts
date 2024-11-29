@@ -181,6 +181,10 @@ export const createStaySchema = object({
   })
     .array()
     .min(1, 'Atleast one payment methods is required'),
+  currency: string({ required_error: 'Currency is required' }).regex(/^[A-Z]{3}$/, 'Invalid currency'),
+  proxyPaymentEnabled: boolean({ invalid_type_error: 'Proxy payment enabled should be true or false' })
+    .optional()
+    .default(true),
   optionalServices: object({
     title: string({ required_error: 'Optional service title is required' }).min(
       3,
@@ -261,6 +265,10 @@ export const updateStaySchema = strictObject({
     .array()
     .min(1, 'Atleast one payment methods is required')
     .optional(),
+  currency: string()
+    .regex(/^[A-Z]{3}$/, 'Invalid currency')
+    .optional(),
+  proxyPaymentEnabled: boolean({ invalid_type_error: 'Proxy payment enabled should be true or false' }).optional(),
   optionalServices: object({
     title: string({ required_error: 'Optional service title is required' }).min(
       3,
@@ -274,6 +282,16 @@ export const updateStaySchema = strictObject({
     .array()
     .min(1, 'Atleast 1 optional service should be added if any')
     .optional(),
+  cancellationPolicy: object({
+    daysFromReservation: number({
+      required_error: 'Days from reservation is required',
+      invalid_type_error: 'Days from reservation should be a number',
+    }).nonnegative(),
+    percentRefundable: number({
+      required_error: 'Percent refundable is required',
+      invalid_type_error: 'Percent refundable should be a number',
+    }).refine((val) => val >= 0 && val <= 1, { message: 'Percent refundable should be between 0 and 1' }),
+  }).optional(),
 });
 
 export const addAccommodationSchema = object({
