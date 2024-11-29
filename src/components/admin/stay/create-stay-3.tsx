@@ -1,8 +1,8 @@
 'use client';
 
 import { usePropertyStore } from '@/providers';
-import { createStaySchema } from '@/schemas';
-import { HotelRating, ICreateStay, StayType } from '@/types';
+import { CreateStayInput, createStaySchema } from '@/schemas';
+import { HotelRating, StayType } from '@/types';
 import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const CreateStayStep3 = ({ setStep }: Props) => {
-  const { control, trigger, watch, setFocus } = useFormContext<ICreateStay>();
+  const { control, trigger, watch, setFocus } = useFormContext<CreateStayInput>();
   const { setStay } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -65,12 +65,6 @@ const CreateStayStep3 = ({ setStep }: Props) => {
             />
           )}
           name="name"
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.name.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -92,12 +86,6 @@ const CreateStayStep3 = ({ setStep }: Props) => {
             />
           )}
           name="summary"
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.summary.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -119,12 +107,6 @@ const CreateStayStep3 = ({ setStep }: Props) => {
             />
           )}
           name="language"
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.language.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -143,12 +125,6 @@ const CreateStayStep3 = ({ setStep }: Props) => {
             />
           )}
           name="extraInfo.property"
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.extraInfo.unwrap().shape.property.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -167,12 +143,6 @@ const CreateStayStep3 = ({ setStep }: Props) => {
             />
           )}
           name="extraInfo.neighborhood.info"
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.extraInfo.unwrap().shape.neighborhood.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         {watch('type') === StayType.HOTEL ? (
           <Controller

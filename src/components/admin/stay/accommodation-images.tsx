@@ -1,5 +1,4 @@
 import { useCustomImageSelect } from '@/hooks';
-import { createStaySchema } from '@/schemas';
 import { uploadImages } from '@/server';
 import { createUploadDatas, formatFileSize } from '@/utils';
 import { Button, Image, Modal, ModalBody, ModalContent, ModalFooter, useDisclosure } from '@nextui-org/react';
@@ -20,12 +19,6 @@ const AccommodationImages = ({ idx }: Props) => {
   } = useController({
     control,
     name: `accommodation.${idx}.images`,
-    rules: {
-      validate: (val) => {
-        const isValid = createStaySchema.shape.accommodation.element.shape.images.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
   });
   const {
     field: { onChange: setAccIds, value: accIds = [] },

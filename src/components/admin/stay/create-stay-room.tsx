@@ -7,13 +7,13 @@ import toast from 'react-hot-toast';
 import { IoIosRemoveCircle } from 'react-icons/io';
 import { IoAdd, IoRemoveCircleOutline } from 'react-icons/io5';
 
-interface ICreateStayRoom {
+interface Props {
   room: IRoom;
   setBed: (room: string, bed: IFurniture, isDeleting?: boolean) => void;
   removeRoom: (name: string) => void;
 }
 
-const CreateStayRoomCard = ({ room: { name, furnitures }, setBed, removeRoom }: ICreateStayRoom) => {
+const CreateStayRoomCard = ({ room: { name, furnitures }, setBed, removeRoom }: Props) => {
   const [bedType, setBedType] = useState<string>('');
   const [bedCount, setBedCount] = useState<number>(0);
 

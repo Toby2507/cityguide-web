@@ -2,8 +2,9 @@
 
 import { DetailPageAmenities, DetailPageOverview, StayDetailAvailability, StayDetailRules } from '@/containers';
 import { usePropertyStore } from '@/providers';
+import { CreateStayInput } from '@/schemas';
 import { createStay } from '@/server';
-import { EntityType, ICreateStay, IStay, PropertyType } from '@/types';
+import { EntityType, IStay, MaxDays, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import Link from 'next/link';
@@ -19,7 +20,7 @@ const CreateStayReview = ({ setStep }: IProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { setStay } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { watch, handleSubmit } = useFormContext<ICreateStay>();
+  const { watch, handleSubmit } = useFormContext<CreateStayInput>();
   const stay: IStay = {
     ...watch(),
     _id: 'stay id 1',
@@ -29,14 +30,13 @@ const CreateStayReview = ({ setStep }: IProps) => {
     partnerType: EntityType.ESTABLISHMENT,
     rating: 4.9,
     reviewCount: 500,
-    optionalServices: [],
+    optionalServices: watch('optionalServices') ?? [],
     cancellationPolicy: null,
     categoryRatings: {},
-    currency: 'USD',
-    proxyPaymentEnabled: false,
+    maxDays: watch('maxDays') ?? MaxDays.DEFAULT,
   };
 
-  const onSubmit: SubmitHandler<ICreateStay> = async (data) => {
+  const onSubmit: SubmitHandler<CreateStayInput> = async (data) => {
     setIsLoading(true);
     onOpen();
     await createStay(data);
@@ -47,26 +47,24 @@ const CreateStayReview = ({ setStep }: IProps) => {
     <div className="flex flex-col justify-center gap-4 pt-4">
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
         <ModalContent>
-          {(onClose) =>
-            isLoading ? (
-              <div className="flex flex-col items-center gap-4 py-10">
-                <CircularProgress size="lg" color="primary" className="text-7xl" aria-label="Publishing property..." />
-                <p className="text-lg text-accentGray font-medium">Publishing Property...</p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-4 px-4 py-10">
-                <IoCheckmarkCircleOutline className="text-7xl" />
-                <p className="text-lg font-medium">
-                  Property Successfully <span className="text-primary">Published!</span>
-                </p>
-                <Link href={paths.adminStays()}>
-                  <Button className="text-sm px-14 font-semibold w-fit" color="primary" radius="full" variant="flat">
-                    Dashboard
-                  </Button>
-                </Link>
-              </div>
-            )
-          }
+          {isLoading ? (
+            <div className="flex flex-col items-center gap-4 py-10">
+              <CircularProgress size="lg" color="primary" className="text-7xl" aria-label="Publishing property..." />
+              <p className="text-lg text-accentGray font-medium">Publishing Property...</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-4 px-4 py-10">
+              <IoCheckmarkCircleOutline className="text-7xl" />
+              <p className="text-lg font-medium">
+                Property Successfully <span className="text-primary">Published!</span>
+              </p>
+              <Link href={paths.adminStays()}>
+                <Button className="text-sm px-14 font-semibold w-fit" color="primary" radius="full" variant="flat">
+                  Dashboard
+                </Button>
+              </Link>
+            </div>
+          )}
         </ModalContent>
       </Modal>
       <div className="flex flex-col gap-2">

@@ -3,8 +3,7 @@
 import { CreatePropertyAmenities } from '@/components';
 import { stayAmenities } from '@/data';
 import { usePropertyStore } from '@/providers';
-import { createStaySchema } from '@/schemas';
-import { ICreateStay } from '@/types';
+import { CreateStayInput, createStaySchema } from '@/schemas';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -15,7 +14,7 @@ interface Props {
 }
 
 const CreateStayStep4 = ({ setStep }: Props) => {
-  const { watch } = useFormContext<ICreateStay>();
+  const { watch } = useFormContext<CreateStayInput>();
   const { setStay } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

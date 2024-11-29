@@ -2,10 +2,12 @@
 
 import { StringArrayInput } from '@/components';
 import { usePropertyStore } from '@/providers';
-import { createStaySchema } from '@/schemas';
-import { ICreateStay, MaxDays } from '@/types';
+import { CreateStayInput } from '@/schemas';
+import { getCurrencies } from '@/server';
+import { MaxDays } from '@/types';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
@@ -18,46 +20,24 @@ interface Props {
 }
 
 const CreateStayStep6 = ({ setStep }: Props) => {
-  const { control, trigger, watch } = useFormContext<ICreateStay>();
+  const { control, trigger, watch } = useFormContext<CreateStayInput>();
   const { setStay } = usePropertyStore();
+  const { data: currencies } = useSuspenseQuery({
+    queryKey: ['currencies'],
+    queryFn: getCurrencies,
+    staleTime: 1000 * 60 * 60 * 24,
+  });
   const {
     field: { onChange: setCheckIn, value: checkIn },
     fieldState: { error: checkinErr },
-  } = useController({
-    control,
-    name: 'rules.checkIn',
-    rules: {
-      validate: (val) => {
-        const isValid = createStaySchema.shape.rules.shape.checkIn.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
-  });
+  } = useController({ control, name: 'rules.checkIn' });
   const {
     field: { onChange: setCheckOut, value: checkOut },
     fieldState: { error: checkoutErr },
-  } = useController({
-    control,
-    name: 'rules.checkOut',
-    rules: {
-      validate: (val) => {
-        const isValid = createStaySchema.shape.rules.shape.checkOut.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
-  });
+  } = useController({ control, name: 'rules.checkOut' });
   const {
     field: { onChange: setPaymentMethod, value: paymentMethods },
-  } = useController({
-    control,
-    name: 'paymentMethods',
-    rules: {
-      validate: (val) => {
-        const isValid = createStaySchema.shape.paymentMethods.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
-  });
+  } = useController({ control, name: 'paymentMethods' });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [checkinFrom, setCheckinFrom] = useState<TimeInputValue>();
   const [checkinTo, setCheckinTo] = useState<TimeInputValue>();
@@ -66,7 +46,7 @@ const CreateStayStep6 = ({ setStep }: Props) => {
 
   const handleNext = async () => {
     setIsLoading(true);
-    const isValid = await trigger(['rules', 'maxDays', 'paymentMethods']);
+    const isValid = await trigger(['rules', 'maxDays', 'paymentMethods', 'currency', 'proxyPaymentEnabled']);
     setIsLoading(false);
     if (!isValid) return toast.error('Please fill out the required fields');
     setStep(7);
@@ -170,12 +150,6 @@ const CreateStayStep6 = ({ setStep }: Props) => {
               </Select>
             )}
             name="rules.smoking"
-            rules={{
-              validate: (val) => {
-                const isValid = createStaySchema.shape.rules.shape.smoking.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -194,12 +168,6 @@ const CreateStayStep6 = ({ setStep }: Props) => {
               </Select>
             )}
             name="rules.pets"
-            rules={{
-              validate: (val) => {
-                const isValid = createStaySchema.shape.rules.shape.pets.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -218,12 +186,45 @@ const CreateStayStep6 = ({ setStep }: Props) => {
               </Select>
             )}
             name="rules.parties"
-            rules={{
-              validate: (val) => {
-                const isValid = createStaySchema.shape.rules.shape.parties.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-3 pt-2">
+          <Controller
+            control={control}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <Select
+                selectedKeys={value === undefined ? undefined : [value]}
+                onChange={(e) => onChange(e.target.value)}
+                isRequired
+                label="Pricing Currency"
+                placeholder=" "
+                isInvalid={!!error}
+                errorMessage={error?.message}
+              >
+                {currencies.slice(1).map(({ name, code }) => (
+                  <SelectItem key={code}>{`${name} (${code})`}</SelectItem>
+                ))}
+              </Select>
+            )}
+            name="currency"
+          />
+          <Controller
+            control={control}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <Select
+                selectedKeys={value === undefined ? undefined : [value ? 'Yes' : 'No']}
+                onChange={(e) => onChange(e.target.value === 'Yes')}
+                label="Should we accept payment on your behalf?"
+                placeholder=" "
+                isInvalid={!!error}
+                errorMessage={error?.message}
+              >
+                <SelectItem key="Yes">Yes</SelectItem>
+                <SelectItem key="No">No</SelectItem>
+              </Select>
+            )}
+            name="proxyPaymentEnabled"
+            defaultValue={true}
           />
         </div>
         <CreateStayOptionalServices />
@@ -246,12 +247,6 @@ const CreateStayStep6 = ({ setStep }: Props) => {
             </Select>
           )}
           name="maxDays"
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.maxDays.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <StringArrayInput
           arr={paymentMethods || []}

@@ -1,8 +1,8 @@
 'use client';
 
 import { StringArrayInput } from '@/components';
-import { createStaySchema } from '@/schemas';
-import { ICreateStay, IFurniture, IRoom, Parking } from '@/types';
+import { CreateStayInput } from '@/schemas';
+import { IFurniture, IRoom, Parking } from '@/types';
 import { onEnter } from '@/utils';
 import { Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { nanoid } from 'nanoid';
@@ -22,7 +22,7 @@ const defaultBreakfast = {
 };
 
 const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
-  const { control, watch, setFocus, setValue } = useFormContext<ICreateStay>();
+  const { control, watch, setFocus, setValue } = useFormContext<CreateStayInput>();
   const [roomName, setRoomName] = useState<string>('');
   const {
     field: { onChange, ref, value = [] },
@@ -30,12 +30,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
   } = useController({
     control,
     name: `accommodation.${idx}.rooms`,
-    rules: {
-      validate: (val) => {
-        const isValid = createStaySchema.shape.accommodation.element.shape.rooms.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
   });
   const {
     field: { onChange: addAmenities, value: amenities = [] },
@@ -95,12 +89,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
           />
         )}
         name={`accommodation.${idx}.name`}
-        rules={{
-          validate: (val) => {
-            const isValid = createStaySchema.shape.accommodation.element.shape.name.safeParse(val);
-            return isValid.success || isValid.error.flatten().formErrors.join(', ');
-          },
-        }}
       />
       <Controller
         control={control}
@@ -121,12 +109,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
           />
         )}
         name={`accommodation.${idx}.description`}
-        rules={{
-          validate: (val) => {
-            const isValid = createStaySchema.shape.accommodation.element.shape.description.safeParse(val);
-            return isValid.success || isValid.error.flatten().formErrors.join(', ');
-          },
-        }}
       />
       <div className="grid grid-cols-4 gap-x-2 gap-y-4">
         <Controller
@@ -148,12 +130,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
             />
           )}
           name={`accommodation.${idx}.maxGuests`}
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.accommodation.element.shape.maxGuests.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -174,12 +150,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
             />
           )}
           name={`accommodation.${idx}.bathrooms`}
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.accommodation.element.shape.bathrooms.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -199,12 +169,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
             />
           )}
           name={`accommodation.${idx}.size`}
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.accommodation.element.shape.size.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -224,12 +188,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
             />
           )}
           name={`accommodation.${idx}.available`}
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.accommodation.element.shape.initialAvailable.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -248,12 +206,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
             </Select>
           )}
           name={`accommodation.${idx}.children`}
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.accommodation.element.shape.children.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -272,12 +224,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
             </Select>
           )}
           name={`accommodation.${idx}.infants`}
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.accommodation.element.shape.infants.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -297,12 +243,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
             </Select>
           )}
           name={`accommodation.${idx}.parking`}
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.accommodation.element.shape.parking.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -320,12 +260,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
             </Select>
           )}
           name={`accommodation.${idx}.breakfast`}
-          rules={{
-            validate: (val) => {
-              const isValid = createStaySchema.shape.accommodation.element.shape.breakfast.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
       </div>
       {!!watch(`accommodation.${idx}.breakfast`) && (
@@ -349,14 +283,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
               />
             )}
             name={`accommodation.${idx}.breakfast.price`}
-            rules={{
-              validate: (val) => {
-                const isValid = createStaySchema.shape.accommodation.element.shape.breakfast
-                  .unwrap()
-                  .shape.price.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -376,14 +302,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
               />
             )}
             name={`accommodation.${idx}.breakfast.options`}
-            rules={{
-              validate: (val) => {
-                const isValid = createStaySchema.shape.accommodation.element.shape.breakfast
-                  .unwrap()
-                  .shape.options.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
         </div>
       )}
@@ -435,12 +353,6 @@ const AccommodationInputs = ({ idx, isUpdate }: IAccommodationInputs) => {
           />
         )}
         name={`accommodation.${idx}.price`}
-        rules={{
-          validate: (val) => {
-            const isValid = createStaySchema.shape.accommodation.element.shape.price.safeParse(val);
-            return isValid.success || isValid.error.flatten().formErrors.join(', ');
-          },
-        }}
       />
     </>
   );

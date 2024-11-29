@@ -12,7 +12,9 @@ import {
 } from '@/components';
 import { useStepManagement } from '@/hooks';
 import { usePropertyStore } from '@/providers';
-import { ICreateStay, PropertyType } from '@/types';
+import { CreateStayInput, createStaySchema } from '@/schemas';
+import { PropertyType } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Pagination } from '@nextui-org/react';
 import { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -20,7 +22,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 const CreateStayPage = () => {
   const { setStay, stay } = usePropertyStore();
   const { step, topStep, setStep } = useStepManagement(setStay, stay);
-  const methods = useForm<ICreateStay>();
+  const methods = useForm<CreateStayInput>({ mode: 'onChange', resolver: zodResolver(createStaySchema) });
   const initialRender = useRef<boolean>(true);
 
   useEffect(() => {
@@ -39,9 +41,9 @@ const CreateStayPage = () => {
       {step === 6 ? <CreateStayStep6 setStep={setStep} /> : null}
       {step === 7 ? <CreateStayAccommodation setStep={setStep} /> : null}
       {step === 8 ? <CreateStayReview setStep={setStep} /> : null}
-      <div className="absolute bottom-10 flex flex-col gap-2">
-        <p className="text-xs">Go to step</p>
-        <Pagination className="z-100" total={topStep} page={step} onChange={setStep} />
+      <div className="absolute bottom-10 flex flex-col gap-2 z-[99999]">
+        <p className="text-xs bg-white rounded-lg p-2 w-fit">Go to step</p>
+        <Pagination total={topStep} page={step} onChange={setStep} />
       </div>
     </FormProvider>
   );

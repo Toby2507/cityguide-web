@@ -1,14 +1,14 @@
 'use server';
 
+import { CreateStayInput } from '@/schemas';
 import {
   IAccommodation,
   ICreateNightlife,
   ICreateRestaurant,
-  ICreateStay,
   IMenu,
   IUpdateNightlife,
   IUpdateRestaurant,
-  IUpdateStay,
+  IUpdateStay
 } from '@/types';
 import { fetchWithReAuth, formatNightlifeBody, formatRestaurantBody, formatStayBody, paths } from '@/utils';
 import { revalidatePath } from 'next/cache';
@@ -21,7 +21,7 @@ export const uploadImages = async (body: FormData) => {
 };
 
 // Stay
-export const createStay = async (body: ICreateStay) => {
+export const createStay = async (body: CreateStayInput) => {
   const data = formatStayBody(body);
   await fetchWithReAuth('property/stay', { method: 'POST', body: JSON.stringify(data) });
   revalidatePath(paths.adminStays());

@@ -1,11 +1,5 @@
-import {
-  IAccommodation,
-  IAddress,
-  ICreateNightlife,
-  ICreateRestaurant,
-  ICreateStay,
-  ICustomAvailability,
-} from '@/types';
+import { CreateStayInput } from '@/schemas';
+import { IAccommodation, IAddress, ICreateNightlife, ICreateRestaurant, ICustomAvailability } from '@/types';
 import dayjs from 'dayjs';
 import differenceWith from 'lodash/differenceWith';
 import fromPairs from 'lodash/fromPairs';
@@ -63,8 +57,8 @@ export const formatFileSize = (size: number) => {
   return parseFloat((size / Math.pow(k, i)).toFixed(0)) + ' ' + sizes[i];
 };
 
-export const formatStayBody = (body: ICreateStay) => {
-  const stay: ICreateStay = {
+export const formatStayBody = (body: CreateStayInput) => {
+  const stay: CreateStayInput = {
     type: body.type,
     address: body.address,
     summary: body.summary,
@@ -77,6 +71,8 @@ export const formatStayBody = (body: ICreateStay) => {
     maxDays: body.maxDays,
     paymentMethods: body.paymentMethods,
     language: body.language.map((l) => l.trim()),
+    currency: body.currency,
+    proxyPaymentEnabled: body.proxyPaymentEnabled,
   };
   if (body.hotelRating) stay.hotelRating = body.hotelRating;
   const extras = body.extraInfo;

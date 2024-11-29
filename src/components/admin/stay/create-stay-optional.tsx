@@ -1,4 +1,4 @@
-import { ICreateStay } from '@/types';
+import { CreateStayInput } from '@/schemas';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
@@ -7,7 +7,7 @@ import { IoAdd } from 'react-icons/io5';
 import { LuCircleDot } from 'react-icons/lu';
 
 const CreateStayOptionalServices = () => {
-  const { control } = useFormContext<ICreateStay>();
+  const { control } = useFormContext<CreateStayInput>();
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const {

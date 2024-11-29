@@ -2,8 +2,8 @@
 
 import { stayTypes } from '@/data';
 import { usePropertyStore } from '@/providers';
-import { createStaySchema } from '@/schemas';
-import { ICreateStay, StayType } from '@/types';
+import { CreateStayInput, createStaySchema } from '@/schemas';
+import { StayType } from '@/types';
 import { Button } from '@nextui-org/react';
 import { useController, useFormContext } from 'react-hook-form';
 
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const CreateStayStep1 = ({ setStep }: Props) => {
-  const { control, watch } = useFormContext<ICreateStay>();
+  const { control, watch } = useFormContext<CreateStayInput>();
   const { setStay } = usePropertyStore();
   const {
     field: { onChange },

@@ -2,6 +2,7 @@ import { EntityType, HotelRating, ISPs, MaxDays, NightLifeType, PriceRange, Prop
 import {
   IAccommodation,
   IAddress,
+  ICancellation,
   IContact,
   ICustomAvailability,
   IExtraInfo,
@@ -15,29 +16,6 @@ import {
 } from './model.interfaces';
 
 // Creation Forms
-export interface ICreateStay {
-  type: StayType;
-  name: string;
-  summary: string;
-  extraInfo?: IExtraInfo;
-  address: IAddress;
-  avatar: string;
-  images: string[];
-  amenities: string[];
-  hotelRating?: HotelRating;
-  rules: {
-    checkIn: string;
-    checkOut: string;
-    smoking: boolean;
-    pets: boolean;
-    parties: boolean;
-  };
-  accommodation: IAccommodation[];
-  maxDays: MaxDays;
-  language: string[];
-  paymentMethods: string[];
-  optionalServices?: IOptionalService[];
-}
 
 export interface ICreateRestaurant {
   name: string;
@@ -53,6 +31,8 @@ export interface ICreateRestaurant {
   menu: IMenu[];
   details: IRestaurantDetails;
   contact: IContact;
+  currency: string;
+  proxyPaymentEnabled?: boolean;
 }
 
 export interface ICreateNightlife {
@@ -66,6 +46,7 @@ export interface ICreateNightlife {
   rules: INightLifeRules;
   details: INightLifeDetails;
   contact: IContact;
+  currency: string;
 }
 
 export interface ICreateReservation {
@@ -114,7 +95,10 @@ export interface IUpdateStay {
   maxDays?: MaxDays;
   language?: string[];
   paymentMethods?: string[];
+  currency?: string;
+  proxyPaymentEnabled?: boolean;
   optionalServices?: IOptionalService[];
+  cancellationPolicy?: ICancellation;
 }
 
 export interface IUpdateRestaurant {
@@ -130,6 +114,9 @@ export interface IUpdateRestaurant {
   dietaryProvisions?: string[];
   details?: IRestaurantDetails;
   contact?: IContact;
+  currency?: string;
+  proxyPaymentEnabled?: boolean;
+  cancellationPolicy?: ICancellation;
 }
 
 export interface IUpdateNightlife {
@@ -143,6 +130,7 @@ export interface IUpdateNightlife {
   rules?: INightLifeRules;
   details?: INightLifeDetails;
   contact?: IContact;
+  currency?: string;
 }
 
 // Miscellaneous Forms

@@ -1,5 +1,5 @@
 import { HotelRating, MaxDays, Parking, StayType } from '@/types';
-import { boolean, nativeEnum, number, object, strictObject, string } from 'zod';
+import { boolean, nativeEnum, number, object, strictObject, string, z } from 'zod';
 
 export const createStaySchema = object({
   type: nativeEnum(StayType, {
@@ -390,3 +390,7 @@ export const addAccommodationSchema = object({
     .array()
     .min(1, 'Atleast one accommodation is required'),
 });
+
+export type CreateStayInput = z.infer<typeof createStaySchema>;
+export type UpdateStayInput = z.infer<typeof updateStaySchema>;
+export type AddAccommodationInput = z.infer<typeof addAccommodationSchema>;

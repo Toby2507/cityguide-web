@@ -1,6 +1,7 @@
 import { AdminBreadcrumbs, AdminHeader } from '@/components';
 import { AdminSidebar } from '@/containers';
-import { getUser } from '@/server';
+import { getCurrencies, getUser } from '@/server';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { redirect } from 'next/navigation';
 
 interface ILayout {
@@ -8,19 +9,29 @@ interface ILayout {
 }
 
 const Layout = async ({ children }: Readonly<ILayout>) => {
-  const user = await getUser();
+  const queryClient = new QueryClient();
+  const [user] = await Promise.all([
+    getUser(),
+    queryClient.prefetchQuery({
+      queryKey: ['currencies'],
+      queryFn: getCurrencies,
+      staleTime: 1000 * 60 * 60 * 24,
+    }),
+  ]);
   if (!user || !user.isPartner) redirect('/');
   return (
-    <div className="flex flex-col bg-white max-h-screen">
-      <AdminHeader />
-      <div className="flex">
-        <AdminSidebar type={user.type} />
-        <main className="flex flex-col gap-2 px-8 pt-24 pb-4 h-screen overflow-y-auto w-full adminmain">
-          <AdminBreadcrumbs />
-          {children}
-        </main>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className="flex flex-col bg-white max-h-screen">
+        <AdminHeader user={user} />
+        <div className="flex">
+          <AdminSidebar type={user.type} />
+          <main className="flex flex-col gap-2 px-8 py-24 h-screen overflow-y-auto w-full adminmain">
+            <AdminBreadcrumbs />
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </HydrationBoundary>
   );
 };
 

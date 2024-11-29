@@ -1,7 +1,7 @@
 'use client';
 
-import { createStaySchema } from '@/schemas';
-import { ICreateStay } from '@/types';
+import { usePropertyStore } from '@/providers';
+import { CreateStayInput, createStaySchema } from '@/schemas';
 import { Button, Pagination } from '@nextui-org/react';
 import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
@@ -9,14 +9,13 @@ import toast from 'react-hot-toast';
 import { IoAdd, IoRemove } from 'react-icons/io5';
 import CreateNavButtons from '../common/create-nav-buttons';
 import AccommodationInputs from './accommodation-inputs';
-import { usePropertyStore } from '@/providers';
 
 interface Props {
   setStep: (newStep: number) => void;
 }
 
 const CreateStayAccommodation = ({ setStep }: Props) => {
-  const { control, watch, trigger } = useFormContext<ICreateStay>();
+  const { control, watch, trigger } = useFormContext<CreateStayInput>();
   const { setStay } = usePropertyStore();
   const [accIdx, setAccIdx] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
