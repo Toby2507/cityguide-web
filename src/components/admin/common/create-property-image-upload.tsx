@@ -42,6 +42,7 @@ const CreatePropertyImageUpload = ({ name, nextStep, type, setStep }: Props) => 
       if (!avatar) return toast.error('Please select an avatar');
       if (invalidImages.length)
         return toast.error(`${invalidImages.length} image(s) does not meet the minimum quality`);
+      if (!images.length) return setStep(nextStep);
       const avatarData = new FormData();
       const imgs: File[] = [];
       images.forEach((image) => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { IStay, StayType } from '@/types';
+import { IStay } from '@/types';
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
@@ -15,7 +15,10 @@ interface Props {
   onUpdate?: () => void;
 }
 
-const StayDetailRules = ({ stay: { rules, accommodation, maxDays, paymentMethods, type }, onUpdate }: Props) => {
+const StayDetailRules = ({
+  stay: { rules, accommodation, maxDays, paymentMethods, currency, cancellationPolicy, proxyPaymentEnabled },
+  onUpdate,
+}: Props) => {
   const [checkInFrom, checkInTo] = rules.checkIn.split('-');
   const [checkOutFrom, checkOutTo] = rules.checkOut.split('-');
 
@@ -65,11 +68,18 @@ const StayDetailRules = ({ stay: { rules, accommodation, maxDays, paymentMethods
           <TableRow className="border-b border-default">
             <TableCell className="flex items-center gap-2 py-4 font-medium">
               <BsExclamationCircleFill className="text-lg" />
-              Cancellation
+              Cancellation Policy
             </TableCell>
             <TableCell className="py-4 text-accentGray w-9/12">
-              The terms of prepayment and cancellation differ depending on the kind of lodging. When choosing an option,
-              make sure to check any possible conditions.
+              {cancellationPolicy
+                ? `You will receive a full (100%) refund if you cancel more than ${
+                    cancellationPolicy.daysFromReservation
+                  } days before your check-in date. If you cancel within ${
+                    cancellationPolicy.daysFromReservation
+                  } days of your check-in date, you will receive a ${
+                    cancellationPolicy.percentRefundable * 100
+                  }% refund.`
+                : `This property does not have a specific cancellation policy. You can cancel your reservation at any time before check-in.`}
             </TableCell>
           </TableRow>
           <TableRow className="border-b border-default">
@@ -106,8 +116,33 @@ const StayDetailRules = ({ stay: { rules, accommodation, maxDays, paymentMethods
               Payment method
             </TableCell>
             <TableCell className="py-4 text-accentGray w-9/12">
-              {![StayType.APARTMENT, StayType.BnB].includes(type) ? 'Payment would be made at the property. ' : ''}
-              {paymentMethods.join(', ')}
+              {!proxyPaymentEnabled ? (
+                <>
+                  <p className="text-accentGray pb-3">Payment will be made directly at the property during check-in.</p>
+                  <p className="text-accentGray pb-1">
+                    Accepted payment methods include:{' '}
+                    <span className="font-semibold uppercase">{paymentMethods.join(', ')}</span>.
+                  </p>
+                  <p className="text-accentGray">
+                    The property&apos;s pricing currency is <span className="font-semibold uppercase">{currency}</span>.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-accentGray pb-3">
+                    We accept payment on behalf of the property. You will make the payment to us at the time of
+                    reservation, and we will transfer the payment to the property on your behalf. For additional
+                    services, you can pay the property directly.
+                  </p>
+                  <p className="text-accentGray pb-1">
+                    Accepted payment methods include:{' '}
+                    <span className="font-semibold uppercase">{paymentMethods.join(', ')}</span>.
+                  </p>
+                  <p className="text-accentGray">
+                    The property&apos;s pricing currency is <span className="font-semibold uppercase">{currency}</span>.
+                  </p>
+                </>
+              )}
             </TableCell>
           </TableRow>
           <TableRow>
