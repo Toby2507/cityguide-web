@@ -1,5 +1,5 @@
 import { DayOfWeek, PriceRange } from '@/types';
-import { boolean, nativeEnum, number, object, strictObject, string } from 'zod';
+import { boolean, nativeEnum, number, object, strictObject, string, z } from 'zod';
 
 export const createRestaurantSchema = object({
   name: string({ required_error: 'Restaurant Name is required' }).min(
@@ -260,7 +260,9 @@ export const updateRestaurantSchema = strictObject({
       required_error: 'Percent refundable is required',
       invalid_type_error: 'Percent refundable should be a number',
     }).refine((val) => val >= 0 && val <= 1, { message: 'Percent refundable should be between 0 and 1' }),
-  }).optional(),
+  })
+    .nullable()
+    .optional(),
 });
 
 export const addMenuItemSchema = object({
@@ -287,3 +289,7 @@ export const addMenuItemSchema = object({
     .array()
     .min(1, 'Atleast one menu item is required'),
 });
+
+export type CreateRestaurantInput = z.infer<typeof createRestaurantSchema>;
+export type UpdateRestaurantInput = z.infer<typeof updateRestaurantSchema>;
+export type AddMenuItemInput = z.infer<typeof addMenuItemSchema>;

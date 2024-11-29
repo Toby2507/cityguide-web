@@ -291,7 +291,9 @@ export const updateStaySchema = strictObject({
       required_error: 'Percent refundable is required',
       invalid_type_error: 'Percent refundable should be a number',
     }).refine((val) => val >= 0 && val <= 1, { message: 'Percent refundable should be between 0 and 1' }),
-  }).optional(),
+  })
+    .nullable()
+    .optional(),
 });
 
 export const addAccommodationSchema = object({

@@ -1,5 +1,5 @@
 import { DayOfWeek, NightLifeType, Parking } from '@/types';
-import { nativeEnum, number, object, strictObject, string } from 'zod';
+import { nativeEnum, number, object, strictObject, string, z } from 'zod';
 
 export const createNightlifeSchema = object({
   type: nativeEnum(NightLifeType, {
@@ -190,3 +190,6 @@ export const updateNightlifeSchema = strictObject({
     .regex(/^[A-Z]{3}$/, 'Invalid currency')
     .optional(),
 });
+
+export type CreateNightlifeInput = z.infer<typeof createNightlifeSchema>;
+export type UpdateNightlifeInput = z.infer<typeof updateNightlifeSchema>;
