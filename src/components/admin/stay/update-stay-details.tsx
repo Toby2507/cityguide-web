@@ -1,9 +1,10 @@
 'use client';
 
-import { updateStaySchema } from '@/schemas';
+import { UpdateStayInput, updateStaySchema } from '@/schemas';
 import { updateStay } from '@/server';
-import { IStay, IUpdateStay } from '@/types';
+import { IStay } from '@/types';
 import { getObjDiff } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -16,7 +17,11 @@ interface Props {
 }
 
 const UpdateStayDetails = ({ stay, onClose }: Props) => {
-  const method = useForm<IUpdateStay>({ defaultValues: stay, mode: 'onChange' });
+  const method = useForm<UpdateStayInput>({
+    defaultValues: stay,
+    mode: 'onChange',
+    resolver: zodResolver(updateStaySchema),
+  });
   const { control, watch, reset } = method;
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -63,12 +68,6 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
               />
             )}
             name="name"
-            rules={{
-              validate: (val) => {
-                const isValid = updateStaySchema.shape.name.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -88,12 +87,6 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
               />
             )}
             name="summary"
-            rules={{
-              validate: (val) => {
-                const isValid = updateStaySchema.shape.summary.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -111,12 +104,6 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
               />
             )}
             name="extraInfo.property"
-            rules={{
-              validate: (val) => {
-                const isValid = updateStaySchema.shape.extraInfo.unwrap().shape.property.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -134,12 +121,6 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
               />
             )}
             name="extraInfo.neighborhood.info"
-            rules={{
-              validate: (val) => {
-                const isValid = updateStaySchema.shape.extraInfo.unwrap().shape.neighborhood.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -160,12 +141,6 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
               />
             )}
             name="language"
-            rules={{
-              validate: (val) => {
-                const isValid = updateStaySchema.shape.language.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <CreateStayOptionalServices />
           <Button

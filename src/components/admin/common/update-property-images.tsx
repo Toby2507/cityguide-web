@@ -1,16 +1,9 @@
 'use client';
 
 import { useCustomImageSelect } from '@/hooks';
+import { UpdateNightlifeInput, UpdateRestaurantInput, UpdateStayInput } from '@/schemas';
 import { updateNightlife, updateRestaurant, updateStay, uploadImages } from '@/server';
-import {
-  INightLife,
-  IRestaurant,
-  IStay,
-  IUpdateNightlife,
-  IUpdateRestaurant,
-  IUpdateStay,
-  PropertyType,
-} from '@/types';
+import { INightLife, IRestaurant, IStay, PropertyType } from '@/types';
 import { createUploadDatas, formatFileSize, getObjDiff } from '@/utils';
 import {
   Button,
@@ -35,12 +28,13 @@ interface Props {
   type: PropertyType;
   onClose: () => void;
 }
+type UpdatePropertyInput = UpdateStayInput | UpdateRestaurantInput | UpdateNightlifeInput;
 
 const UpdatePropertyImages = ({ property, type, onClose }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [activeImage, setActiveImage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { control, handleSubmit, reset, watch } = useForm<IUpdateStay | IUpdateRestaurant | IUpdateNightlife>({
+  const { control, handleSubmit, reset, watch } = useForm<UpdatePropertyInput>({
     defaultValues: property,
     mode: 'onChange',
   });
@@ -66,12 +60,12 @@ const UpdatePropertyImages = ({ property, type, onClose }: Props) => {
     setAvatar(imgUrl);
     setImages(newImages);
   };
-  const onSubmit: SubmitHandler<IUpdateStay | IUpdateRestaurant | IUpdateNightlife> = async (data) => {
+  const onSubmit: SubmitHandler<UpdatePropertyInput> = async (data) => {
     setIsLoading(true);
     try {
       if (!avatar) return toast.error('Please select an avatar');
-      if ([...images, ...stayImages, avatar].length < 12)
-        return toast.error('A minimum of 12 images overall is required');
+      if ([...images, ...stayImages, avatar].length < 8)
+        return toast.error('A minimum of 8 images overall is required');
       if (images.length) {
         if (invalidImages.length)
           return toast.error(`${invalidImages.length} image(s) does not meet the minimum quality`);
@@ -107,7 +101,7 @@ const UpdatePropertyImages = ({ property, type, onClose }: Props) => {
     <div className="flex flex-col gap-6 p-2">
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="5xl">
         <ModalContent className="pt-10 pb-4">
-          {(close) => (
+          {
             <ModalBody>
               <figure className="w-full h-[70vh] rounded-md overflow-hidden cursor-pointer">
                 <Image
@@ -120,7 +114,7 @@ const UpdatePropertyImages = ({ property, type, onClose }: Props) => {
                 />
               </figure>
             </ModalBody>
-          )}
+          }
         </ModalContent>
       </Modal>
       <h3 className="text-2xl text-center font-semibold tracking-wide border-b py-2">Update Property Images</h3>

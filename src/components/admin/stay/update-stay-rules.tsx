@@ -1,78 +1,71 @@
 'use client';
 
 import { StringArrayInput } from '@/components';
-import { updateStaySchema } from '@/schemas';
-import { updateStay } from '@/server';
-import { IStay, IUpdateStay, MaxDays } from '@/types';
-import { getObjDiff } from '@/utils';
+import { UpdateStayInput, updateStaySchema } from '@/schemas';
+import { getCurrencies, updateStay } from '@/server';
+import { IStay, MaxDays } from '@/types';
+import { getObjDiff, onEnter } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { parseAbsoluteToLocal } from '@internationalized/date';
-import { Button, Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
+import { Button, Input, Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { Controller, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useController, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
   stay: IStay;
   onClose: () => void;
 }
+const defaultCancelPolicy = { daysFromReservation: 1, percentRefundable: 1 };
 
 const UpdateStayRules = ({ stay, onClose }: Props) => {
-  const method = useForm<IUpdateStay>({ defaultValues: stay, mode: 'onChange' });
-  const { control, handleSubmit, reset } = method;
+  const method = useForm<UpdateStayInput>({
+    defaultValues: stay,
+    mode: 'onChange',
+    resolver: zodResolver(updateStaySchema),
+  });
+  const { control, setFocus, reset, watch } = method;
+  const { data: currencies } = useSuspenseQuery({
+    queryKey: ['currencies'],
+    queryFn: getCurrencies,
+    staleTime: 1000 * 60 * 60 * 24,
+  });
   const {
     field: { onChange: setCheckIn, value: checkIn },
     fieldState: { error: checkinErr },
-  } = useController({
-    control,
-    name: 'rules.checkIn',
-    rules: {
-      validate: (val) => {
-        const isValid = updateStaySchema.shape.rules.unwrap().shape.checkIn.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
-  });
+  } = useController({ control, name: 'rules.checkIn' });
   const {
     field: { onChange: setCheckOut, value: checkOut },
     fieldState: { error: checkoutErr },
-  } = useController({
-    control,
-    name: 'rules.checkOut',
-    rules: {
-      validate: (val) => {
-        const isValid = updateStaySchema.shape.rules.unwrap().shape.checkOut.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
-  });
+  } = useController({ control, name: 'rules.checkOut' });
   const {
     field: { onChange: setPaymentMethod, value: paymentMethods },
-  } = useController({
-    control,
-    name: 'paymentMethods',
-    rules: {
-      validate: (val) => {
-        const isValid = updateStaySchema.shape.paymentMethods.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
-  });
+  } = useController({ control, name: 'paymentMethods' });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [checkinFrom, setCheckinFrom] = useState<TimeInputValue>();
   const [checkinTo, setCheckinTo] = useState<TimeInputValue>();
   const [checkoutFrom, setCheckoutFrom] = useState<TimeInputValue>();
   const [checkoutTo, setCheckoutTo] = useState<TimeInputValue>();
 
-  const onSubmit: SubmitHandler<IUpdateStay> = async (data) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     try {
+      const data = watch();
+      if (data.cancellationPolicy === null) data.cancellationPolicy = { daysFromReservation: 0, percentRefundable: 0 };
       const updateBody = getObjDiff(data, stay);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
         return toast.error('No change has been made!');
       }
+      if (
+        updateBody.cancellationPolicy &&
+        !updateBody.cancellationPolicy.daysFromReservation &&
+        !updateBody.cancellationPolicy.percentRefundable
+      )
+        updateBody.cancellationPolicy = null;
       await updateStay(updateBody, stay._id);
       onClose();
       reset();
@@ -246,6 +239,105 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
               }}
             />
           </div>
+          <div className="grid grid-cols-3 gap-3 pt-2">
+            <Controller
+              control={control}
+              render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <Select
+                  selectedKeys={value === undefined ? undefined : [value]}
+                  onChange={(e) => onChange(e.target.value)}
+                  isRequired
+                  label="Pricing Currency"
+                  placeholder=" "
+                  isInvalid={!!error}
+                  errorMessage={error?.message}
+                >
+                  {currencies.slice(1).map(({ name, code }) => (
+                    <SelectItem key={code}>{`${name} (${code})`}</SelectItem>
+                  ))}
+                </Select>
+              )}
+              name="currency"
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <Select
+                  selectedKeys={value === undefined ? undefined : [value ? 'Yes' : 'No']}
+                  onChange={(e) => onChange(e.target.value === 'Yes')}
+                  label="Should we accept payment on your behalf?"
+                  placeholder=" "
+                  isInvalid={!!error}
+                  errorMessage={error?.message}
+                >
+                  <SelectItem key="Yes">Yes</SelectItem>
+                  <SelectItem key="No">No</SelectItem>
+                </Select>
+              )}
+              name="proxyPaymentEnabled"
+              defaultValue={true}
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <Select
+                  selectedKeys={[!!value ? 'Yes' : 'No']}
+                  onChange={(e) => onChange(e.target.value === 'Yes' ? defaultCancelPolicy : null)}
+                  label="Is there a cancellation policy?"
+                  placeholder=" "
+                  isInvalid={!!error}
+                  errorMessage={error?.message}
+                >
+                  <SelectItem key="Yes">Yes</SelectItem>
+                  <SelectItem key="No">No</SelectItem>
+                </Select>
+              )}
+              name="cancellationPolicy"
+            />
+          </div>
+          {!!watch('cancellationPolicy') && (
+            <div className="grid grid-cols-2 gap-4">
+              <Controller
+                control={control}
+                render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+                  <Input
+                    name="daysFromReservation"
+                    label="Number of days from check-in date"
+                    placeholder=" "
+                    type="number"
+                    isRequired
+                    value={value?.toString() || ''}
+                    onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
+                    onKeyDown={(e) => onEnter(e, () => setFocus('cancellationPolicy.percentRefundable'))}
+                    isInvalid={!!error}
+                    errorMessage={error?.message}
+                    ref={ref}
+                    className="text-accentGray"
+                  />
+                )}
+                name="cancellationPolicy.daysFromReservation"
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+                  <Input
+                    name="percentRefundable"
+                    label="Percentage of reservation refundable"
+                    placeholder=" "
+                    type="number"
+                    isRequired
+                    value={value ? (value * 100).toString() : ''}
+                    onValueChange={(val) => /^\d*$/.test(val) && onChange(+val / 100)}
+                    isInvalid={!!error}
+                    errorMessage={error?.message}
+                    ref={ref}
+                    className="text-accentGray"
+                  />
+                )}
+                name="cancellationPolicy.percentRefundable"
+              />
+            </div>
+          )}
           <Controller
             control={control}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
@@ -257,6 +349,7 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
                 defaultSelectedKeys={[MaxDays.DEFAULT]}
                 isInvalid={!!error}
                 errorMessage={error?.message}
+                className="pt-2"
               >
                 <SelectItem key={MaxDays.DEFAULT}>{`${MaxDays.DEFAULT} days`}</SelectItem>
                 <SelectItem key={MaxDays.QUARTER}>{`${MaxDays.QUARTER} days`}</SelectItem>
@@ -284,7 +377,7 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
             color="primary"
             radius="full"
             variant="solid"
-            onPress={() => handleSubmit(onSubmit)()}
+            onPress={() => onSubmit()}
             isLoading={isLoading}
           >
             Update Stay

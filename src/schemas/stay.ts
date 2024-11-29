@@ -290,14 +290,14 @@ export const updateStaySchema = strictObject({
     percentRefundable: number({
       required_error: 'Percent refundable is required',
       invalid_type_error: 'Percent refundable should be a number',
-    }).refine((val) => val >= 0 && val <= 1, { message: 'Percent refundable should be between 0 and 1' }),
+    }).refine((val) => val >= 0 && val <= 1, { message: 'Percent refundable should be between 0 and 100 percentage' }),
   })
     .nullable()
     .optional(),
 });
 
 export const addAccommodationSchema = object({
-  body: object(
+  accommodation: object(
     {
       id: string({ required_error: 'Accommodation id is required' }),
       name: string({ required_error: 'Accommodation name is required' }).min(

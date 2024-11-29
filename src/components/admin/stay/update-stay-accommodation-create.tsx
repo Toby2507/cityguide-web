@@ -1,8 +1,8 @@
 'use client';
 
-import { addAccommodationSchema } from '@/schemas';
+import { AddAccommodationInput, addAccommodationSchema } from '@/schemas';
 import { addAccommodation } from '@/server';
-import { IAccommodationForm } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Pagination } from '@nextui-org/react';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const UpdateStayAccommodationCreate = ({ stayId, onClose }: Props) => {
-  const method = useForm<IAccommodationForm>();
+  const method = useForm<AddAccommodationInput>({ mode: 'onChange', resolver: zodResolver(addAccommodationSchema) });
   const { control, handleSubmit, reset, trigger } = method;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [accIdx, setAccIdx] = useState<number>(0);
@@ -32,12 +32,12 @@ const UpdateStayAccommodationCreate = ({ stayId, onClose }: Props) => {
     setTotal(total - 1);
     setAccIdx(accIdx - 1);
   };
-  const onSubmit: SubmitHandler<IAccommodationForm> = async (data) => {
+  const onSubmit: SubmitHandler<AddAccommodationInput> = async (data) => {
     setIsLoading(true);
     try {
       const [isValidT, isValidS] = await Promise.all([
         trigger('accommodation'),
-        addAccommodationSchema.shape.body.safeParseAsync(data.accommodation),
+        addAccommodationSchema.shape.accommodation.safeParseAsync(data.accommodation),
       ]);
       if (!isValidT) return toast.error('Please fill out the required fields');
       if (!isValidS.success) return toast.error('Please fill out the required fields in the other accommodations');

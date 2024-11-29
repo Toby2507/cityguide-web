@@ -1,8 +1,10 @@
 'use client';
 
+import { AddAccommodationInput, addAccommodationSchema } from '@/schemas';
 import { updateAccommodation } from '@/server';
-import { IAccommodation, IAccommodationForm } from '@/types';
+import { IAccommodation } from '@/types';
 import { getObjDiff } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/react';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -17,10 +19,14 @@ interface Props {
 
 const UpdateStayAccommodationUpdate = ({ accommodation, onClose, stayId }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const method = useForm<IAccommodationForm>({ defaultValues: { accommodation: [accommodation] } });
+  const method = useForm<AddAccommodationInput>({
+    defaultValues: { accommodation: [accommodation] },
+    mode: 'onChange',
+    resolver: zodResolver(addAccommodationSchema),
+  });
   const { handleSubmit, reset } = method;
 
-  const onSubmit: SubmitHandler<IAccommodationForm> = async (data) => {
+  const onSubmit: SubmitHandler<AddAccommodationInput> = async (data) => {
     setIsLoading(true);
     try {
       const diff = getObjDiff(data, { accommodation: [accommodation] });

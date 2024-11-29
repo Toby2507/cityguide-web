@@ -1,5 +1,5 @@
-import { CreateStayInput } from '@/schemas';
-import { IAccommodation, IAddress, ICreateNightlife, ICreateRestaurant, ICustomAvailability } from '@/types';
+import { CreateNightlifeInput, CreateRestaurantInput, CreateStayInput } from '@/schemas';
+import { IAccommodation, IAddress, ICustomAvailability } from '@/types';
 import dayjs from 'dayjs';
 import differenceWith from 'lodash/differenceWith';
 import fromPairs from 'lodash/fromPairs';
@@ -81,8 +81,8 @@ export const formatStayBody = (body: CreateStayInput) => {
   return stay;
 };
 
-export const formatRestaurantBody = (body: ICreateRestaurant) => {
-  const restaurant: ICreateRestaurant = {
+export const formatRestaurantBody = (body: CreateRestaurantInput) => {
+  const restaurant: CreateRestaurantInput = {
     name: body.name,
     summary: body.summary,
     address: body.address,
@@ -102,12 +102,14 @@ export const formatRestaurantBody = (body: ICreateRestaurant) => {
       children: body.details.children,
     },
     contact: body.contact,
+    currency: body.currency,
+    proxyPaymentEnabled: body.proxyPaymentEnabled,
   };
   return restaurant;
 };
 
-export const formatNightlifeBody = (body: ICreateNightlife) => {
-  const nightlife: ICreateNightlife = {
+export const formatNightlifeBody = (body: CreateNightlifeInput) => {
+  const nightlife: CreateNightlifeInput = {
     name: body.name,
     summary: body.summary,
     address: body.address,
@@ -118,6 +120,7 @@ export const formatNightlifeBody = (body: ICreateNightlife) => {
     rules: body.rules,
     details: body.details,
     contact: body.contact,
+    currency: body.currency,
   };
   return nightlife;
 };

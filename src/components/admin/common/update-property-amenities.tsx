@@ -1,16 +1,9 @@
 'use client';
 
 import { nightlifeAmenities, restaurantAmenities, stayAmenities } from '@/data';
+import { UpdateNightlifeInput, UpdateRestaurantInput, UpdateStayInput } from '@/schemas';
 import { updateNightlife, updateRestaurant, updateStay } from '@/server';
-import {
-  INightLife,
-  IRestaurant,
-  IStay,
-  IUpdateNightlife,
-  IUpdateRestaurant,
-  IUpdateStay,
-  PropertyType,
-} from '@/types';
+import { INightLife, IRestaurant, IStay, PropertyType } from '@/types';
 import { getObjDiff } from '@/utils';
 import { Button } from '@nextui-org/react';
 import { useState } from 'react';
@@ -23,16 +16,17 @@ interface Props {
   type: PropertyType;
   onClose: () => void;
 }
+type UpdatePropertyInput = UpdateStayInput | UpdateRestaurantInput | UpdateNightlifeInput;
 
 const UpdatePropertyAmenities = ({ property, type, onClose }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const method = useForm<IUpdateStay | IUpdateRestaurant | IUpdateNightlife>({
+  const method = useForm<UpdatePropertyInput>({
     defaultValues: property,
     mode: 'onChange',
   });
   const { handleSubmit, reset } = method;
 
-  const onSubmit: SubmitHandler<IUpdateStay | IUpdateRestaurant | IUpdateNightlife> = async (data) => {
+  const onSubmit: SubmitHandler<UpdatePropertyInput> = async (data) => {
     setIsLoading(true);
     try {
       const updateBody = getObjDiff(data, property);

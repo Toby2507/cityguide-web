@@ -1,6 +1,5 @@
-import { EntityType, HotelRating, ISPs, MaxDays, NightLifeType, PriceRange, PropertyType, StayType } from './enums';
+import { EntityType, HotelRating, ISPs, MaxDays, NightLifeType, PriceRange, PropertyType } from './enums';
 import {
-  IAccommodation,
   IAddress,
   ICancellation,
   IContact,
@@ -134,10 +133,6 @@ export interface IUpdateNightlife {
 }
 
 // Miscellaneous Forms
-export interface IAccommodationForm {
-  accommodation: IAccommodation[];
-}
-
 export interface IMenuForm {
   menu: IMenu[];
 }
