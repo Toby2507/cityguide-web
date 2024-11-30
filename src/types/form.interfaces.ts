@@ -1,13 +1,8 @@
-import { EntityType, ISPs, NightLifeType, PropertyType } from './enums';
+import { EntityType, ISPs, PropertyType } from './enums';
 import {
-  IAddress,
-  IContact,
-  ICustomAvailability,
   IGuests,
   IMenu,
-  INightLifeDetails,
-  INightLifeRules,
-  IReservationAccommodation,
+  IReservationAccommodation
 } from './model.interfaces';
 
 // Creation Forms
@@ -35,21 +30,6 @@ export interface ICreateReservation {
   useSavedCard?: boolean;
   saveCard?: boolean;
   payByProxy: boolean;
-}
-
-// Update Forms
-export interface IUpdateNightlife {
-  type?: NightLifeType;
-  name?: string;
-  summary?: string;
-  address?: IAddress;
-  avatar?: string;
-  images?: string[];
-  availability?: (ICustomAvailability | null)[];
-  rules?: INightLifeRules;
-  details?: INightLifeDetails;
-  contact?: IContact;
-  currency?: string;
 }
 
 // Miscellaneous Forms

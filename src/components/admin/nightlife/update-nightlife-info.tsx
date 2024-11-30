@@ -1,10 +1,11 @@
 'use client';
 
 import { StringArrayInput } from '@/components';
-import { updateNightlifeSchema } from '@/schemas';
+import { UpdateNightlifeInput, updateNightlifeSchema } from '@/schemas';
 import { updateNightlife } from '@/server';
-import { DayOfWeek, INightLife, IUpdateNightlife } from '@/types';
+import { DayOfWeek, INightLife } from '@/types';
 import { getObjDiff } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Button, Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';
@@ -19,7 +20,11 @@ interface Props {
 }
 
 const UpdateNightlifeInfo = ({ nightlife, onClose }: Props) => {
-  const method = useForm<IUpdateNightlife>({ defaultValues: nightlife, mode: 'onChange' });
+  const method = useForm<UpdateNightlifeInput>({
+    defaultValues: nightlife,
+    mode: 'onChange',
+    resolver: zodResolver(updateNightlifeSchema),
+  });
   const { control, getValues, handleSubmit, reset, setValue, watch } = method;
   const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);
@@ -27,16 +32,7 @@ const UpdateNightlifeInfo = ({ nightlife, onClose }: Props) => {
   const {
     field: { onChange: setPaymentoptions, value: paymentoptions },
     fieldState: { error },
-  } = useController({
-    control,
-    name: 'details.paymentOptions',
-    rules: {
-      validate: (val) => {
-        const isValid = updateNightlifeSchema.shape.details.unwrap().shape.paymentOptions.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
-  });
+  } = useController({ control, name: 'details.paymentOptions' });
   const {
     field: { onChange: setDresscode, value: dresscode },
   } = useController({ control, name: 'rules.dressCode' });
@@ -53,7 +49,7 @@ const UpdateNightlifeInfo = ({ nightlife, onClose }: Props) => {
     setValue(`availability.${idx}.day`, Object.values(DayOfWeek)[idx]);
     setValue(`availability.${idx}.${field}`, timeString);
   };
-  const onSubmit: SubmitHandler<IUpdateNightlife> = async (data) => {
+  const onSubmit: SubmitHandler<UpdateNightlifeInput> = async (data) => {
     setIsLoading(true);
     try {
       const updatedData = { ...data, availability: data.availability?.filter(Boolean) };

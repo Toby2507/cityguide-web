@@ -4,10 +4,11 @@ import {
   CreateNightlifeInput,
   CreateRestaurantInput,
   CreateStayInput,
+  UpdateNightlifeInput,
   UpdateRestaurantInput,
   UpdateStayInput,
 } from '@/schemas';
-import { IAccommodation, IMenu, IUpdateNightlife } from '@/types';
+import { IAccommodation, IMenu } from '@/types';
 import { fetchWithReAuth, formatNightlifeBody, formatRestaurantBody, formatStayBody, paths } from '@/utils';
 import { revalidatePath } from 'next/cache';
 
@@ -141,7 +142,7 @@ export const createNightlife = async (body: CreateNightlifeInput) => {
   revalidatePath(paths.adminNightlifes());
 };
 
-export const updateNightlife = async (body: IUpdateNightlife, propId: string) => {
+export const updateNightlife = async (body: UpdateNightlifeInput, propId: string) => {
   const res = await fetchWithReAuth(`property/nightlife/${propId}`, { method: 'PATCH', body: JSON.stringify(body) });
   if (!res.ok) {
     const result = await res.json();

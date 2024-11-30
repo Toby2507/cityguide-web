@@ -1,12 +1,13 @@
 'use client';
 
-import { updateNightlifeSchema } from '@/schemas';
+import { UpdateNightlifeInput, updateNightlifeSchema } from '@/schemas';
 import { updateNightlife } from '@/server';
-import { INightLife, IUpdateNightlife, NightLifeType } from '@/types';
+import { INightLife, NightLifeType } from '@/types';
 import { getObjDiff, onEnter } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { useState } from 'react';
-import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -15,14 +16,20 @@ interface Props {
 }
 
 const UpdateNightlifeDetails = ({ nightlife, onClose }: Props) => {
-  const method = useForm<IUpdateNightlife>({ defaultValues: nightlife, mode: 'onChange' });
+  const method = useForm<UpdateNightlifeInput>({
+    defaultValues: nightlife,
+    mode: 'onChange',
+    resolver: zodResolver(updateNightlifeSchema),
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { control, handleSubmit, reset, setFocus } = method;
+  const { control, reset, trigger, watch, setFocus } = method;
 
-  const onSubmit: SubmitHandler<IUpdateNightlife> = async (data) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     try {
-      const updateBody = getObjDiff(data, nightlife);
+      const isValid = await trigger(['name', 'summary', 'type']);
+      if (!isValid) return toast.error('Please fill out the required fields');
+      const updateBody = getObjDiff(watch(), nightlife);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
@@ -62,12 +69,6 @@ const UpdateNightlifeDetails = ({ nightlife, onClose }: Props) => {
               />
             )}
             name="name"
-            rules={{
-              validate: (val) => {
-                const isValid = updateNightlifeSchema.shape.name.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -87,12 +88,6 @@ const UpdateNightlifeDetails = ({ nightlife, onClose }: Props) => {
               />
             )}
             name="summary"
-            rules={{
-              validate: (val) => {
-                const isValid = updateNightlifeSchema.shape.summary.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -114,18 +109,12 @@ const UpdateNightlifeDetails = ({ nightlife, onClose }: Props) => {
               </Select>
             )}
             name="type"
-            rules={{
-              validate: (val) => {
-                const isValid = updateNightlifeSchema.shape.type.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Button
             className="text-sm font-semibold px-14 py-6 my-6"
             color="primary"
             radius="full"
-            onPress={() => handleSubmit(onSubmit)()}
+            onPress={() => onSubmit()}
             isLoading={isLoading}
           >
             Update Nightlife Details

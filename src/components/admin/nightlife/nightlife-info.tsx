@@ -1,6 +1,6 @@
 'use client';
 
-import { CreateNightlifeInput, createNightlifeSchema } from '@/schemas';
+import { UpdateNightlifeInput } from '@/schemas';
 import { ISocialLink, Parking } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
@@ -10,7 +10,7 @@ import { IoAdd } from 'react-icons/io5';
 import CreateRestaurantSocial from '../restaurant/create-restaurant-social';
 
 const NightlifeInfo = () => {
-  const { control, getValues, setFocus, setValue, watch } = useFormContext<CreateNightlifeInput>();
+  const { control, getValues, setFocus, setValue, watch } = useFormContext<UpdateNightlifeInput>();
 
   const addNewSocial = () => {
     const socials = getValues('contact.socialMedia') || [];
@@ -48,12 +48,6 @@ const NightlifeInfo = () => {
             />
           )}
           name="rules.minAge"
-          rules={{
-            validate: (val) => {
-              const isValid = createNightlifeSchema.shape.rules.shape.minAge.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
