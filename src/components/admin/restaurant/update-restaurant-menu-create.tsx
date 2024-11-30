@@ -1,8 +1,8 @@
 'use client';
 
-import { addMenuItemSchema } from '@/schemas';
+import { AddMenuItemInput, addMenuItemSchema } from '@/schemas';
 import { addMenuItem } from '@/server';
-import { IMenuForm } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Pagination } from '@nextui-org/react';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const UpdateRestaurantMenuCreate = ({ resId, onClose }: Props) => {
-  const method = useForm<IMenuForm>();
+  const method = useForm<AddMenuItemInput>({ mode: 'onChange', resolver: zodResolver(addMenuItemSchema) });
   const { control, handleSubmit, reset, trigger } = method;
   const [menuIdx, setMenuIdx] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -33,12 +33,12 @@ const UpdateRestaurantMenuCreate = ({ resId, onClose }: Props) => {
     setTotal(total - 1);
     setMenuIdx(menuIdx - 1);
   };
-  const onSubmit: SubmitHandler<IMenuForm> = async (data) => {
+  const onSubmit: SubmitHandler<AddMenuItemInput> = async (data) => {
     setIsLoading(true);
     try {
       const [isValidT, isValidS] = await Promise.all([
         trigger('menu'),
-        addMenuItemSchema.shape.body.safeParseAsync(data.menu),
+        addMenuItemSchema.shape.menu.safeParseAsync(data.menu),
       ]);
       if (!isValidT) return toast.error('Please fill out the required fields');
       if (!isValidS.success) return toast.error('Please fill out the required fields in the other accommodations');

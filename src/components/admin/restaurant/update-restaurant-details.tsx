@@ -1,12 +1,13 @@
 'use client';
 
-import { updateRestaurantSchema } from '@/schemas';
+import { UpdateRestaurantInput, updateRestaurantSchema } from '@/schemas';
 import { updateRestaurant } from '@/server';
-import { IRestaurant, IUpdateRestaurant, PriceRange } from '@/types';
+import { IRestaurant, PriceRange } from '@/types';
 import { getObjDiff, onEnter } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { useState } from 'react';
-import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -15,14 +16,20 @@ interface Props {
 }
 
 const UpdateRestaurantDetails = ({ restaurant, onClose }: Props) => {
-  const method = useForm<IUpdateRestaurant>({ defaultValues: restaurant, mode: 'onChange' });
+  const method = useForm<UpdateRestaurantInput>({
+    defaultValues: restaurant,
+    mode: 'onChange',
+    resolver: zodResolver(updateRestaurantSchema),
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { control, handleSubmit, reset, setFocus } = method;
+  const { control, trigger, reset, setFocus, watch } = method;
 
-  const onSubmit: SubmitHandler<IUpdateRestaurant> = async (data) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     try {
-      const updateBody = getObjDiff(data, restaurant);
+      const isValid = await trigger(['name', 'summary', 'priceRange']);
+      if (!isValid) return toast.error('Please fill out the required fields');
+      const updateBody = getObjDiff(watch(), restaurant);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
@@ -62,12 +69,6 @@ const UpdateRestaurantDetails = ({ restaurant, onClose }: Props) => {
               />
             )}
             name="name"
-            rules={{
-              validate: (val) => {
-                const isValid = updateRestaurantSchema.shape.name.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -87,12 +88,6 @@ const UpdateRestaurantDetails = ({ restaurant, onClose }: Props) => {
               />
             )}
             name="summary"
-            rules={{
-              validate: (val) => {
-                const isValid = updateRestaurantSchema.shape.summary.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -112,18 +107,12 @@ const UpdateRestaurantDetails = ({ restaurant, onClose }: Props) => {
               </Select>
             )}
             name="priceRange"
-            rules={{
-              validate: (val) => {
-                const isValid = updateRestaurantSchema.shape.priceRange.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Button
             className="text-sm font-semibold px-14 py-6 my-6"
             color="primary"
             radius="full"
-            onPress={() => handleSubmit(onSubmit)()}
+            onPress={() => onSubmit()}
             isLoading={isLoading}
           >
             Update Restaurant Details

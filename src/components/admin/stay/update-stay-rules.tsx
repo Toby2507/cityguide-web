@@ -26,7 +26,7 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
     mode: 'onChange',
     resolver: zodResolver(updateStaySchema),
   });
-  const { control, setFocus, reset, watch } = method;
+  const { control, setFocus, reset, trigger, watch } = method;
   const { data: currencies } = useSuspenseQuery({
     queryKey: ['currencies'],
     queryFn: getCurrencies,
@@ -52,6 +52,8 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
   const onSubmit = async () => {
     setIsLoading(true);
     try {
+      const isValid = await trigger(['rules', 'paymentMethods', 'currency', 'proxyPaymentEnabled', 'maxDays']);
+      if (!isValid) return toast.error('Please fill out the required fields');
       const data = watch();
       if (data.cancellationPolicy === null) data.cancellationPolicy = { daysFromReservation: 0, percentRefundable: 0 };
       const updateBody = getObjDiff(data, stay);
@@ -367,8 +369,8 @@ const UpdateStayRules = ({ stay, onClose }: Props) => {
           />
           <StringArrayInput
             arr={paymentMethods || []}
-            label="Service Style"
-            placeholder="e.g. Fast-food, Drive-through"
+            label="Payment Methods"
+            placeholder="e.g. Cash, Credit card"
             prevState={paymentMethods || []}
             setState={setPaymentMethod}
           />

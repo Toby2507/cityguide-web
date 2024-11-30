@@ -1,8 +1,9 @@
 'use client';
 
 import { StringArrayInput } from '@/components';
+import { UpdateRestaurantInput } from '@/schemas';
 import { updateRestaurant } from '@/server';
-import { DayOfWeek, IRestaurant, IUpdateRestaurant } from '@/types';
+import { DayOfWeek, IRestaurant } from '@/types';
 import { getObjDiff } from '@/utils';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Button, Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
-  const method = useForm<IUpdateRestaurant>({ defaultValues: restaurant, mode: 'onChange' });
+  const method = useForm<UpdateRestaurantInput>({ defaultValues: restaurant, mode: 'onChange' });
   const { control, getValues, handleSubmit, reset, setValue, watch } = method;
   const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);
@@ -42,16 +43,24 @@ const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
     setValue(`availability.${idx}.day`, Object.values(DayOfWeek)[idx]);
     setValue(`availability.${idx}.${field}`, timeString);
   };
-  const onSubmit: SubmitHandler<IUpdateRestaurant> = async (data) => {
+  const onSubmit: SubmitHandler<UpdateRestaurantInput> = async (data) => {
     setIsLoading(true);
     try {
       const updatedData = { ...data, availability: data.availability?.filter(Boolean) };
+      if (updatedData.cancellationPolicy === null)
+        updatedData.cancellationPolicy = { daysFromReservation: 0, percentRefundable: 0 };
       const updateBody = getObjDiff(updatedData, restaurant);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
         return toast.error('No change has been made!');
       }
+      if (
+        updateBody.cancellationPolicy &&
+        !updateBody.cancellationPolicy.daysFromReservation &&
+        !updateBody.cancellationPolicy.percentRefundable
+      )
+        updateBody.cancellationPolicy = null;
       await updateRestaurant(updateBody, restaurant._id);
       onClose();
       reset();

@@ -1,8 +1,10 @@
 'use client';
 
+import { AddMenuItemInput, addMenuItemSchema } from '@/schemas';
 import { updateMenuItem } from '@/server';
-import { IMenu, IMenuForm } from '@/types';
+import { IMenu } from '@/types';
 import { getObjDiff } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/react';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -18,10 +20,14 @@ interface Props {
 const UpdateRestaurantMenuUpdate = ({ menuItem, resId, onClose }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const method = useForm<IMenuForm>({ defaultValues: { menu: [menuItem] } });
+  const method = useForm<AddMenuItemInput>({
+    defaultValues: { menu: [menuItem] },
+    mode: 'onChange',
+    resolver: zodResolver(addMenuItemSchema),
+  });
   const { handleSubmit, reset } = method;
 
-  const onSubmit: SubmitHandler<IMenuForm> = async (data) => {
+  const onSubmit: SubmitHandler<AddMenuItemInput> = async (data) => {
     setIsLoading(true);
     try {
       const diff = getObjDiff(data, { menu: [menuItem] });

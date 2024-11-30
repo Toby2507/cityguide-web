@@ -1,17 +1,13 @@
-import { EntityType, HotelRating, ISPs, MaxDays, NightLifeType, PriceRange, PropertyType } from './enums';
+import { EntityType, ISPs, NightLifeType, PropertyType } from './enums';
 import {
   IAddress,
-  ICancellation,
   IContact,
   ICustomAvailability,
-  IExtraInfo,
   IGuests,
   IMenu,
   INightLifeDetails,
   INightLifeRules,
-  IOptionalService,
   IReservationAccommodation,
-  IRestaurantDetails,
 } from './model.interfaces';
 
 // Creation Forms
@@ -57,49 +53,6 @@ export interface ICreateReservation {
 }
 
 // Update Forms
-export interface IUpdateStay {
-  name?: string;
-  summary?: string;
-  extraInfo?: IExtraInfo;
-  address?: IAddress;
-  avatar?: string;
-  images?: string[];
-  amenities?: string[];
-  hotelRating?: HotelRating;
-  rules?: {
-    checkIn: string;
-    checkOut: string;
-    smoking: boolean;
-    pets: boolean;
-    parties: boolean;
-  };
-  maxDays?: MaxDays;
-  language?: string[];
-  paymentMethods?: string[];
-  currency?: string;
-  proxyPaymentEnabled?: boolean;
-  optionalServices?: IOptionalService[];
-  cancellationPolicy?: ICancellation;
-}
-
-export interface IUpdateRestaurant {
-  name?: string;
-  summary?: string;
-  address?: IAddress;
-  avatar?: string;
-  images?: string[];
-  availability?: (ICustomAvailability | null)[];
-  priceRange?: PriceRange;
-  serviceStyle?: string[];
-  cuisine?: string[];
-  dietaryProvisions?: string[];
-  details?: IRestaurantDetails;
-  contact?: IContact;
-  currency?: string;
-  proxyPaymentEnabled?: boolean;
-  cancellationPolicy?: ICancellation;
-}
-
 export interface IUpdateNightlife {
   type?: NightLifeType;
   name?: string;

@@ -1,7 +1,13 @@
 'use server';
 
-import { CreateNightlifeInput, CreateRestaurantInput, CreateStayInput } from '@/schemas';
-import { IAccommodation, IMenu, IUpdateNightlife, IUpdateRestaurant, IUpdateStay } from '@/types';
+import {
+  CreateNightlifeInput,
+  CreateRestaurantInput,
+  CreateStayInput,
+  UpdateRestaurantInput,
+  UpdateStayInput,
+} from '@/schemas';
+import { IAccommodation, IMenu, IUpdateNightlife } from '@/types';
 import { fetchWithReAuth, formatNightlifeBody, formatRestaurantBody, formatStayBody, paths } from '@/utils';
 import { revalidatePath } from 'next/cache';
 
@@ -19,7 +25,7 @@ export const createStay = async (body: CreateStayInput) => {
   revalidatePath(paths.adminStays());
 };
 
-export const updateStay = async (body: IUpdateStay, stayId: string) => {
+export const updateStay = async (body: UpdateStayInput, stayId: string) => {
   const res = await fetchWithReAuth(`property/stay/${stayId}`, { method: 'PATCH', body: JSON.stringify(body) });
   if (!res.ok) {
     const result = await res.json();
@@ -77,7 +83,7 @@ export const createRestaurant = async (body: CreateRestaurantInput) => {
   revalidatePath(paths.adminRestaurants());
 };
 
-export const updateRestaurant = async (body: IUpdateRestaurant, resId: string) => {
+export const updateRestaurant = async (body: UpdateRestaurantInput, resId: string) => {
   const res = await fetchWithReAuth(`property/restaurant/${resId}`, { method: 'PATCH', body: JSON.stringify(body) });
   if (!res.ok) {
     const result = await res.json();

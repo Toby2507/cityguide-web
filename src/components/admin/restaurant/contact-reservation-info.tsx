@@ -1,9 +1,11 @@
 'use client';
 
-import { CreateRestaurantInput } from '@/schemas';
+import { UpdateRestaurantInput } from '@/schemas';
+import { getCurrencies } from '@/server';
 import { ISocialLink } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -11,8 +13,15 @@ import { IoAdd } from 'react-icons/io5';
 import StringArrayInput from '../common/string-array-input';
 import CreateRestaurantSocial from './create-restaurant-social';
 
+const defaultCancelPolicy = { daysFromReservation: 1, percentRefundable: 1 };
+
 const RestaurantContactReservationInfo = () => {
-  const { control, getValues, setFocus, setValue, watch } = useFormContext<CreateRestaurantInput>();
+  const { control, getValues, setFocus, setValue, watch } = useFormContext<UpdateRestaurantInput>();
+  const { data: currencies } = useSuspenseQuery({
+    queryKey: ['currencies'],
+    queryFn: getCurrencies,
+    staleTime: 1000 * 60 * 60 * 24,
+  });
   const [reservation, setReservation] = useState<boolean>(!!getValues('details.reservation') || false);
   const {
     field: { value, onChange },
@@ -39,7 +48,7 @@ const RestaurantContactReservationInfo = () => {
     else !getValues('details.reservation') && setValue('details.reservation', { available: 1, max: 1, price: 0 });
   }, [reservation, getValues, setValue]);
   return (
-    <div className="flex flex-col gap-4 pb-2 w-full">
+    <div className="flex flex-col gap-3 pb-2 w-full">
       <StringArrayInput
         arr={value || []}
         label="Add the payment methods accepted at your restaurant"
@@ -154,6 +163,105 @@ const RestaurantContactReservationInfo = () => {
           />
         </div>
       ) : null}
+      <div className="grid grid-cols-3 gap-3">
+        <Controller
+          control={control}
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <Select
+              selectedKeys={value === undefined ? undefined : [value]}
+              onChange={(e) => onChange(e.target.value)}
+              isRequired
+              label="Pricing Currency"
+              placeholder=" "
+              isInvalid={!!error}
+              errorMessage={error?.message}
+            >
+              {currencies.slice(1).map(({ name, code }) => (
+                <SelectItem key={code}>{`${name} (${code})`}</SelectItem>
+              ))}
+            </Select>
+          )}
+          name="currency"
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <Select
+              selectedKeys={value === undefined ? undefined : [value ? 'Yes' : 'No']}
+              onChange={(e) => onChange(e.target.value === 'Yes')}
+              label="Should we accept payment on your behalf?"
+              placeholder=" "
+              isInvalid={!!error}
+              errorMessage={error?.message}
+            >
+              <SelectItem key="Yes">Yes</SelectItem>
+              <SelectItem key="No">No</SelectItem>
+            </Select>
+          )}
+          name="proxyPaymentEnabled"
+          defaultValue={true}
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <Select
+              selectedKeys={[!!value ? 'Yes' : 'No']}
+              onChange={(e) => onChange(e.target.value === 'Yes' ? defaultCancelPolicy : null)}
+              label="Is there a cancellation policy?"
+              placeholder=" "
+              isInvalid={!!error}
+              errorMessage={error?.message}
+            >
+              <SelectItem key="Yes">Yes</SelectItem>
+              <SelectItem key="No">No</SelectItem>
+            </Select>
+          )}
+          name="cancellationPolicy"
+        />
+      </div>
+      {!!watch('cancellationPolicy') && (
+        <div className="grid grid-cols-2 gap-4">
+          <Controller
+            control={control}
+            render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+              <Input
+                name="daysFromReservation"
+                label="Number of days from check-in date"
+                placeholder=" "
+                type="number"
+                isRequired
+                value={value?.toString() || ''}
+                onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
+                onKeyDown={(e) => onEnter(e, () => setFocus('cancellationPolicy.percentRefundable'))}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                ref={ref}
+                className="text-accentGray"
+              />
+            )}
+            name="cancellationPolicy.daysFromReservation"
+          />
+          <Controller
+            control={control}
+            render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+              <Input
+                name="percentRefundable"
+                label="Percentage of reservation refundable"
+                placeholder=" "
+                type="number"
+                isRequired
+                value={value ? (value * 100).toString() : ''}
+                onValueChange={(val) => /^\d*$/.test(val) && onChange(+val / 100)}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                ref={ref}
+                className="text-accentGray"
+              />
+            )}
+            name="cancellationPolicy.percentRefundable"
+          />
+        </div>
+      )}
       <Controller
         control={control}
         render={({ field: { onChange, ref, value }, fieldState: { error } }) => (

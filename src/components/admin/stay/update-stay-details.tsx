@@ -22,12 +22,14 @@ const UpdateStayDetails = ({ stay, onClose }: Props) => {
     mode: 'onChange',
     resolver: zodResolver(updateStaySchema),
   });
-  const { control, watch, reset } = method;
+  const { control, trigger, watch, reset } = method;
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSubmit = async () => {
     setIsLoading(true);
     try {
+      const isValid = await trigger(['name', 'summary', 'extraInfo', 'language']);
+      if (!isValid) return toast.error('Please fill out the required fields');
       const updateBody = getObjDiff(watch(), stay);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {

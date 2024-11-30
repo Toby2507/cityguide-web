@@ -187,6 +187,7 @@ export const updateRestaurantSchema = strictObject({
     },
     { invalid_type_error: 'Availability is should be an array' }
   )
+    .nullable()
     .array()
     .min(1, 'Atleast one availability is required')
     .optional(),
@@ -267,7 +268,7 @@ export const updateRestaurantSchema = strictObject({
 });
 
 export const addMenuItemSchema = object({
-  body: object(
+  menu: object(
     {
       id: string({ required_error: 'Menu item id is required' }),
       name: string({ required_error: 'Menu item name is required' }).min(
