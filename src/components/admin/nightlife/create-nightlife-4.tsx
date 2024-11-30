@@ -1,21 +1,20 @@
 'use client';
 
 import { nightlifeAmenities } from '@/data';
-import { createNightlifeSchema } from '@/schemas';
-import { ICreateNightlife } from '@/types';
+import { usePropertyStore } from '@/providers';
+import { CreateNightlifeInput, createNightlifeSchema } from '@/schemas';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreateNavButtons from '../common/create-nav-buttons';
 import CreatePropertyAmenities from '../common/create-property-amenities';
-import { usePropertyStore } from '@/providers';
 
 interface Props {
   setStep: (newStep: number) => void;
 }
 
 const CreateNightlifeStep4 = ({ setStep }: Props) => {
-  const { watch } = useFormContext<ICreateNightlife>();
+  const { watch } = useFormContext<CreateNightlifeInput>();
   const { setNightlife } = usePropertyStore();
   const [isLoading, setisLoading] = useState<boolean>(false);
 

@@ -2,10 +2,12 @@
 
 import { CreateNavButtons } from '@/components';
 import { usePropertyStore } from '@/providers';
-import { createNightlifeSchema, createRestaurantSchema } from '@/schemas';
-import { ICreateNightlife, ISocialLink, Parking } from '@/types';
+import { CreateNightlifeInput, createNightlifeSchema } from '@/schemas';
+import { getCurrencies } from '@/server';
+import { ISocialLink, Parking } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -17,7 +19,12 @@ interface Props {
 }
 
 const CreateNightlifeStep7 = ({ setStep }: Props) => {
-  const { control, getValues, setFocus, setValue, trigger, watch } = useFormContext<ICreateNightlife>();
+  const { control, getValues, setFocus, setValue, trigger, watch } = useFormContext<CreateNightlifeInput>();
+  const { data: currencies } = useSuspenseQuery({
+    queryKey: ['currencies'],
+    queryFn: getCurrencies,
+    staleTime: 1000 * 60 * 60 * 24,
+  });
   const { setNightlife } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -61,7 +68,7 @@ const CreateNightlifeStep7 = ({ setStep }: Props) => {
         <p className="text-center font-light">Provide essential details about your restaurant!</p>
       </div>
       <div className="flex flex-col gap-4 max-w-3xl py-2 mx-auto w-full">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-3">
           <Controller
             control={control}
             render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
@@ -80,37 +87,6 @@ const CreateNightlifeStep7 = ({ setStep }: Props) => {
               />
             )}
             name="rules.minAge"
-            rules={{
-              validate: (val) => {
-                const isValid = createNightlifeSchema.shape.rules.shape.minAge.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
-          />
-          <Controller
-            control={control}
-            render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
-              <Input
-                name="Entry Fee"
-                label="Entry Fee"
-                placeholder=" "
-                type="tel"
-                isRequired
-                value={value?.toString() || ''}
-                onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
-                isInvalid={!!error}
-                errorMessage={error?.message}
-                ref={ref}
-                className="text-accentGray"
-              />
-            )}
-            name="details.entryFee"
-            rules={{
-              validate: (val) => {
-                const isValid = createNightlifeSchema.shape.details.shape.entryFee.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -130,12 +106,44 @@ const CreateNightlifeStep7 = ({ setStep }: Props) => {
               </Select>
             )}
             name="rules.parking"
-            rules={{
-              validate: (val) => {
-                const isValid = createNightlifeSchema.shape.rules.shape.parking.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
+          />
+          <Controller
+            control={control}
+            render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
+              <Input
+                name="Entry Fee"
+                label="Entry Fee"
+                placeholder=" "
+                type="tel"
+                isRequired
+                value={value?.toString() || ''}
+                onValueChange={(val) => /^\d*$/.test(val) && onChange(+val)}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                ref={ref}
+                className="text-accentGray"
+              />
+            )}
+            name="details.entryFee"
+          />
+          <Controller
+            control={control}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <Select
+                selectedKeys={value === undefined ? undefined : [value]}
+                onChange={(e) => onChange(e.target.value)}
+                isRequired
+                label="Pricing Currency"
+                placeholder=" "
+                isInvalid={!!error}
+                errorMessage={error?.message}
+              >
+                {currencies.slice(1).map(({ name, code }) => (
+                  <SelectItem key={code}>{`${name} (${code})`}</SelectItem>
+                ))}
+              </Select>
+            )}
+            name="currency"
           />
         </div>
         <Controller
@@ -158,12 +166,6 @@ const CreateNightlifeStep7 = ({ setStep }: Props) => {
             />
           )}
           name="contact.email"
-          rules={{
-            validate: (val) => {
-              const isValid = createRestaurantSchema.shape.contact.shape.email.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -185,12 +187,6 @@ const CreateNightlifeStep7 = ({ setStep }: Props) => {
             />
           )}
           name="contact.phone"
-          rules={{
-            validate: (val) => {
-              const isValid = createRestaurantSchema.shape.contact.shape.phone.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between gap-10">

@@ -48,6 +48,7 @@ export const createNightlifeSchema = object({
     },
     { required_error: 'Availability is required', invalid_type_error: 'Availability is should be an array' }
   )
+    .nullable()
     .array()
     .min(1, 'Atleast one availability is required'),
   rules: object(
@@ -143,6 +144,7 @@ export const updateNightlifeSchema = strictObject({
     },
     { invalid_type_error: 'Availability is should be an array' }
   )
+    .nullable()
     .array()
     .min(1, 'Atleast one availability is required')
     .optional(),

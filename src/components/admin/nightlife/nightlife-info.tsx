@@ -1,7 +1,7 @@
 'use client';
 
-import { createNightlifeSchema, createRestaurantSchema } from '@/schemas';
-import { ICreateNightlife, ISocialLink, Parking } from '@/types';
+import { CreateNightlifeInput, createNightlifeSchema } from '@/schemas';
+import { ISocialLink, Parking } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -10,7 +10,7 @@ import { IoAdd } from 'react-icons/io5';
 import CreateRestaurantSocial from '../restaurant/create-restaurant-social';
 
 const NightlifeInfo = () => {
-  const { control, getValues, setFocus, setValue, watch } = useFormContext<ICreateNightlife>();
+  const { control, getValues, setFocus, setValue, watch } = useFormContext<CreateNightlifeInput>();
 
   const addNewSocial = () => {
     const socials = getValues('contact.socialMedia') || [];
@@ -73,12 +73,6 @@ const NightlifeInfo = () => {
             />
           )}
           name="details.entryFee"
-          rules={{
-            validate: (val) => {
-              const isValid = createNightlifeSchema.shape.details.shape.entryFee.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -98,12 +92,6 @@ const NightlifeInfo = () => {
             </Select>
           )}
           name="rules.parking"
-          rules={{
-            validate: (val) => {
-              const isValid = createNightlifeSchema.shape.rules.shape.parking.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
       </div>
       <Controller
@@ -126,12 +114,6 @@ const NightlifeInfo = () => {
           />
         )}
         name="contact.email"
-        rules={{
-          validate: (val) => {
-            const isValid = createRestaurantSchema.shape.contact.shape.email.safeParse(val);
-            return isValid.success || isValid.error.flatten().formErrors.join(', ');
-          },
-        }}
       />
       <Controller
         control={control}
@@ -153,12 +135,6 @@ const NightlifeInfo = () => {
           />
         )}
         name="contact.phone"
-        rules={{
-          validate: (val) => {
-            const isValid = createRestaurantSchema.shape.contact.shape.phone.safeParse(val);
-            return isValid.success || isValid.error.flatten().formErrors.join(', ');
-          },
-        }}
       />
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-10">

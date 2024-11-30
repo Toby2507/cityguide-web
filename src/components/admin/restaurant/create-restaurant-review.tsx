@@ -7,6 +7,7 @@ import { createRestaurant } from '@/server';
 import { ICustomAvailability, IRestaurant, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Link, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const CreateRestaurantReview = ({ setStep }: Props) => {
+  const { push } = useRouter();
   const { setRestaurant } = usePropertyStore();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,6 +41,7 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
     await createRestaurant(data);
     setIsLoading(false);
     setRestaurant(null);
+    setTimeout(() => push(paths.adminRestaurants()), 2000);
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

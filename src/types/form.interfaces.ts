@@ -11,21 +11,6 @@ import {
 } from './model.interfaces';
 
 // Creation Forms
-
-export interface ICreateNightlife {
-  type: NightLifeType;
-  name: string;
-  summary: string;
-  address: IAddress;
-  avatar: string;
-  images: string[];
-  availability: (ICustomAvailability | null)[];
-  rules: INightLifeRules;
-  details: INightLifeDetails;
-  contact: IContact;
-  currency: string;
-}
-
 export interface ICreateReservation {
   property: string;
   propertyType: PropertyType;

@@ -2,8 +2,8 @@
 
 import { nightLifeTypes } from '@/data';
 import { usePropertyStore } from '@/providers';
-import { createNightlifeSchema } from '@/schemas';
-import { ICreateNightlife, NightLifeType } from '@/types';
+import { CreateNightlifeInput, createNightlifeSchema } from '@/schemas';
+import { NightLifeType } from '@/types';
 import { Button } from '@nextui-org/react';
 import { useController, useFormContext } from 'react-hook-form';
 
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const CreateNightlifeStep1 = ({ setStep }: Props) => {
-  const { control, watch } = useFormContext<ICreateNightlife>();
+  const { control, watch } = useFormContext<CreateNightlifeInput>();
   const { setNightlife } = usePropertyStore();
   const {
     field: { onChange },

@@ -2,10 +2,12 @@
 
 import { DetailPageAmenities, DetailPageOverview, NightlifeDetailInfo } from '@/containers';
 import { usePropertyStore } from '@/providers';
+import { CreateNightlifeInput } from '@/schemas';
 import { createNightlife } from '@/server';
-import { ICreateNightlife, ICustomAvailability, INightLife, PropertyType } from '@/types';
+import { ICustomAvailability, INightLife, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Link, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
@@ -15,10 +17,11 @@ interface Props {
 }
 
 const CreateNightlifeReview = ({ setStep }: Props) => {
+  const { push } = useRouter();
   const { setNightlife } = usePropertyStore();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { handleSubmit, watch } = useFormContext<ICreateNightlife>();
+  const { handleSubmit, watch } = useFormContext<CreateNightlifeInput>();
   const nightlife: INightLife = {
     ...watch(),
     availability: watch('availability').filter(Boolean) as ICustomAvailability[],
@@ -29,45 +32,38 @@ const CreateNightlifeReview = ({ setStep }: Props) => {
     rating: 4.9,
     reviewCount: 500,
     categoryRatings: {},
-    currency: 'USD',
   };
 
-  const onSubmit: SubmitHandler<ICreateNightlife> = async (data) => {
+  const onSubmit: SubmitHandler<CreateNightlifeInput> = async (data) => {
     setIsLoading(true);
     onOpen();
     await createNightlife(data);
     setIsLoading(false);
     setNightlife(null);
+    setTimeout(() => push(paths.adminNightlifes()), 2000);
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
         <ModalContent>
-          {(onClose) =>
-            isLoading ? (
-              <div className="flex flex-col items-center gap-4 py-10">
-                <CircularProgress
-                  size="lg"
-                  color="primary"
-                  className="text-7xl"
-                  aria-label="Publishing restaurant..."
-                />
-                <p className="text-lg text-accentGray font-medium">Publishing Nightlife...</p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-4 px-4 py-10">
-                <IoCheckmarkCircleOutline className="text-7xl" />
-                <p className="text-lg font-medium">
-                  Nightlife Successfully <span className="text-primary">Published!</span>
-                </p>
-                <Link href={paths.adminNightlifes()}>
-                  <Button className="text-sm px-14 font-semibold w-fit" color="primary" radius="full" variant="flat">
-                    Dashboard
-                  </Button>
-                </Link>
-              </div>
-            )
-          }
+          {isLoading ? (
+            <div className="flex flex-col items-center gap-4 py-10">
+              <CircularProgress size="lg" color="primary" className="text-7xl" aria-label="Publishing restaurant..." />
+              <p className="text-lg text-accentGray font-medium">Publishing Nightlife...</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-4 px-4 py-10">
+              <IoCheckmarkCircleOutline className="text-7xl" />
+              <p className="text-lg font-medium">
+                Nightlife Successfully <span className="text-primary">Published!</span>
+              </p>
+              <Link href={paths.adminNightlifes()}>
+                <Button className="text-sm px-14 font-semibold w-fit" color="primary" radius="full" variant="flat">
+                  Dashboard
+                </Button>
+              </Link>
+            </div>
+          )}
         </ModalContent>
       </Modal>
       <div className="flex flex-col gap-2">
@@ -86,7 +82,7 @@ const CreateNightlifeReview = ({ setStep }: Props) => {
         <DetailPageAmenities amenities={nightlife.details.amenities || []} name={nightlife.name} />
         <NightlifeDetailInfo nightlife={nightlife} />
       </div>
-      <div className="flex flex-col gap-2 pb-10 mx-auto w-1/2">
+      <div className="flex flex-col gap-2 mx-auto w-1/2">
         <Button
           className="text-sm font-semibold"
           color="primary"

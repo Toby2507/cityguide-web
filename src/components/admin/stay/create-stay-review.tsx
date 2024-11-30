@@ -8,6 +8,7 @@ import { EntityType, IStay, MaxDays, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
@@ -17,6 +18,7 @@ interface IProps {
 }
 
 const CreateStayReview = ({ setStep }: IProps) => {
+  const { push } = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { setStay } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -42,6 +44,7 @@ const CreateStayReview = ({ setStep }: IProps) => {
     await createStay(data);
     setIsLoading(false);
     setStay(null);
+    setTimeout(() => push(paths.adminStays()), 2000);
   };
   return (
     <div className="flex flex-col justify-center gap-4 pt-4">

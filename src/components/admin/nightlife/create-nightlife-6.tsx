@@ -1,8 +1,8 @@
 'use client';
 
 import { usePropertyStore } from '@/providers';
-import { createNightlifeSchema } from '@/schemas';
-import { DayOfWeek, ICreateNightlife } from '@/types';
+import { CreateNightlifeInput, createNightlifeSchema } from '@/schemas';
+import { DayOfWeek } from '@/types';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const CreateNightlifeStep6 = ({ setStep }: Props) => {
-  const { control, getValues, setValue, watch, trigger } = useFormContext<ICreateNightlife>();
+  const { control, getValues, setValue, watch, trigger } = useFormContext<CreateNightlifeInput>();
   const { setNightlife } = usePropertyStore();
   const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);
@@ -28,12 +28,6 @@ const CreateNightlifeStep6 = ({ setStep }: Props) => {
   } = useController({
     control,
     name: 'details.paymentOptions',
-    rules: {
-      validate: (val) => {
-        const isValid = createNightlifeSchema.shape.details.shape.paymentOptions.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
   });
   const {
     field: { onChange: setDresscode, value: dresscode },
@@ -135,6 +129,7 @@ const CreateNightlifeStep6 = ({ setStep }: Props) => {
           label="Payment Options"
           placeholder="e.g. Cash, Debit card"
           prevState={paymentoptions || []}
+          isRequired
           error={error}
           setState={setPaymentoptions}
         />

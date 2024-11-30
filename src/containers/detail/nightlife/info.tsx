@@ -131,9 +131,21 @@ const NightlifeDetailInfo = ({
           <TableRow>
             <TableCell className="flex items-center gap-2 py-4 font-medium">
               <IoCard className="text-xl" />
-              Accepted Payment Method
+              Payment Method
             </TableCell>
-            <TableCell className="py-4 text-accentGray w-9/12">{paymentOptions.join(', ')}</TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">
+              {
+                <>
+                  <p className="text-accentGray pb-1">
+                    Accepted payment methods include:{' '}
+                    <span className="font-semibold uppercase">{paymentOptions.join(', ')}</span>.
+                  </p>
+                  <p className="text-accentGray">
+                    The property&apos;s pricing currency is <span className="font-semibold uppercase">{currency}</span>.
+                  </p>
+                </>
+              }
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

@@ -1,8 +1,7 @@
 'use client';
 
 import { usePropertyStore } from '@/providers';
-import { createNightlifeSchema } from '@/schemas';
-import { ICreateNightlife } from '@/types';
+import { CreateNightlifeInput } from '@/schemas';
 import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
@@ -15,7 +14,7 @@ interface Props {
 }
 
 const CreateNightlifeStep3 = ({ setStep }: Props) => {
-  const { control, trigger, setFocus, watch } = useFormContext<ICreateNightlife>();
+  const { control, trigger, setFocus, watch } = useFormContext<CreateNightlifeInput>();
   const { setNightlife } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -60,12 +59,6 @@ const CreateNightlifeStep3 = ({ setStep }: Props) => {
             />
           )}
           name="name"
-          rules={{
-            validate: (val) => {
-              const isValid = createNightlifeSchema.shape.name.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -86,12 +79,6 @@ const CreateNightlifeStep3 = ({ setStep }: Props) => {
             />
           )}
           name="summary"
-          rules={{
-            validate: (val) => {
-              const isValid = createNightlifeSchema.shape.summary.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <CreateNavButtons isLoading={isLoading} previous={() => setStep(2)} next={handleNext} />
       </div>
