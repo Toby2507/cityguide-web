@@ -1,9 +1,11 @@
 'use client';
 
 import { UpdateNightlifeInput } from '@/schemas';
+import { getCurrencies } from '@/server';
 import { ISocialLink, Parking } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { Controller, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoAdd } from 'react-icons/io5';
@@ -11,6 +13,11 @@ import CreateRestaurantSocial from '../restaurant/create-restaurant-social';
 
 const NightlifeInfo = () => {
   const { control, getValues, setFocus, setValue, watch } = useFormContext<UpdateNightlifeInput>();
+  const { data: currencies } = useSuspenseQuery({
+    queryKey: ['currencies'],
+    queryFn: getCurrencies,
+    staleTime: 1000 * 60 * 60 * 24,
+  });
 
   const addNewSocial = () => {
     const socials = getValues('contact.socialMedia') || [];
@@ -29,7 +36,7 @@ const NightlifeInfo = () => {
   };
   return (
     <>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 gap-3">
         <Controller
           control={control}
           render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
@@ -48,6 +55,25 @@ const NightlifeInfo = () => {
             />
           )}
           name="rules.minAge"
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <Select
+              isRequired
+              selectedKeys={value === undefined ? undefined : [value]}
+              onChange={onChange}
+              label="Parking"
+              placeholder=" "
+              isInvalid={!!error}
+              errorMessage={error?.message}
+            >
+              {Object.values(Parking).map((item, i) => (
+                <SelectItem key={item}>{item}</SelectItem>
+              ))}
+            </Select>
+          )}
+          name="rules.parking"
         />
         <Controller
           control={control}
@@ -72,20 +98,20 @@ const NightlifeInfo = () => {
           control={control}
           render={({ field: { onChange, value }, fieldState: { error } }) => (
             <Select
-              isRequired
               selectedKeys={value === undefined ? undefined : [value]}
-              onChange={onChange}
-              label="Parking"
+              onChange={(e) => onChange(e.target.value)}
+              isRequired
+              label="Pricing Currency"
               placeholder=" "
               isInvalid={!!error}
               errorMessage={error?.message}
             >
-              {Object.values(Parking).map((item, i) => (
-                <SelectItem key={item}>{item}</SelectItem>
+              {currencies.slice(1).map(({ name, code }) => (
+                <SelectItem key={code}>{`${name} (${code})`}</SelectItem>
               ))}
             </Select>
           )}
-          name="rules.parking"
+          name="currency"
         />
       </div>
       <Controller

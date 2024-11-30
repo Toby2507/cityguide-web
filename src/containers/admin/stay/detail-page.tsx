@@ -76,13 +76,13 @@ const AdminStayDetailPage = ({ stayId }: Props) => {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-col gap-4 max-w-7xl pt-14 pb-6 mx-auto w-full">
+      <div className="flex flex-col gap-4 max-w-7xl pt-14 mx-auto w-full">
         <DetailPageOverview onUpdate={onUpdate} propType={PropertyType.STAY} {...stay} />
         <DetailPageAmenities onUpdate={() => onUpdate('amenities')} {...stay} />
         <StayDetailAvailability onUpdate={() => onUpdate('accommodation')} stay={stay} />
         <StayDetailInfoReview stay={stay} isAdmin />
         <StayDetailRules onUpdate={() => onUpdate('rules')} stay={stay} />
-        <Button className="mt-4" color="danger" isLoading={isLoading} onPress={onDelete} variant="flat">
+        <Button className="mt-1" color="danger" isLoading={isLoading} onPress={onDelete} variant="flat">
           Delete Stay
         </Button>
       </div>

@@ -10,7 +10,7 @@ import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Button, Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
+import { FormProvider, useController, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import NightlifeInfo from './nightlife-info';
 
@@ -25,7 +25,7 @@ const UpdateNightlifeInfo = ({ nightlife, onClose }: Props) => {
     mode: 'onChange',
     resolver: zodResolver(updateNightlifeSchema),
   });
-  const { control, getValues, handleSubmit, reset, setValue, watch } = method;
+  const { control, getValues, reset, setValue, trigger, watch } = method;
   const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -49,11 +49,14 @@ const UpdateNightlifeInfo = ({ nightlife, onClose }: Props) => {
     setValue(`availability.${idx}.day`, Object.values(DayOfWeek)[idx]);
     setValue(`availability.${idx}.${field}`, timeString);
   };
-  const onSubmit: SubmitHandler<UpdateNightlifeInput> = async (data) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     try {
-      const updatedData = { ...data, availability: data.availability?.filter(Boolean) };
-      const updateBody = getObjDiff(updatedData, nightlife);
+      const isValid = await trigger(['details', 'rules', 'availability', 'contact', 'currency']);
+      if (!isValid) return toast.error('Please fill out the required fields');
+      let data = watch();
+      data = { ...data, availability: data.availability?.filter(Boolean) };
+      const updateBody = getObjDiff(data, nightlife);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
@@ -146,7 +149,7 @@ const UpdateNightlifeInfo = ({ nightlife, onClose }: Props) => {
             color="primary"
             radius="full"
             variant="solid"
-            onPress={() => handleSubmit(onSubmit)()}
+            onPress={() => onSubmit()}
             isLoading={isLoading}
           >
             Update Restaurant Info

@@ -1,10 +1,11 @@
 'use client';
 
 import { StringArrayInput } from '@/components';
-import { UpdateRestaurantInput } from '@/schemas';
+import { UpdateRestaurantInput, updateRestaurantSchema } from '@/schemas';
 import { updateRestaurant } from '@/server';
 import { DayOfWeek, IRestaurant } from '@/types';
 import { getObjDiff } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Button, Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';
@@ -19,8 +20,12 @@ interface Props {
 }
 
 const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
-  const method = useForm<UpdateRestaurantInput>({ defaultValues: restaurant, mode: 'onChange' });
-  const { control, getValues, handleSubmit, reset, setValue, watch } = method;
+  const method = useForm<UpdateRestaurantInput>({
+    defaultValues: restaurant,
+    mode: 'onChange',
+    resolver: zodResolver(updateRestaurantSchema),
+  });
+  const { control, getValues, reset, setValue, trigger, watch } = method;
   const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -43,13 +48,25 @@ const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
     setValue(`availability.${idx}.day`, Object.values(DayOfWeek)[idx]);
     setValue(`availability.${idx}.${field}`, timeString);
   };
-  const onSubmit: SubmitHandler<UpdateRestaurantInput> = async (data) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     try {
-      const updatedData = { ...data, availability: data.availability?.filter(Boolean) };
-      if (updatedData.cancellationPolicy === null)
-        updatedData.cancellationPolicy = { daysFromReservation: 0, percentRefundable: 0 };
-      const updateBody = getObjDiff(updatedData, restaurant);
+      const isValid = await trigger([
+        'serviceStyle',
+        'cuisine',
+        'dietaryProvisions',
+        'availability',
+        'contact',
+        'details',
+        'currency',
+        'cancellationPolicy',
+        'proxyPaymentEnabled',
+      ]);
+      if (!isValid) return toast.error('Please fill out the required fields');
+      let data = watch();
+      data = { ...data, availability: data.availability?.filter(Boolean) };
+      if (data.cancellationPolicy === null) data.cancellationPolicy = { daysFromReservation: 0, percentRefundable: 0 };
+      const updateBody = getObjDiff(data, restaurant);
       delete updateBody.updatedAt;
       if (!Object.keys(updateBody).length) {
         onClose();
@@ -147,7 +164,7 @@ const UpdateRestaurantInfo = ({ restaurant, onClose }: Props) => {
             color="primary"
             radius="full"
             variant="solid"
-            onPress={() => handleSubmit(onSubmit)()}
+            onPress={() => onSubmit()}
             isLoading={isLoading}
           >
             Update Restaurant Info

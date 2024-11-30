@@ -71,7 +71,7 @@ const AdminRestaurantDetailPage = ({ restaurantId }: Props) => {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-col gap-4 max-w-7xl pt-14 pb-6 mx-auto w-full">
+      <div className="flex flex-col gap-4 max-w-7xl pt-14 mx-auto w-full">
         <DetailPageOverview
           amenities={restaurant.details.amenities}
           onUpdate={onUpdate}
@@ -85,7 +85,7 @@ const AdminRestaurantDetailPage = ({ restaurantId }: Props) => {
         />
         <RestaurantDetailMenu menu={restaurant.menu} currency={restaurant.currency} onUpdate={() => onUpdate('menu')} />
         <RestaurantDetailInfo restaurant={restaurant} onUpdate={() => onUpdate('info')} />
-        <Button className="mt-4" color="danger" isLoading={isLoading} onPress={onDelete} variant="flat">
+        <Button className="mt-1" color="danger" isLoading={isLoading} onPress={onDelete} variant="flat">
           Delete Restaurant
         </Button>
       </div>
