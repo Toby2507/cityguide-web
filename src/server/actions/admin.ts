@@ -1,15 +1,7 @@
 'use server';
 
-import { CreateStayInput } from '@/schemas';
-import {
-  IAccommodation,
-  ICreateNightlife,
-  ICreateRestaurant,
-  IMenu,
-  IUpdateNightlife,
-  IUpdateRestaurant,
-  IUpdateStay
-} from '@/types';
+import { CreateNightlifeInput, CreateRestaurantInput, CreateStayInput } from '@/schemas';
+import { IAccommodation, IMenu, IUpdateNightlife, IUpdateRestaurant, IUpdateStay } from '@/types';
 import { fetchWithReAuth, formatNightlifeBody, formatRestaurantBody, formatStayBody, paths } from '@/utils';
 import { revalidatePath } from 'next/cache';
 
@@ -79,7 +71,7 @@ export const removeAccommodation = async (stayId: string, accId: string) => {
 };
 
 // Restaurant
-export const createRestaurant = async (body: ICreateRestaurant) => {
+export const createRestaurant = async (body: CreateRestaurantInput) => {
   const data = formatRestaurantBody(body);
   await fetchWithReAuth('property/restaurant', { method: 'POST', body: JSON.stringify(data) });
   revalidatePath(paths.adminRestaurants());
@@ -137,7 +129,7 @@ export const removeMenuItem = async (resId: string, menuId: string) => {
 };
 
 // Nightlife
-export const createNightlife = async (body: ICreateNightlife) => {
+export const createNightlife = async (body: CreateNightlifeInput) => {
   const data = formatNightlifeBody(body);
   await fetchWithReAuth('property/nightlife', { method: 'POST', body: JSON.stringify(data) });
   revalidatePath(paths.adminNightlifes());

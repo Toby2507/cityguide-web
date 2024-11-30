@@ -1,7 +1,7 @@
 'use client';
 
-import { updateRestaurantSchema } from '@/schemas';
-import { ICreateRestaurant, ISocialLink } from '@/types';
+import { CreateRestaurantInput } from '@/schemas';
+import { ISocialLink } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
@@ -12,20 +12,11 @@ import StringArrayInput from '../common/string-array-input';
 import CreateRestaurantSocial from './create-restaurant-social';
 
 const RestaurantContactReservationInfo = () => {
-  const { control, getValues, setFocus, setValue, watch } = useFormContext<ICreateRestaurant>();
+  const { control, getValues, setFocus, setValue, watch } = useFormContext<CreateRestaurantInput>();
   const [reservation, setReservation] = useState<boolean>(!!getValues('details.reservation') || false);
   const {
     field: { value, onChange },
-  } = useController({
-    control,
-    name: 'details.paymentOptions',
-    rules: {
-      validate: (val) => {
-        const isValid = updateRestaurantSchema.shape.details.unwrap().shape.paymentOptions.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
-  });
+  } = useController({ control, name: 'details.paymentOptions' });
 
   const addNewSocial = () => {
     const socials = getValues('contact.socialMedia') || [];
@@ -73,12 +64,6 @@ const RestaurantContactReservationInfo = () => {
             </Select>
           )}
           name="details.delivery"
-          rules={{
-            validate: (val) => {
-              const isValid = updateRestaurantSchema.shape.details.unwrap().shape.delivery.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -97,12 +82,6 @@ const RestaurantContactReservationInfo = () => {
             </Select>
           )}
           name="details.children"
-          rules={{
-            validate: (val) => {
-              const isValid = updateRestaurantSchema.shape.details.unwrap().shape.children.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Select
           selectedKeys={[reservation ? 'Yes' : 'No']}
@@ -134,15 +113,6 @@ const RestaurantContactReservationInfo = () => {
               />
             )}
             name="details.reservation.available"
-            rules={{
-              validate: (val) => {
-                const isValid = updateRestaurantSchema.shape.details
-                  .unwrap()
-                  .shape.reservation.unwrap()
-                  .shape.available.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -162,15 +132,6 @@ const RestaurantContactReservationInfo = () => {
               />
             )}
             name="details.reservation.max"
-            rules={{
-              validate: (val) => {
-                const isValid = updateRestaurantSchema.shape.details
-                  .unwrap()
-                  .shape.reservation.unwrap()
-                  .shape.max.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
           <Controller
             control={control}
@@ -190,19 +151,9 @@ const RestaurantContactReservationInfo = () => {
               />
             )}
             name="details.reservation.price"
-            rules={{
-              validate: (val) => {
-                const isValid = updateRestaurantSchema.shape.details
-                  .unwrap()
-                  .shape.reservation.unwrap()
-                  .shape.price.safeParse(val);
-                return isValid.success || isValid.error.flatten().formErrors.join(', ');
-              },
-            }}
           />
         </div>
       ) : null}
-
       <Controller
         control={control}
         render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
@@ -223,12 +174,6 @@ const RestaurantContactReservationInfo = () => {
           />
         )}
         name="contact.email"
-        rules={{
-          validate: (val) => {
-            const isValid = updateRestaurantSchema.shape.contact.unwrap().shape.email.safeParse(val);
-            return isValid.success || isValid.error.flatten().formErrors.join(', ');
-          },
-        }}
       />
       <Controller
         control={control}
@@ -250,12 +195,6 @@ const RestaurantContactReservationInfo = () => {
           />
         )}
         name="contact.phone"
-        rules={{
-          validate: (val) => {
-            const isValid = updateRestaurantSchema.shape.contact.unwrap().shape.phone.safeParse(val);
-            return isValid.success || isValid.error.flatten().formErrors.join(', ');
-          },
-        }}
       />
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-10">

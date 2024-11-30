@@ -47,6 +47,7 @@ export const createRestaurantSchema = object({
     },
     { required_error: 'Availability is required', invalid_type_error: 'Availability should be an object' }
   )
+    .nullable()
     .array()
     .min(1, 'Restaurant should be open atleast 1 day a week'),
   priceRange: nativeEnum(PriceRange, {

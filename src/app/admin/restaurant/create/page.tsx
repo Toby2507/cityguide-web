@@ -13,7 +13,9 @@ import {
 } from '@/components';
 import { useStepManagement } from '@/hooks';
 import { usePropertyStore } from '@/providers';
-import { ICreateRestaurant, PropertyType } from '@/types';
+import { CreateRestaurantInput, createRestaurantSchema } from '@/schemas';
+import { PropertyType } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Pagination } from '@nextui-org/react';
 import { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -21,7 +23,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 const CreateRestaurantPage = () => {
   const { setRestaurant, restaurant } = usePropertyStore();
   const { step, topStep, setStep } = useStepManagement(setRestaurant, restaurant);
-  const methods = useForm<ICreateRestaurant>();
+  const methods = useForm<CreateRestaurantInput>({ mode: 'onChange', resolver: zodResolver(createRestaurantSchema) });
   const initialRender = useRef<boolean>(true);
 
   useEffect(() => {
@@ -50,9 +52,9 @@ const CreateRestaurantPage = () => {
       {step === 7 ? <CreateRestaurantStep7 setStep={setStep} /> : null}
       {step === 8 ? <CreateRestaurantStep8 setStep={setStep} /> : null}
       {step === 9 ? <CreateRestaurantReview setStep={setStep} /> : null}
-      <div className="absolute bottom-10 flex flex-col gap-2">
-        <p className="text-xs">Go to step</p>
-        <Pagination className="z-100" total={topStep} page={step} onChange={(val) => setStep(val)} />
+      <div className="absolute bottom-10 flex flex-col gap-2 z-[99999]">
+        <p className="text-xs bg-white rounded-lg p-2 w-fit">Go to step</p>
+        <Pagination total={topStep} page={step} onChange={setStep} />
       </div>
     </FormProvider>
   );

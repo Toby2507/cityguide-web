@@ -4,6 +4,7 @@ import { usePriceConversion } from '@/hooks';
 import { IRestaurant } from '@/types';
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import dayjs from 'dayjs';
+import { BsExclamationCircleFill } from 'react-icons/bs';
 import { FaClipboardList } from 'react-icons/fa';
 import { GrDeliver } from 'react-icons/gr';
 import { IoCard, IoPricetags } from 'react-icons/io5';
@@ -23,6 +24,8 @@ const RestaurantDetailsInfo = ({
     priceRange,
     serviceStyle,
     currency,
+    cancellationPolicy,
+    proxyPaymentEnabled,
     details: { children, delivery, reservation, paymentOptions },
     contact: { email, phone, socialMedia },
   },
@@ -131,6 +134,25 @@ const RestaurantDetailsInfo = ({
           </TableRow>
           <TableRow className="border-b border-default">
             <TableCell className="flex items-center gap-2 py-4 font-medium">
+              <BsExclamationCircleFill className="text-lg" />
+              Cancellation Policy
+            </TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">
+              {!reservation
+                ? 'This restaurant does not offer a reservation service; therefore, no cancellation policy applies.'
+                : cancellationPolicy
+                ? `You will receive a full (100%) refund if you cancel more than ${
+                    cancellationPolicy.daysFromReservation
+                  } days before your reservation date. If you cancel within ${
+                    cancellationPolicy.daysFromReservation
+                  } days of your reservation date, you will receive a ${
+                    cancellationPolicy.percentRefundable * 100
+                  }% refund.`
+                : `This restaurant does not have a specific cancellation policy. You can cancel your reservation at any time before the reservation date.`}
+            </TableCell>
+          </TableRow>
+          <TableRow className="border-b border-default">
+            <TableCell className="flex items-center gap-2 py-4 font-medium">
               <GrDeliver className="text-xl" />
               Delivery Service
             </TableCell>
@@ -154,9 +176,38 @@ const RestaurantDetailsInfo = ({
           <TableRow>
             <TableCell className="flex items-center gap-2 py-4 font-medium">
               <IoCard className="text-lg" />
-              Accepted Payment Method
+              Payment Method
             </TableCell>
-            <TableCell className="py-4 text-accentGray w-9/12">{paymentOptions.join(', ')}</TableCell>
+            <TableCell className="py-4 text-accentGray w-9/12">
+              {!proxyPaymentEnabled ? (
+                <>
+                  <p className="text-accentGray pb-3">All payment will be made directly at the restaurant.</p>
+                  <p className="text-accentGray pb-1">
+                    Accepted payment methods include:{' '}
+                    <span className="font-semibold uppercase">{paymentOptions.join(', ')}</span>.
+                  </p>
+                  <p className="text-accentGray">
+                    The restaurant&apos;s pricing currency is{' '}
+                    <span className="font-semibold uppercase">{currency}</span>.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-accentGray pb-3">
+                    We accept payment on behalf of the restaurant for reservations. You will make the payment to us at
+                    the time of reservation, and we will transfer it to the restaurant on your behalf. Food, drinks, and
+                    additional services will be paid for directly at the restaurant.
+                  </p>
+                  <p className="text-accentGray pb-1">
+                    Accepted payment methods include:{' '}
+                    <span className="font-semibold uppercase">{paymentOptions.join(', ')}</span>.
+                  </p>
+                  <p className="text-accentGray">
+                    The property&apos;s pricing currency is <span className="font-semibold uppercase">{currency}</span>.
+                  </p>
+                </>
+              )}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

@@ -2,8 +2,9 @@
 
 import { DetailPageAmenities, DetailPageOverview, RestaurantDetailInfo, RestaurantDetailMenu } from '@/containers';
 import { usePropertyStore } from '@/providers';
+import { CreateRestaurantInput } from '@/schemas';
 import { createRestaurant } from '@/server';
-import { ICreateRestaurant, ICustomAvailability, IRestaurant, PropertyType } from '@/types';
+import { ICustomAvailability, IRestaurant, PropertyType } from '@/types';
 import { paths } from '@/utils';
 import { Button, CircularProgress, Link, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import { useState } from 'react';
@@ -18,7 +19,7 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
   const { setRestaurant } = usePropertyStore();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { handleSubmit, watch } = useFormContext<ICreateRestaurant>();
+  const { handleSubmit, watch } = useFormContext<CreateRestaurantInput>();
   const restaurant: IRestaurant = {
     ...watch(),
     availability: watch('availability').filter(Boolean) as ICustomAvailability[],
@@ -30,11 +31,9 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
     reviewCount: 500,
     cancellationPolicy: null,
     categoryRatings: {},
-    currency: 'USD',
-    proxyPaymentEnabled: false,
   };
 
-  const onSubmit: SubmitHandler<ICreateRestaurant> = async (data) => {
+  const onSubmit: SubmitHandler<CreateRestaurantInput> = async (data) => {
     setIsLoading(true);
     onOpen();
     await createRestaurant(data);
@@ -45,31 +44,24 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
     <div className="flex flex-col justify-center gap-4 pt-4">
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
         <ModalContent>
-          {(onClose) =>
-            isLoading ? (
-              <div className="flex flex-col items-center gap-4 py-10">
-                <CircularProgress
-                  size="lg"
-                  color="primary"
-                  className="text-7xl"
-                  aria-label="Publishing restaurant..."
-                />
-                <p className="text-lg text-accentGray font-medium">Publishing Restaurant...</p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-4 px-4 py-10">
-                <IoCheckmarkCircleOutline className="text-7xl" />
-                <p className="text-lg font-medium">
-                  Restaurant Successfully <span className="text-primary">Published!</span>
-                </p>
-                <Link href={paths.adminRestaurants()}>
-                  <Button className="text-sm px-14 font-semibold w-fit" color="primary" radius="full" variant="flat">
-                    Dashboard
-                  </Button>
-                </Link>
-              </div>
-            )
-          }
+          {isLoading ? (
+            <div className="flex flex-col items-center gap-4 py-10">
+              <CircularProgress size="lg" color="primary" className="text-7xl" aria-label="Publishing restaurant..." />
+              <p className="text-lg text-accentGray font-medium">Publishing Restaurant...</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-4 px-4 py-10">
+              <IoCheckmarkCircleOutline className="text-7xl" />
+              <p className="text-lg font-medium">
+                Restaurant Successfully <span className="text-primary">Published!</span>
+              </p>
+              <Link href={paths.adminRestaurants()}>
+                <Button className="text-sm px-14 font-semibold w-fit" color="primary" radius="full" variant="flat">
+                  Dashboard
+                </Button>
+              </Link>
+            </div>
+          )}
         </ModalContent>
       </Modal>
       <div className="flex flex-col gap-2">
@@ -89,7 +81,7 @@ const CreateRestaurantReview = ({ setStep }: Props) => {
         <RestaurantDetailMenu menu={restaurant.menu} currency={restaurant.currency} />
         <RestaurantDetailInfo restaurant={restaurant} />
       </div>
-      <div className="flex flex-col gap-2 pb-10 mx-auto w-1/2">
+      <div className="flex flex-col gap-2 mx-auto w-1/2">
         <Button
           className="text-sm font-semibold"
           color="primary"

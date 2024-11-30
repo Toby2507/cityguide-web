@@ -3,8 +3,7 @@
 import { CreateNavButtons, CreatePropertyAmenities } from '@/components';
 import { restaurantAmenities } from '@/data';
 import { usePropertyStore } from '@/providers';
-import { createRestaurantSchema } from '@/schemas';
-import { ICreateRestaurant } from '@/types';
+import { CreateRestaurantInput, createRestaurantSchema } from '@/schemas';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -14,7 +13,7 @@ interface Props {
 }
 
 const CreateRestaurantStep4 = ({ setStep }: Props) => {
-  const { watch } = useFormContext<ICreateRestaurant>();
+  const { watch } = useFormContext<CreateRestaurantInput>();
   const { setRestaurant } = usePropertyStore();
   const [isLoading, setisLoading] = useState<boolean>(false);
 

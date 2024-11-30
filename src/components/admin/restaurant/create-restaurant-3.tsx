@@ -2,8 +2,7 @@
 
 import { CreateNavButtons } from '@/components';
 import { usePropertyStore } from '@/providers';
-import { createRestaurantSchema } from '@/schemas';
-import { ICreateRestaurant } from '@/types';
+import { CreateRestaurantInput } from '@/schemas';
 import { onEnter } from '@/utils';
 import { Input, Textarea } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
@@ -15,7 +14,7 @@ interface Props {
 }
 
 const CreateRestaurantStep3 = ({ setStep }: Props) => {
-  const { control, setFocus, trigger, watch } = useFormContext<ICreateRestaurant>();
+  const { control, setFocus, trigger, watch } = useFormContext<CreateRestaurantInput>();
   const { setRestaurant } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -60,12 +59,6 @@ const CreateRestaurantStep3 = ({ setStep }: Props) => {
             />
           )}
           name="name"
-          rules={{
-            validate: (val) => {
-              const isValid = createRestaurantSchema.shape.name.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <Controller
           control={control}
@@ -86,12 +79,6 @@ const CreateRestaurantStep3 = ({ setStep }: Props) => {
             />
           )}
           name="summary"
-          rules={{
-            validate: (val) => {
-              const isValid = createRestaurantSchema.shape.summary.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
         <CreateNavButtons isLoading={isLoading} previous={() => setStep(1)} next={handleNext} />
       </div>

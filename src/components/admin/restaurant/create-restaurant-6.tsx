@@ -2,8 +2,8 @@
 
 import { CreateNavButtons, StringArrayInput } from '@/components';
 import { usePropertyStore } from '@/providers';
-import { createRestaurantSchema } from '@/schemas';
-import { DayOfWeek, ICreateRestaurant } from '@/types';
+import { CreateRestaurantInput, createRestaurantSchema } from '@/schemas';
+import { DayOfWeek } from '@/types';
 import { parseAbsoluteToLocal } from '@internationalized/date';
 import { Select, SelectItem, TimeInput, TimeInputValue } from '@nextui-org/react';
 import dayjs from 'dayjs';
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const CreateRestaurantStep6 = ({ setStep }: Props) => {
-  const { control, getValues, setValue, watch } = useFormContext<ICreateRestaurant>();
+  const { control, getValues, setValue, watch } = useFormContext<CreateRestaurantInput>();
   const { setRestaurant } = usePropertyStore();
   const avails = (getValues('availability') || []).map((a, i) => (a ? i : 7)).filter((p) => p < 7);
   const [openAvails, setOpenAvails] = useState<number[]>(avails);

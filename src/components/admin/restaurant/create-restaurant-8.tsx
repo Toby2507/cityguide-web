@@ -1,8 +1,7 @@
 'use client';
 
 import { usePropertyStore } from '@/providers';
-import { createRestaurantSchema } from '@/schemas';
-import { ICreateRestaurant } from '@/types';
+import { CreateRestaurantInput, createRestaurantSchema } from '@/schemas';
 import { Button, Pagination } from '@nextui-org/react';
 import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
@@ -16,7 +15,7 @@ interface Props {
 }
 
 const CreateRestaurantStep8 = ({ setStep }: Props) => {
-  const { control, trigger, watch } = useFormContext<ICreateRestaurant>();
+  const { control, trigger, watch } = useFormContext<CreateRestaurantInput>();
   const { setRestaurant } = usePropertyStore();
   const [menuIdx, setMenuIdx] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);

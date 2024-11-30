@@ -2,10 +2,12 @@
 
 import { CreateNavButtons, StringArrayInput } from '@/components';
 import { usePropertyStore } from '@/providers';
-import { createRestaurantSchema } from '@/schemas';
-import { ICreateRestaurant, ISocialLink } from '@/types';
+import { CreateRestaurantInput, createRestaurantSchema } from '@/schemas';
+import { getCurrencies } from '@/server';
+import { ISocialLink } from '@/types';
 import { onEnter } from '@/utils';
 import { Button, Input, Select, SelectItem } from '@nextui-org/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -17,22 +19,18 @@ interface Props {
 }
 
 const CreateRestaurantStep7 = ({ setStep }: Props) => {
-  const { control, getValues, setFocus, setValue, trigger, watch } = useFormContext<ICreateRestaurant>();
+  const { control, getValues, setFocus, setValue, trigger, watch } = useFormContext<CreateRestaurantInput>();
+  const { data: currencies } = useSuspenseQuery({
+    queryKey: ['currencies'],
+    queryFn: getCurrencies,
+    staleTime: 1000 * 60 * 60 * 24,
+  });
   const { setRestaurant } = usePropertyStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [reservation, setReservation] = useState<boolean>(!!getValues('details.reservation') || false);
   const {
     field: { value, onChange },
-  } = useController({
-    control,
-    name: 'details.paymentOptions',
-    rules: {
-      validate: (val) => {
-        const isValid = createRestaurantSchema.shape.details.shape.paymentOptions.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
-  });
+  } = useController({ control, name: 'details.paymentOptions' });
 
   const addNewSocial = () => {
     const socials = getValues('contact.socialMedia') || [];
@@ -224,10 +222,50 @@ const CreateRestaurantStep7 = ({ setStep }: Props) => {
             />
           </div>
         ) : null}
+        <div className="grid grid-cols-2 gap-3 pt-2">
+          <Controller
+            control={control}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <Select
+                selectedKeys={value === undefined ? undefined : [value]}
+                onChange={(e) => onChange(e.target.value)}
+                isRequired
+                label="Pricing Currency"
+                placeholder=" "
+                isInvalid={!!error}
+                errorMessage={error?.message}
+              >
+                {currencies.slice(1).map(({ name, code }) => (
+                  <SelectItem key={code}>{`${name} (${code})`}</SelectItem>
+                ))}
+              </Select>
+            )}
+            name="currency"
+          />
+          <Controller
+            control={control}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <Select
+                selectedKeys={value === undefined ? undefined : [value ? 'Yes' : 'No']}
+                onChange={(e) => onChange(e.target.value === 'Yes')}
+                label="Should we accept payment on your behalf?"
+                placeholder=" "
+                isInvalid={!!error}
+                errorMessage={error?.message}
+              >
+                <SelectItem key="Yes">Yes</SelectItem>
+                <SelectItem key="No">No</SelectItem>
+              </Select>
+            )}
+            name="proxyPaymentEnabled"
+            defaultValue={true}
+          />
+        </div>
         <StringArrayInput
           arr={value || []}
           label="Add the payment methods accepted at your restaurant"
           prevState={value || []}
+          isRequired
           setState={onChange}
         />
         <Controller

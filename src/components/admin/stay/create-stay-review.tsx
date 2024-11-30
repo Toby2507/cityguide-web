@@ -80,7 +80,7 @@ const CreateStayReview = ({ setStep }: IProps) => {
         <StayDetailAvailability stay={stay} />
         <StayDetailRules stay={stay} />
       </div>
-      <div className="flex flex-col gap-2 pb-10 mx-auto w-1/2">
+      <div className="flex flex-col gap-2 mx-auto w-1/2">
         <Button
           className="text-sm font-semibold"
           color="primary"

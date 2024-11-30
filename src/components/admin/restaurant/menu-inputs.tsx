@@ -2,9 +2,8 @@
 
 import { StringArrayInput } from '@/components';
 import { useCustomImageSelect } from '@/hooks';
-import { createRestaurantSchema } from '@/schemas';
+import { CreateRestaurantInput } from '@/schemas';
 import { uploadImages } from '@/server';
-import { ICreateRestaurant } from '@/types';
 import { formatFileSize, onEnter } from '@/utils';
 import { Button, Image, Input, Textarea } from '@nextui-org/react';
 import { nanoid } from 'nanoid';
@@ -20,7 +19,7 @@ interface Props {
 }
 
 const MenuInputs = ({ idx, isUploading, setIsUploading }: Props) => {
-  const { control, setFocus, setValue, watch } = useFormContext<ICreateRestaurant>();
+  const { control, setFocus, setValue, watch } = useFormContext<CreateRestaurantInput>();
   const { getRootProps, getInputProps, removeFile, clearImages, images, invalidImages } = useCustomImageSelect(
     '',
     [],
@@ -31,16 +30,7 @@ const MenuInputs = ({ idx, isUploading, setIsUploading }: Props) => {
   const {
     field: { onChange, value },
     fieldState: { error },
-  } = useController({
-    control,
-    name: `menu.${idx}.imgUrl`,
-    rules: {
-      validate: (val) => {
-        const isValid = createRestaurantSchema.shape.menu.element.shape.imgUrl.safeParse(val);
-        return isValid.success || isValid.error.flatten().formErrors.join(', ');
-      },
-    },
-  });
+  } = useController({ control, name: `menu.${idx}.imgUrl` });
   const {
     field: { onChange: setDietary, value: dietary },
   } = useController({ control, name: `menu.${idx}.dietaryProvisions` });
@@ -91,12 +81,6 @@ const MenuInputs = ({ idx, isUploading, setIsUploading }: Props) => {
           />
         )}
         name={`menu.${idx}.name`}
-        rules={{
-          validate: (val) => {
-            const isValid = createRestaurantSchema.shape.menu.element.shape.name.safeParse(val);
-            return isValid.success || isValid.error.flatten().formErrors.join(', ');
-          },
-        }}
       />
       <Controller
         control={control}
@@ -118,12 +102,6 @@ const MenuInputs = ({ idx, isUploading, setIsUploading }: Props) => {
           />
         )}
         name={`menu.${idx}.description`}
-        rules={{
-          validate: (val) => {
-            const isValid = createRestaurantSchema.shape.menu.element.shape.description.safeParse(val);
-            return isValid.success || isValid.error.flatten().formErrors.join(', ');
-          },
-        }}
       />
       <div className="grid grid-cols-2 gap-2">
         <div className="flex flex-col gap-1">
@@ -198,12 +176,6 @@ const MenuInputs = ({ idx, isUploading, setIsUploading }: Props) => {
             />
           )}
           name={`menu.${idx}.price`}
-          rules={{
-            validate: (val) => {
-              const isValid = createRestaurantSchema.shape.menu.element.shape.price.safeParse(val);
-              return isValid.success || isValid.error.flatten().formErrors.join(', ');
-            },
-          }}
         />
       </div>
       <StringArrayInput

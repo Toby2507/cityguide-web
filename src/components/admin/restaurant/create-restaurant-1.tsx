@@ -2,8 +2,8 @@
 
 import { priceRanges } from '@/data';
 import { usePropertyStore } from '@/providers';
-import { createRestaurantSchema } from '@/schemas';
-import { ICreateRestaurant, PriceRange } from '@/types';
+import { CreateRestaurantInput, createRestaurantSchema } from '@/schemas';
+import { PriceRange } from '@/types';
 import { Button } from '@nextui-org/react';
 import { useController, useFormContext } from 'react-hook-form';
 import { RiMoneyDollarCircleFill } from 'react-icons/ri';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const CreateRestaurantStep1 = ({ setStep }: Props) => {
-  const { control, watch } = useFormContext<ICreateRestaurant>();
+  const { control, watch } = useFormContext<CreateRestaurantInput>();
   const { setRestaurant } = usePropertyStore();
   const {
     field: { onChange },

@@ -1,8 +1,8 @@
-import { CreateStayInput } from '@/schemas';
+import { CreateNightlifeInput, CreateRestaurantInput, CreateStayInput } from '@/schemas';
 import { Socket } from 'socket.io-client';
 import { ICurrency } from './common.interfaces';
 import { NavTabs, PropertyType, Status } from './enums';
-import { ICreateNightlife, ICreateReservation, ICreateRestaurant } from './form.interfaces';
+import { ICreateReservation } from './form.interfaces';
 import {
   IAccommodation,
   IAddress,
@@ -49,8 +49,8 @@ interface IPropertyBase {
 }
 export interface IProperty {
   stay: (IPropertyBase & { property: Partial<CreateStayInput> }) | null;
-  restaurant: (IPropertyBase & { property: Partial<ICreateRestaurant> }) | null;
-  nightlife: (IPropertyBase & { property: Partial<ICreateNightlife> }) | null;
+  restaurant: (IPropertyBase & { property: Partial<CreateRestaurantInput> }) | null;
+  nightlife: (IPropertyBase & { property: Partial<CreateNightlifeInput> }) | null;
 }
 export interface IPropertyStore extends IProperty {
   setStay: (info: Partial<IProperty['stay']>) => void;

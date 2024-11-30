@@ -16,24 +16,6 @@ import {
 
 // Creation Forms
 
-export interface ICreateRestaurant {
-  name: string;
-  summary: string;
-  address: IAddress;
-  avatar: string;
-  images: string[];
-  availability: (ICustomAvailability | null)[];
-  priceRange: PriceRange;
-  serviceStyle?: string[];
-  cuisine?: string[];
-  dietaryProvisions?: string[];
-  menu: IMenu[];
-  details: IRestaurantDetails;
-  contact: IContact;
-  currency: string;
-  proxyPaymentEnabled?: boolean;
-}
-
 export interface ICreateNightlife {
   type: NightLifeType;
   name: string;
