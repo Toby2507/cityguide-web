@@ -1,6 +1,6 @@
 import { paths } from '@/utils';
 import discoverImg from '@images/discover-main.png';
-import { Button, Image, Spacer } from '@nextui-org/react';
+import { Button, Image } from '@nextui-org/react';
 import Link from 'next/link';
 
 const DiscoverHome = () => {
@@ -15,7 +15,7 @@ const DiscoverHome = () => {
             height={discoverImg.height}
             alt="Resort with a sky blue pool leading to the ocean"
           />
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-10">
             <div className="flex flex-col gap-2">
               <h2 className="text-large font-bold">
                 Discover and Book <br />
@@ -26,7 +26,6 @@ const DiscoverHome = () => {
                 apartments, and restaurants. Explore a wide range of options and book your dream vacation with ease.
               </p>
             </div>
-            <Spacer y={10} />
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1">
                 <h3 className="text-xl font-bold">Easy Booking</h3>
@@ -41,11 +40,12 @@ const DiscoverHome = () => {
                 </p>
               </div>
             </div>
-            <Spacer y={10} />
             <div className="flex items-center gap-6">
-              <Button className="text-primary text-xs font-semibold" color="secondary">
-                Learn more
-              </Button>
+              <Link href={paths.about()}>
+                <Button className="text-primary text-xs font-semibold" color="secondary">
+                  Learn more
+                </Button>
+              </Link>
               <Link href={paths.register()}>
                 <Button color="primary">Register</Button>
               </Link>

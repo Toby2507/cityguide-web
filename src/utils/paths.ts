@@ -26,6 +26,7 @@ const path = {
   vtuPurchaseData: () => '/vtu/dashboard/purchase/data',
   listProperty: () => '/listproperty',
   partner: () => '/listproperty/partner',
+  about: () => '/about',
   profile: () => '#',
   userLicense: () => '#',
   offers: (id: string) => '#',

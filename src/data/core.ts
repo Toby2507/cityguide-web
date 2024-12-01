@@ -6,8 +6,24 @@ import airtel from '@icons/airtel.svg';
 import glo from '@icons/glo.svg';
 import mtn from '@icons/mtn.svg';
 
+// About
+export const aboutData1 = [
+  'Lorem ipsum dolor sit amet consectetur. Tempus amet non facilisis ac dolor ipsum sit viverra. Velit ut donec in sed. Proin pharetra vel ut mi malesuada. Aliquam a ultrices nec amet. Nec viverra sapien dignissim quam ipsum quam in purus. In egestas netus curabitur suspendisse neque magnis magna nisi. Velit quisque amet pretium proin mauris lacus risus.',
+  'Faucibus vitae gravida nunc venenatis at. Quam adipiscing suspendisse duis lorem in sed augue. Urna tristique duis bibendum tempus. Venenatis egestas sagittis massa dictumst ac quis. Est enim orci eros nisl nunc nibh morbi aenean. Volutpat morbi mi ut viverra metus volutpat leo. Ullamcorper adipiscing scelerisque adipiscing nibh. Mauris quis elementum quis vitae eget arcu et ultrices. Morbi sapien enim sed eget pretium placerat risus vehicula id. Vestibulum euismod adipiscing mauris convallis. Cum nibh nibh mattis quisque facilisis amet feugiat libero rhoncus.',
+  'Odio sit potenti mi consequat hendrerit. Feugiat integer non laoreet tincidunt. Pellentesque adipiscing elementum ultrices sit ultricies diam cras. Iaculis neque vel volutpat aliquam non vestibulum sit consequat. Lacus tristique tellus viverra mauris venenatis tristique vel sed.',
+  'Adipiscing arcu ac lacinia in malesuada fermentum suspendisse cras auctor. Turpis parturient ipsum consequat malesuada eget aliquam vivamus. Massa euismod risus natoque interdum tristique hendrerit enim nulla in. Augue posuere eget tellus ut purus integer amet nibh mauris. Volutpat ut quam libero sit pretium at non habitant nec. Vulputate amet purus dictum semper suspendisse amet faucibus pharetra dignissim. Scelerisque amet tellus metus diam egestas massa. Nunc sed in auctor',
+];
+
+export const aboutData2 = [
+  'Lorem ipsum dolor sit amet consectetur. Tempus amet non facilisis ac dolor ipsum sit viverra. Velit ut donec in sed. Proin pharetra vel ut mi malesuada. Aliquam a ultrices nec amet. Nec viverra sapien dignissim quam ipsum quam in purus. In egestas netus curabitur suspendisse neque magnis magna nisi. Velit quisque amet pretium proin mauris lacus risus.',
+  'Faucibus vitae gravida nunc venenatis at. Quam adipiscing suspendisse duis lorem in sed augue. Urna tristique duis bibendum tempus. Venenatis egestas sagittis massa dictumst ac quis. Est enim orci eros nisl nunc nibh morbi aenean. Volutpat morbi mi ut viverra metus volutpat leo. Ullamcorper adipiscing scelerisque adipiscing nibh. Mauris quis elementum quis vitae eget arcu et ultrices. Morbi sapien enim sed eget pretium placerat risus vehicula id. Vestibulum euismod adipiscing mauris convallis. Cum nibh nibh mattis quisque facilisis amet feugiat libero rhoncus.',
+  'Odio sit potenti mi consequat hendrerit. Feugiat integer non laoreet tincidunt. Pellentesque adipiscing elementum ultrices sit ultricies diam cras. Iaculis neque vel volutpat aliquam non vestibulum sit consequat. Lacus tristique tellus viverra mauris venenatis tristique vel sed.',
+];
+
+// Misc
 export const LIBS: Library[] = ['core', 'maps', 'places', 'marker'];
 
+// Footer
 export const footerLinks = [
   {
     category: 'Support',
@@ -49,7 +65,7 @@ export const footerLinks = [
   {
     category: 'About',
     links: [
-      { title: 'About CityGuideX', href: '#' },
+      { title: 'About CityGuideX', href: paths.about() },
       { title: 'How we work', href: '#' },
       { title: 'Sustainability', href: '#' },
       { title: 'Press centre', href: '#' },
@@ -59,6 +75,7 @@ export const footerLinks = [
   },
 ];
 
+// VTU
 export const airtimeData = [
   {
     title: 'Excellent Customer Support',
