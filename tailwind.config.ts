@@ -23,6 +23,7 @@ const config: Config = {
         accentGray: '#898888',
         accentGray2: '#9A9A9A',
         bgGray: '#E5F0FD',
+        blue500: '#0075FF',
         gray100: '#F2F2F2',
         gray150: '#F5F7FA',
         accentGold: '#FFC107',
