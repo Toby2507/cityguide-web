@@ -77,6 +77,12 @@ export { default as StayDetailNav } from './detail/stay-detail-nav';
 export { default as StayDetailTableCell } from './detail/stay-detail-table-cell';
 export { default as ListPropertyTestimonials } from './listproperty/testimonials';
 
+// Help
+export { default as FaqHelp } from './help/faq';
+export { default as HelpCentre } from './help/help-centre';
+export { default as SafetyHelp } from './help/safety';
+export { default as HelpSideBar } from './help/sidebar';
+
 // Home
 export { default as Hero } from './home/hero';
 export { default as OfferCard } from './home/offer-card';

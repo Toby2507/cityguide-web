@@ -88,6 +88,9 @@ export { default as NightlifeSearch } from './search/nightlife/nightlife-search'
 export { default as RestaurantSearch } from './search/restaurant/restaurant-search';
 export { default as StaySearch } from './search/stay/stay-search';
 
+// Static
+export { default as HelpPageMain } from './static/help';
+
 // vtu
 export { default as VtuAddReceiver } from './vtu/add-receiver';
 export { default as VtuHeader } from './vtu/header';
