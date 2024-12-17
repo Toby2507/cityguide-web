@@ -6,13 +6,13 @@ import heroImg from '@images/airtime-hero.png';
 import infoBanner from '@images/airtime-info-banner.png';
 import { Button, Image } from '@nextui-org/react';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 import { IoCellular } from 'react-icons/io5';
 import { RiWifiFill } from 'react-icons/ri';
 
 const AirtimePage = async () => {
   const user = await getUser();
-  if (user) redirect(paths.vtuDashboard());
+  if (user) redirect(paths.vtuDashboard(), RedirectType.replace);
   return (
     <>
       <VtuHero />

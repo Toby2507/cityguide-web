@@ -38,8 +38,7 @@ const PaymentBox = ({ amount, currency, disabled, state, updateState, validator 
         await initiatePayment(amount, currency, state.useSavedCard);
       setReference(reference);
       updateState({ payReference: reference, convertedPriceNGN: convertedAmount || amountPayed });
-      const completionRequired =
-        status === 'send_otp' || status === 'send_pin' || status === 'send_phone' || status === 'send_birthday';
+      const completionRequired = status.startsWith('send_');
       if (status === 'initiated') {
         const popup = new PaystackPopup();
         popup.resumeTransaction(access_code);
