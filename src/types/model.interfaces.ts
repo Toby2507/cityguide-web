@@ -15,6 +15,7 @@ import {
   Status,
   StayType,
   VTUStatus,
+  VTUTransactionStatus,
   VTUType,
 } from './enums';
 
@@ -336,6 +337,7 @@ export interface IVtuTransaction {
   amount: number;
   currency: string;
   status: VTUStatus;
+  statusProgress: Record<VTUTransactionStatus, Date>;
   network: ISPs;
   type: VTUType;
   createdAt: string;

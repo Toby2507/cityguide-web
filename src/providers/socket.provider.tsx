@@ -49,6 +49,9 @@ export const SocketProvider = ({ children }: ISocketProvider) => {
     socket.on('new_reservation', () => {
       queryClient.invalidateQueries({ queryKey: ['reservations', 'admin'] });
     });
+    socket.on('vtu_transaction_status_progress', (transaction) => {
+      queryClient.setQueryData(['vtu-transactions', transaction._id], transaction);
+    });
     socketRef.current = socket;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
