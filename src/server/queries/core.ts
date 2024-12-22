@@ -148,6 +148,13 @@ export const getVtuTransactions = async () => {
   return result.transactions as IVtuTransaction[];
 };
 
+export const getVtuTransaction = async (id: string) => {
+  const res = await fetchWithReAuth(`vtu/transactions/${id}`, { method: 'GET' });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message);
+  return result.transaction as IVtuTransaction;
+};
+
 export const getVtuSavedReceivers = async () => {
   const res = await fetchWithReAuth('vtu/receivers', { method: 'GET' });
   const result = await res.json();
