@@ -335,9 +335,10 @@ export interface IVtuTransaction {
   lastName: string;
   phoneNumber: string;
   amount: number;
+  value: string;
   currency: string;
   status: VTUStatus;
-  statusProgress: Record<VTUTransactionStatus, Date>;
+  statusProgress: Record<VTUTransactionStatus, Date | null>;
   network: ISPs;
   type: VTUType;
   createdAt: string;

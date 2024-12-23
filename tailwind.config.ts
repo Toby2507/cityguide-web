@@ -26,6 +26,8 @@ const config: Config = {
         blue500: '#0075FF',
         gray100: '#F2F2F2',
         gray150: '#F5F7FA',
+        green250: '#78FFD6',
+        green400: '#007991',
         accentGold: '#FFC107',
         accentYellow: '#FFE187',
       },

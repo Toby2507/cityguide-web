@@ -419,9 +419,10 @@ export const airtimeNav = [
 ];
 
 export const airtimeTransactionsColumns = [
-  { key: 'user', label: 'User' },
+  { key: 'recipient', label: 'Recipient' },
   { key: 'amount', label: 'Amount' },
   { key: 'status', label: 'Status' },
+  { key: 'action', label: ' ' },
 ];
 
 export const airtimeReceiversColumns = [

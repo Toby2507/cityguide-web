@@ -48,10 +48,6 @@ export { default as CreateNightlifeStep7 } from './admin/nightlife/create-nightl
 export { default as CreateNightlifeReview } from './admin/nightlife/create-nightlife-review';
 export { default as updateNightlifeDetails } from './admin/nightlife/update-nightlife-details';
 
-// Airtime
-export { default as AirtimeReceiverCell } from './airtime/receivers-cell';
-export { default as AirtimeTransactionCell } from './airtime/transaction-cell';
-
 // Auth
 export { default as LoginTab } from './auth/login-tab';
 export { default as SignUpTab } from './auth/signup-tab';
@@ -84,6 +80,7 @@ export { default as SafetyHelp } from './help/safety';
 export { default as HelpSideBar } from './help/sidebar';
 
 // Home
+export { default as CurrencySelector } from './home/currency';
 export { default as Hero } from './home/hero';
 export { default as OfferCard } from './home/offer-card';
 export { default as PlaceCard } from './home/place-card';
@@ -118,3 +115,8 @@ export { default as SearchStayFilterBox } from './search/stay/stay-filter-box';
 // // Nightlife
 export { default as SearchNightlifeCard } from './search/nightlife/nightlife-card';
 export { default as SearchNightlifeFilterBox } from './search/nightlife/nightlife-filter-box';
+
+// VTU
+export { default as AirtimeReceiverCell } from './vtu/receivers-cell';
+export { default as AirtimeTransactionCell } from './vtu/transaction-cell';
+export { default as VTUTransactionDetail } from './vtu/transaction-info';

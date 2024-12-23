@@ -15,6 +15,7 @@ import {
   IRestaurant,
   IReview,
   IStay,
+  IVtuTransaction,
 } from './model.interfaces';
 
 // Reservation
@@ -74,6 +75,7 @@ export interface ServerToClientEvents {
   new_review: (data: { property: string; type: PropertyType; review: Partial<IReview> }) => void;
   delete_review: (data: { property: string; type: PropertyType; reviewId: string }) => void;
   new_notification: (notification: Partial<INotification>) => void;
+  vtu_transaction_status_progress: (transaction: Partial<IVtuTransaction>) => void;
 }
 export type TAction = 'add' | 'update' | 'remove';
 

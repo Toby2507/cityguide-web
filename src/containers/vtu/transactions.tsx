@@ -152,7 +152,7 @@ const AirtimeTransactions = ({ showPagination, showFilters }: Props) => {
                   {airtimeTransactionsColumns.map(({ key }, idx) => (
                     <TableCell
                       key={key}
-                      className={`bg-white${!idx ? ' rounded-l-xl' : ''}${idx === 2 ? ' rounded-r-xl' : ''}`}
+                      className={`bg-white${!idx ? ' rounded-l-xl' : ''}${idx === 3 ? ' rounded-r-xl' : ''}`}
                     >
                       <AirtimeTransactionCell columnKey={key} transaction={item} />
                     </TableCell>
