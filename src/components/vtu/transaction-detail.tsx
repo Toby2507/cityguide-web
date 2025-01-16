@@ -53,7 +53,7 @@ const TransactionDetail = ({
         </div>
         <div className="bg-slate-300 h-px my-4" />
         <div className="flex items-center justify-between gap-10">
-          <p className="text-sm">Receiver's name</p>
+          <p className="text-sm">Receiver&apos;s name</p>
           <p className="text-sm font-semibold capitalize">{`${firstName} ${lastName}`}</p>
         </div>
         <div className="flex items-center justify-between gap-10">
